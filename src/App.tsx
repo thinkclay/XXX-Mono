@@ -1,13 +1,13 @@
 /** @format */
 
-import { ChangeEvent, Fragment, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
 import { AxiosResponse } from 'axios'
 
 import logo from './logo.svg'
 import './App.css'
-import Hints, { Hint } from './Hints'
-import { initState, RichText } from './richtext'
+import { Hint } from './Hints'
+import { Marker } from './Mark'
 
 const configuration = new Configuration({
   apiKey: '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',
@@ -71,7 +71,6 @@ function App() {
   const [_revision, _setRevision] = useState<null | Revision>(null)
   const [_prompt, _setPrompt] = useState<string>(placeholder)
   const [_loading, _setLoading] = useState<boolean | null>(null)
-  const [_editorState, _setEditorState] = useState(initState())
 
   const _onPromptChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     _setPrompt(event.currentTarget.value)
@@ -114,14 +113,32 @@ function App() {
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
 
-        <RichText editorState={_editorState} onChange={_setEditorState} />
-
         <textarea className="prompt" name="prompt" value={_prompt} onChange={_onPromptChange}></textarea>
         <input type="submit" value="ReVision" onClick={_onSubmit} />
 
+        <Marker
+          mark={[{ original: 'constantly distracting', correction: 'commodo. Magna' }]}
+          // mark={['distracting', 'Cyrus']}
+          elementProps={{ title: 'test' }}
+          options={{
+            debug: true,
+            log: console,
+            // each: el => {
+            //   el.slot = 'foo'
+            //   return el
+            // },
+          }}
+        >
+          {_prompt}
+        </Marker>
+
+        {/* <Highlight text={_prompt} hints={_revision?.bias || []} /> */}
+
+        {/* <p>{_prompt.replace(/constantly distracting/, 'at times distracting')}</p>
+
         <p>{_revision?.output}</p>
 
-        <Hints hints={_revision?.bias} />
+        <Hints hints={_revision?.bias} /> */}
       </header>
     </div>
   )

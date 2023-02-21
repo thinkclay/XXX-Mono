@@ -8,7 +8,7 @@ export interface Hint {
 }
 
 export interface HintsProps {
-  hints?: [Hint]
+  hints?: Hint[]
 }
 
 function Hints({ hints }: HintsProps) {
