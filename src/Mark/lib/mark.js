@@ -849,10 +849,6 @@ class Mark {
           return this.opt.filter(node, kw, totalMatches, matches)
         },
         element => {
-          console.log('m', mi.reason, i)
-
-          element.id = `test-${i}`
-
           if (mi && mi.correction) element.slot = mi.correction
           if (mi && mi.reason) element.title = mi.reason
 

@@ -1,14 +1,13 @@
 /** @format */
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
 import { AxiosResponse } from 'axios'
 
-import logo from './logo.svg'
 import './App.css'
 import Hints, { Hint } from './Hints'
 import { Marker } from './Mark'
-import Editor from './Editor'
+import Logo from './views/Logo'
 
 const configuration = new Configuration({
   apiKey: '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',
@@ -73,8 +72,9 @@ function App() {
   const [_prompt, _setPrompt] = useState<string>(placeholder)
   const [_loading, _setLoading] = useState<boolean | null>(null)
 
-  const _onPromptChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    _setPrompt(event.currentTarget.value)
+  const _onPromptChange = (event: SyntheticEvent<any>) => {
+    console.log('Here', event.currentTarget.textContent)
+    _setPrompt(event.currentTarget.textContent)
   }
 
   const _onSubmit = () => {
@@ -111,54 +111,47 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+      <Logo className={_loading ? 'loading' : ''} handler={_onSubmit} />
 
-        <Editor />
+      <Marker
+        // mark={_revision?.bias}
+        mark={[
+          {
+            original: 'Cyrus is disruptive in class.',
+            reason: 'Identifying Cyrus using a label',
+            correction: 'Cyrus has been exhibiting disruptive behavior in class.',
+          },
+          {
+            original: 'He is constantly distracting other students and is aggressive with me when I try to correct his behavior',
+            reason: 'Subjective language - Implication of causality and judgement of character',
+            correction:
+              'His actions have been distracting other students, and he has displayed aggression when asked to alter his behavior.',
+          },
+          {
+            original: 'Can you please respond to me ASAP so that we can discus a course of action?',
+            reason: 'Grammatical error and colloquial language',
+            correction: 'Could you please let me know what can be done to address this so that we can discuss a possible course of action?',
+          },
+        ]}
+        // mark={[
+        //   {
+        //     original: 'He is aggressive with me',
+        //     reason: 'Expressing aggression towards an individual could be viewed as gendered.',
+        //     correction: 'He has expressed aggression towards me',
+        //   },
+        // ]}
+        elementProps={{ className: 'editor', contentEditable: true, onInput: _onPromptChange, suppressContentEditableWarning: true }}
+        options={{
+          accuracy: 'partially',
+          separateWordSearch: false,
+        }}
+      >
+        {_revision?.output || _prompt}
+      </Marker>
 
-        <input type="submit" value="ReVision" onClick={_onSubmit} />
+      {/* <Highlight text={_prompt} hints={_revision?.bias || []} /> */}
 
-        <Marker
-          // mark={_revision?.bias}
-          mark={[
-            {
-              original: 'Cyrus is disruptive in class.',
-              reason: 'Identifying Cyrus using a label',
-              correction: 'Cyrus has been exhibiting disruptive behavior in class.',
-            },
-            {
-              original: 'He is constantly distracting other students and is aggressive with me when I try to correct his behavior',
-              reason: 'Subjective language - Implication of causality and judgement of character',
-              correction:
-                'His actions have been distracting other students, and he has displayed aggression when asked to alter his behavior.',
-            },
-            {
-              original: 'Can you please respond to me ASAP so that we can discus a course of action?',
-              reason: 'Grammatical error and colloquial language',
-              correction:
-                'Could you please let me know what can be done to address this so that we can discuss a possible course of action?',
-            },
-          ]}
-          // mark={[
-          //   {
-          //     original: 'He is aggressive with me',
-          //     reason: 'Expressing aggression towards an individual could be viewed as gendered.',
-          //     correction: 'He has expressed aggression towards me',
-          //   },
-          // ]}
-          elementProps={{ title: 'test' }}
-          options={{
-            accuracy: 'partially',
-            separateWordSearch: false,
-          }}
-        >
-          {_revision?.output || _prompt}
-        </Marker>
-
-        {/* <Highlight text={_prompt} hints={_revision?.bias || []} /> */}
-
-        <Hints hints={_revision?.bias} />
-      </header>
+      <Hints hints={_revision?.bias} />
     </div>
   )
 }
