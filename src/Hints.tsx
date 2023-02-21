@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 export interface Hint {
   original?: string
   correction?: string
+  reason?: string
 }
 
 export interface HintsProps {
@@ -18,6 +19,7 @@ function Hints({ hints }: HintsProps) {
     <Fragment>
       <li>Original: {h.original}</li>
       <li>Correction: {h.correction}</li>
+      <li>Correction: {h.reason}</li>
     </Fragment>
   ))
 

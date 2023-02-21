@@ -124,13 +124,13 @@ class Mark {
         })
       }
     })
-    return {
+    return [
       // sort because of https://git.io/v6USg
-      keywords: stack.sort((a, b) => {
+      stack.sort((a, b) => {
         return b.length - a.length
       }),
-      length: stack.length,
-    }
+      stack.length,
+    ]
   }
 
   /**
@@ -817,124 +817,71 @@ class Mark {
    */
   /**
    * Marks the specified search terms
-   * @param {string|string[]|object[]} [sv] - Search value, either a search string or an
-   * array containing multiple search strings
+   * @param {string|string[]|object[]} [m] - Mark: search value, can be a string array of strings, or dictionary with hints
    * @param  {Mark~markOptions} [opt] - Optional options object
    * @access public
    */
-  mark(sv, opt) {
-    const keywords = typeof sv === 'string' ? [sv] : typeof sv[0] === 'object' ? sv.map(s => s.original) : sv
+  mark(m, opt) {
+    let kwArr, kwArrLen
 
-    console.log('keywords', keywords)
+    // If string or array of strings
+    if (typeof m === 'string' || (typeof m === 'object' && typeof m[0] === 'string')) {
+      ;[kwArr, kwArrLen] = this.getSeparatedKeywords(m)
+    } else if (typeof m === 'object' && typeof m[0] === 'object') {
+      kwArr = m.map(s => s.original)
+      kwArrLen = m.length
+    }
 
     this.opt = opt
     let totalMatches = 0,
-      fn = 'wrapMatches'
-    const { keywords: kwArr, length: kwArrLen } = this.getSeparatedKeywords(keywords),
-      handler = kw => {
-        // async function calls as iframes are async too
-        const regex = new RegExpCreator(this.opt).create(kw)
-        let matches = 0
-        this.log(`Searching with expression "${regex}"`)
-        this[fn](
-          regex,
-          1,
-          (term, node) => {
-            return this.opt.filter(node, kw, totalMatches, matches)
-          },
-          element => {
-            matches++
-            totalMatches++
-            this.opt.each(element)
-          },
-          () => {
-            if (matches === 0) {
-              this.opt.noMatch(kw)
-            }
-            if (kwArr[kwArrLen - 1] === kw) {
-              this.opt.done(totalMatches)
-            } else {
-              handler(kwArr[kwArr.indexOf(kw) + 1])
-            }
-          }
-        )
-      }
-    if (this.opt.acrossElements) {
-      fn = 'wrapMatchesAcrossElements'
-    }
-    if (kwArrLen === 0) {
-      this.opt.done(totalMatches)
-    } else {
-      handler(kwArr[0])
-    }
-  }
-
-  /**
-   * These options also include the common options from
-   * {@link Mark~commonOptions} and the options from
-   * {@link RegExpCreator~options}
-   * @typedef Mark~markOptions
-   * @type {object.<string>}
-   * @property {boolean} [separateWordSearch=true] - Whether to search for
-   * each word separated by a blank instead of the complete term
-   * @property {Mark~markFilterCallback} [filter]
-   */
-  /**
-   * Marks the specified search terms
-   * @param {string|string[]|object[]} [sv] - Search value, either a search string or an
-   * array containing multiple search strings
-   * @param  {Mark~markOptions} [opt] - Optional options object
-   * @access public
-   */
-  hint(sv, opt) {
-    this.opt = opt
-    let totalMatches = 0,
+      i = 0,
       fn = 'wrapMatches'
 
-    const kwArr = sv
-    const kwArrLen = sv.length
-
-    const handler = hint => {
-      if (!hint.original) return
-
-      const kw = hint.original
-
+    const handler = (kw, mi) => {
       // async function calls as iframes are async too
       const regex = new RegExpCreator(this.opt).create(kw)
       let matches = 0
-      console.log(`HINTING: ${kw}`, `REGEX, "${regex}"`, kw)
-      // this[fn](
-      //   regex,
-      //   1,
-      //   (term, node) => {
-      //     return this.opt.filter(node, kw, totalMatches, matches)
-      //   },
-      //   element => {
-      //     matches++
-      //     totalMatches++
-      //     this.opt.each(element)
-      //   },
-      //   () => {
-      //     if (matches === 0) {
-      //       this.opt.noMatch(kw)
-      //     }
-      //     if (kwArr[kwArrLen - 1] === kw) {
-      //       this.opt.done(totalMatches)
-      //     } else {
-      //       handler(kwArr[kwArr.indexOf(kw) + 1])
-      //     }
-      //   }
-      // )
-    }
+      this.log(`Searching with expression "${regex}", matches: ${matches}`)
+      this[fn](
+        regex,
+        1,
+        (term, node) => {
+          return this.opt.filter(node, kw, totalMatches, matches)
+        },
+        element => {
+          console.log('m', mi.reason, i)
 
+          element.id = `test-${i}`
+
+          if (mi && mi.correction) element.slot = mi.correction
+          if (mi && mi.reason) element.title = mi.reason
+
+          i++
+          matches++
+          totalMatches++
+
+          this.opt.each(element)
+        },
+        () => {
+          if (matches === 0) {
+            console.log('Hero?')
+            this.opt.noMatch(kw)
+          }
+          if (kwArr[kwArrLen - 1] === kw) {
+            this.opt.done(totalMatches)
+          } else {
+            handler(kwArr[kwArr.indexOf(kw) + 1], m[i])
+          }
+        }
+      )
+    }
     if (this.opt.acrossElements) {
       fn = 'wrapMatchesAcrossElements'
     }
-
     if (kwArrLen === 0) {
       this.opt.done(totalMatches)
     } else {
-      handler(kwArr[0])
+      handler(kwArr[0], m[0])
     }
   }
 

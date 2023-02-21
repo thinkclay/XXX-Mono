@@ -6,8 +6,9 @@ import { AxiosResponse } from 'axios'
 
 import logo from './logo.svg'
 import './App.css'
-import { Hint } from './Hints'
+import Hints, { Hint } from './Hints'
 import { Marker } from './Mark'
+import Editor from './Editor'
 
 const configuration = new Configuration({
   apiKey: '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',
@@ -113,32 +114,50 @@ function App() {
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
 
-        <textarea className="prompt" name="prompt" value={_prompt} onChange={_onPromptChange}></textarea>
+        <Editor />
+
         <input type="submit" value="ReVision" onClick={_onSubmit} />
 
         <Marker
-          mark={[{ original: 'constantly distracting', correction: 'commodo. Magna' }]}
-          // mark={['distracting', 'Cyrus']}
+          // mark={_revision?.bias}
+          mark={[
+            {
+              original: 'Cyrus is disruptive in class.',
+              reason: 'Identifying Cyrus using a label',
+              correction: 'Cyrus has been exhibiting disruptive behavior in class.',
+            },
+            {
+              original: 'He is constantly distracting other students and is aggressive with me when I try to correct his behavior',
+              reason: 'Subjective language - Implication of causality and judgement of character',
+              correction:
+                'His actions have been distracting other students, and he has displayed aggression when asked to alter his behavior.',
+            },
+            {
+              original: 'Can you please respond to me ASAP so that we can discus a course of action?',
+              reason: 'Grammatical error and colloquial language',
+              correction:
+                'Could you please let me know what can be done to address this so that we can discuss a possible course of action?',
+            },
+          ]}
+          // mark={[
+          //   {
+          //     original: 'He is aggressive with me',
+          //     reason: 'Expressing aggression towards an individual could be viewed as gendered.',
+          //     correction: 'He has expressed aggression towards me',
+          //   },
+          // ]}
           elementProps={{ title: 'test' }}
           options={{
-            debug: true,
-            log: console,
-            // each: el => {
-            //   el.slot = 'foo'
-            //   return el
-            // },
+            accuracy: 'partially',
+            separateWordSearch: false,
           }}
         >
-          {_prompt}
+          {_revision?.output || _prompt}
         </Marker>
 
         {/* <Highlight text={_prompt} hints={_revision?.bias || []} /> */}
 
-        {/* <p>{_prompt.replace(/constantly distracting/, 'at times distracting')}</p>
-
-        <p>{_revision?.output}</p>
-
-        <Hints hints={_revision?.bias} /> */}
+        <Hints hints={_revision?.bias} />
       </header>
     </div>
   )

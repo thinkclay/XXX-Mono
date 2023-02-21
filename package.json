@@ -62,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.217",
     "@types/lodash": "^4.14.191",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",

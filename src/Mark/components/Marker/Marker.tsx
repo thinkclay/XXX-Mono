@@ -18,8 +18,6 @@ export const Marker = <T extends {} = DivAttributes>({
   const markerRef = useRef<HTMLDivElement | null>(null)
   const [markInstance, setMarkInstance] = useState<Mark>()
 
-  console.log('opts', options)
-
   useEffect(() => {
     if (markerRef.current) {
       const markInstance = new Mark(markerRef.current)
@@ -30,7 +28,6 @@ export const Marker = <T extends {} = DivAttributes>({
   useEffect(() => {
     if (markInstance) {
       Promise.resolve(markInstance.unmark(unmarkOptions)).then(() => {
-        // if (hints && hints.length > 0) markInstance.hint(hints, options)
         markInstance.mark(mark, options)
       })
     }
