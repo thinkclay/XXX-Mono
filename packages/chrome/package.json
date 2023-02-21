@@ -1,0 +1,7 @@
+{
+  "name": "@revision/chrome",
+  "private": true,
+  "devDependencies": {
+    "@types/chrome": "^0.0.217"
+  }
+}
