@@ -1,25 +1,17 @@
 /**
  * A NodeIterator with iframes support and a method to check if an element is
  * matching a specified selector
- * @example
- * const iterator = new DOMIterator(
- *     document.querySelector("#context"), true
- * );
- * iterator.forEachNode(NodeFilter.SHOW_TEXT, node => {
- *     console.log(node);
- * }, node => {
- *     if(DOMIterator.matches(node.parentNode, ".ignore")){
- *         return NodeFilter.FILTER_REJECT;
- *     } else {
- *         return NodeFilter.FILTER_ACCEPT;
  *     }
  * }, () => {
  *     console.log("DONE");
  * });
+ *
+ * @format
+ * @example const iterator = new DOMIterator( document.querySelector("#context"), true ); iterator.forEachNode(NodeFilter.SHOW_TEXT, node => { console.log(node); }, node => { if(DOMIterator.matches(node.parentNode, ".ignore")){ return NodeFilter.FILTER_REJECT; } else { return NodeFilter.FILTER_ACCEPT;
  * @todo Outsource into separate repository
  */
-class DOMIterator {
 
+class DOMIterator {
   /**
    * @param {HTMLElement|HTMLElement[]|NodeList|string} ctx - The context DOM
    * element, an array of DOM elements, a NodeList or a selector
@@ -40,23 +32,23 @@ class DOMIterator {
      * @type {HTMLElement|HTMLElement[]|NodeList|string}
      * @access protected
      */
-    this.ctx = ctx;
+    this.ctx = ctx
     /**
      * Boolean indicating if iframe support is enabled
      * @type {boolean}
      * @access protected
      */
-    this.iframes = iframes;
+    this.iframes = iframes
     /**
      * An array containing exclusion selectors for iframes
      * @type {string[]}
      */
-    this.exclude = exclude;
+    this.exclude = exclude
     /**
      * The maximum ms to wait for a load event before skipping an iframe
      * @type {number}
      */
-    this.iframesTimeout = iframesTimeout;
+    this.iframesTimeout = iframesTimeout
   }
 
   /**
@@ -69,26 +61,26 @@ class DOMIterator {
    */
   static matches(element, selector) {
     const selectors = typeof selector === 'string' ? [selector] : selector,
-      fn = (
+      fn =
         element.matches ||
         element.matchesSelector ||
         element.msMatchesSelector ||
         element.mozMatchesSelector ||
         element.oMatchesSelector ||
         element.webkitMatchesSelector
-      );
     if (fn) {
-      let match = false;
+      let match = false
       selectors.every(sel => {
         if (fn.call(element, sel)) {
-          match = true;
-          return false;
+          match = true
+          return false
         }
-        return true;
-      });
-      return match;
-    } else { // may be false e.g. when el is a textNode
-      return false;
+        return true
+      })
+      return match
+    } else {
+      // may be false e.g. when el is a textNode
+      return false
     }
   }
 
@@ -99,30 +91,31 @@ class DOMIterator {
    */
   getContexts() {
     let ctx,
-      filteredCtx = [];
-    if (typeof this.ctx === 'undefined' || !this.ctx) { // e.g. null
-      ctx = [];
+      filteredCtx = []
+    if (typeof this.ctx === 'undefined' || !this.ctx) {
+      // e.g. null
+      ctx = []
     } else if (NodeList.prototype.isPrototypeOf(this.ctx)) {
-      ctx = Array.prototype.slice.call(this.ctx);
+      ctx = Array.prototype.slice.call(this.ctx)
     } else if (Array.isArray(this.ctx)) {
-      ctx = this.ctx;
+      ctx = this.ctx
     } else if (typeof this.ctx === 'string') {
-      ctx = Array.prototype.slice.call(
-        document.querySelectorAll(this.ctx)
-      );
-    } else { // e.g. HTMLElement or element inside iframe
-      ctx = [this.ctx];
+      ctx = Array.prototype.slice.call(document.querySelectorAll(this.ctx))
+    } else {
+      // e.g. HTMLElement or element inside iframe
+      ctx = [this.ctx]
     }
     // filter duplicate text nodes
     ctx.forEach(ctx => {
-      const isDescendant = filteredCtx.filter(contexts => {
-        return contexts.contains(ctx);
-      }).length > 0;
+      const isDescendant =
+        filteredCtx.filter(contexts => {
+          return contexts.contains(ctx)
+        }).length > 0
       if (filteredCtx.indexOf(ctx) === -1 && !isDescendant) {
-        filteredCtx.push(ctx);
+        filteredCtx.push(ctx)
       }
-    });
-    return filteredCtx;
+    })
+    return filteredCtx
   }
 
   /**
@@ -138,18 +131,19 @@ class DOMIterator {
    * @access protected
    */
   getIframeContents(ifr, successFn, errorFn = () => {}) {
-    let doc;
+    let doc
     try {
-      const ifrWin = ifr.contentWindow;
-      doc = ifrWin.document;
-      if (!ifrWin || !doc) { // no permission = null. Undefined in Phantom
-        throw new Error('iframe inaccessible');
+      const ifrWin = ifr.contentWindow
+      doc = ifrWin.document
+      if (!ifrWin || !doc) {
+        // no permission = null. Undefined in Phantom
+        throw new Error('iframe inaccessible')
       }
     } catch (e) {
-      errorFn();
+      errorFn()
     }
     if (doc) {
-      successFn(doc);
+      successFn(doc)
     }
   }
 
@@ -162,8 +156,8 @@ class DOMIterator {
   isIframeBlank(ifr) {
     const bl = 'about:blank',
       src = ifr.getAttribute('src').trim(),
-      href = ifr.contentWindow.location.href;
-    return href === bl && src !== bl && src;
+      href = ifr.contentWindow.location.href
+    return href === bl && src !== bl && src
   }
 
   /**
@@ -178,24 +172,25 @@ class DOMIterator {
    */
   observeIframeLoad(ifr, successFn, errorFn) {
     let called = false,
-      tout = null;
+      tout = null
     const listener = () => {
       if (called) {
-        return;
+        return
       }
-      called = true;
-      clearTimeout(tout);
+      called = true
+      clearTimeout(tout)
       try {
         if (!this.isIframeBlank(ifr)) {
-          ifr.removeEventListener('load', listener);
-          this.getIframeContents(ifr, successFn, errorFn);
+          ifr.removeEventListener('load', listener)
+          this.getIframeContents(ifr, successFn, errorFn)
         }
-      } catch (e) { // isIframeBlank maybe throws throws an error
-        errorFn();
+      } catch (e) {
+        // isIframeBlank maybe throws throws an error
+        errorFn()
       }
-    };
-    ifr.addEventListener('load', listener);
-    tout = setTimeout(listener, this.iframesTimeout);
+    }
+    ifr.addEventListener('load', listener)
+    tout = setTimeout(listener, this.iframesTimeout)
   }
 
   /**
@@ -221,15 +216,16 @@ class DOMIterator {
     try {
       if (ifr.contentWindow.document.readyState === 'complete') {
         if (this.isIframeBlank(ifr)) {
-          this.observeIframeLoad(ifr, successFn, errorFn);
+          this.observeIframeLoad(ifr, successFn, errorFn)
         } else {
-          this.getIframeContents(ifr, successFn, errorFn);
+          this.getIframeContents(ifr, successFn, errorFn)
         }
       } else {
-        this.observeIframeLoad(ifr, successFn, errorFn);
+        this.observeIframeLoad(ifr, successFn, errorFn)
       }
-    } catch (e) { // accessing document failed
-      errorFn();
+    } catch (e) {
+      // accessing document failed
+      errorFn()
     }
   }
 
@@ -244,19 +240,24 @@ class DOMIterator {
    * @param {DOMIterator~waitForIframesDoneCallback} done - Done callback
    */
   waitForIframes(ctx, done) {
-    let eachCalled = 0;
-    this.forEachIframe(ctx, () => true, ifr => {
-      eachCalled++;
-      this.waitForIframes(ifr.querySelector('html'), () => {
-        if (!(--eachCalled)) {
-          done();
+    let eachCalled = 0
+    this.forEachIframe(
+      ctx,
+      () => true,
+      ifr => {
+        eachCalled++
+        this.waitForIframes(ifr.querySelector('html'), () => {
+          if (!--eachCalled) {
+            done()
+          }
+        })
+      },
+      handled => {
+        if (!handled) {
+          done()
         }
-      });
-    }, handled => {
-      if (!handled) {
-        done();
       }
-    });
+    )
   }
 
   /**
@@ -289,29 +290,33 @@ class DOMIterator {
   forEachIframe(ctx, filter, each, end = () => {}) {
     let ifr = ctx.querySelectorAll('iframe'),
       open = ifr.length,
-      handled = 0;
-    ifr = Array.prototype.slice.call(ifr);
+      handled = 0
+    ifr = Array.prototype.slice.call(ifr)
     const checkEnd = () => {
       if (--open <= 0) {
-        end(handled);
+        end(handled)
       }
-    };
+    }
     if (!open) {
-      checkEnd();
+      checkEnd()
     }
     ifr.forEach(ifr => {
       if (DOMIterator.matches(ifr, this.exclude)) {
-        checkEnd();
+        checkEnd()
       } else {
-        this.onIframeReady(ifr, con => {
-          if (filter(ifr)) {
-            handled++;
-            each(con);
-          }
-          checkEnd();
-        }, checkEnd);
+        this.onIframeReady(
+          ifr,
+          con => {
+            if (filter(ifr)) {
+              handled++
+              each(con)
+            }
+            checkEnd()
+          },
+          checkEnd
+        )
       }
-    });
+    })
   }
 
   /**
@@ -324,7 +329,7 @@ class DOMIterator {
    * @access protected
    */
   createIterator(ctx, whatToShow, filter) {
-    return document.createNodeIterator(ctx, whatToShow, filter, false);
+    return document.createNodeIterator(ctx, whatToShow, filter, false)
   }
 
   /**
@@ -334,7 +339,7 @@ class DOMIterator {
    * @access protected
    */
   createInstanceOnIframe(contents) {
-    return new DOMIterator(contents.querySelector('html'), this.iframes);
+    return new DOMIterator(contents.querySelector('html'), this.iframes)
   }
 
   /**
@@ -349,19 +354,19 @@ class DOMIterator {
    */
   compareNodeIframe(node, prevNode, ifr) {
     const compCurr = node.compareDocumentPosition(ifr),
-      prev = Node.DOCUMENT_POSITION_PRECEDING;
+      prev = Node.DOCUMENT_POSITION_PRECEDING
     if (compCurr & prev) {
       if (prevNode !== null) {
         const compPrev = prevNode.compareDocumentPosition(ifr),
-          after = Node.DOCUMENT_POSITION_FOLLOWING;
+          after = Node.DOCUMENT_POSITION_FOLLOWING
         if (compPrev & after) {
-          return true;
+          return true
         }
       } else {
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   }
 
   /**
@@ -378,17 +383,17 @@ class DOMIterator {
    * @access protected
    */
   getIteratorNode(itr) {
-    const prevNode = itr.previousNode();
-    let node;
+    const prevNode = itr.previousNode()
+    let node
     if (prevNode === null) {
-      node = itr.nextNode();
+      node = itr.nextNode()
     } else {
-      node = itr.nextNode() && itr.nextNode();
+      node = itr.nextNode() && itr.nextNode()
     }
     return {
       prevNode,
-      node
-    };
+      node,
+    }
   }
 
   /**
@@ -419,31 +424,31 @@ class DOMIterator {
    */
   checkIframeFilter(node, prevNode, currIfr, ifr) {
     let key = false, // false === doesn't exist
-      handled = false;
+      handled = false
     ifr.forEach((ifrDict, i) => {
       if (ifrDict.val === currIfr) {
-        key = i;
-        handled = ifrDict.handled;
+        key = i
+        handled = ifrDict.handled
       }
-    });
+    })
     if (this.compareNodeIframe(node, prevNode, currIfr)) {
       if (key === false && !handled) {
         ifr.push({
           val: currIfr,
-          handled: true
-        });
+          handled: true,
+        })
       } else if (key !== false && !handled) {
-        ifr[key].handled = true;
+        ifr[key].handled = true
       }
-      return true;
+      return true
     }
     if (key === false) {
       ifr.push({
         val: currIfr,
-        handled: false
-      });
+        handled: false,
+      })
     }
-    return false;
+    return false
   }
 
   /**
@@ -459,12 +464,10 @@ class DOMIterator {
     ifr.forEach(ifrDict => {
       if (!ifrDict.handled) {
         this.getIframeContents(ifrDict.val, con => {
-          this.createInstanceOnIframe(con).forEachNode(
-            whatToShow, eCb, fCb
-          );
-        });
+          this.createInstanceOnIframe(con).forEachNode(whatToShow, eCb, fCb)
+        })
       }
-    });
+    })
   }
 
   /**
@@ -478,38 +481,40 @@ class DOMIterator {
    * @access protected
    */
   iterateThroughNodes(whatToShow, ctx, eachCb, filterCb, doneCb) {
-    const itr = this.createIterator(ctx, whatToShow, filterCb);
+    const itr = this.createIterator(ctx, whatToShow, filterCb)
     let ifr = [],
       elements = [],
-      node, prevNode, retrieveNodes = () => {
-        ({
-          prevNode,
-          node
-        } = this.getIteratorNode(itr));
-        return node;
-      };
+      node,
+      prevNode,
+      retrieveNodes = () => {
+        ;({ prevNode, node } = this.getIteratorNode(itr))
+        return node
+      }
     while (retrieveNodes()) {
       if (this.iframes) {
-        this.forEachIframe(ctx, currIfr => {
-          // note that ifr will be manipulated here
-          return this.checkIframeFilter(node, prevNode, currIfr, ifr);
-        }, con => {
-          this.createInstanceOnIframe(con).forEachNode(
-            whatToShow, ifrNode => elements.push(ifrNode), filterCb
-          );
-        });
+        this.forEachIframe(
+          ctx,
+          // eslint-disable-next-line no-loop-func
+          currIfr => {
+            // note that ifr will be manipulated here
+            return this.checkIframeFilter(node, prevNode, currIfr, ifr)
+          },
+          con => {
+            this.createInstanceOnIframe(con).forEachNode(whatToShow, ifrNode => elements.push(ifrNode), filterCb)
+          }
+        )
       }
       // it's faster to call the each callback in an array loop
       // than in this while loop
-      elements.push(node);
+      elements.push(node)
     }
     elements.forEach(node => {
-      eachCb(node);
-    });
+      eachCb(node)
+    })
     if (this.iframes) {
-      this.handleOpenIframes(ifr, whatToShow, eachCb, filterCb);
+      this.handleOpenIframes(ifr, whatToShow, eachCb, filterCb)
     }
-    doneCb();
+    doneCb()
   }
 
   /**
@@ -531,27 +536,28 @@ class DOMIterator {
    * @access public
    */
   forEachNode(whatToShow, each, filter, done = () => {}) {
-    const contexts = this.getContexts();
-    let open = contexts.length;
+    const contexts = this.getContexts()
+    let open = contexts.length
     if (!open) {
-      done();
+      done()
     }
     contexts.forEach(ctx => {
       const ready = () => {
         this.iterateThroughNodes(whatToShow, ctx, each, filter, () => {
-          if (--open <= 0) { // call end all contexts were handled
-            done();
+          if (--open <= 0) {
+            // call end all contexts were handled
+            done()
           }
-        });
-      };
+        })
+      }
       // wait for iframes to avoid recursive calls, otherwise this would
       // perhaps reach the recursive function call limit with many nodes
       if (this.iframes) {
-        this.waitForIframes(ctx, ready);
+        this.waitForIframes(ctx, ready)
       } else {
-        ready();
+        ready()
       }
-    });
+    })
   }
 
   /**
@@ -568,4 +574,4 @@ class DOMIterator {
    */
 }
 
-export default DOMIterator;
+export default DOMIterator

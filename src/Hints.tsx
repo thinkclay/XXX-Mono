@@ -1,6 +1,6 @@
 /** @format */
 
-import { Fragment } from 'react'
+import { v4 } from 'uuid'
 
 export interface Hint {
   original?: string
@@ -16,14 +16,20 @@ function Hints({ hints }: HintsProps) {
   if (!hints) return null
 
   const _hints = hints.map(h => (
-    <Fragment>
-      <li>Original: {h.original}</li>
-      <li>Correction: {h.correction}</li>
-      <li>Correction: {h.reason}</li>
-    </Fragment>
+    <ul key={v4()}>
+      <li>
+        <strong>Original:</strong> {h.original}
+      </li>
+      <li>
+        <strong>Correction:</strong> {h.correction}
+      </li>
+      <li>
+        <strong>Reason:</strong> {h.reason}
+      </li>
+    </ul>
   ))
 
-  return <ul>{_hints}</ul>
+  return <div>{_hints}</div>
 }
 
 export default Hints

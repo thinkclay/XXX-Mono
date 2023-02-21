@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
+  "name": "ReVision",
   "version": "0.2.0",
-  "author": "Your Name",
-  "description": "React-TypeScript-Electron sample with Create React App and Electron Builder",
+  "author": "Clay Unicorn <thinkclay@gmail.com>",
+  "description": "Your sidekick for fighting bias!",
   "homepage": ".",
   "main": "build/electron/main.js",
   "private": true,
@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
+    "uuid": "^9.0.0",
     "web-vitals": "^3.1.1"
   },
   "scripts": {
@@ -64,6 +65,7 @@
   "devDependencies": {
     "@types/chrome": "^0.0.217",
     "@types/lodash": "^4.14.191",
+    "@types/uuid": "^9.0.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^23.1.0",

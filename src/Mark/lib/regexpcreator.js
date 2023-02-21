@@ -1,11 +1,12 @@
 /**
  * Creates regular expressions based on specified settings
- * @example
- * new RegExpCreator({caseSensitive: true, diacritics: false}).create('lorem');
  * // => /()(lorem)/gm
+ *
+ * @format
+ * @example new RegExpCreator({caseSensitive: true, diacritics: false}).create('lorem');
  */
-class RegExpCreator {
 
+class RegExpCreator {
   /**
    * @typedef RegExpCreator~accuracyObj
    * @type {object.<string>}
@@ -92,15 +93,19 @@ class RegExpCreator {
    * @param {RegExpCreator~options} [options] - Optional options object
    */
   constructor(options) {
-    this.opt = Object.assign({}, {
-      'diacritics': true,
-      'synonyms': {},
-      'accuracy': 'partially',
-      'caseSensitive': false,
-      'ignoreJoiners': false,
-      'ignorePunctuation': [],
-      'wildcards': 'disabled'
-    }, options);
+    this.opt = Object.assign(
+      {},
+      {
+        diacritics: true,
+        synonyms: {},
+        accuracy: 'partially',
+        caseSensitive: false,
+        ignoreJoiners: false,
+        ignorePunctuation: [],
+        wildcards: 'disabled',
+      },
+      options
+    )
   }
 
   /**
@@ -111,27 +116,27 @@ class RegExpCreator {
    */
   create(str) {
     if (this.opt.wildcards !== 'disabled') {
-      str = this.setupWildcardsRegExp(str);
+      str = this.setupWildcardsRegExp(str)
     }
-    str = this.escapeStr(str);
+    str = this.escapeStr(str)
     if (Object.keys(this.opt.synonyms).length) {
-      str = this.createSynonymsRegExp(str);
+      str = this.createSynonymsRegExp(str)
     }
     if (this.opt.ignoreJoiners || this.opt.ignorePunctuation.length) {
-      str = this.setupIgnoreJoinersRegExp(str);
+      str = this.setupIgnoreJoinersRegExp(str)
     }
     if (this.opt.diacritics) {
-      str = this.createDiacriticsRegExp(str);
+      str = this.createDiacriticsRegExp(str)
     }
-    str = this.createMergedBlanksRegExp(str);
+    str = this.createMergedBlanksRegExp(str)
     if (this.opt.ignoreJoiners || this.opt.ignorePunctuation.length) {
-      str = this.createJoinersRegExp(str);
+      str = this.createJoinersRegExp(str)
     }
     if (this.opt.wildcards !== 'disabled') {
-      str = this.createWildcardsRegExp(str);
+      str = this.createWildcardsRegExp(str)
     }
-    str = this.createAccuracyRegExp(str);
-    return new RegExp(str, `gm${this.opt.caseSensitive ? '' : 'i'}`);
+    str = this.createAccuracyRegExp(str)
+    return new RegExp(str, `gm${this.opt.caseSensitive ? '' : 'i'}`)
   }
 
   /**
@@ -140,11 +145,14 @@ class RegExpCreator {
    * @return {array}
    */
   sortByLength(arry) {
-    return arry.sort((a, b) => a.length === b.length ?
-      // sort a-z for same length elements
-      (a > b ? 1 : -1) :
-      b.length - a.length
-    );
+    return arry.sort((a, b) =>
+      a.length === b.length
+        ? // sort a-z for same length elements
+          a > b
+          ? 1
+          : -1
+        : b.length - a.length
+    )
   }
 
   /**
@@ -154,7 +162,7 @@ class RegExpCreator {
    */
   escapeStr(str) {
     // eslint-disable-next-line no-useless-escape
-    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
   }
 
   /**
@@ -167,33 +175,29 @@ class RegExpCreator {
       sens = this.opt.caseSensitive ? '' : 'i',
       // add replacement character placeholder before and after the
       // synonym group
-      joinerPlaceholder = this.opt.ignoreJoiners ||
-      this.opt.ignorePunctuation.length ? '\u0000' : '';
+      joinerPlaceholder = this.opt.ignoreJoiners || this.opt.ignorePunctuation.length ? '\u0000' : ''
     for (let index in syn) {
       if (syn.hasOwnProperty(index)) {
-        let keys = Array.isArray(syn[index]) ? syn[index] : [syn[index]];
-        keys.unshift(index);
-        keys = this.sortByLength(keys).map(key => {
-          if (this.opt.wildcards !== 'disabled') {
-            key = this.setupWildcardsRegExp(key);
-          }
-          key = this.escapeStr(key);
-          return key;
-        }).filter(k => k !== '');
+        let keys = Array.isArray(syn[index]) ? syn[index] : [syn[index]]
+        keys.unshift(index)
+        keys = this.sortByLength(keys)
+          .map(key => {
+            if (this.opt.wildcards !== 'disabled') {
+              key = this.setupWildcardsRegExp(key)
+            }
+            key = this.escapeStr(key)
+            return key
+          })
+          .filter(k => k !== '')
         if (keys.length > 1) {
           str = str.replace(
-            new RegExp(
-              `(${keys.map(k => this.escapeStr(k)).join('|')})`,
-              `gm${sens}`
-            ),
-            joinerPlaceholder +
-            `(${keys.map(k => this.processSynonyms(k)).join('|')})` +
-            joinerPlaceholder
-          );
+            new RegExp(`(${keys.map(k => this.escapeStr(k)).join('|')})`, `gm${sens}`),
+            joinerPlaceholder + `(${keys.map(k => this.processSynonyms(k)).join('|')})` + joinerPlaceholder
+          )
         }
       }
     }
-    return str;
+    return str
   }
 
   /**
@@ -203,9 +207,9 @@ class RegExpCreator {
    */
   processSynonyms(str) {
     if (this.opt.ignoreJoiners || this.opt.ignorePunctuation.length) {
-      str = this.setupIgnoreJoinersRegExp(str);
+      str = this.setupIgnoreJoinersRegExp(str)
     }
-    return str;
+    return str
   }
 
   /**
@@ -217,12 +221,12 @@ class RegExpCreator {
   setupWildcardsRegExp(str) {
     // replace single character wildcard with unicode 0001
     str = str.replace(/(?:\\)*\?/g, val => {
-      return val.charAt(0) === '\\' ? '?' : '\u0001';
-    });
+      return val.charAt(0) === '\\' ? '?' : '\u0001'
+    })
     // replace multiple character wildcard with unicode 0002
     return str.replace(/(?:\\)*\*/g, val => {
-      return val.charAt(0) === '\\' ? '*' : '\u0002';
-    });
+      return val.charAt(0) === '\\' ? '*' : '\u0002'
+    })
   }
 
   /**
@@ -235,16 +239,20 @@ class RegExpCreator {
     // default to "enable" (i.e. to not include spaces)
     // "withSpaces" uses `[\\S\\s]` instead of `.` because the latter
     // does not match new line characters
-    let spaces = this.opt.wildcards === 'withSpaces';
-    return str
-    // replace unicode 0001 with a RegExp class to match any single
-    // character, or any single non-whitespace character depending
-    // on the setting
-      .replace(/\u0001/g, spaces ? '[\\S\\s]?' : '\\S?')
-      // replace unicode 0002 with a RegExp class to match zero or
-      // more characters, or zero or more non-whitespace characters
-      // depending on the setting
-      .replace(/\u0002/g, spaces ? '[\\S\\s]*?' : '\\S*');
+    let spaces = this.opt.wildcards === 'withSpaces'
+    return (
+      str
+        // replace unicode 0001 with a RegExp class to match any single
+        // character, or any single non-whitespace character depending
+        // on the setting
+        // eslint-disable-next-line no-control-regex
+        .replace(/\u0001/g, spaces ? '[\\S\\s]?' : '\\S?')
+        // replace unicode 0002 with a RegExp class to match zero or
+        // more characters, or zero or more non-whitespace characters
+        // depending on the setting
+        // eslint-disable-next-line no-control-regex
+        .replace(/\u0002/g, spaces ? '[\\S\\s]*?' : '\\S*')
+    )
   }
 
   /**
@@ -259,13 +267,13 @@ class RegExpCreator {
     return str.replace(/[^(|)\\]/g, (val, indx, original) => {
       // don't add a null after an opening "(", around a "|" or before
       // a closing "(", or between an escapement (e.g. \+)
-      let nextChar = original.charAt(indx + 1);
+      let nextChar = original.charAt(indx + 1)
       if (/[(|)\\]/.test(nextChar) || nextChar === '') {
-        return val;
+        return val
       } else {
-        return val + '\u0000';
+        return val + '\u0000'
       }
-    });
+    })
   }
 
   /**
@@ -277,21 +285,21 @@ class RegExpCreator {
    * @return {string}
    */
   createJoinersRegExp(str) {
-    let joiner = [];
-    const ignorePunctuation = this.opt.ignorePunctuation;
+    let joiner = []
+    const ignorePunctuation = this.opt.ignorePunctuation
     if (Array.isArray(ignorePunctuation) && ignorePunctuation.length) {
-      joiner.push(this.escapeStr(ignorePunctuation.join('')));
+      joiner.push(this.escapeStr(ignorePunctuation.join('')))
     }
     if (this.opt.ignoreJoiners) {
       // u+00ad = soft hyphen
       // u+200b = zero-width space
       // u+200c = zero-width non-joiner
       // u+200d = zero-width joiner
-      joiner.push('\\u00ad\\u200b\\u200c\\u200d');
+      joiner.push('\\u00ad\\u200b\\u200c\\u200d')
     }
-    return joiner.length ?
-      str.split(/\u0000+/).join(`[${joiner.join('')}]*`) :
-      str;
+
+    // eslint-disable-next-line no-control-regex
+    return joiner.length ? str.split(/\u0000+/).join(`[${joiner.join('')}]*`) : str
   }
 
   /**
@@ -301,24 +309,54 @@ class RegExpCreator {
    */
   createDiacriticsRegExp(str) {
     const sens = this.opt.caseSensitive ? '' : 'i',
-      dct = this.opt.caseSensitive ? [
-        'aàáảãạăằắẳẵặâầấẩẫậäåāą', 'AÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÄÅĀĄ',
-        'cçćč', 'CÇĆČ', 'dđď', 'DĐĎ',
-        'eèéẻẽẹêềếểễệëěēę', 'EÈÉẺẼẸÊỀẾỂỄỆËĚĒĘ',
-        'iìíỉĩịîïī', 'IÌÍỈĨỊÎÏĪ', 'lł', 'LŁ', 'nñňń',
-        'NÑŇŃ', 'oòóỏõọôồốổỗộơởỡớờợöøō', 'OÒÓỎÕỌÔỒỐỔỖỘƠỞỠỚỜỢÖØŌ',
-        'rř', 'RŘ', 'sšśșş', 'SŠŚȘŞ',
-        'tťțţ', 'TŤȚŢ', 'uùúủũụưừứửữựûüůū', 'UÙÚỦŨỤƯỪỨỬỮỰÛÜŮŪ',
-        'yýỳỷỹỵÿ', 'YÝỲỶỸỴŸ', 'zžżź', 'ZŽŻŹ'
-      ] : [
-        'aàáảãạăằắẳẵặâầấẩẫậäåāąAÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÄÅĀĄ', 'cçćčCÇĆČ',
-        'dđďDĐĎ', 'eèéẻẽẹêềếểễệëěēęEÈÉẺẼẸÊỀẾỂỄỆËĚĒĘ',
-        'iìíỉĩịîïīIÌÍỈĨỊÎÏĪ', 'lłLŁ', 'nñňńNÑŇŃ',
-        'oòóỏõọôồốổỗộơởỡớờợöøōOÒÓỎÕỌÔỒỐỔỖỘƠỞỠỚỜỢÖØŌ', 'rřRŘ',
-        'sšśșşSŠŚȘŞ', 'tťțţTŤȚŢ',
-        'uùúủũụưừứửữựûüůūUÙÚỦŨỤƯỪỨỬỮỰÛÜŮŪ', 'yýỳỷỹỵÿYÝỲỶỸỴŸ', 'zžżźZŽŻŹ'
-      ];
-    let handled = [];
+      dct = this.opt.caseSensitive
+        ? [
+            'aàáảãạăằắẳẵặâầấẩẫậäåāą',
+            'AÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÄÅĀĄ',
+            'cçćč',
+            'CÇĆČ',
+            'dđď',
+            'DĐĎ',
+            'eèéẻẽẹêềếểễệëěēę',
+            'EÈÉẺẼẸÊỀẾỂỄỆËĚĒĘ',
+            'iìíỉĩịîïī',
+            'IÌÍỈĨỊÎÏĪ',
+            'lł',
+            'LŁ',
+            'nñňń',
+            'NÑŇŃ',
+            'oòóỏõọôồốổỗộơởỡớờợöøō',
+            'OÒÓỎÕỌÔỒỐỔỖỘƠỞỠỚỜỢÖØŌ',
+            'rř',
+            'RŘ',
+            'sšśșş',
+            'SŠŚȘŞ',
+            'tťțţ',
+            'TŤȚŢ',
+            'uùúủũụưừứửữựûüůū',
+            'UÙÚỦŨỤƯỪỨỬỮỰÛÜŮŪ',
+            'yýỳỷỹỵÿ',
+            'YÝỲỶỸỴŸ',
+            'zžżź',
+            'ZŽŻŹ',
+          ]
+        : [
+            'aàáảãạăằắẳẵặâầấẩẫậäåāąAÀÁẢÃẠĂẰẮẲẴẶÂẦẤẨẪẬÄÅĀĄ',
+            'cçćčCÇĆČ',
+            'dđďDĐĎ',
+            'eèéẻẽẹêềếểễệëěēęEÈÉẺẼẸÊỀẾỂỄỆËĚĒĘ',
+            'iìíỉĩịîïīIÌÍỈĨỊÎÏĪ',
+            'lłLŁ',
+            'nñňńNÑŇŃ',
+            'oòóỏõọôồốổỗộơởỡớờợöøōOÒÓỎÕỌÔỒỐỔỖỘƠỞỠỚỜỢÖØŌ',
+            'rřRŘ',
+            'sšśșşSŠŚȘŞ',
+            'tťțţTŤȚŢ',
+            'uùúủũụưừứửữựûüůūUÙÚỦŨỤƯỪỨỬỮỰÛÜŮŪ',
+            'yýỳỷỹỵÿYÝỲỶỸỴŸ',
+            'zžżźZŽŻŹ',
+          ]
+    let handled = []
     str.split('').forEach(ch => {
       dct.every(dct => {
         // Check if the character is inside a diacritics list
@@ -326,19 +364,17 @@ class RegExpCreator {
           // Check if the related diacritics list was not
           // handled yet
           if (handled.indexOf(dct) > -1) {
-            return false;
+            return false
           }
           // Make sure that the character OR any other
           // character in the diacritics list will be matched
-          str = str.replace(
-            new RegExp(`[${dct}]`, `gm${sens}`), `[${dct}]`
-          );
-          handled.push(dct);
+          str = str.replace(new RegExp(`[${dct}]`, `gm${sens}`), `[${dct}]`)
+          handled.push(dct)
         }
-        return true;
-      });
-    });
-    return str;
+        return true
+      })
+    })
+    return str
   }
 
   /**
@@ -349,7 +385,7 @@ class RegExpCreator {
    * @return {string}
    */
   createMergedBlanksRegExp(str) {
-    return str.replace(/[\s]+/gmi, '[\\s]+');
+    return str.replace(/[\s]+/gim, '[\\s]+')
   }
 
   /**
@@ -362,25 +398,25 @@ class RegExpCreator {
    * @return {string}
    */
   createAccuracyRegExp(str) {
-    const chars = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~¡¿';
+    const chars = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~¡¿'
     let acc = this.opt.accuracy,
       val = typeof acc === 'string' ? acc : acc.value,
       ls = typeof acc === 'string' ? [] : acc.limiters,
-      lsJoin = '';
+      lsJoin = ''
     ls.forEach(limiter => {
-      lsJoin += `|${this.escapeStr(limiter)}`;
-    });
+      lsJoin += `|${this.escapeStr(limiter)}`
+    })
     switch (val) {
       case 'partially':
       default:
-        return `()(${str})`;
+        return `()(${str})`
       case 'complementary':
-        lsJoin = '\\s' + (lsJoin ? lsJoin : this.escapeStr(chars));
-        return `()([^${lsJoin}]*${str}[^${lsJoin}]*)`;
+        lsJoin = '\\s' + (lsJoin ? lsJoin : this.escapeStr(chars))
+        return `()([^${lsJoin}]*${str}[^${lsJoin}]*)`
       case 'exactly':
-        return `(^|\\s${lsJoin})(${str})(?=$|\\s${lsJoin})`;
+        return `(^|\\s${lsJoin})(${str})(?=$|\\s${lsJoin})`
     }
   }
 }
 
-export default RegExpCreator;
+export default RegExpCreator

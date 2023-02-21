@@ -33,10 +33,10 @@ html {
   position: absolute;
   bottom: 3rem;
   right: 3rem;
+  z-index: 100;
 }
 
 .Logo .path {
-  animation: traceBackwards 3s linear forwards;
   stroke-dasharray: 320;
   stroke-dashoffset: 0;
 }
@@ -71,12 +71,38 @@ html {
   }
 }
 
+.layout {
+  display: flex;
+  flex-flow: column;
+}
+
 .editor {
+  color: var(--color-n900);
+  flex: 2;
   font-size: 1.6rem;
+  line-height: 1.85;
+  min-height: 50rem;
   outline: none;
-  position: absolute;
-  left: 3rem;
-  right: 3rem;
-  top: 3rem;
-  bottom: 3rem;
+}
+
+mark {
+  background: none;
+  border-bottom: 2px solid red;
+  color: var(--color-n900);
+  position: relative;
+}
+
+.Suggestions {
+  background: var(--color-n200);
+  font-size: 1.5rem;
+  padding: 3rem;
+}
+
+.Suggestions li {
+  padding: 0.8rem 0;
+}
+
+.Suggestions li strong {
+  display: inline-block;
+  width: 10rem;
 }

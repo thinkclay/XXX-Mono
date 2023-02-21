@@ -226,7 +226,6 @@ class Mark {
       if (this.isNumeric(range.start) && this.isNumeric(range.length) && end - last > 0 && end - start > 0) {
         valid = true
       } else {
-        this.log('Ignoring invalid or overlapping range: ' + `${JSON.stringify(range)}`)
         this.opt.noMatch(range)
       }
     } else {
@@ -589,6 +588,7 @@ class Mark {
           dict,
           start,
           end,
+          // eslint-disable-next-line no-loop-func
           node => {
             return filterCb(match[matchIdx], node)
           },
@@ -826,6 +826,7 @@ class Mark {
 
     // If string or array of strings
     if (typeof m === 'string' || (typeof m === 'object' && typeof m[0] === 'string')) {
+      if (m.length < 1) return
       ;[kwArr, kwArrLen] = this.getSeparatedKeywords(m)
     } else if (typeof m === 'object' && typeof m[0] === 'object') {
       kwArr = m.map(s => s.original)
@@ -860,7 +861,6 @@ class Mark {
         },
         () => {
           if (matches === 0) {
-            console.log('Hero?')
             this.opt.noMatch(kw)
           }
           if (kwArr[kwArrLen - 1] === kw) {
