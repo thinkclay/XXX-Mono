@@ -1,11 +1,10 @@
 /** @format */
 
 import { useEffect, useState } from 'react'
-import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
-import { AxiosResponse } from 'axios'
+import { Hint, Revision } from './types/Revision'
 
 import './styles/App.css'
-import Hints, { Hint } from './views/Hints'
+import Hints from './views/Hints'
 import { Marker } from './views/mark'
 import Logo from './views/Logo'
 

@@ -2616,6 +2616,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@revision/electron@workspace:packages/electron":
+  version: 0.0.0-use.local
+  resolution: "@revision/electron@workspace:packages/electron"
+  dependencies:
+    "@electron-forge/cli": ^6.0.5
+    "@electron-forge/maker-deb": ^6.0.5
+    "@electron-forge/maker-rpm": ^6.0.5
+    "@electron-forge/maker-squirrel": ^6.0.5
+    "@electron-forge/maker-zip": ^6.0.5
+    "@electron-forge/plugin-webpack": ^6.0.5
+    "@typescript-eslint/eslint-plugin": ^5.0.0
+    "@typescript-eslint/parser": ^5.0.0
+    "@vercel/webpack-asset-relocator-loader": 1.7.3
+    css-loader: ^6.0.0
+    electron: 23.1.0
+    electron-squirrel-startup: ^1.0.0
+    eslint: ^8.0.1
+    eslint-plugin-import: ^2.25.0
+    fork-ts-checker-webpack-plugin: ^7.2.13
+    node-loader: ^2.0.0
+    style-loader: ^3.0.0
+    ts-loader: ^9.2.2
+    ts-node: ^10.0.0
+    typescript: ~4.5.4
+  languageName: unknown
+  linkType: soft
+
 "@rollup/plugin-babel@npm:^5.2.0":
   version: 5.3.1
   resolution: "@rollup/plugin-babel@npm:5.3.1"
@@ -6165,6 +6192,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv-cli@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "dotenv-cli@npm:7.0.0"
+  dependencies:
+    cross-spawn: ^7.0.3
+    dotenv: ^16.0.0
+    dotenv-expand: ^10.0.0
+    minimist: ^1.2.6
+  bin:
+    dotenv: cli.js
+  checksum: de4ed19bc08cef509e6bee8bf26df0523e502556abbc732a86f8eee50fc3b3b0b3824803100e39f2d09ef1335b558b9e10d1ba51a4a2338c0ebbae6b5c520b19
+  languageName: node
+  linkType: hard
+
+"dotenv-expand@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "dotenv-expand@npm:10.0.0"
+  checksum: 2a38b470efe0abcb1ac8490421a55e1d764dc9440fd220942bce40965074f3fb00b585f4346020cb0f0f219966ee6b4ee5023458b3e2953fe5b3214de1b314ee
+  languageName: node
+  linkType: hard
+
 "dotenv-expand@npm:^5.1.0":
   version: 5.1.0
   resolution: "dotenv-expand@npm:5.1.0"
@@ -6176,6 +6224,13 @@ __metadata:
   version: 10.0.0
   resolution: "dotenv@npm:10.0.0"
   checksum: f412c5fe8c24fbe313d302d2500e247ba8a1946492db405a4de4d30dd0eb186a88a43f13c958c5a7de303938949c4231c56994f97d05c4bc1f22478d631b4005
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.0.0":
+  version: 16.0.3
+  resolution: "dotenv@npm:16.0.3"
+  checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
   languageName: node
   linkType: hard
 
@@ -10473,33 +10528,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"my-new-app@workspace:packages/electron":
-  version: 0.0.0-use.local
-  resolution: "my-new-app@workspace:packages/electron"
-  dependencies:
-    "@electron-forge/cli": ^6.0.5
-    "@electron-forge/maker-deb": ^6.0.5
-    "@electron-forge/maker-rpm": ^6.0.5
-    "@electron-forge/maker-squirrel": ^6.0.5
-    "@electron-forge/maker-zip": ^6.0.5
-    "@electron-forge/plugin-webpack": ^6.0.5
-    "@typescript-eslint/eslint-plugin": ^5.0.0
-    "@typescript-eslint/parser": ^5.0.0
-    "@vercel/webpack-asset-relocator-loader": 1.7.3
-    css-loader: ^6.0.0
-    electron: 23.1.0
-    electron-squirrel-startup: ^1.0.0
-    eslint: ^8.0.1
-    eslint-plugin-import: ^2.25.0
-    fork-ts-checker-webpack-plugin: ^7.2.13
-    node-loader: ^2.0.0
-    style-loader: ^3.0.0
-    ts-loader: ^9.2.2
-    ts-node: ^10.0.0
-    typescript: ~4.5.4
-  languageName: unknown
-  linkType: soft
-
 "nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
@@ -12972,6 +13000,7 @@ __metadata:
   resolution: "revision@workspace:."
   dependencies:
     concurrently: ^7.6.0
+    dotenv-cli: ^7.0.0
   languageName: unknown
   linkType: soft
 

@@ -1,7 +1,7 @@
 /** @format */
 
 import { ElementType } from 'react'
-import { Hint } from '../../Hints'
+import { Hint } from '../../../types/Revision'
 import { MarkOptions } from './MarkOptions'
 import { UnmarkOptions } from './UnmarkOptions'
 

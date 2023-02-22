@@ -2,18 +2,12 @@
 
 import { AxiosResponse } from 'axios'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
-
-import { Hint } from '@revision/common/src/types/Revision'
-
-interface Revision {
-  output?: string
-  bias?: [Hint]
-}
+import { Revision } from '../types/Revision'
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: process.env.OPENAI_KEY,
 })
 
 const openai = new OpenAIApi(configuration)

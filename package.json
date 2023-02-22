@@ -3,8 +3,6 @@
   "version": "0.2.0",
   "author": "Clay Unicorn <thinkclay@gmail.com>",
   "description": "Your sidekick for fighting bias!",
-  "homepage": ".",
-  "main": "build/electron/main.js",
   "private": true,
   "workspaces": {
     "packages": [
@@ -12,7 +10,6 @@
     ],
     "nohoist": [
       "**/electron",
-      "**/electron-builder",
       "**/electron-reload",
       "**/electron-devtools-installer"
     ]
@@ -20,11 +17,14 @@
   "scripts": {
     "web:start": "yarn workspace @revision/common start",
     "web:build": "yarn workspace @revision/common build",
-    "com:start": "concurrently 'yarn web:start' 'yarn com:tsc' 'yarn com:run'",
+    "com:start": "dotenv yarn workspace @revision/electron start",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },
   "packageManager": "yarn@3.4.1",
   "devDependencies": {
     "concurrently": "^7.6.0"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.0.0"
   }
 }
