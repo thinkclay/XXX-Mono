@@ -4,15 +4,13 @@ import { AxiosResponse } from 'axios'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
 import { Revision } from '../types/Revision'
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_KEY,
-})
+export function getRevision(prompt: string, key?: string) {
+  const configuration = new Configuration({
+    apiKey: key || process.env.OPENAI_KEY,
+  })
 
-const openai = new OpenAIApi(configuration)
+  const openai = new OpenAIApi(configuration)
 
-export function getRevision(prompt: string) {
   const promptScaffold = `
 Rewrite the following text removing bias, softening tone, correcting spelling, and grammar.\n\n
 ${prompt}\n\n
@@ -30,6 +28,27 @@ Return a json object wrapped in backticks.\n
 object.output should contain the new and recommended text with corrections.\n
 object.bias should explain bias with reasons and corrections as an array\n
 `
+
+  return openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: promptScaffold,
+    temperature: 1.0,
+    max_tokens: 500,
+    top_p: 1.0,
+    frequency_penalty: 0.0,
+    presence_penalty: 0.0,
+  })
+}
+
+export function getRevisedCopy(prompt: string, key?: string) {
+  const configuration = new Configuration({
+    apiKey: key || process.env.OPENAI_KEY,
+  })
+
+  const openai = new OpenAIApi(configuration)
+
+  const promptScaffold = `
+    Rewrite the following text removing bias, softening tone, correcting spelling, and grammar.\n\n${prompt}`
 
   return openai.createCompletion({
     model: 'text-davinci-003',

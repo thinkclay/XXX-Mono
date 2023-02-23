@@ -1,17 +1,17 @@
 /** @format */
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, SyntheticEvent } from 'react'
 import { useRecoilState } from 'recoil'
+import { CreateCompletionResponseChoicesInner } from 'openai'
 import { Editor } from '@tiptap/react'
 import { fetchSuggestions } from '@common/helpers/eberhardt'
 import { pluginKey, RevisionedOptions } from '@common/extensions'
-
-import { menuState, rootState, rootDefault } from '@common/helpers/root'
+import { getRevisedCopy, getRevision, parseRevision } from '@common/helpers/openai'
+import { rootState } from '@common/helpers/root'
 import Next from './Next'
-import Flag from './Flag'
 import Replace from './Replace'
 import Suggestion from './Suggestion'
-import Menu from './Menu'
+import Flag from './Flag'
 
 import '@common/assets/styles/revise.css'
 
@@ -19,14 +19,28 @@ interface Props {
   editor: Editor | null
 }
 
+const key = 'c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5'
+const placeholder =
+  'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
+
 const Revise = ({ editor }: Props) => {
   const [state, setState] = useState<RevisionedOptions>({} as RevisionedOptions)
   const [suggestions, setSuggestions] = useState([])
   const [root, setRoot] = useRecoilState(rootState)
+  const [_result, _setResult] = useState<void | CreateCompletionResponseChoicesInner[]>()
 
-  const _toggleMenu = () => {
-    console.log('Toggle Menu')
-    setRoot({ ...rootDefault, menuOpen: !root.menuOpen })
+  const _fetchRevision = async () => {
+    setRoot({ ...root, loading: true, menuOpen: false })
+
+    const result = await getRevisedCopy(placeholder, atob(key))
+      .then(response => {
+        console.log('Response', Response)
+        return response.data.choices
+      })
+      .catch(console.log)
+    _setResult(result)
+
+    setRoot({ ...root, loading: false })
   }
 
   useEffect(() => {
@@ -84,6 +98,12 @@ const Revise = ({ editor }: Props) => {
   const _prevHandler = () => setIndex(index - 1 < 0 ? suggestions.length - 1 : index - 1)
   const _nextHandler = () => setIndex(index + 1 > suggestions.length - 1 ? 0 : index + 1)
 
+  const _renderRevision = () => {
+    if (!_result) return
+
+    return _result.map(r => <p>{r.text}</p>)
+  }
+
   return (
     <aside className="Revise">
       <div className="Toolbar">
@@ -92,10 +112,12 @@ const Revise = ({ editor }: Props) => {
           <Next handler={_nextHandler} />
           <span className="count">{suggestions.length > 0 && `${index + 1} / ${suggestions.length}`}</span>
         </div>
-        <Menu open={root.menuOpen} handler={_toggleMenu} />
+        <Flag handler={_fetchRevision} />
       </div>
 
       <Suggestion suggestions={suggestions} highlighted={highlighted} />
+
+      <div className="Suggestion">{_renderRevision()}</div>
     </aside>
   )
 }

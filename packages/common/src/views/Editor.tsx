@@ -17,41 +17,6 @@ const placeholder =
 
 function Editor() {
   const [_revision, _setRevision] = useState<null | Revision>(null)
-  const [_prompt, _setPrompt] = useState<string>(placeholder)
-  const [_loading, _setLoading] = useState<boolean | null>(null)
-  const [_html, _setHtml] = useState<string>('')
-
-  const _onSubmit = () => {
-    _setLoading(true)
-  }
-
-  useEffect(() => {
-    if (_loading === null || _prompt.trim().length < 10) {
-      return
-    }
-
-    if (_loading === true) {
-      console.log('Fetching')
-
-      const result = getRevision(_prompt)
-        .then(response => {
-          console.log('-- Response', response)
-          _setRevision(parseRevision(response))
-          _setLoading(false)
-          return response
-        })
-        .catch(err => {
-          console.error(err)
-          _setLoading(null)
-        })
-
-      console.log('Result', result)
-    }
-
-    if (_loading === false) {
-      console.log('Not Fetching')
-    }
-  }, [_loading, _prompt])
 
   const editor = useEditor({
     autofocus: true,
