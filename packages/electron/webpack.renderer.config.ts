@@ -16,6 +16,12 @@ export const rendererConfig: Configuration = {
   },
   plugins,
   resolve: {
+    alias: {
+      '@root': '../../',
+      '@common': '../common/src',
+      '@chrome': '../chrome/src',
+      '@electron': './src',
+    },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },
 }

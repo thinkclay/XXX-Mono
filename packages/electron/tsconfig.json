@@ -1,8 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "module": "commonjs",
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@root/*": ["../../"],
+      "@common/*": ["../packages/common/src/*"],
+      "@chrome/*": ["../packages/chrome/src/*"],
+      "@electron/*": ["./*"]
+    }
   }
 }

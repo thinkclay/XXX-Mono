@@ -9,14 +9,16 @@
       "packages/*"
     ],
     "nohoist": [
+      "**/@tiptap/*",
       "**/electron",
       "**/electron-reload",
       "**/electron-devtools-installer"
     ]
   },
   "scripts": {
-    "web:start": "yarn workspace @revision/common start",
+    "web:start": "dotenv yarn workspace @revision/common start",
     "web:build": "yarn workspace @revision/common build",
+    "web:dist": "yarn workspace @revision/common firebase:deploy",
     "com:start": "dotenv yarn workspace @revision/electron start",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },

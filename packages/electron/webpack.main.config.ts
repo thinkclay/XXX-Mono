@@ -15,6 +15,12 @@ export const mainConfig: Configuration = {
     rules,
   },
   resolve: {
+    alias: {
+      '@root': '../../',
+      '@common': '../common/src',
+      '@chrome': '../chrome/src',
+      '@electron': './src',
+    },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
 }

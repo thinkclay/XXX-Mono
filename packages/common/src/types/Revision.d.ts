@@ -9,3 +9,12 @@ export interface Hint {
   correction?: string
   reason?: string
 }
+
+export interface BiasCategory {
+  id: number
+  name: string
+}
+
+export interface BiasMap {
+  [key: string]: BiasCategory
+}

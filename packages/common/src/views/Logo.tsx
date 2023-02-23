@@ -1,6 +1,7 @@
 /** @format */
 
 import { SyntheticEvent } from 'react'
+import '@common/assets/styles/logo.css'
 
 interface LogoProps {
   className?: string

@@ -1,7 +1,7 @@
 /** @format */
 
 import { v4 } from 'uuid'
-import { Hint } from '../types/Revision'
+import { Hint } from '@common/types/Revision'
 
 export interface HintsProps {
   hints?: Hint[]
