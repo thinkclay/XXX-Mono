@@ -31,11 +31,15 @@ function Account() {
   }, [user, loading])
 
   return (
-    <div className="Account">
-      Logged in as
-      <div>{name}</div>
-      <div>{user?.email}</div>
-      <button onClick={logout}>Logout</button>
+    <div className="Account auth page">
+      <h1>Account</h1>
+      <p>Logged in as {name}</p>
+      <p>{user?.email}</p>
+      <div className="ButtonRow">
+        <button className="button primary" onClick={logout}>
+          Logout
+        </button>
+      </div>
     </div>
   )
 }

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-
+import { Link } from 'wouter'
 import { auth, registerClassic, loginGoogle } from '@common/helpers/firebase'
+import GoogleIcon from './GoogleIcon'
 
 function Register() {
   const [email, setEmail] = useState('')
@@ -22,32 +23,23 @@ function Register() {
   }, [user, loading])
 
   return (
-    <div className="register">
-      <div className="register__container">
-        <input type="text" className="register__textBox" value={name} onChange={e => setName(e.target.value)} placeholder="Full Name" />
-        <input
-          type="text"
-          className="register__textBox"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="E-mail Address"
-        />
-        <input
-          type="password"
-          className="register__textBox"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <button className="register__btn" onClick={register}>
+    <div className="Register auth page">
+      <div className="Form">
+        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Full Name" />
+        <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+      </div>
+      <div className="ButtonRow">
+        <button className="button primary" onClick={register}>
           Register
         </button>
-        <button className="register__btn register__google" onClick={loginGoogle}>
-          Register with Google
+        <button className="button icon" onClick={loginGoogle}>
+          <GoogleIcon />
+          <span>Login</span>
         </button>
-        <div>
-          Already have an account? <a href="#">Login</a> now.
-        </div>
+      </div>
+      <div className="LinkRow">
+        <Link href="/login">Login Instead</Link>
       </div>
     </div>
   )

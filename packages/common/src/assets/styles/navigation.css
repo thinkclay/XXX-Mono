@@ -50,7 +50,8 @@
   transition: color 0.3s;
 }
 
-.PrimaryNav a:hover {
+.PrimaryNav a:hover,
+.PrimaryNav a.active {
   color: var(--color-brand-1);
 }
 

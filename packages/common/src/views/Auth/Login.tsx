@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, loginClassic, loginGoogle } from '@common/helpers/firebase'
+import '@common/assets/styles/auth.css'
+import GoogleIcon from './GoogleIcon'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -19,16 +21,25 @@ function Login() {
   }, [user, loading])
 
   return (
-    <div className="login">
-      <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-      <button onClick={() => loginClassic(email, password)}>Login</button>
-      <button onClick={loginGoogle}>Login with Google</button>
-      <div>
-        <a href="/reset">Forgot Password</a>
+    <div className="Login auth page">
+      <div className="Form">
+        <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
       </div>
-      <div>
-        Don't have an account? <a href="/register">Register</a> now.
+
+      <div className="ButtonRow">
+        <button className="button primary" onClick={() => loginClassic(email, password)}>
+          Submit
+        </button>
+        <button className="button icon" onClick={loginGoogle}>
+          <GoogleIcon />
+          <span>Login</span>
+        </button>
+      </div>
+
+      <div className="LinkRow">
+        <a href="/reset">Forgot Password</a>
+        <a href="/register">Register</a>
       </div>
     </div>
   )

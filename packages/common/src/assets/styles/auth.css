@@ -1,0 +1,124 @@
+/** @format */
+
+.auth {
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 2rem;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth input[type='text'],
+.auth input[type='password'] {
+  background: #fff;
+  border: none;
+  border-bottom: 2px solid var(--color-n300);
+  border-radius: 1rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  color: var(--color-brand-0);
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  transition: border 0.3s;
+}
+
+.auth input:focus {
+  border-color: var(--color-n800);
+  outline: none;
+}
+
+.button {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: var(--color-n800);
+  cursor: pointer;
+  display: flex;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05rem;
+  justify-content: center;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.button:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+.button.primary {
+  background-color: var(--color-brand-1);
+  color: #fff;
+  flex: 1;
+  padding: 1.2rem 2.5rem;
+}
+
+.button.secondary {
+  background-color: var(--color-brand-2);
+}
+
+.button + .button {
+  margin-left: 2rem;
+}
+
+.button.icon {
+}
+
+.button.icon svg {
+  height: 2rem;
+  margin-right: 1.5rem;
+}
+
+.button.icon-only {
+  border-radius: 50%;
+}
+
+.button.icon-only span {
+  display: none;
+}
+
+.ButtonRow {
+  display: flex;
+  justify-content: space-between;
+  justify-items: space-between;
+  padding: 1.5rem 0;
+}
+
+.LinkRow {
+  font-size: 1.6rem;
+  margin: 0 2.5rem 0 0;
+  padding: 2rem 0 0rem 0;
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.LinkRow a {
+  border-bottom: 1px solid;
+  color: var(--color-brand-0);
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 0 0 0.4rem 0;
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.LinkRow a + a {
+  margin-left: 2.5rem;
+}
+
+.LinkRow a:hover {
+  color: var(--color-brand-3);
+}

@@ -14,15 +14,19 @@ function Reset() {
   }, [user, loading])
 
   return (
-    <div className="reset">
-      <div className="reset__container">
-        <input type="text" className="reset__textBox" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
-        <button className="reset__btn" onClick={() => passwordReset(email)}>
-          Send password reset email
+    <div className="Reset auth page">
+      <div className="Form">
+        <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
+      </div>
+      <div className="ButtonRow">
+        <button className="button primary" onClick={() => passwordReset(email)}>
+          Reset Password
         </button>
-        <div>
-          Don't have an account? <a href="/register">Register</a> now.
-        </div>
+      </div>
+      <div className="LinkRow">
+        <span>
+          Don't have an account? <a href="/register">Register</a>.
+        </span>
       </div>
     </div>
   )

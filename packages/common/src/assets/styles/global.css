@@ -189,10 +189,18 @@ p + p {
 }
 
 .App {
+  background: var(--color-n200);
   margin: 0 auto;
   max-width: 80rem;
   overflow: hidden;
   position: relative;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 30rem;
 }
 
 .ProseMirror {

@@ -5,7 +5,7 @@ import { atom, selector } from 'recoil'
 export const rootDefault = {
   menuOpen: false,
   loading: false,
-  route: 'root',
+  route: 'login',
 }
 
 export const rootState = atom({
