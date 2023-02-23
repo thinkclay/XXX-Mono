@@ -1,15 +1,19 @@
 /** @format */
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { Editor } from '@tiptap/react'
 import { fetchSuggestions } from '@common/helpers/eberhardt'
 import { pluginKey, RevisionedOptions } from '@common/extensions'
 
-import '@common/assets/styles/revise.css'
+import { menuState, rootState, rootDefault } from '@common/helpers/root'
 import Next from './Next'
 import Flag from './Flag'
 import Replace from './Replace'
 import Suggestion from './Suggestion'
+import Menu from './Menu'
+
+import '@common/assets/styles/revise.css'
 
 interface Props {
   editor: Editor | null
@@ -18,6 +22,12 @@ interface Props {
 const Revise = ({ editor }: Props) => {
   const [state, setState] = useState<RevisionedOptions>({} as RevisionedOptions)
   const [suggestions, setSuggestions] = useState([])
+  const [root, setRoot] = useRecoilState(rootState)
+
+  const _toggleMenu = () => {
+    console.log('Toggle Menu')
+    setRoot({ ...rootDefault, menuOpen: !root.menuOpen })
+  }
 
   useEffect(() => {
     editor?.on('transaction', ({ editor, transaction }) => {
@@ -76,11 +86,14 @@ const Revise = ({ editor }: Props) => {
 
   return (
     <aside className="Revise">
-      <nav className="Toolbar">
-        <Replace handler={_replaceHandler} />
-        <Next handler={_nextHandler} />
-        <span className="count">{suggestions.length > 0 && `${index + 1} / ${suggestions.length}`}</span>
-      </nav>
+      <div className="Toolbar">
+        <div className="Actions">
+          <Replace handler={_replaceHandler} />
+          <Next handler={_nextHandler} />
+          <span className="count">{suggestions.length > 0 && `${index + 1} / ${suggestions.length}`}</span>
+        </div>
+        <Menu open={root.menuOpen} handler={_toggleMenu} />
+      </div>
 
       <Suggestion suggestions={suggestions} highlighted={highlighted} />
     </aside>

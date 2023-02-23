@@ -5,11 +5,18 @@
   padding: 3rem;
 }
 
-.Toolbar {
+.Revise .Toolbar {
   align-items: center;
   display: flex;
   flex-flow: row nowrap;
   font-size: 1.2rem;
+  justify-content: space-between;
+}
+
+.Revise .Actions {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 .Revise button {
@@ -25,6 +32,10 @@
 }
 
 .Revise button:hover .FillLayer {
+  fill: var(--color-n900);
+}
+
+.Revise button.active .FillLayer {
   fill: var(--color-brand-1);
   transition: fill 0.3s;
 }
@@ -35,6 +46,7 @@
 
 .Revise .FillLayer {
   fill: var(--color-n700);
+  transition: fill 0.25s;
 }
 
 .Revise .count {

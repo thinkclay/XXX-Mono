@@ -2,10 +2,12 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { RecoilRoot } from 'recoil'
 
-import '@common/assets/styles/global.css'
 import App from '@common/views/App'
 import reportWebVitals from '@common/reportWebVitals'
+
+import '@common/assets/styles/global.css'
 
 const rootElement = document.createElement('div')
 rootElement.id = 'root'
@@ -13,9 +15,11 @@ document.body.appendChild(rootElement)
 
 const root = ReactDOM.createRoot(rootElement)
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <RecoilRoot>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </RecoilRoot>
 )
 
 // If you want to start measuring performance in your app, pass a function
