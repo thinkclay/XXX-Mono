@@ -12,6 +12,8 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 
+.plasmo
+
 # testing
 /coverage
 

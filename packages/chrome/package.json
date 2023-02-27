@@ -1,8 +1,11 @@
 {
   "name": "@revision/chrome",
   "private": true,
+  "version": "0.1.0",
   "scripts": {
-    "build": "craco build",
+    "start": "plasmo dev",
+    "build": "craco build; plasmo build",
+    "package": "plasmo package",
     "dist": "yarn build; zip -r dist.zip build"
   },
   "devDependencies": {
@@ -20,6 +23,7 @@
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.2.1",
     "firebase-tools": "^11.23.1",
+    "plasmo": "^0.65.3",
     "typescript": "^4.9.5"
   },
   "browserslist": {
@@ -33,5 +37,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "manifest": {
+    "key": "$CRX_PUBLIC_KEY",
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "permissions": [
+      "identity"
+    ],
+    "oauth2": {
+      "client_id": "$PLASMO_PUBLIC_FIREBASE_CLIENT_ID",
+      "scopes": [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile"
+      ]
+    }
   }
 }

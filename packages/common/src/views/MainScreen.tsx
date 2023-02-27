@@ -9,11 +9,12 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { Revisioned } from '@common/views/Revise/extension'
 import { Revision } from '@common/types/Revision'
 import Revise from '@common/views/Revise/Revise'
+import { PageProps } from '@common/types/UI'
 
 const placeholder =
   'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
 
-function Editor() {
+function MainScreen(screen: PageProps) {
   const [_revision, _setRevision] = useState<null | Revision>(null)
 
   const editor = useEditor({
@@ -26,7 +27,7 @@ function Editor() {
       Highlight,
       Revisioned.configure(),
       Placeholder.configure({
-        placeholder: 'Begin composing here...',
+        placeholder,
       }),
     ],
     content: placeholder,
@@ -42,4 +43,4 @@ function Editor() {
   )
 }
 
-export default Editor
+export default MainScreen

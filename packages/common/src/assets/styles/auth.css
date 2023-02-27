@@ -48,26 +48,6 @@
   margin-left: 2rem;
 }
 
-.button.icon svg {
-  height: 2rem;
-  margin-right: 1.5rem;
-}
-
-.button.icon-only {
-  border-radius: 50%;
-}
-
-.button.icon-only span {
-  display: none;
-}
-
-.ButtonRow {
-  display: flex;
-  justify-content: space-between;
-  justify-items: space-between;
-  padding: 1.5rem 0;
-}
-
 .LinkRow {
   font-size: 1.6rem;
   margin: 0 2.5rem 0 0;

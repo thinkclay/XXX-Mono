@@ -3,39 +3,39 @@
 import { useRecoilValue } from 'recoil'
 import { Route } from 'wouter'
 
-import { menuState } from '@common/helpers/root'
-import Account from '@common/views/Auth/Account'
-import Login from '@common/views/Auth/Login'
-import Register from '@common/views/Auth/Register'
-import Reset from '@common/views/Auth/Reset'
+import { menuState, routeState } from '@common/helpers/root'
+import HomeScreen from '@common/views/HomeScreen'
+import AccountScreen from '@common/views/Auth/AccountScreen'
+import AuthScreen from '@common/views/Auth/AuthScreen'
 import PrimaryNav from './Navigation/PrimaryNav'
-import HomeScreen from './HomeScreen'
+import { RenderMode } from '@common/types/UI'
 
 interface AppProps {
-  mode?: 'extension'
+  mode: RenderMode
 }
 
-function App({ mode }: AppProps) {
+function App(screen: AppProps) {
+  const route = useRecoilValue(routeState)
   const menuOpen = useRecoilValue(menuState)
 
-  if (mode === 'extension')
-    return (
-      <div className="App">
-        <PrimaryNav open={menuOpen} />
-        <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-        <HomeScreen />
-      </div>
-    )
+  const _renderView = (route: string) => {
+    switch (route) {
+      case '/account':
+        return <AccountScreen {...screen} />
+
+      case '/auth':
+        return <AuthScreen {...screen} />
+
+      default:
+        return <HomeScreen {...screen} />
+    }
+  }
 
   return (
     <div className="App">
       <PrimaryNav open={menuOpen} />
       <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-      <Route path="/" component={HomeScreen} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/reset" component={Reset} />
-      <Route path="/account" component={Account} />
+      {_renderView(route)}
     </div>
   )
 }

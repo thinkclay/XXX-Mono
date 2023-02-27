@@ -1,20 +1,20 @@
 /** @format */
 
-import { useAuthState } from 'react-firebase-hooks/auth'
-import '@common/assets/styles/navigation.css'
-import { auth } from '@common/helpers/firebase'
+import { useFirebase } from '@common/services/firebase/hook'
 import Toggle from './Toggle'
 import NavLink from './NavLink'
+
+import '@common/assets/styles/navigation.css'
 
 interface PrimaryNavProps {
   open: boolean
 }
 
 function PrimaryNav({ open }: PrimaryNavProps) {
-  const [user, loading, error] = useAuthState(auth)
+  const { authUser } = useFirebase()
 
   const _renderAuthLinks = () => {
-    return user ? (
+    return authUser ? (
       <NavLink href="/account">Account</NavLink>
     ) : (
       <>

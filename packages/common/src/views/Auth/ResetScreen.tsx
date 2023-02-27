@@ -1,17 +1,17 @@
 /** @format */
 
 import { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, passwordReset } from '@common/helpers/firebase'
+
+import { useFirebase } from '@common/services/firebase/hook'
 
 function Reset() {
+  const { authUser, authLoading, passwordReset } = useFirebase()
   const [email, setEmail] = useState('')
-  const [user, loading, error] = useAuthState(auth)
 
   useEffect(() => {
-    if (loading) return
-    if (user) console.log('TODO: /login')
-  }, [user, loading])
+    if (authLoading) return
+    if (authUser) console.log('TODO: /confirmation')
+  }, [authUser, authLoading])
 
   return (
     <div className="Reset auth centered">

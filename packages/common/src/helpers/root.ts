@@ -3,6 +3,7 @@
 import { atom, selector } from 'recoil'
 
 export const rootDefault = {
+  route: '/',
   menuOpen: false,
   loading: false,
   acceptedTerms: false,
@@ -11,6 +12,11 @@ export const rootDefault = {
 export const rootState = atom({
   key: 'root',
   default: rootDefault,
+})
+
+export const routeState = selector({
+  key: 'routeState',
+  get: ({ get }) => get(rootState).route,
 })
 
 export const menuState = selector({

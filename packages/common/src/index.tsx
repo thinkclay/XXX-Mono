@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(rootElement)
 root.render(
   <RecoilRoot>
     <React.StrictMode>
-      <App />
+      <App mode="browser" />
     </React.StrictMode>
   </RecoilRoot>
 )

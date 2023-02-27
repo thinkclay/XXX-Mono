@@ -1,35 +1,51 @@
 /** @format */
 
 import { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { auth, CustomUserModel, getUser, updateUser } from '@common/helpers/firebase'
-import Editor from './Editor'
+import { CustomUserModel } from '@common/services/firebase'
+import { useFirebase } from '@common/services/firebase/hook'
+import MainScreen from './MainScreen'
 import WelcomeScreen from './Welcome/WelcomeScreen'
 import LoadingScreen from './LoadingScreen'
-import Login from './Auth/Login'
+import LoginScreen from './Auth/LoginScreen'
+import AuthScreen from './Auth/AuthScreen'
+import { PageProps } from '@common/types/UI'
 
-function HomeScreen() {
-  const [_authUser, _loading, _error] = useAuthState(auth)
-  const [_user, _setUser] = useState<CustomUserModel>()
+function HomeScreen(screen: PageProps) {
+  const { authUser, authLoading, updateUser, getUser } = useFirebase()
+  const [user, setUser] = useState<CustomUserModel>()
+  const [loading, setLoading] = useState(true)
+
+  const _loading = () => authLoading || loading
 
   const _handler = () => {
-    if (_authUser) {
-      _setUser({ ..._authUser, acceptedTerms: true })
-      updateUser(_authUser, { acceptedTerms: true })
+    if (authUser) {
+      setUser({ ...authUser, acceptedTerms: true })
+      updateUser(authUser, { acceptedTerms: true })
     }
   }
 
   useEffect(() => {
+    setTimeout(() => setLoading(false), 500)
     ;(async () => {
-      if (_authUser) {
-        const u = await getUser(_authUser)
-        _setUser(u)
+      if (authUser) {
+        const u = await getUser(authUser)
+        setUser(u)
       }
     })()
-  }, [_authUser])
+  }, [authUser])
 
-  return _loading ? <LoadingScreen /> : _user ? _user?.acceptedTerms ? <Editor /> : <WelcomeScreen handler={_handler} /> : <Login />
+  return _loading() ? (
+    <LoadingScreen />
+  ) : user ? (
+    user?.acceptedTerms ? (
+      <MainScreen {...screen} />
+    ) : (
+      <WelcomeScreen handler={_handler} />
+    )
+  ) : (
+    <AuthScreen {...screen} />
+  )
 }
 
 export default HomeScreen

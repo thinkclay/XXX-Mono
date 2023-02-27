@@ -211,7 +211,7 @@ a:hover {
   position: relative;
 }
 
-.centered {
+.page.centered {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -260,6 +260,7 @@ mark,
   text-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
   text-transform: uppercase;
   transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
+  white-space: nowrap;
 }
 
 .button.bordered {
@@ -272,6 +273,19 @@ mark,
   padding: 1rem 2rem;
   text-shadow: none;
   white-space: nowrap;
+}
+
+.button.icon svg {
+  height: 2rem;
+  margin-right: 1.5rem;
+}
+
+.button.icon-only {
+  border-radius: 50%;
+}
+
+.button.icon-only span {
+  display: none;
 }
 
 .button:hover {
@@ -287,4 +301,47 @@ mark,
 .button.bordered[disabled]:hover {
   box-shadow: none;
   transform: none;
+}
+
+.ButtonRow {
+  display: flex;
+  justify-content: space-between;
+  justify-items: space-between;
+  padding: 1.5rem 0;
+}
+
+.ButtonRow.centered {
+  justify-content: space-around;
+}
+
+/**
+ * Copy and Body Styles
+ */
+.copy {
+  line-height: 1.65;
+  padding: 2rem;
+}
+
+.copy.centered {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.copy.large,
+.copy.large p {
+  font-size: 2rem;
+}
+
+.copy h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  padding: 2rem 0 1rem;
+}
+
+.copy p {
+  font-size: 1.8rem;
+}
+
+.copy p + p {
+  padding-top: 1.5rem;
 }

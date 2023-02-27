@@ -5,10 +5,15 @@
     "outDir": "dist",
     "paths": {
       "@root/*": ["../../"],
-      "@common/*": ["../packages/common/src/*"],
+      "@common/*": ["../common/src/*"],
       "@chrome/*": ["./src/*"],
-      "@electron/*": ["../packages/electron/*"]
+      "@electron/*": ["../electron/*"]
     }
   },
-  "references": [{ "path": "../common" }]
+  "references": [
+    {
+      "path": "../common"
+    }
+  ],
+  "include": [".plasmo/index.d.ts"]
 }

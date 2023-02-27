@@ -4,11 +4,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { Editor } from '@tiptap/react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useLocation } from 'wouter'
 
+import { useFirebase } from '@common/services/firebase/hook'
 import { fetchSuggestions } from '@common/helpers/eberhardt'
-import { auth } from '@common/helpers/firebase'
 import { pluginKey, RevisionedOptions } from '@common/views/Revise/extension'
 import { getRevisedCopy } from '@common/helpers/openai'
 import { rootState } from '@common/helpers/root'
@@ -19,6 +18,7 @@ import Suggestion from './Suggestion'
 import Revision from './Revision'
 
 import '@common/assets/styles/revise.css'
+import LoadingScreen from '../LoadingScreen'
 
 interface Props {
   editor: Editor | null
@@ -29,18 +29,13 @@ const placeholder =
   'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
 
 const Revise = ({ editor }: Props) => {
-  const [_location, _setLocation] = useLocation()
-  const [_user, _loading, _error] = useAuthState(auth)
   const [_root, _setRoot] = useRecoilState(rootState)
+  const [_location, _setLocation] = useLocation()
   const [_state, _setState] = useState<RevisionedOptions>({} as RevisionedOptions)
   const [_suggestions, _setSuggestions] = useState([])
   const [_result, _setResult] = useState<void | CreateCompletionResponseChoicesInner[]>()
   const [_index, _setIndex] = useState<number>(0)
   const _highlighted: string = _suggestions[_index]
-
-  useEffect(() => {
-    if (!_user) _setLocation('/login')
-  }, [_user, _loading])
 
   const _issue = useMemo(() => {
     return _state.issue

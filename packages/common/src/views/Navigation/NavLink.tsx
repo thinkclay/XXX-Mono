@@ -1,19 +1,27 @@
 /** @format */
 
+import { rootState } from '@common/helpers/root'
+import { ReactNode } from 'react'
 import { useRecoilState } from 'recoil'
 import { useRoute, Link } from 'wouter'
-import { rootState } from '@common/helpers/root'
 
-function NavLink(props: any) {
+interface NavLinkProps {
+  href: string
+  children: ReactNode
+  active?: boolean
+}
+
+function NavLink(props: NavLinkProps) {
   const [isActive] = useRoute(props.href)
   const [root, setRoot] = useRecoilState(rootState)
 
-  const _handler = () => {
-    setRoot({ ...root, menuOpen: false })
-  }
-
   return (
-    <Link {...props} onClick={_handler}>
+    <Link
+      {...props}
+      onClick={e => {
+        setRoot({ ...root, menuOpen: false, route: props.href })
+      }}
+    >
       <a className={isActive ? 'active' : ''}>{props.children}</a>
     </Link>
   )
