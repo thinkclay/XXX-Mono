@@ -2,6 +2,7 @@
 
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { renderToStaticMarkup } from 'react-dom/server'
+import { v4 } from 'uuid'
 
 interface RevisionProps {
   result?: void | CreateCompletionResponseChoicesInner[]
@@ -14,7 +15,7 @@ function Revision({ result, acceptHandler }: RevisionProps) {
   const content = (
     <>
       {result.map(r => (
-        <p>{r.text}</p>
+        <p key={v4()}>{r.text}</p>
       ))}
     </>
   )

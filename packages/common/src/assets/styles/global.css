@@ -188,6 +188,17 @@ p + p {
   padding-top: 1rem;
 }
 
+a {
+  color: var(--color-brand-1);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-n900);
+}
+
 .App {
   background: var(--color-n200);
   margin: 0 auto;
@@ -196,7 +207,7 @@ p + p {
   position: relative;
 }
 
-.page {
+.centered {
   display: flex;
   flex-direction: column;
   justify-content: center;

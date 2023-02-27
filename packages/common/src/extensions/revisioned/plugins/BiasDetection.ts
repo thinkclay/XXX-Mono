@@ -34,7 +34,7 @@ export class BiasDetection extends LinterPlugin {
           const color = bias.results[0].color
 
           this.record(`${label} bias detected in "${match}"`, from, to, biasType, color, () => {
-            alert(`${label} bias detected in "${match}"`)
+            console.log(`${label} bias detected in "${match}"`)
           })
         })
       })

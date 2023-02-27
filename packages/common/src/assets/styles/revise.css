@@ -56,6 +56,14 @@
   white-space: nowrap;
 }
 
+.Toolbar .replace .FillLayer {
+  fill: var(--color-brand-3);
+}
+
+.Toolbar .replace.active .FillLayer {
+  fill: var(--color-brand-1);
+}
+
 .Suggestion,
 .Revision {
   font-size: 1.6rem;

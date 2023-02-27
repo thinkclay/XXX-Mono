@@ -4,7 +4,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { Editor } from '@tiptap/react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useLocation } from 'wouter'
+
 import { fetchSuggestions } from '@common/helpers/eberhardt'
+import { auth } from '@common/helpers/firebase'
 import { pluginKey, RevisionedOptions } from '@common/extensions'
 import { getRevisedCopy } from '@common/helpers/openai'
 import { rootState } from '@common/helpers/root'
@@ -25,19 +29,25 @@ const placeholder =
   'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
 
 const Revise = ({ editor }: Props) => {
-  const [root, setRoot] = useRecoilState(rootState)
+  const [_location, _setLocation] = useLocation()
+  const [_user, _loading, _error] = useAuthState(auth)
+  const [_root, _setRoot] = useRecoilState(rootState)
   const [_state, _setState] = useState<RevisionedOptions>({} as RevisionedOptions)
   const [_suggestions, _setSuggestions] = useState([])
   const [_result, _setResult] = useState<void | CreateCompletionResponseChoicesInner[]>()
   const [_index, _setIndex] = useState<number>(0)
   const _highlighted: string = _suggestions[_index]
 
+  useEffect(() => {
+    if (!_user) _setLocation('/login')
+  }, [_user, _loading])
+
   const _issue = useMemo(() => {
     return _state.issue
   }, [_state])
 
   const _fetchRevision = async () => {
-    setRoot({ ...root, loading: true, menuOpen: false })
+    _setRoot({ ..._root, loading: true })
 
     const result = await getRevisedCopy(placeholder, atob(key))
       .then(response => {
@@ -45,9 +55,9 @@ const Revise = ({ editor }: Props) => {
         return response.data.choices
       })
       .catch(console.log)
-    _setResult(result)
 
-    setRoot({ ...root, loading: false })
+    _setResult(result)
+    _setRoot({ ..._root, loading: false })
   }
 
   useEffect(() => {
@@ -106,7 +116,7 @@ const Revise = ({ editor }: Props) => {
     <aside className="Revise">
       <div className="Toolbar">
         <div className="Actions">
-          <Replace handler={_replaceHandler} />
+          <Replace active={_suggestions.length > 0} handler={_replaceHandler} />
           <Next handler={_nextHandler} />
           <span className="count">{_suggestions.length > 0 && `${_index + 1} / ${_suggestions.length}`}</span>
         </div>

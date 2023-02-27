@@ -14,7 +14,7 @@ function Reset() {
   }, [user, loading])
 
   return (
-    <div className="Reset auth page">
+    <div className="Reset auth centered">
       <div className="Form">
         <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-mail Address" />
       </div>

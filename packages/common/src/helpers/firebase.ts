@@ -32,7 +32,9 @@ export const auth = getAuth(app)
 export const db = getFirestore(app)
 export const googleProvider = new GoogleAuthProvider()
 
-export const loginGoogle = async () => {
+export function useAuthStatus() {}
+
+export async function loginGoogle() {
   try {
     const res = await signInWithPopup(auth, googleProvider)
     const user = res.user
@@ -48,20 +50,18 @@ export const loginGoogle = async () => {
     }
   } catch (err) {
     console.error(err)
-    alert((err as Error).message)
   }
 }
 
-export const loginClassic = async (email: string, password: string) => {
+export async function loginClassic(email: string, password: string) {
   try {
     await signInWithEmailAndPassword(auth, email, password)
   } catch (err) {
     console.error(err)
-    alert((err as Error).message)
   }
 }
 
-export const registerClassic = async (name: string, email: string, password: string) => {
+export async function registerClassic(name: string, email: string, password: string) {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
     const user = res.user
@@ -73,17 +73,15 @@ export const registerClassic = async (name: string, email: string, password: str
     })
   } catch (err) {
     console.error(err)
-    alert((err as Error).message)
   }
 }
 
-export const passwordReset = async (email: string) => {
+export async function passwordReset(email: string) {
   try {
     await sendPasswordResetEmail(auth, email)
     alert('Password reset link sent!')
   } catch (err) {
     console.error(err)
-    alert((err as Error).message)
   }
 }
 

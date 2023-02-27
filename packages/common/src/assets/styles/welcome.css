@@ -1,0 +1,100 @@
+/** @format */
+
+.WelcomeScreen {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+.WelcomeScreen .Logo {
+  display: block;
+  margin: 1rem auto;
+  width: 25rem;
+}
+
+.WelcomeScreen .Logo .path {
+  animation: traceForwards 2s linear forwards;
+  animation-delay: 0.5s;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+}
+
+.WelcomeScreen .text {
+  padding: 2rem 0;
+}
+
+.WelcomeScreen .terms li {
+  padding: 0 0 2rem 0;
+  position: relative;
+}
+
+.WelcomeScreen .terms label {
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 2.5rem;
+  padding: 0 0 0 4rem;
+  position: relative;
+  transition: color 0.3s;
+  vertical-align: top;
+}
+
+.WelcomeScreen .terms input[type='checkbox'],
+.WelcomeScreen .terms input[type='radio'],
+.WelcomeScreen .terms label::before {
+  cursor: pointer;
+  height: 2rem;
+  left: 0;
+  margin-top: -1rem;
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+}
+
+.WelcomeScreen .terms input[type='checkbox'],
+.WelcomeScreen .terms input[type='radio'] {
+  display: inline-block;
+  opacity: 0;
+  vertical-align: middle;
+  z-index: 100;
+}
+
+.WelcomeScreen .terms label::before {
+  border: 2px solid var(--color-brand-1);
+  content: '';
+  transition: opacity 0.3s;
+}
+
+.WelcomeScreen .terms input[type='checkbox']:checked + label,
+.WelcomeScreen .terms input[type='radio']:checked + label {
+  color: var(--color-brand-3);
+}
+
+.WelcomeScreen .terms input[type='checkbox']:checked + label::before,
+.WelcomeScreen .terms input[type='radio']:checked + label::before {
+  opacity: 0.8;
+}
+
+.WelcomeScreen .terms svg {
+  height: 2rem;
+  left: 0.3rem;
+  margin-top: -1.7rem;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+}
+
+.WelcomeScreen .terms svg .path {
+  stroke: transparent;
+  stroke-dasharray: 1009.6, 1009.6;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.8s ease-in 0s;
+}
+
+@keyframes traceForwards {
+  to {
+    stroke-dashoffset: 240;
+  }
+}

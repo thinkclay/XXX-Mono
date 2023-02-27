@@ -1,12 +1,13 @@
 /** @format */
 
 interface ReplaceProps {
+  active?: boolean
   handler: () => void
 }
 
-function Replace({ handler }: ReplaceProps) {
+function Replace({ active, handler }: ReplaceProps) {
   return (
-    <button onClick={handler}>
+    <button className={`replace ${active ? 'active' : ''}`} onClick={handler}>
       <svg viewBox="0 0 100 100">
         <g id="Style-Guide" stroke="none" fill="none" fillRule="evenodd">
           <rect id="Rectangle" x="0" y="0" width="100" height="100"></rect>
