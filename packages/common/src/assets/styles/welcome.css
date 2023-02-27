@@ -13,7 +13,7 @@
 }
 
 .WelcomeScreen .Logo .path {
-  animation: traceForwards 2s linear forwards;
+  animation: logo 2s linear forwards;
   animation-delay: 0.5s;
   stroke-dasharray: 320;
   stroke-dashoffset: 320;
@@ -66,34 +66,39 @@
   transition: opacity 0.3s;
 }
 
-.WelcomeScreen .terms input[type='checkbox']:checked + label,
-.WelcomeScreen .terms input[type='radio']:checked + label {
-  color: var(--color-brand-3);
-}
-
 .WelcomeScreen .terms input[type='checkbox']:checked + label::before,
 .WelcomeScreen .terms input[type='radio']:checked + label::before {
-  opacity: 0.8;
+  border-color: var(--color-brand-3);
+  opacity: 1;
 }
 
 .WelcomeScreen .terms svg {
-  height: 2rem;
+  height: 1.8rem;
   left: 0.3rem;
   margin-top: -1.7rem;
   pointer-events: none;
   position: absolute;
   top: 50%;
-  width: 2rem;
+  width: 1.8rem;
 }
 
 .WelcomeScreen .terms svg .path {
-  stroke: transparent;
-  stroke-dasharray: 1009.6, 1009.6;
-  stroke-dashoffset: 0;
+  animation: scribble 0.5s linear forwards;
+  fill: none;
+  stroke: var(--color-n800);
+  stroke-dasharray: 1009;
+  stroke-dashoffset: 1009;
+  stroke-width: 8px;
   transition: stroke-dashoffset 0.8s ease-in 0s;
 }
 
-@keyframes traceForwards {
+@keyframes scribble {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo {
   to {
     stroke-dashoffset: 240;
   }

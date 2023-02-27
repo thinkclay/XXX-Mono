@@ -70,15 +70,3 @@
   line-height: 1.65;
   padding: 2rem 0 0;
 }
-
-.Revision .button {
-  background: #fff;
-  border: 2px solid var(--color-brand-1);
-  color: var(--color-brand-1);
-  display: block;
-  font-size: 1.4rem;
-  margin: 2rem auto 0;
-  padding: 1rem 2rem;
-  text-shadow: none;
-  white-space: nowrap;
-}

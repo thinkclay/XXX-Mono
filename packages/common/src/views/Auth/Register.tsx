@@ -11,12 +11,12 @@ function Register() {
   const [_location, _setLocation] = useLocation()
   const [_email, _setEmail] = useState('')
   const [_password, _setPassword] = useState('')
-  const [_name, _setName] = useState('')
+  const [_displayName, _setDisplayName] = useState('')
   const [_user, _loading, _error] = useAuthState(auth)
 
   const register = () => {
-    if (!_name) alert('Please enter name')
-    registerClassic(_name, _email, _password)
+    if (!_displayName) alert('Please enter your first name')
+    registerClassic(_displayName, _email, _password)
   }
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Register() {
   return (
     <div className="Register auth centered">
       <div className="Form">
-        <input type="text" value={_name} onChange={e => _setName(e.target.value)} placeholder="Full Name" />
+        <input type="text" value={_displayName} onChange={e => _setDisplayName(e.target.value)} placeholder="Display Name" />
         <input type="text" value={_email} onChange={e => _setEmail(e.target.value)} placeholder="E-mail Address" />
         <input type="password" value={_password} onChange={e => _setPassword(e.target.value)} placeholder="Password" />
       </div>

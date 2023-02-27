@@ -1,42 +1,30 @@
 /** @format */
 
 import { useRecoilValue } from 'recoil'
-import { Route, useLocation } from 'wouter'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { Route } from 'wouter'
 
-import { auth } from '@common/helpers/firebase'
-import { termsState, menuState } from '@common/helpers/root'
+import { menuState } from '@common/helpers/root'
 import Account from '@common/views/Auth/Account'
 import Login from '@common/views/Auth/Login'
 import Register from '@common/views/Auth/Register'
 import Reset from '@common/views/Auth/Reset'
-import Editor from '@common/views/Editor'
 import PrimaryNav from './Navigation/PrimaryNav'
-import WelcomeScreen from './Welcome/WelcomeScreen'
+import HomeScreen from './HomeScreen'
 
 function App() {
-  const [_location, _setLocation] = useLocation()
-  const [_user, _loading, _error] = useAuthState(auth)
   const menuOpen = useRecoilValue(menuState)
-  const acceptedTerms = useRecoilValue(termsState)
 
-  const _renderPage = () => {
-    if (!acceptedTerms) return <WelcomeScreen />
-
-    return (
-      <>
-        <PrimaryNav open={menuOpen} />
-        <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-        <Route path="/" component={Editor} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset" component={Reset} />
-        <Route path="/account" component={Account} />
-      </>
-    )
-  }
-
-  return <div className="App">{_renderPage()}</div>
+  return (
+    <div className="App">
+      <PrimaryNav open={menuOpen} />
+      <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
+      <Route path="/" component={HomeScreen} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/reset" component={Reset} />
+      <Route path="/account" component={Account} />
+    </div>
+  )
 }
 
 export default App
