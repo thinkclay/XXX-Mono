@@ -20,6 +20,7 @@
     "web:build": "yarn workspace @revision/common build",
     "web:dist": "yarn web:build && yarn workspace @revision/common firebase:deploy",
     "chrome:build": "yarn workspace @revision/chrome build",
+    "chrome:dist": "yarn workspace @revision/chrome dist",
     "com:start": "dotenv yarn workspace @revision/electron start",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },

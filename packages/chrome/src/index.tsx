@@ -13,11 +13,29 @@ const rootElement = document.createElement('div')
 rootElement.id = 'root'
 document.body.appendChild(rootElement)
 
+chrome.identity.getAuthToken({ interactive: true }, function (token) {
+  // Use the token.
+})
+
+// chrome.identity.getAuthToken({ interactive: true }, token => {
+//   if (chrome.runtime.lastError || !token) {
+//     alert(`SSO ended with an error: ${JSON.stringify(chrome.runtime.lastError)}`)
+//     return
+//   }
+//   signInWithCredential(auth, GoogleAuthProvider.credential(null, token))
+//     .then(res => {
+//       console.log('signed in!')
+//     })
+//     .catch(err => {
+//       alert(`SSO ended with an error: ${err}`)
+//     })
+// })
+
 const root = ReactDOM.createRoot(rootElement)
 root.render(
   <RecoilRoot>
     <React.StrictMode>
-      <App />
+      <App mode="extension" />
     </React.StrictMode>
   </RecoilRoot>
 )

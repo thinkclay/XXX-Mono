@@ -2,7 +2,8 @@
   "name": "@revision/chrome",
   "private": true,
   "scripts": {
-    "build": "craco build"
+    "build": "craco build",
+    "dist": "yarn build; zip -r dist.zip build"
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0",

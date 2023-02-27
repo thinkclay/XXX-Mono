@@ -11,8 +11,21 @@ import Reset from '@common/views/Auth/Reset'
 import PrimaryNav from './Navigation/PrimaryNav'
 import HomeScreen from './HomeScreen'
 
-function App() {
+interface AppProps {
+  mode?: 'extension'
+}
+
+function App({ mode }: AppProps) {
   const menuOpen = useRecoilValue(menuState)
+
+  if (mode === 'extension')
+    return (
+      <div className="App">
+        <PrimaryNav open={menuOpen} />
+        <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
+        <HomeScreen />
+      </div>
+    )
 
   return (
     <div className="App">

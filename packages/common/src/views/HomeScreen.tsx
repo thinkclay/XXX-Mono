@@ -7,6 +7,7 @@ import { auth, CustomUserModel, getUser, updateUser } from '@common/helpers/fire
 import Editor from './Editor'
 import WelcomeScreen from './Welcome/WelcomeScreen'
 import LoadingScreen from './LoadingScreen'
+import Login from './Auth/Login'
 
 function HomeScreen() {
   const [_authUser, _loading, _error] = useAuthState(auth)
@@ -28,7 +29,7 @@ function HomeScreen() {
     })()
   }, [_authUser])
 
-  return _loading || !_user ? <LoadingScreen /> : _user?.acceptedTerms ? <Editor /> : <WelcomeScreen handler={_handler} />
+  return _loading ? <LoadingScreen /> : _user ? _user?.acceptedTerms ? <Editor /> : <WelcomeScreen handler={_handler} /> : <Login />
 }
 
 export default HomeScreen

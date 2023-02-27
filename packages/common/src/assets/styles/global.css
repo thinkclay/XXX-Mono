@@ -170,6 +170,8 @@ html {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 50rem;
+  min-width: 50rem;
 }
 
 code,
@@ -202,6 +204,8 @@ a:hover {
 .App {
   background: var(--color-n200);
   margin: 0 auto;
+  min-height: 50rem;
+  min-width: 50rem;
   max-width: 80rem;
   overflow: hidden;
   position: relative;
@@ -211,7 +215,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 30rem;
+  min-height: 50rem;
 }
 
 .ProseMirror {

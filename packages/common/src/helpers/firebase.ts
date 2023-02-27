@@ -4,7 +4,7 @@
  */
 
 import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
+import { getAnalytics, isSupported } from 'firebase/analytics'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -35,8 +35,10 @@ const firebaseConfig = {
   measurementId: 'G-6XBVYZD2YD',
 }
 
+// Only load Firebases Analytics in the right contexts
+isSupported().then(supported => supported && getAnalytics(app))
+
 export const app = initializeApp(firebaseConfig)
-export const analytics = getAnalytics(app)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 export const googleProvider = new GoogleAuthProvider()
