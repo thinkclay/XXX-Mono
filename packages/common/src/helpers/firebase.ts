@@ -42,7 +42,6 @@ export const db = getFirestore(app)
 export const googleProvider = new GoogleAuthProvider()
 
 export async function getUser(user: User): Promise<CustomUserModel> {
-  console.log('getUser()')
   try {
     const _doc = doc(db, 'users', user.uid)
     const _result = await getDoc(_doc)
@@ -71,7 +70,6 @@ export async function updateUser(user: User, newProps: CustomUserModel): Promise
   }
 
   const _doc = doc(db, 'users', _nextState.uid)
-
   await setDoc(_doc, { ...getDoc(_doc), ..._nextState })
 
   return _nextState

@@ -1,9 +1,14 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    /* Basic Options */
+    "baseUrl": ".",
     "outDir": "dist",
-    "rootDir": "src"
+    "paths": {
+      "@root/*": ["../../"],
+      "@common/*": ["../packages/common/src/*"],
+      "@chrome/*": ["./src/*"],
+      "@electron/*": ["../packages/electron/*"]
+    }
   },
-  "include": ["src"],
   "references": [{ "path": "../common" }]
 }

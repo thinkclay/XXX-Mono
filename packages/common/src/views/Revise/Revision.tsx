@@ -23,7 +23,7 @@ function Revision({ result, acceptHandler }: RevisionProps) {
   return (
     <div className="Revision">
       {content}
-      <button className="button" onClick={() => acceptHandler(renderToStaticMarkup(content))}>
+      <button className="button bordered" onClick={() => acceptHandler(renderToStaticMarkup(content))}>
         Accept Revision
       </button>
     </div>

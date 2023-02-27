@@ -18,3 +18,15 @@ export interface BiasCategory {
 export interface BiasMap {
   [key: string]: BiasCategory
 }
+
+export interface BiasResultType {
+  id: number
+  name: string
+  percent: number
+  color: string
+}
+
+export interface BiasedResult {
+  input: string
+  results: BiasResultType[]
+}

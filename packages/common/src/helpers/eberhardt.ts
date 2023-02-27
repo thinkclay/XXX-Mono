@@ -1,7 +1,6 @@
 /** @format */
 
-import { BiasedResult } from '../extensions/revisioned/plugins/BiasDetection'
-import { BiasCategory } from '../types/Revision'
+import { BiasCategory, BiasedResult } from '@common/types/Revision'
 
 export const fetchCategories = async (): Promise<BiasCategory[]> => {
   const result = await fetch('https://revisioned.herokuapp.com/api/v1/categories')

@@ -9,7 +9,7 @@ import { useLocation } from 'wouter'
 
 import { fetchSuggestions } from '@common/helpers/eberhardt'
 import { auth } from '@common/helpers/firebase'
-import { pluginKey, RevisionedOptions } from '@common/extensions'
+import { pluginKey, RevisionedOptions } from '@common/views/Revise/extension'
 import { getRevisedCopy } from '@common/helpers/openai'
 import { rootState } from '@common/helpers/root'
 import Next from './Next'
