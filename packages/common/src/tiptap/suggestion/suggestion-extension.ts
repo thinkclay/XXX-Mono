@@ -7,7 +7,7 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { AsyncQuery } from 'prosemirror-async-query'
 
 import { BiasedResult } from '@common/types/Revision'
-import { Result as Issue } from './plugins'
+import { Result as Issue } from './suggestion-plugin'
 import { fetchBias } from '../../helpers/eberhardt'
 import BiasDetection from './BiasDetection'
 

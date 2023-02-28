@@ -8,7 +8,6 @@ import { useLocation } from 'wouter'
 
 import { useFirebase } from '@common/services/firebase/hook'
 import { fetchSuggestions } from '@common/helpers/eberhardt'
-import { pluginKey, RevisionedOptions } from '@common/views/Revise/extension'
 import { getRevisedCopy } from '@common/helpers/openai'
 import { rootState } from '@common/helpers/root'
 import Next from './Next'
@@ -19,6 +18,7 @@ import Revision from './Revision'
 
 import '@common/assets/styles/revise.css'
 import LoadingScreen from '../LoadingScreen'
+import { pluginKey, RevisionedOptions } from '@common/tiptap/suggestion/suggestion-extension'
 
 interface Props {
   editor: Editor | null

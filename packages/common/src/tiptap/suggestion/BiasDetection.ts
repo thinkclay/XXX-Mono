@@ -1,9 +1,9 @@
 /** @format */
 
 import { getBiasTypeFromAI, BiasType, getTitleForBiasType } from '@common/views/BiasCard'
-import { LinterPlugin } from './plugins'
+import { SuggestionPlugin } from './suggestion-plugin'
 
-class BiasDetection extends LinterPlugin {
+class BiasDetection extends SuggestionPlugin {
   scan() {
     this.doc.descendants((node: any, position: number) => {
       this.bias.forEach(bias => {

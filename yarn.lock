@@ -4932,6 +4932,7 @@ __metadata:
     "@tiptap/react": ^2.0.0-beta.218
     "@tiptap/starter-kit": ^2.0.0-beta.218
     "@types/jest": ^29.4.0
+    "@types/lodash": ^4.14.191
     "@types/node": ^18.13.0
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
@@ -4940,6 +4941,7 @@ __metadata:
     firebase-admin: ^11.5.0
     firebase-functions: ^4.2.1
     firebase-tools: ^11.23.1
+    lodash: ^4.17.21
     openai: ^3.1.0
     prosemirror-async-query: ^0.0.4
     react: ^18.2.0
@@ -6183,6 +6185,13 @@ __metadata:
   version: 3.0.2
   resolution: "@types/linkify-it@npm:3.0.2"
   checksum: dff8f10fafb885422474e456596f12d518ec4cdd6c33cca7a08e7c86b912d301ed91cf5a7613e148c45a12600dc9ab3d85ad16d5b48dc1aaeda151a68f16b536
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 

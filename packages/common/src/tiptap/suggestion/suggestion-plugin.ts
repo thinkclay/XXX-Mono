@@ -13,11 +13,9 @@ export interface Result {
   fix?: Function
 }
 
-export class LinterPlugin {
+export class SuggestionPlugin {
   protected doc
-
   protected bias: Array<BiasedResult> = []
-
   private results: Array<Result> = []
 
   constructor(doc: ProsemirrorNode, bias: BiasedResult[]) {

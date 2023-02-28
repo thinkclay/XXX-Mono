@@ -6,10 +6,10 @@ import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
 
-import { Revisioned } from '@common/views/Revise/extension'
 import { Revision } from '@common/types/Revision'
 import Revise from '@common/views/Revise/Revise'
 import { PageProps } from '@common/types/UI'
+import { Revisioned } from '@common/tiptap/suggestion/suggestion-extension'
 
 const placeholder =
   'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
