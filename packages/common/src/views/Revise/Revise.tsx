@@ -26,8 +26,6 @@ interface Props {
 }
 
 const key = 'c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5'
-const placeholder =
-  'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
 
 const Revise = ({ loading, editor }: Props) => {
   const [_root, _setRoot] = useRecoilState(rootState)
@@ -45,10 +43,10 @@ const Revise = ({ loading, editor }: Props) => {
     return _state.issue
   }, [_state])
 
-  const _fetchRevision = async () => {
+  const _fetchRevision = async (text: string) => {
     _setRoot({ ..._root, loading: true })
 
-    const result = await getRevisedCopy(placeholder, atob(key))
+    const result = await getRevisedCopy(text, atob(key))
       .then(response => {
         console.log('Response', Response)
         return response.data.choices
@@ -109,30 +107,26 @@ const Revise = ({ loading, editor }: Props) => {
   const _nextHandler = () => _setIndex(_index + 1 > _suggestions.length - 1 ? 0 : _index + 1)
 
   const _acceptHandler = (content: string) => {
-    editor?.commands.setContent(content)
+    editor.commands.setContent(content)
     _setSuggestions([])
   }
 
   return (
     <aside className="Revise">
       <div className="Toolbar">
-        <div className="Actions">
-          <button onClick={updateHtml}>
-            <Copy />
-          </button>
-          <button onClick={proofread}>
-            <Reload />
-          </button>
-          <Replace active={_suggestions.length > 0} handler={_replaceHandler} />
-          <Next handler={_nextHandler} />
-          <span className="count">{_suggestions.length > 0 && `${_index + 1} / ${_suggestions.length}`}</span>
-        </div>
-        <Flag handler={_fetchRevision} />
+        <button onClick={updateHtml}>
+          <Copy />
+        </button>
+        <button onClick={proofread}>
+          <Reload />
+        </button>
+        <Replace active={_suggestions.length > 0} handler={_replaceHandler} />
+        <Flag handler={() => _fetchRevision(editor.getText())} />
       </div>
 
       {loading ? 'Loading...' : ''}
 
-      <Suggestion suggestions={_suggestions} highlighted={_highlighted} />
+      {/* <Suggestion suggestions={_suggestions} highlighted={_highlighted} /> */}
 
       <Revision acceptHandler={_acceptHandler} result={_result} />
     </aside>

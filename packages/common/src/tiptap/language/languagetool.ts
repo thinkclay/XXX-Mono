@@ -11,7 +11,8 @@ import { Node } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
 import { LanguageToolResponse, Match } from './language-types'
-import { fetchCompletions, fetchProof } from './language-service'
+import { fetchClassifications, fetchCompletions, fetchProof } from './language-service'
+import { changedDescendants, selectElementText } from './language-helpers'
 
 let db: Dexie
 
@@ -37,15 +38,6 @@ const updateMatch = (m?: Match) => {
   editorView.dispatch(editorView.state.tr.setMeta('matchUpdated', true))
 }
 
-const selectElementText = (el: EventTarget) => {
-  const range = document.createRange()
-  range.selectNode(el as HTMLSpanElement)
-
-  const sel = window.getSelection()
-  sel?.removeAllRanges()
-  sel?.addRange(range)
-}
-
 const mouseEnterEventListener = (e: Event) => {
   if (!e.target) return
   selectElementText(e.target)
@@ -66,29 +58,6 @@ const addEventListenersToDecorations = () => {
       el.addEventListener('click', mouseEnterEventListener)
       el.addEventListener('mouseleave', mouseLeaveEventListener)
     })
-  }
-}
-
-export function changedDescendants(old: Node, cur: Node, offset: number, f: (node: Node, pos: number, cur: Node) => void): void {
-  const oldSize = old.childCount,
-    curSize = cur.childCount
-  outer: for (let i = 0, j = 0; i < curSize; i++) {
-    const child = cur.child(i)
-
-    for (let scan = j, e = Math.min(oldSize, i + 3); scan < e; scan++) {
-      if (old.child(scan) === child) {
-        j = scan + 1
-        offset += child.nodeSize
-        continue outer
-      }
-    }
-
-    f(child, offset, cur)
-
-    if (j < oldSize && old.child(j).sameMarkup(child)) changedDescendants(old.child(j), child, offset + 1, f)
-    else child.nodesBetween(0, child.content.size, f, offset + 1)
-
-    offset += child.nodeSize
   }
 }
 
@@ -136,9 +105,13 @@ const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 
 const getMatchAndSetDecorations = async (doc: Node, text: string, originalFrom: number) => {
   const ltRes = await fetchProof(text)
-  const biasRes = await fetchCompletions(text)
+  const completions = await fetchCompletions(text)
+  const classifications = await fetchClassifications(text)
 
-  console.log('getMatchAndSetDecorations', biasRes)
+  // const match = new RegExp(bias.input, 'gid').exec(node.text)
+
+  console.log('getMatchAndSetDecorations/completions:', completions)
+  console.log('getMatchAndSetDecorations/classifications', classifications)
 
   const { matches } = ltRes
   const decorations: Decoration[] = []
@@ -311,7 +284,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
           init: (config, state) => {
             decorationSet = DecorationSet.create(state.doc, [])
 
-            if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc)
+            // if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc)
 
             if (documentId) {
               extensionDocId = documentId

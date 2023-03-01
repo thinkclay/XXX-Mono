@@ -3,14 +3,10 @@
 import { useState } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Highlight from '@tiptap/extension-highlight'
-import Placeholder from '@tiptap/extension-placeholder'
 
 import Revise from '@common/views/Revise/Revise'
 import { Revisioned } from '@common/tiptap/suggestion/suggestion-extension'
-import { Rec } from '@common/tiptap/suggestion/Rec'
-import reco from '@common/tiptap/suggestion/reco'
-import { LanguageTool, LanguageToolHelpingWords, Popup, PopupPlugin } from '@common/tiptap/language'
+import { LanguageTool, LanguageToolHelpingWords, Popup } from '@common/tiptap/language'
 import { Match, Replacement } from '@common/tiptap/language/language-types'
 import Close from './Revise/Close'
 
@@ -100,7 +96,10 @@ function MainScreen() {
         </ul>
       </Popup>
 
-      <EditorContent editor={editor} className="Editor" />
+      <div className="Editor">
+        <EditorContent editor={editor} />
+      </div>
+
       <Revise loading={loading} editor={editor} />
     </div>
   )

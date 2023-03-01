@@ -4926,8 +4926,6 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
-    "@tiptap/extension-highlight": ^2.0.0-beta.218
-    "@tiptap/extension-placeholder": ^2.0.0-beta.218
     "@tiptap/pm": ^2.0.0-beta.218
     "@tiptap/react": ^2.0.0-beta.218
     "@tiptap/starter-kit": ^2.0.0-beta.218
@@ -5619,15 +5617,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-highlight@npm:^2.0.0-beta.218":
-  version: 2.0.0-beta.218
-  resolution: "@tiptap/extension-highlight@npm:2.0.0-beta.218"
-  peerDependencies:
-    "@tiptap/core": ^2.0.0-beta.209
-  checksum: 7e7e15c7d87e0f8dd0f9997d54a7000b5f69eaf252ab89612849bd0e6a55ca5daf3c3383097daa63a08e46f117ded7efeee2033d64826b73e65db84efc943d19
-  languageName: node
-  linkType: hard
-
 "@tiptap/extension-history@npm:^2.0.0-beta.218":
   version: 2.0.0-beta.218
   resolution: "@tiptap/extension-history@npm:2.0.0-beta.218"
@@ -5681,16 +5670,6 @@ __metadata:
   peerDependencies:
     "@tiptap/core": ^2.0.0-beta.209
   checksum: f0c74db2b2a8e0b675286bc405f4086630fe9137d9996a4bbf5c9646a8054ea7a206a633a0d6decee0bc1e17011505818656d5cd361f6b17b85ba5072ae49454
-  languageName: node
-  linkType: hard
-
-"@tiptap/extension-placeholder@npm:^2.0.0-beta.218":
-  version: 2.0.0-beta.218
-  resolution: "@tiptap/extension-placeholder@npm:2.0.0-beta.218"
-  peerDependencies:
-    "@tiptap/core": ^2.0.0-beta.209
-    "@tiptap/pm": ^2.0.0-beta.209
-  checksum: 9a0009f0e22fed9004807ea80cbad3aba07dd3da83d9d4c6cc1de21b304cebc7eec554929434839709e599fee0e3558f267e83340c841aed7f649ccffebfc23c
   languageName: node
   linkType: hard
 

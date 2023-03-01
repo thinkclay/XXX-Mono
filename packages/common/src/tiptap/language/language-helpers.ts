@@ -1,0 +1,34 @@
+/** @format */
+import { Node } from 'prosemirror-model'
+
+export const selectElementText = (el: EventTarget) => {
+  const range = document.createRange()
+  range.selectNode(el as HTMLSpanElement)
+
+  const sel = window.getSelection()
+  sel?.removeAllRanges()
+  sel?.addRange(range)
+}
+
+export function changedDescendants(old: Node, cur: Node, offset: number, f: (node: Node, pos: number, cur: Node) => void): void {
+  const oldSize = old.childCount,
+    curSize = cur.childCount
+  outer: for (let i = 0, j = 0; i < curSize; i++) {
+    const child = cur.child(i)
+
+    for (let scan = j, e = Math.min(oldSize, i + 3); scan < e; scan++) {
+      if (old.child(scan) === child) {
+        j = scan + 1
+        offset += child.nodeSize
+        continue outer
+      }
+    }
+
+    f(child, offset, cur)
+
+    if (j < oldSize && old.child(j).sameMarkup(child)) changedDescendants(old.child(j), child, offset + 1, f)
+    else child.nodesBetween(0, child.content.size, f, offset + 1)
+
+    offset += child.nodeSize
+  }
+}
