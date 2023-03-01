@@ -271,7 +271,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
   addOptions() {
     return {
       language: 'auto',
-      apiUrl: 'http://localhost:8081/v2/check',
+      apiUrl: 'https://language-tool.herokuapp.com/v2/check',
       automaticMode: true,
       documentId: undefined,
     }
