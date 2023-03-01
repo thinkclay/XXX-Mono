@@ -6,8 +6,6 @@ import { CreateCompletionResponseChoicesInner } from 'openai'
 import { Editor } from '@tiptap/react'
 import { useLocation } from 'wouter'
 
-import { useFirebase } from '@common/services/firebase/hook'
-import { fetchSuggestions } from '@common/helpers/eberhardt'
 import { getRevisedCopy } from '@common/helpers/openai'
 import { rootState } from '@common/helpers/root'
 import Next from './Next'
@@ -17,18 +15,21 @@ import Suggestion from './Suggestion'
 import Revision from './Revision'
 
 import '@common/assets/styles/revise.css'
-import LoadingScreen from '../LoadingScreen'
 import { pluginKey, RevisionedOptions } from '@common/tiptap/suggestion/suggestion-extension'
+import { fetchCompletions } from '@common/tiptap/suggestion/suggestion-service'
+import Copy from './Copy'
+import Reload from './Reload'
 
 interface Props {
-  editor: Editor | null
+  loading: boolean
+  editor: Editor
 }
 
 const key = 'c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5'
 const placeholder =
   'Cyrus is disruptive in class. He is constantly distracting other students and is aggressive with me when I try to correct his behavior. Can you please respond to me ASAP so that we can discus a course of action?'
 
-const Revise = ({ editor }: Props) => {
+const Revise = ({ loading, editor }: Props) => {
   const [_root, _setRoot] = useRecoilState(rootState)
   const [_location, _setLocation] = useLocation()
   const [_state, _setState] = useState<RevisionedOptions>({} as RevisionedOptions)
@@ -36,6 +37,9 @@ const Revise = ({ editor }: Props) => {
   const [_result, _setResult] = useState<void | CreateCompletionResponseChoicesInner[]>()
   const [_index, _setIndex] = useState<number>(0)
   const _highlighted: string = _suggestions[_index]
+
+  const updateHtml = () => navigator.clipboard.writeText(editor.getHTML())
+  const proofread = () => editor.commands.proofread()
 
   const _issue = useMemo(() => {
     return _state.issue
@@ -74,7 +78,9 @@ const Revise = ({ editor }: Props) => {
       if (!_issue) return
 
       const result = _state.result[_issue.id]
-      const response = await fetchSuggestions(result.input)
+      const response = await fetchCompletions(result.input)
+
+      console.log('Response in Revise', response)
 
       _setSuggestions(() => {
         return response.results
@@ -111,12 +117,20 @@ const Revise = ({ editor }: Props) => {
     <aside className="Revise">
       <div className="Toolbar">
         <div className="Actions">
+          <button onClick={updateHtml}>
+            <Copy />
+          </button>
+          <button onClick={proofread}>
+            <Reload />
+          </button>
           <Replace active={_suggestions.length > 0} handler={_replaceHandler} />
           <Next handler={_nextHandler} />
           <span className="count">{_suggestions.length > 0 && `${_index + 1} / ${_suggestions.length}`}</span>
         </div>
         <Flag handler={_fetchRevision} />
       </div>
+
+      {loading ? 'Loading...' : ''}
 
       <Suggestion suggestions={_suggestions} highlighted={_highlighted} />
 

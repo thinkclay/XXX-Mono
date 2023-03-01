@@ -2,55 +2,21 @@
 
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Node as ProsemirrorNode } from '@tiptap/pm/model'
-import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { DecorationSet } from '@tiptap/pm/view'
 import { AsyncQuery } from 'prosemirror-async-query'
 
-import { BiasedResult } from '@common/types/Revision'
-import { Result as Issue } from './suggestion-plugin'
-import { fetchBias } from '../../helpers/eberhardt'
-import BiasDetection from './BiasDetection'
+import { getDecorations } from './suggestion-decorator'
+import { fetchClassifications } from './suggestion-service'
+import { BiasFlag, BiasClassResult } from './suggestion-types'
 
 export interface RevisionedOptions {
-  issue: (Omit<Issue, 'fix'> & { id: number }) | null
-  query: AsyncQuery<string, BiasedResult[]>
+  issue: (Omit<BiasFlag, 'fix'> & { id: number }) | null
+  query: AsyncQuery<string, BiasClassResult[]>
   result?: null | any
   decorations: DecorationSet
 }
 
 export const pluginKey = new PluginKey('revisioned')
-
-const getDecorations = (doc: ProsemirrorNode, results: BiasedResult[] | undefined): DecorationSet => {
-  if (results === undefined) return DecorationSet.empty
-
-  const decorations: [any?] = []
-  new BiasDetection(doc, results)
-    .scan()
-    .getResults()
-    .flat()
-    .forEach((issue, i) => {
-      const color = issue.color
-
-      decorations.push(
-        Decoration.inline(
-          issue.from,
-          issue.to,
-          {
-            class: `bias ${issue.type}`,
-            'data-bias': JSON.stringify({
-              id: i,
-              ...issue,
-            }),
-          },
-          {
-            inclusiveEnd: true,
-          }
-        )
-      )
-    })
-
-  return DecorationSet.create(doc, decorations)
-}
 
 export const Revisioned = Extension.create({
   name: 'revisioned',
@@ -105,8 +71,8 @@ export const Revisioned = Extension.create({
 
               const next: RevisionedOptions = {
                 ...results,
-                query: new AsyncQuery<string, BiasedResult[]>({
-                  query: async () => fetchBias(parameters),
+                query: new AsyncQuery<string, BiasClassResult[]>({
+                  query: async () => fetchClassifications(parameters),
                   metaKey: pluginKey,
                   parameters: parameters,
                 }),
@@ -120,12 +86,12 @@ export const Revisioned = Extension.create({
         },
         props: {
           decorations(state) {
-            const decorations = pluginKey.getState(state).decorations
-            return decorations
+            return pluginKey.getState(state).decorations
           },
           handleClick(view, pos, event) {
             const target = event.target as HTMLSpanElement
 
+            // If the user clicks on a Mark
             if (/bias/.test(target.className)) {
               // event.stopPropagation()
               const { bias } = target.dataset

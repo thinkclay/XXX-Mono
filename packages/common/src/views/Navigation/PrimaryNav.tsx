@@ -28,9 +28,11 @@ function PrimaryNav({ open }: PrimaryNavProps) {
   return (
     <nav className={`PrimaryNav ${open ? 'open' : 'closed'}`}>
       <Toggle />
-      <NavLink href="/">Home</NavLink>
 
-      {_renderAuthLinks()}
+      <div className="links">
+        <NavLink href="/">Home</NavLink>
+        {_renderAuthLinks()}
+      </div>
     </nav>
   )
 }

@@ -1,8 +1,12 @@
 /** @format */
 
 .Revise {
-  background: var(--color-n100);
-  padding: 3rem;
+  background: var(--color-n200);
+  padding: 1rem 2.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .Revise .Toolbar {
@@ -10,7 +14,6 @@
   display: flex;
   flex-flow: row nowrap;
   font-size: 1.2rem;
-  justify-content: space-between;
 }
 
 .Revise .Actions {

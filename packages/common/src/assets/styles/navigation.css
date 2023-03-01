@@ -4,11 +4,8 @@
   background: var(--color-n100);
   bottom: 0;
   box-shadow: 0 0 rgba(0, 0, 0, 0);
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  position: absolute;
-  right: -17rem;
+  position: fixed;
+  right: -15rem;
   top: 0;
   transition: right 0.5s, box-shadow 0.3s;
   width: 15rem;
@@ -18,6 +15,12 @@
 .PrimaryNav.open {
   box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);
   right: 0;
+}
+
+.PrimaryNav .links {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 }
 
 .Overlay {
@@ -45,7 +48,7 @@
   color: var(--color-n900);
   font-size: 1.6rem;
   font-weight: 600;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -57,12 +60,11 @@
 
 .PrimaryNav .Toggle {
   background-color: var(--color-brand-1);
-  height: 4rem;
+  height: var(--toolbar-height);
   left: -4rem;
   padding: 1rem;
   position: absolute;
-  top: 2rem;
-  width: 4rem;
+  width: var(--toolbar-height);
 }
 
 .PrimaryNav .Toggle svg {

@@ -1,17 +1,21 @@
 /** @format */
 
-import { Extension } from '@tiptap/react'
-import { CardPlugin, CardOptions } from './card-plugin'
+import { Extension } from '@tiptap/core'
 
-export const Card = Extension.create<CardOptions>({
-  name: 'card',
+import { PopupPlugin, PopupPluginProps } from './popup-plugin'
+
+export type PopupOptions = Omit<PopupPluginProps, 'editor' | 'element'> & {
+  element: HTMLElement | null
+}
+
+export const Popup = Extension.create<PopupOptions>({
+  name: 'popup',
 
   addOptions() {
     return {
       element: null,
-      editor: null,
       tippyOptions: {},
-      pluginKey: 'card',
+      pluginKey: 'popup',
       updateDelay: undefined,
       shouldShow: null,
     }
@@ -23,7 +27,7 @@ export const Card = Extension.create<CardOptions>({
     }
 
     return [
-      CardPlugin({
+      PopupPlugin({
         pluginKey: this.options.pluginKey,
         editor: this.editor,
         element: this.options.element,

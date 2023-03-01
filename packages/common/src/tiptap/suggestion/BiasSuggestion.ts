@@ -1,24 +1,14 @@
 /** @format */
 
 import { Node as ProsemirrorNode } from '@tiptap/pm/model'
+import { BiasClassResult, BiasFlag } from './suggestion-types'
 
-import { BiasedResult } from '@common/types/Revision'
-
-export interface Result {
-  message: string
-  from: number
-  to: number
-  type: string
-  color: string
-  fix?: Function
-}
-
-export class SuggestionPlugin {
+export class BiasSuggestion {
   protected doc
-  protected bias: Array<BiasedResult> = []
-  private results: Array<Result> = []
+  protected bias: Array<BiasClassResult> = []
+  private results: Array<BiasFlag> = []
 
-  constructor(doc: ProsemirrorNode, bias: BiasedResult[]) {
+  constructor(doc: ProsemirrorNode, bias: BiasClassResult[]) {
     this.doc = doc
     this.bias = bias
   }

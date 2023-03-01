@@ -1,50 +1,24 @@
 /** @format */
 
-import { fetchCategories } from '@common/helpers/eberhardt'
-import { BiasMap } from '@common/types/Revision'
+import { fetchCategories } from './suggestion-service'
+import { BiasCategory, BiasMap, BiasType, DetectedBias } from './suggestion-types'
 
-export enum BiasType {
-  Language = 'language',
-  FamilyStatus = 'family-status',
-  Gender = 'gender',
-  Racial = 'racial',
-  Ethnic = 'ethnic',
-  MentalAbility = 'mental-ability',
-  Religious = 'religious',
-  PhysicalAbility = 'physical-ability',
-  EmotionalStatus = 'emotional-status',
-  SocioEconomic = 'socio-economic',
-  Potential = 'potential',
-  None = 'none',
+export async function getCategories(): Promise<BiasMap> {
+  return fetchCategories().then(items => {
+    return items.reduce((acc, obj) => {
+      acc[obj.id.toString()] = obj
+      return acc
+    }, {} as BiasMap)
+  })
 }
 
-//     "None",           #0
-//     "Potential",      #1
-//     "Emotional",      #2
-//     "Ethnic",         #3
-//     "Family",         #4
-//     "Gender",         #5
-//     "Language",       #6
-//     "Mental",         #7
-//     "Physical",       #8
-//     "Racial",         #9
-//     "Religious",      #10
-//     "Socioeconomic"   #11
-
-const categories = fetchCategories().then(items => {
-  return items.reduce((acc, obj) => {
-    acc[obj.id.toString()] = obj
-    return acc
-  }, {} as BiasMap)
-})
-
-export const getDynamicBiasType = async (id: number) => {
-  return await categories.then(a => {
+export async function getDynamicBiasType(id: number): Promise<BiasCategory> {
+  return await getCategories().then(a => {
     return a[id]
   })
 }
 
-export const getBiasTypeFromAI = (id: number): BiasType => {
+export function getBiasTypeFromAI(id: number): BiasType {
   switch (id) {
     case 0:
       return BiasType.None
@@ -75,7 +49,7 @@ export const getBiasTypeFromAI = (id: number): BiasType => {
   }
 }
 
-export const getExplanationForBias = (bias: DetectedBias) => {
+export function getExplanationForBias(bias: DetectedBias): string {
   switch (bias.type) {
     case BiasType.Language:
       return 'Avoid labeling people by the language they speak.'
@@ -106,7 +80,7 @@ export const getExplanationForBias = (bias: DetectedBias) => {
   }
 }
 
-export const getTitleForBiasType = (bias: BiasType) => {
+export function getTitleForBiasType(bias: BiasType): string {
   switch (bias) {
     case BiasType.Language:
       return 'Language'
@@ -137,7 +111,7 @@ export const getTitleForBiasType = (bias: BiasType) => {
   }
 }
 
-export const getColorForBiasType = (bias: BiasType): string => {
+export function getColorForBiasType(bias: BiasType): string {
   switch (bias) {
     case BiasType.Language:
       return 'cyan'
@@ -169,22 +143,24 @@ export const getColorForBiasType = (bias: BiasType): string => {
 }
 
 // list all bias types
-export const AllBiasTypes: BiasType[] = [
-  BiasType.Language,
-  BiasType.FamilyStatus,
-  BiasType.Gender,
-  BiasType.Racial,
-  BiasType.Ethnic,
-  BiasType.MentalAbility,
-  BiasType.Religious,
-  BiasType.PhysicalAbility,
-  BiasType.EmotionalStatus,
-  BiasType.SocioEconomic,
-  BiasType.Potential,
-  BiasType.None,
-]
+export function AllBiasTypes(): BiasType[] {
+  return [
+    BiasType.Language,
+    BiasType.FamilyStatus,
+    BiasType.Gender,
+    BiasType.Racial,
+    BiasType.Ethnic,
+    BiasType.MentalAbility,
+    BiasType.Religious,
+    BiasType.PhysicalAbility,
+    BiasType.EmotionalStatus,
+    BiasType.SocioEconomic,
+    BiasType.Potential,
+    BiasType.None,
+  ]
+}
 
-export const getRulesForBiasType = (bias: BiasType) => {
+export function getRulesForBiasType(bias: BiasType): RegExp {
   switch (bias) {
     case BiasType.Language:
       return /\b(language)+/gi
@@ -209,42 +185,4 @@ export const getRulesForBiasType = (bias: BiasType) => {
     default:
       return /\b(default)+/gi
   }
-}
-
-export type DetectedBias = {
-  type: BiasType
-  offset: 0
-  length: 20
-  text: 'his'
-  suggestions: BiasFixSuggestion[]
-}
-
-type BiasFixSuggestion = {
-  offence: string
-  replacement: string
-}
-
-interface Props {
-  bias: DetectedBias
-}
-
-export const BiasCard = ({ bias }: Props) => {
-  const explanation = getExplanationForBias(bias)
-  const offence = bias.suggestions[0].offence
-  const replacement = bias.suggestions[0].replacement
-  const color = getColorForBiasType(bias.type)
-
-  return (
-    <div className="pt-1">
-      <div className="text-xs">
-        <p className="text-xs">{explanation}</p>
-        <p className="p-1">
-          * <s>{offence}</s> → <span>{replacement}</span>
-        </p>
-      </div>
-      <button className={`text-${color}-500 text-xs px-3 border border-${color}-300 rounded hover:bg-${color}-200`} onClick={() => {}}>
-        Fix
-      </button>
-    </div>
-  )
 }

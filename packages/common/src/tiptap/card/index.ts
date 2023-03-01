@@ -1,6 +1,6 @@
 /** @format */
 
-import { Card } from './card-extension'
+import Card from './Card'
 
 export * from './CardView'
 export * from './card-extension'

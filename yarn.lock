@@ -4931,12 +4931,14 @@ __metadata:
     "@tiptap/pm": ^2.0.0-beta.218
     "@tiptap/react": ^2.0.0-beta.218
     "@tiptap/starter-kit": ^2.0.0-beta.218
+    "@tiptap/suggestion": ^2.0.0-beta.220
     "@types/jest": ^29.4.0
     "@types/lodash": ^4.14.191
     "@types/node": ^18.13.0
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/uuid": ^9.0.0
+    dexie: ^3.2.3
     firebase: ^9.17.1
     firebase-admin: ^11.5.0
     firebase-functions: ^4.2.1
@@ -5777,6 +5779,16 @@ __metadata:
     "@tiptap/extension-strike": ^2.0.0-beta.218
     "@tiptap/extension-text": ^2.0.0-beta.218
   checksum: 088e01a3348538ca50d7882515a85e209bb45f6e3f94f7857cc94f8fdc45834bac2fb603340ba6460ab6749529c5d314014bf9e104b5e79deecf67d67037ffd6
+  languageName: node
+  linkType: hard
+
+"@tiptap/suggestion@npm:^2.0.0-beta.220":
+  version: 2.0.0-beta.220
+  resolution: "@tiptap/suggestion@npm:2.0.0-beta.220"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0-beta.209
+    "@tiptap/pm": ^2.0.0-beta.209
+  checksum: de934650a81312d0eae46de6ddbfb2b22c48827df3abb92f76cc7e2b7b4f1df50c2e6519c2dda7f24688c3750a0e2abe4988c1b995024cc07dbdb0dec8319a2e
   languageName: node
   linkType: hard
 
@@ -9870,6 +9882,13 @@ __metadata:
   bin:
     detective: bin/detective.js
   checksum: dc4601bbc6be850edb3c2dab7a0eaf5a6169a15ad201679c66d40ea1986df816eeaecd590047f15b0780285f3eeea13b82dca0d4c52a47e744a571e326a72dc9
+  languageName: node
+  linkType: hard
+
+"dexie@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "dexie@npm:3.2.3"
+  checksum: 54fd7bc94364ed601dc2d53f8b488e49ac61d4ec532f001a68fde9ffccb4bf3c6a8af310b41d8f52c94c1a99c0e165437d7b223b655df582ceda90b9bfcd60e7
   languageName: node
   linkType: hard
 

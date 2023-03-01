@@ -1,0 +1,32 @@
+[
+  {
+    "input": "Cyrus is disruptive in class.",
+    "results": [
+      { "id": 6, "name": "Potential", "color": "#bab7b0", "percent": 0.9999356737390227 },
+      { "id": 0, "name": "None", "color": null, "percent": 2.8802597036771075e-5 },
+      { "id": 2, "name": "Disability", "color": "#eaa18f", "percent": 9.562273933808369e-6 },
+      { "id": 7, "name": "Racial", "color": "#f3f2ec", "percent": 6.877124114647945e-6 },
+      { "id": 3, "name": "Behavioral/Emotional", "color": "#f7e3de", "percent": 4.4699872575625826e-6 }
+    ]
+  },
+  {
+    "input": "He is constantly distracting other students and is aggressive with me when I try to correct his behavior.",
+    "results": [
+      { "id": 6, "name": "Potential", "color": "#bab7b0", "percent": 0.9982921923659216 },
+      { "id": 0, "name": "None", "color": null, "percent": 0.001519929388708574 },
+      { "id": 2, "name": "Disability", "color": "#eaa18f", "percent": 7.845769465803663e-5 },
+      { "id": 7, "name": "Racial", "color": "#f3f2ec", "percent": 3.327224473388342e-5 },
+      { "id": 4, "name": "Gender \u0026 Sexual Identity", "color": "#fcf051", "percent": 2.7588928693790517e-5 }
+    ]
+  },
+  {
+    "input": "Can you please respond to me ASAP so that we can discus a course of action?",
+    "results": [
+      { "id": 0, "name": "None", "color": null, "percent": 0.9995182025616789 },
+      { "id": 6, "name": "Potential", "color": "#bab7b0", "percent": 0.000266269128337536 },
+      { "id": 1, "name": "Cultural", "color": "#ec4d09", "percent": 0.00012274015477564554 },
+      { "id": 2, "name": "Disability", "color": "#eaa18f", "percent": 6.182850833176224e-5 },
+      { "id": 4, "name": "Gender \u0026 Sexual Identity", "color": "#fcf051", "percent": 1.7021352034318747e-5 }
+    ]
+  }
+]

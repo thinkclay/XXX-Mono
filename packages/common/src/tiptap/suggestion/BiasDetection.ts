@@ -1,9 +1,10 @@
 /** @format */
 
-import { getBiasTypeFromAI, BiasType, getTitleForBiasType } from '@common/views/BiasCard'
-import { SuggestionPlugin } from './suggestion-plugin'
+import { getBiasTypeFromAI, getTitleForBiasType } from './suggestion-helpers'
+import { BiasSuggestion } from './BiasSuggestion'
+import { BiasType } from './suggestion-types'
 
-class BiasDetection extends SuggestionPlugin {
+class BiasDetection extends BiasSuggestion {
   scan() {
     this.doc.descendants((node: any, position: number) => {
       this.bias.forEach(bias => {

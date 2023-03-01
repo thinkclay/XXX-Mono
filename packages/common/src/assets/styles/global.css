@@ -208,6 +208,7 @@ a:hover {
   min-width: 50rem;
   max-width: 80rem;
   overflow: hidden;
+  padding-top: var(--toolbar-height);
   position: relative;
 }
 
@@ -344,4 +345,102 @@ mark,
 
 .copy p + p {
   padding-top: 1.5rem;
+}
+
+/**
+ * Recommendations
+ */
+
+.tippy-box {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  font-size: 1.5rem;
+  line-height: 1.65;
+}
+
+.tippy-box .header {
+  background: var(--color-n200);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border-bottom: 1px solid var(--color-n300);
+  line-height: 1;
+  padding: 1rem 1.5rem;
+}
+
+.tippy-box .header .action {
+  height: 1.4rem;
+  width: 1.4rem;
+}
+
+.tippy-box .header .action span {
+  display: none;
+}
+
+.tippy-box .header .action svg {
+  height: 1.4rem;
+  width: 1.4rem;
+}
+
+.tippy-box .message {
+  padding: 1rem 1.5rem;
+}
+
+.tippy-box .suggestions {
+  border-top: 2px solid var(--color-n300);
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+}
+
+.tippy-box .suggestions li {
+  background-color: var(--color-n100);
+  color: var(--color-brand-3);
+  cursor: pointer;
+  margin: 0;
+  padding: 0.7rem 1.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tippy-box .suggestions li + li {
+  border-top: 1px solid var(--color-n300);
+}
+
+.tippy-box .suggestions li:hover {
+  background-color: var(--color-brand-3);
+  color: #fff;
+}
+
+.lt {
+  border-bottom: 2px solid #e86a69;
+  transition: background 0.25s ease-in-out;
+}
+
+.lt:hover {
+  background: rgba($color: #e86a69, $alpha: 0.2);
+}
+
+.lt-style {
+  border-bottom: 2px solid #9d8eff;
+}
+
+.lt-style:hover {
+  background: rgba($color: #9d8eff, $alpha: 0.2) !important;
+}
+
+.lt-typographical,
+.lt-grammar {
+  border-bottom: 2px solid #eeb55c;
+}
+
+.lt-grammar:hover {
+  background: rgba($color: #eeb55c, $alpha: 0.2) !important;
+}
+
+.lt-misspelling {
+  border-bottom: 2px solid #e86a69;
+}
+
+.lt-misspelling:hover {
+  background: rgba($color: #e86a69, $alpha: 0.2) !important;
 }
