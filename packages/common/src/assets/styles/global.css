@@ -357,12 +357,11 @@ mark,
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   font-size: 1.5rem;
   line-height: 1.65;
+  overflow: hidden;
 }
 
 .tippy-box .header {
   background: var(--color-n200);
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
   border-bottom: 1px solid var(--color-n300);
   line-height: 1;
   padding: 1rem 1.5rem;
@@ -398,7 +397,7 @@ mark,
   color: var(--color-brand-3);
   cursor: pointer;
   margin: 0;
-  padding: 0.7rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   transition: background-color 0.2s, color 0.2s;
 }
 

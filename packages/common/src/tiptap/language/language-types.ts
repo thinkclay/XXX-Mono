@@ -102,7 +102,6 @@ interface TextNodesWithPosition {
 
 interface LanguageToolOptions {
   language: string
-  apiUrl: string
   automaticMode: boolean
   documentId: string | number | undefined
 }

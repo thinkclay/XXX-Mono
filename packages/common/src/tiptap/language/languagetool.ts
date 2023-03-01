@@ -11,13 +11,13 @@ import { Node } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
 import { LanguageToolResponse, Match } from './language-types'
+import { fetchCompletions, fetchProof } from './language-service'
 
 let db: Dexie
 
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
-let apiUrl = ''
 let textNodesWithPosition: TextNodesWithPosition[] = []
 let match: Match | undefined = undefined
 let proofReadInitially = false
@@ -101,27 +101,15 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
   })
 
 const proofreadNodeAndUpdateItsDecorations = async (node: Node, offset: number, cur: Node) => {
+  console.log('proofreadNodeAndUpdateItsDecorations')
   // Mocking the Loading state when text from a node is changed
-  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, true))
-
-  await new Promise(r => setTimeout(r, 500))
+  // await new Promise(r => setTimeout(r, 500))
 
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, false))
 
-  const ltRes: LanguageToolResponse = await (
-    await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-      body: `text=${encodeURIComponent(node.textContent)}&language=auto&enabledOnly=false`,
-    })
-  ).json()
-
-  decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
-
+  const ltRes: LanguageToolResponse = await fetchProof(node.textContent)
   const nodeSpecificDecorations: Decoration[] = []
+  decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
 
   for (const match of ltRes.matches) {
     const from = match.offset + offset
@@ -147,16 +135,10 @@ const debouncedProofreadNodeAndUpdateItsDecorations = debounce(proofreadNodeAndU
 const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 
 const getMatchAndSetDecorations = async (doc: Node, text: string, originalFrom: number) => {
-  const ltRes: LanguageToolResponse = await (
-    await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-      body: `text=${encodeURIComponent(text)}&language=auto&enabledOnly=false`,
-    })
-  ).json()
+  const ltRes = await fetchProof(text)
+  const biasRes = await fetchCompletions(text)
+
+  console.log('getMatchAndSetDecorations', biasRes)
 
   const { matches } = ltRes
   const decorations: Decoration[] = []
@@ -183,9 +165,7 @@ const getMatchAndSetDecorations = async (doc: Node, text: string, originalFrom: 
   setTimeout(addEventListenersToDecorations)
 }
 
-const proofreadAndDecorateWholeDoc = async (doc: Node, url: string) => {
-  apiUrl = url
-
+const proofreadAndDecorateWholeDoc = async (doc: Node) => {
   textNodesWithPosition = []
 
   let index = 0
@@ -271,7 +251,6 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
   addOptions() {
     return {
       language: 'auto',
-      apiUrl: 'https://language-tool.herokuapp.com/v2/check',
       automaticMode: true,
       documentId: undefined,
     }
@@ -289,7 +268,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
       proofread:
         () =>
         ({ tr }) => {
-          proofreadAndDecorateWholeDoc(tr.doc, this.options.apiUrl)
+          proofreadAndDecorateWholeDoc(tr.doc)
           return true
         },
       toggleProofreading: () => () => {
@@ -315,7 +294,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
   },
 
   addProseMirrorPlugins() {
-    const { apiUrl, documentId } = this.options
+    const { documentId } = this.options
 
     return [
       new Plugin({
@@ -332,7 +311,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
           init: (config, state) => {
             decorationSet = DecorationSet.create(state.doc, [])
 
-            if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc, apiUrl)
+            if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc)
 
             if (documentId) {
               extensionDocId = documentId
@@ -364,12 +343,11 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             if (languageToolDecorations) return decorationSet
 
             if (tr.docChanged && this.options.automaticMode) {
-              if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc, apiUrl)
+              if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc)
               else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofreadNodeAndUpdateItsDecorations)
             }
 
             decorationSet = decorationSet.map(tr.mapping, tr.doc)
-
             setTimeout(addEventListenersToDecorations)
 
             return decorationSet

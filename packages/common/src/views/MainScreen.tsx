@@ -1,6 +1,7 @@
 /** @format */
 
-import { Editor, EditorContent, useEditor } from '@tiptap/react'
+import { useState } from 'react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -10,7 +11,6 @@ import { Revisioned } from '@common/tiptap/suggestion/suggestion-extension'
 import { Rec } from '@common/tiptap/suggestion/Rec'
 import reco from '@common/tiptap/suggestion/reco'
 import { LanguageTool, LanguageToolHelpingWords, Popup, PopupPlugin } from '@common/tiptap/language'
-import { useEffect, useState } from 'react'
 import { Match, Replacement } from '@common/tiptap/language/language-types'
 import Close from './Revise/Close'
 
@@ -53,7 +53,6 @@ function MainScreen() {
       StarterKit,
       // Highlight,
       LanguageTool.configure({
-        apiUrl: 'https://language-tool.herokuapp.com/v2/check',
         automaticMode: true,
       }),
       // Rec.configure({
