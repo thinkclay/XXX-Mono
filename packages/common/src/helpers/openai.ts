@@ -2,7 +2,16 @@
 
 import { AxiosResponse } from 'axios'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
-import { Revision } from '../types/Revision'
+
+interface RevisionSuggestion {
+  original: string
+  reason: string
+  correction: string
+}
+
+interface Revision {
+  bias: RevisionSuggestion[]
+}
 
 export function getRevision(prompt: string, key?: string) {
   const configuration = new Configuration({
@@ -12,21 +21,19 @@ export function getRevision(prompt: string, key?: string) {
   const openai = new OpenAIApi(configuration)
 
   const promptScaffold = `
-Rewrite the following text removing bias, softening tone, correcting spelling, and grammar.\n\n
+Rewrite the following text removing bias, softening tone, correcting spelling, and grammar. With a maximum of 5 recommendations.\n\n
 ${prompt}\n\n
 
 Assuming the following schema (yaml):
 \n\n
 ---\n
-output: ''\n
 bias:\n
 - original: ''\n
   reason: ''\n
   correction: ''\n
 \n\n
 Return a json object wrapped in backticks.\n
-object.output should contain the new and recommended text with corrections.\n
-object.bias should explain bias with reasons and corrections as an array\n
+object.bias should explain bias with reasons and corrections as an array with a maximum of 5 results\n
 `
 
   return openai.createCompletion({

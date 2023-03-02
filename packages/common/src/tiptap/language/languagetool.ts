@@ -13,6 +13,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { LanguageToolResponse, Match, TextNodesWithPosition, Replacement } from './language-types'
 import { BiasClass, fetchClassifications, fetchCompletions, fetchProof } from './language-service'
 import { changedDescendants, selectElementText } from './language-helpers'
+import { getRevision, parseRevision } from '@common/helpers/openai'
+
+const key = 'c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5'
 
 let db: Dexie
 
@@ -69,14 +72,6 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
     uuid: uuidv4(),
   })
 
-const biasDecoration = (from: number, to: number, match: BiasClass) =>
-  Decoration.inline(from, to, {
-    class: `lt lt-${match.name.toLocaleLowerCase()}`,
-    nodeName: 'strong',
-    match: JSON.stringify(match),
-    uuid: uuidv4(),
-  })
-
 const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: number, cur: Node) => {
   console.log('proofreadNodeAndUpdateItsDecorations')
   // Mocking the Loading state when text from a node is changed
@@ -111,79 +106,78 @@ const debouncedProofreadNodeAndUpdateItsDecorations = debounce(proofreadNodeAndU
 
 const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 
+function findAndCreateMatch(text: string, body: string, type: string, message: string, replacements: Replacement[]): Match | void {
+  if (type === 'None') return
+
+  const m = new RegExp(text, 'gid').exec(body)
+
+  if (!m || !m[0]) return
+
+  const from = m.index
+
+  console.log('From: ', text, body, from)
+  // const completions = await (await fetchCompletions(text)).results
+
+  return {
+    message,
+    shortMessage: message,
+    replacements,
+    offset: from,
+    length: text.length,
+    context: {
+      text: text,
+      offset: from,
+      length: text.length,
+    },
+    sentence: text,
+    type: {
+      typeName: type,
+    },
+    rule: {
+      id: 'noid',
+      description: 'no description',
+      issueType: type,
+      category: {
+        id: 'noid',
+        name: type,
+      },
+    },
+    ignoreForIncompleteSentence: false,
+    contextForSureMatch: 0,
+  }
+}
+
 const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFrom: number) => {
   const ltRes = await fetchProof(text)
   const completions = await fetchCompletions(text)
-  const rawClassifications = await fetchClassifications(text)
+  const classifications = await fetchClassifications(text)
 
-  const { matches } = ltRes
+  let { matches } = ltRes
   const decorations: Decoration[] = []
 
-  // const match = new RegExp(bias.input, 'gid').exec(node.text)
-
   console.log('getMatchAndSetDecorations/completions:', completions)
-  console.log('getMatchAndSetDecorations/classifications', rawClassifications)
+  console.log('getMatchAndSetDecorations/classifications', classifications)
 
-  // Sort through the classification. The [0] index will represent the strongest match
-  // If that match is "None", we'll skip, the others we'll Regex scan the editor text and get string positions
-  // Then decorate the editor
-  // Match {
-  //   offset: number
-  //   length: number
-  //   context: Context
-  //   sentence: string
-  //   type: Type
-  //   rule: Rule
-  //   ignoreForIncompleteSentence: boolean
-  //   contextForSureMatch: number
-  // }
-  rawClassifications.forEach(c => {
-    const type = c.results[0].name
-    const text = c.input
+  const recs = await getRevision(text, atob(key))
+    .then(response => Promise.resolve(parseRevision(response)))
+    .catch(err => Promise.reject(err))
 
-    if (type === 'None') return
+  if (recs && recs.bias) {
+    recs.bias.forEach(rec => {
+      const m = findAndCreateMatch(rec.original, text, 'Bias', rec.reason, [{ value: rec.correction }])
 
-    let match: Match
-    const m = new RegExp(c.input, 'gid').exec(text)
+      if (m) matches.push(m)
+    })
+  }
 
-    if (!m || !m[0]) return
+  // console.log('Recs from openai', recs?.bias)
 
-    const from = m.index + originalFrom
-    const to = from + c.input.length
-    // const completions = await (await fetchCompletions(text)).results
-
-    match = {
-      message: `${type} Bias`,
-      shortMessage: `${type} Bias`,
-      replacements: [{ value: 'Insert recommendation here' }],
-      offset: from,
-      length: text.length,
-      context: {
-        text: text,
-        offset: from,
-        length: text.length,
-      },
-      sentence: text,
-      type: {
-        typeName: type,
-      },
-      rule: {
-        id: 'noid',
-        description: 'no description',
-        issueType: type,
-        category: {
-          id: 'noid',
-          name: type,
-        },
-      },
-      ignoreForIncompleteSentence: false,
-      contextForSureMatch: 0,
-    }
-
-    decorations.push(gimmeDecoration(from, to, match))
-  })
+  // classifications.forEach(c =>
+  //   findAndCreateMatch(c.input, c.results[0].name, `${c.results[0].name} Bias`, [{ value: 'Recommendation Here' }])
+  // )
 
   for (const match of matches) {
+    if (!match) return
     const from = match.offset + originalFrom
     const to = from + match.length
 

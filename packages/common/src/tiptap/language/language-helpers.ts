@@ -1,5 +1,4 @@
 /** @format */
-import { DebouncedFunc } from 'lodash'
 import { Node as PMModel } from 'prosemirror-model'
 
 export const selectElementText = (el: EventTarget) => {
