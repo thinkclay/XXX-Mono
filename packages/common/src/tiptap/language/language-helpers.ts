@@ -1,5 +1,6 @@
 /** @format */
-import { Node } from 'prosemirror-model'
+import { DebouncedFunc } from 'lodash'
+import { Node as PMModel } from 'prosemirror-model'
 
 export const selectElementText = (el: EventTarget) => {
   const range = document.createRange()
@@ -10,7 +11,14 @@ export const selectElementText = (el: EventTarget) => {
   sel?.addRange(range)
 }
 
-export function changedDescendants(old: Node, cur: Node, offset: number, f: (node: Node, pos: number, cur: Node) => void): void {
+// DebouncedFunc<(node: PMModel, offset: number, cur: Node) => Promise<void>>
+
+export function changedDescendants(
+  old: PMModel,
+  cur: PMModel,
+  offset: number,
+  f: (node: PMModel, offset: number, cur: PMModel) => void
+): void {
   const oldSize = old.childCount,
     curSize = cur.childCount
   outer: for (let i = 0, j = 0; i < curSize; i++) {

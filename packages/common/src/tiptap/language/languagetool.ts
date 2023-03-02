@@ -7,11 +7,11 @@ import { debounce } from 'lodash'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { Dexie } from 'dexie'
 import { Extension } from '@tiptap/core'
-import { Node } from 'prosemirror-model'
+import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
-import { LanguageToolResponse, Match } from './language-types'
-import { fetchClassifications, fetchCompletions, fetchProof } from './language-service'
+import { LanguageToolResponse, Match, TextNodesWithPosition, Replacement } from './language-types'
+import { BiasClass, fetchClassifications, fetchCompletions, fetchProof } from './language-service'
 import { changedDescendants, selectElementText } from './language-helpers'
 
 let db: Dexie
@@ -69,7 +69,15 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
     uuid: uuidv4(),
   })
 
-const proofreadNodeAndUpdateItsDecorations = async (node: Node, offset: number, cur: Node) => {
+const biasDecoration = (from: number, to: number, match: BiasClass) =>
+  Decoration.inline(from, to, {
+    class: `lt lt-${match.name.toLocaleLowerCase()}`,
+    nodeName: 'strong',
+    match: JSON.stringify(match),
+    uuid: uuidv4(),
+  })
+
+const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: number, cur: Node) => {
   console.log('proofreadNodeAndUpdateItsDecorations')
   // Mocking the Loading state when text from a node is changed
   // await new Promise(r => setTimeout(r, 500))
@@ -103,18 +111,77 @@ const debouncedProofreadNodeAndUpdateItsDecorations = debounce(proofreadNodeAndU
 
 const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 
-const getMatchAndSetDecorations = async (doc: Node, text: string, originalFrom: number) => {
+const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFrom: number) => {
   const ltRes = await fetchProof(text)
   const completions = await fetchCompletions(text)
-  const classifications = await fetchClassifications(text)
+  const rawClassifications = await fetchClassifications(text)
+
+  const { matches } = ltRes
+  const decorations: Decoration[] = []
 
   // const match = new RegExp(bias.input, 'gid').exec(node.text)
 
   console.log('getMatchAndSetDecorations/completions:', completions)
-  console.log('getMatchAndSetDecorations/classifications', classifications)
+  console.log('getMatchAndSetDecorations/classifications', rawClassifications)
 
-  const { matches } = ltRes
-  const decorations: Decoration[] = []
+  // Sort through the classification. The [0] index will represent the strongest match
+  // If that match is "None", we'll skip, the others we'll Regex scan the editor text and get string positions
+  // Then decorate the editor
+  // Match {
+  //   offset: number
+  //   length: number
+  //   context: Context
+  //   sentence: string
+  //   type: Type
+  //   rule: Rule
+  //   ignoreForIncompleteSentence: boolean
+  //   contextForSureMatch: number
+  // }
+  rawClassifications.forEach(c => {
+    const type = c.results[0].name
+    const text = c.input
+
+    if (type === 'None') return
+
+    let match: Match
+    const m = new RegExp(c.input, 'gid').exec(text)
+
+    if (!m || !m[0]) return
+
+    const from = m.index + originalFrom
+    const to = from + c.input.length
+    // const completions = await (await fetchCompletions(text)).results
+
+    match = {
+      message: `${type} Bias`,
+      shortMessage: `${type} Bias`,
+      replacements: [{ value: 'Insert recommendation here' }],
+      offset: from,
+      length: text.length,
+      context: {
+        text: text,
+        offset: from,
+        length: text.length,
+      },
+      sentence: text,
+      type: {
+        typeName: type,
+      },
+      rule: {
+        id: 'noid',
+        description: 'no description',
+        issueType: type,
+        category: {
+          id: 'noid',
+          name: type,
+        },
+      },
+      ignoreForIncompleteSentence: false,
+      contextForSureMatch: 0,
+    }
+
+    decorations.push(gimmeDecoration(from, to, match))
+  })
 
   for (const match of matches) {
     const from = match.offset + originalFrom
@@ -138,7 +205,7 @@ const getMatchAndSetDecorations = async (doc: Node, text: string, originalFrom: 
   setTimeout(addEventListenersToDecorations)
 }
 
-const proofreadAndDecorateWholeDoc = async (doc: Node) => {
+const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
   textNodesWithPosition = []
 
   let index = 0

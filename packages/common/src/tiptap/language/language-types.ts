@@ -1,4 +1,5 @@
 /** @format */
+import { Node as PMModel } from 'prosemirror-model'
 
 export interface Software {
   name: string
@@ -94,19 +95,19 @@ declare module '@tiptap/core' {
   }
 }
 
-interface TextNodesWithPosition {
+export interface TextNodesWithPosition {
   text: string
   from: number
   to: number
 }
 
-interface LanguageToolOptions {
+export interface LanguageToolOptions {
   language: string
   automaticMode: boolean
   documentId: string | number | undefined
 }
 
-interface LanguageToolStorage {
+export interface LanguageToolStorage {
   match?: Match
   loading?: boolean
   matchRange?: { from: number; to: number }

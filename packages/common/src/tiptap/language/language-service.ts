@@ -1,6 +1,6 @@
 /** @format */
 
-import { LanguageToolResponse } from './language-types'
+import { LanguageToolResponse, Replacement } from './language-types'
 
 export interface BiasCategory {
   id: number
@@ -18,6 +18,16 @@ export interface BiasClass {
 export interface BiasClassResult {
   input: string
   results: BiasClass[]
+}
+
+export interface BiasCompletionsResponse {
+  input: string
+  results: string[]
+}
+
+export interface BiasCompletions {
+  input: string
+  results: Replacement[]
 }
 
 export const LANGUAGE_URL = 'https://language-tool.herokuapp.com/v2/'
@@ -54,10 +64,20 @@ export const fetchCategories = async (): Promise<BiasCategory[]> => {
   return result
 }
 
-export const fetchCompletions = async (input: string) => {
-  console.log('Completions/FETCHING: ', input)
-  const result = await fetch(`${BIAS_URL}completions`, apiBody(input)).then(r => r.json())
-  console.log('Completions/RESPONSE: ', input)
+export const fetchCompletions = async (input: string): Promise<BiasCompletions> => {
+  console.log('Completions/FETCHING: ')
+
+  const response = await fetch(`${BIAS_URL}completions`, apiBody(input)).then(r => r.json())
+  const result: BiasCompletions = {
+    input: response.input,
+    results: response.results.map((r: string) => {
+      {
+        value: r
+      }
+    }),
+  }
+
+  console.log('Completions/RESPONSE: ', result)
 
   return result
 }
