@@ -6,6 +6,8 @@ export const rootDefault = {
   route: '/',
   menuOpen: false,
   loading: false,
+  fetchingLanguage: false,
+  fetchingRevision: false,
   acceptedTerms: false,
 }
 
@@ -27,6 +29,16 @@ export const menuState = selector({
 export const loadingState = selector({
   key: 'loadingState',
   get: ({ get }) => get(rootState).loading,
+})
+
+export const fetchingLanguageState = selector({
+  key: 'fetchingLanguageState',
+  get: ({ get }) => get(rootState).fetchingLanguage,
+})
+
+export const fetchingRevisionState = selector({
+  key: 'fetchingRevisionState',
+  get: ({ get }) => get(rootState).fetchingRevision,
 })
 
 export const termsState = selector({

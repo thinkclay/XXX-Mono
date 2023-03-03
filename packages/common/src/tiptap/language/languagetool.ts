@@ -10,12 +10,10 @@ import { Extension } from '@tiptap/core'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
-import { LanguageToolResponse, Match, TextNodesWithPosition, Replacement } from './language-types'
+import { LanguageToolResponse, Match, TextNodesWithPosition, Replacement, LanguageToolOptions, LanguageToolStorage } from './language-types'
 import { BiasClass, fetchClassifications, fetchCompletions, fetchProof } from './language-service'
-import { changedDescendants, selectElementText } from './language-helpers'
+import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
 import { getRevision, parseRevision } from '@common/helpers/openai'
-
-const key = 'c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5'
 
 let db: Dexie
 
@@ -80,10 +78,14 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, false))
 
   const ltRes: LanguageToolResponse = await fetchProof(node.textContent)
+
+  let { matches } = ltRes
   const nodeSpecificDecorations: Decoration[] = []
   decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
 
-  for (const match of ltRes.matches) {
+  matches.push(...(await getBiasMatches(node.textContent)))
+
+  for (const match of matches) {
     const from = match.offset + offset
     const to = from + match.length
 
@@ -106,75 +108,13 @@ const debouncedProofreadNodeAndUpdateItsDecorations = debounce(proofreadNodeAndU
 
 const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 
-function findAndCreateMatch(text: string, body: string, type: string, message: string, replacements: Replacement[]): Match | void {
-  if (type === 'None') return
-
-  const m = new RegExp(text, 'gid').exec(body)
-
-  if (!m || !m[0]) return
-
-  const from = m.index
-
-  console.log('From: ', text, body, from)
-  // const completions = await (await fetchCompletions(text)).results
-
-  return {
-    message,
-    shortMessage: message,
-    replacements,
-    offset: from,
-    length: text.length,
-    context: {
-      text: text,
-      offset: from,
-      length: text.length,
-    },
-    sentence: text,
-    type: {
-      typeName: type,
-    },
-    rule: {
-      id: 'noid',
-      description: 'no description',
-      issueType: type,
-      category: {
-        id: 'noid',
-        name: type,
-      },
-    },
-    ignoreForIncompleteSentence: false,
-    contextForSureMatch: 0,
-  }
-}
-
 const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFrom: number) => {
   const ltRes = await fetchProof(text)
-  const completions = await fetchCompletions(text)
-  const classifications = await fetchClassifications(text)
 
   let { matches } = ltRes
   const decorations: Decoration[] = []
 
-  console.log('getMatchAndSetDecorations/completions:', completions)
-  console.log('getMatchAndSetDecorations/classifications', classifications)
-
-  const recs = await getRevision(text, atob(key))
-    .then(response => Promise.resolve(parseRevision(response)))
-    .catch(err => Promise.reject(err))
-
-  if (recs && recs.bias) {
-    recs.bias.forEach(rec => {
-      const m = findAndCreateMatch(rec.original, text, 'Bias', rec.reason, [{ value: rec.correction }])
-
-      if (m) matches.push(m)
-    })
-  }
-
-  // console.log('Recs from openai', recs?.bias)
-
-  // classifications.forEach(c =>
-  //   findAndCreateMatch(c.input, c.results[0].name, `${c.results[0].name} Bias`, [{ value: 'Recommendation Here' }])
-  // )
+  matches.push(...(await getBiasMatches(text)))
 
   for (const match of matches) {
     if (!match) return
@@ -292,6 +232,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
   addStorage() {
     return {
+      active: true,
       match: match,
       loading: false,
     }

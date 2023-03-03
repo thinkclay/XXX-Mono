@@ -201,7 +201,7 @@ a:hover {
   color: var(--color-n900);
 }
 
-.App {
+.Main {
   background: var(--color-n200);
   margin: 0 auto;
   min-height: 50rem;
@@ -251,7 +251,7 @@ mark,
   color: var(--color-n800);
   cursor: pointer;
   display: flex;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 900;
   letter-spacing: 0.05rem;
   justify-content: center;
@@ -262,6 +262,17 @@ mark,
   text-transform: uppercase;
   transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
   white-space: nowrap;
+}
+
+.button.accept {
+  background: var(--color-brand-3);
+  border-color: var(--color-brand-3);
+  color: #fff;
+}
+
+.button.cancel {
+  background: var(--color-brand-0);
+  color: #fff;
 }
 
 .button.bordered {
@@ -313,6 +324,15 @@ mark,
 
 .ButtonRow.centered {
   justify-content: space-around;
+  margin: 0 auto;
+}
+
+.ButtonRow.shrink {
+  width: fit-content;
+}
+
+.ButtonRow button + button {
+  margin-left: 1.5rem;
 }
 
 /**

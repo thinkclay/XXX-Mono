@@ -5,27 +5,37 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { v4 } from 'uuid'
 
 interface RevisionProps {
-  result?: void | CreateCompletionResponseChoicesInner[]
-  acceptHandler: (content: string) => void
+  revision?: void | CreateCompletionResponseChoicesInner[]
+  accept: (content: string) => void
+  decline: () => void
 }
 
-function Revision({ result, acceptHandler }: RevisionProps) {
-  if (!result) return null
+function Revision({ revision, accept, decline }: RevisionProps) {
+  if (!revision) return null
 
   const content = (
     <>
-      {result.map(r => (
+      {/* {revision.map(r => (
         <p key={v4()}>{r.text}</p>
-      ))}
+      ))} */}
+
+      {revision[0].text?.split('\n').map(text => text.trim() && <p key={v4()}>{text}</p>)}
     </>
   )
 
   return (
     <div className="Revision">
-      {content}
-      <button className="button bordered" onClick={() => acceptHandler(renderToStaticMarkup(content))}>
-        Accept Revision
-      </button>
+      <div className="content">{content}</div>
+
+      <div className="ButtonRow centered shrink">
+        <button className="button accept" onClick={() => accept(renderToStaticMarkup(content))}>
+          Accept Revision
+        </button>
+
+        <button className="button cancel" onClick={decline}>
+          Cancel
+        </button>
+      </div>
     </div>
   )
 }

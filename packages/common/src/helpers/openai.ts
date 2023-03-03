@@ -13,13 +13,13 @@ interface Revision {
   bias: RevisionSuggestion[]
 }
 
-export function getRevision(prompt: string, key?: string) {
-  const configuration = new Configuration({
-    apiKey: key || process.env.OPENAI_KEY,
-  })
+const OAI_KEY = atob('c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5')
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_KEY || OAI_KEY,
+})
+const openai = new OpenAIApi(configuration)
 
-  const openai = new OpenAIApi(configuration)
-
+export function getRevision(prompt: string) {
   const promptScaffold = `
 Rewrite the following text removing bias, softening tone, correcting spelling, and grammar. With a maximum of 5 recommendations.\n\n
 ${prompt}\n\n
@@ -47,13 +47,7 @@ object.bias should explain bias with reasons and corrections as an array with a 
   })
 }
 
-export function getRevisedCopy(prompt: string, key?: string) {
-  const configuration = new Configuration({
-    apiKey: key || process.env.OPENAI_KEY,
-  })
-
-  const openai = new OpenAIApi(configuration)
-
+export function getRevisedCopy(prompt: string) {
   const promptScaffold = `
     Rewrite the following text removing bias, softening tone, correcting spelling, and grammar.\n\n${prompt}`
 
@@ -61,7 +55,7 @@ export function getRevisedCopy(prompt: string, key?: string) {
     model: 'text-davinci-003',
     prompt: promptScaffold,
     temperature: 1.0,
-    max_tokens: 500,
+    max_tokens: 1500,
     top_p: 1.0,
     frequency_penalty: 0.0,
     presence_penalty: 0.0,
