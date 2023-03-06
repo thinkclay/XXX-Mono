@@ -55,10 +55,13 @@ window.addEventListener('load', () => {
           clearInterval(bodyId)
 
           const $editor = jQuery('.editable').first()
+          const $parent = $editor.parent()
 
-          compose.body('')
+          // $editor.hide()
 
-          runApp($editor[0])
+          const onUpdate = (text: string) => gmail.dom.compose(el).body(text)
+
+          runApp($parent[0], onUpdate)
         }, 500)
 
         // runApp(jQuery('.editable')[0])
@@ -73,22 +76,22 @@ window.addEventListener('load', () => {
   }
 })
 
-function runApp(mount: Element) {
+function runApp(mount: Element, onUpdate: (text: string) => void) {
   const rootElement = document.createElement('div')
   rootElement.id = 'root'
   // const mount = document.querySelector('.editable')
-  // document.body.appendChild(rootElement)
+  document.body.appendChild(rootElement)
 
   console.log('Mount point', mount)
-  mount?.appendChild(rootElement)
+  // mount?.appendChild(rootElement)
 
   const root = ReactDOM.createRoot(rootElement)
 
   root.render(
     <RecoilRoot>
       <React.StrictMode>
-        <div id="RevisionApp">
-          <MainScreen mode="embedded" />
+        <div id="RevisionApp" style={{ position: 'fixed', left: '50px', bottom: 0, zIndex: 999 }}>
+          <MainScreen mode="embedded" onUpdate={onUpdate} />
         </div>
       </React.StrictMode>
     </RecoilRoot>

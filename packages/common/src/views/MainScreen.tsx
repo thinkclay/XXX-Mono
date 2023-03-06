@@ -31,7 +31,11 @@ const content = `
 <p>Mrs. Paul</p>
 `
 
-function MainScreen({ mode, height }: PageProps) {
+interface Props extends PageProps {
+  onUpdate?: (text: string) => void
+}
+
+function MainScreen({ mode, onUpdate }: Props) {
   const [_root, _setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
@@ -41,6 +45,8 @@ function MainScreen({ mode, height }: PageProps) {
     content: content,
     onUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
+      console.log('onUpdate?', onUpdate)
+      onUpdate && onUpdate(editor.getHTML())
     },
     onSelectionUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
