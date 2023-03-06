@@ -139,18 +139,17 @@ button {
 }
 
 :root {
-  --color-n0: #fcfaf6;
-  --color-n100: #fffcf5;
-  --color-n200: #fcf7eb;
-  --color-n300: #eee9de;
-  --color-n400: #d9ceb8;
-  --color-n500: #c8bca6;
-  --color-n600: #ada18a;
-  --color-n700: #7d7970;
-  --color-n800: #4e4c48;
-  --color-n900: #242321;
+  --color-n0: #fff;
+  --color-n100: #fdfdfd;
+  --color-n200: #eaeaea;
+  --color-n300: #dcdcdc;
+  --color-n400: #bfbfbf;
+  --color-n500: #a4a4a4;
+  --color-n600: #838383;
+  --color-n700: #636363;
+  --color-n800: #3d3d3d;
+  --color-n900: #262626;
 
-  --color-brand-0: #4e4c48;
   --color-brand-1: #e05845;
   --color-brand-2: #faec2e;
   --color-brand-3: #0eaf96;
@@ -271,7 +270,7 @@ mark,
 }
 
 .button.cancel {
-  background: var(--color-brand-0);
+  background: var(--color-n500);
   color: #fff;
 }
 

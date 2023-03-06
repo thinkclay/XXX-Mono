@@ -4,9 +4,9 @@ import { AxiosResponse } from 'axios'
 import { Configuration, CreateCompletionResponse, OpenAIApi } from 'openai'
 
 interface RevisionSuggestion {
-  original: string
+  input: string
   reason: string
-  correction: string
+  replacements: string
 }
 
 interface Revision {
@@ -21,26 +21,26 @@ const openai = new OpenAIApi(configuration)
 
 export function getRevision(prompt: string) {
   const promptScaffold = `
-Rewrite the following text removing bias, softening tone, correcting spelling, and grammar. With a maximum of 5 recommendations.\n\n
+Rewrite the following text removing bias, softening tone, correcting spelling, and grammar. With a maximum of 3 recommendations.\n\n
 ${prompt}\n\n
 
 Assuming the following schema (yaml):
 \n\n
 ---\n
 bias:\n
-- original: ''\n
+- input: ''\n
   reason: ''\n
-  correction: ''\n
+  replacements: ''\n
 \n\n
 Return a json object wrapped in backticks.\n
-object.bias should explain bias with reasons and corrections as an array with a maximum of 5 results\n
+object.bias should explain bias with reasons and replacements as an array with a maximum of 5 results\n
 `
 
   return openai.createCompletion({
     model: 'text-davinci-003',
     prompt: promptScaffold,
     temperature: 1.0,
-    max_tokens: 500,
+    max_tokens: 1000,
     top_p: 1.0,
     frequency_penalty: 0.0,
     presence_penalty: 0.0,

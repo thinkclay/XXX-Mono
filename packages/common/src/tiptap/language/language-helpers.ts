@@ -3,7 +3,7 @@ import { matches } from 'lodash'
 import { Node as PMModel } from 'prosemirror-model'
 
 import { getRevision, parseRevision } from '@common/helpers/openai'
-import { fetchCompletions, fetchClassifications } from './language-service'
+import { fetchCompletions, fetchClassifications, fetchBiases } from './language-service'
 import { Match, Replacement } from './language-types'
 
 export const selectElementText = (el: EventTarget) => {
@@ -90,21 +90,50 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
   let matches: Match[] = []
   const completions = await fetchCompletions(text)
   const classifications = await fetchClassifications(text)
+  const biases = await fetchBiases(text)
 
-  console.log('getMatchAndSetDecorations/completions:', completions)
-  console.log('getMatchAndSetDecorations/classifications', classifications)
+  biases.results.forEach(bias => {
+    const type = bias.biases[0].name
 
-  const recs = await getRevision(text)
-    .then(response => Promise.resolve(parseRevision(response)))
-    .catch(err => Promise.reject(err))
+    // Skip if the top match is None for bias
+    if (type === 'None') return
 
-  if (recs && recs.bias) {
-    recs.bias.forEach(rec => {
-      const m = findAndCreateMatch(rec.original, text, 'Bias', rec.reason, [{ value: rec.correction }])
+    // const r = cl.results.map(cls => ({ ...cls, value: `${cls.name}: ${cls.percent.toPrecision(2)}%` }))
+    const m = findAndCreateMatch(
+      bias.input,
+      text,
+      type,
+      `${type} Bias in Statement`,
+      bias.replacements.map(r => ({ value: r }))
+    )
 
-      if (m) matches.push(m)
-    })
-  }
+    if (m) matches.push(m)
+  })
+
+  // console.log('getMatchAndSetDecorations/completions:', completions)
+  // console.log('getMatchAndSetDecorations/classifications', classifications)
+
+  // const recs = await getRevision(text)
+  //   .then(response => Promise.resolve(parseRevision(response)))
+  //   .catch(err => Promise.reject(err))
+
+  // if (recs && recs.bias) {
+  //   recs.bias.forEach(rec => {
+  //     const m = findAndCreateMatch(rec.original, text, 'Bias', rec.reason, [{ value: rec.correction }])
+
+  //     if (m) matches.push(m)
+  //   })
+  // }
+
+  // classifications.forEach(cl => {
+  //   // Skip if the top match is None for bias
+  //   if (cl.results[0].name === 'None') return
+
+  //   const r = cl.results.map(cls => ({ ...cls, value: `${cls.name}: ${cls.percent.toPrecision(2)}%` }))
+  //   const m = findAndCreateMatch(cl.input, text, 'Bias', 'Potential Biases in Statement', r)
+
+  //   if (m) matches.push(m)
+  // })
 
   // console.log('Recs from openai', recs?.bias)
 

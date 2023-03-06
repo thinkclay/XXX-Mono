@@ -6,7 +6,8 @@
     "start": "plasmo dev",
     "build": "craco build; plasmo build",
     "package": "plasmo package",
-    "dist": "yarn build; zip -r dist.zip build"
+    "zip": "zip -r dist.zip build",
+    "dist": "yarn build; yarn package"
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0",
@@ -39,15 +40,17 @@
     ]
   },
   "manifest": {
-    "key": "$CRX_PUBLIC_KEY",
-    "host_permissions": [
-      "https://*/*"
-    ],
+    "name": "ReVision: Fighting Bias",
+    "short_name": "ReVision",
+    "description": "A proof-reading app that will help you identify and eliminate bias",
+    "version": "0.2.1",
+    "author": "Clay Unicorn <thinkclay@gmail.com>",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAobgFUuZG44LbLDgWBNGhNFXy963Z64az79BhZ9tLTdyj9DPtElufNO8ocIAZbs7XStJa9lCf7Pj/cZ7NHkAybWYW23B2hm60Qu5/H7xbPauEHC4aMxl/vvBu40gdlus1+Ph/NatzSO77Kzhq5E6uL4wswafL9uq2R0yubxvppshFC7oVKDwAqIPEBaPqSWoZIbjFLcX4+OAAGe4/+hkpDKdsGTwn3FUD+xdhSm0uCHnkVckLEPAAaCCsiFqraLZFhSrxb4cWayCoEdvMFP1qOfpzPaTZvd79HKrQ7wX/yNm+u6GDjoWbjHxkZff0qSC0QboszliGbmFBXFm8kxd+EwIDAQAB",
     "permissions": [
       "identity"
     ],
     "oauth2": {
-      "client_id": "$PLASMO_PUBLIC_FIREBASE_CLIENT_ID",
+      "client_id": "901177621766-s7e5fe6dbm9o2m56iks5a2t076vrkqou.apps.googleusercontent.com",
       "scopes": [
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile"

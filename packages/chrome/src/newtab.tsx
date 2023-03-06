@@ -1,6 +1,6 @@
 /** @format */
 
-import { useFirebase, useFirestoreDoc } from '@common/services/firebase'
+import { useFirebase, useFirestoreDoc } from '@common/services/firebase/hook'
 
 export default function IndexNewtab() {
   const { authUser, authLoading, onLogin, onLogout } = useFirebase()
