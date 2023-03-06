@@ -1,5 +1,7 @@
 /** @format */
 
+/** @format */
+
 import type { PlasmoCSConfig } from 'plasmo'
 
 export const config: PlasmoCSConfig = {
@@ -12,6 +14,6 @@ const jQuery = require('jquery')
 
 window._gmailjs = window._gmailjs || new GmailFactory.Gmail(jQuery)
 
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('Gmail Preloader Content Script')
+window.addEventListener('load', () => {
+  console.log('Gmail Preloader')
 })

@@ -11,6 +11,10 @@
     left: 0;
     right: 0;
 
+    &.embedded {
+      position: absolute;
+    }
+
     .actions {
       align-items: center;
       display: flex;

@@ -1,14 +1,13 @@
 /** @format */
 
-import { Editor } from '@tiptap/react'
-
+import { RenderMode } from '@common/types/UI'
 import Rewrite from './Rewrite'
 import Copy from './Copy'
 import Reload from './Reload'
 import Tone from './Tone'
 
 interface Props {
-  editor: Editor
+  mode: RenderMode
   copy: () => void
   reload: () => void
   rewrite: () => void
@@ -19,9 +18,9 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ copy, reload, rewrite }: Props) => {
+const Toolbar = ({ mode, copy, reload, rewrite }: Props) => {
   return (
-    <aside className="Toolbar">
+    <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         <Copy handler={copy} />
         <Reload handler={reload} />

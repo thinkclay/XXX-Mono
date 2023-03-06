@@ -31,7 +31,7 @@ const content = `
 <p>Mrs. Paul</p>
 `
 
-function MainScreen({ mode }: PageProps) {
+function MainScreen({ mode, height }: PageProps) {
   const [_root, _setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
@@ -102,7 +102,7 @@ function MainScreen({ mode }: PageProps) {
         )}
       </div>
 
-      <Toolbar editor={editor} copy={_copy} reload={_reload} rewrite={_rewrite} />
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} />
     </div>
   )
 }

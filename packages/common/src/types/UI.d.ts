@@ -8,4 +8,5 @@ export interface IconProps {
 
 export interface PageProps {
   mode: RenderMode
+  height?: number
 }

@@ -17,7 +17,8 @@
     "author": "Clay Unicorn <thinkclay@gmail.com>",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAobgFUuZG44LbLDgWBNGhNFXy963Z64az79BhZ9tLTdyj9DPtElufNO8ocIAZbs7XStJa9lCf7Pj/cZ7NHkAybWYW23B2hm60Qu5/H7xbPauEHC4aMxl/vvBu40gdlus1+Ph/NatzSO77Kzhq5E6uL4wswafL9uq2R0yubxvppshFC7oVKDwAqIPEBaPqSWoZIbjFLcX4+OAAGe4/+hkpDKdsGTwn3FUD+xdhSm0uCHnkVckLEPAAaCCsiFqraLZFhSrxb4cWayCoEdvMFP1qOfpzPaTZvd79HKrQ7wX/yNm+u6GDjoWbjHxkZff0qSC0QboszliGbmFBXFm8kxd+EwIDAQAB",
     "permissions": [
-      "identity"
+      "identity",
+      "scripting"
     ],
     "oauth2": {
       "client_id": "901177621766-s7e5fe6dbm9o2m56iks5a2t076vrkqou.apps.googleusercontent.com",
