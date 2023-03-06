@@ -1,13 +1,12 @@
 /** @format */
 
 import { useRecoilValue } from 'recoil'
-import { Route } from 'wouter'
 
 import { menuState, routeState } from '@common/helpers/root'
 import HomeScreen from '@common/views/HomeScreen'
 import AccountScreen from '@common/views/Auth/AccountScreen'
 import AuthScreen from '@common/views/Auth/AuthScreen'
-import PrimaryNav from './Navigation/PrimaryNav'
+import PrimaryNav from '@common/views/Navigation/PrimaryNav'
 import { RenderMode } from '@common/types/UI'
 
 interface AppProps {
@@ -32,7 +31,7 @@ function App(screen: AppProps) {
   }
 
   return (
-    <div className="App">
+    <div id="RevisionApp">
       <PrimaryNav open={menuOpen} />
       <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
       {_renderView(route)}

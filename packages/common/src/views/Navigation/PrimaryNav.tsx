@@ -4,7 +4,7 @@ import { useFirebase } from '@common/services/firebase/hook'
 import Toggle from './Toggle'
 import NavLink from './NavLink'
 
-import '@common/assets/styles/navigation.css'
+import '@common/assets/styles/navigation.scss'
 
 interface PrimaryNavProps {
   open: boolean

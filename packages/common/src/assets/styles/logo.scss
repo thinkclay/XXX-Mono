@@ -1,0 +1,46 @@
+/** @format */
+#RevisionApp {
+  .Logo {
+    background: none;
+    border: none;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+  }
+
+  .Logo .path {
+    stroke-dasharray: 320;
+    stroke-dashoffset: 0;
+  }
+
+  .Logo:hover .path {
+    animation: traceForwards 3s linear forwards;
+    stroke-dashoffset: 320;
+  }
+
+  .Logo.loading .path {
+    animation: traceLoop 3s linear infinite;
+  }
+
+  @keyframes traceLoop {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dashoffset: 320;
+    }
+  }
+
+  @keyframes traceForwards {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes traceBackwards {
+    to {
+      stroke-dashoffset: 320;
+    }
+  }
+}

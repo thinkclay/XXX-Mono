@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil'
 import { getRevisedCopy } from '@common/helpers/openai'
 import Revision from './Revise/Revision'
 import { CreateCompletionResponseChoicesInner } from 'openai'
+import { PageProps } from '@common/types/UI'
 
 const content = `
 <p>To the parents of Jared,</p>
@@ -30,7 +31,7 @@ const content = `
 <p>Mrs. Paul</p>
 `
 
-function MainScreen() {
+function MainScreen({ mode }: PageProps) {
   const [_root, _setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()

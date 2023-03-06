@@ -1,6 +1,6 @@
 /** @format */
 
-export type RenderMode = 'extension' | 'browser' | 'desktop'
+export type RenderMode = 'extension' | 'browser' | 'desktop' | 'embedded'
 
 export interface IconProps {
   fill?: string

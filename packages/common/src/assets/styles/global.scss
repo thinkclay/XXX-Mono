@@ -1,0 +1,191 @@
+/** @format */
+
+#RevisionApp {
+  font-size: 10px;
+
+  a {
+    color: $color-brand-1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: $color-n900;
+  }
+
+  .Main {
+    margin: 0 auto;
+    min-height: 500px;
+    min-width: 500px;
+    max-width: 800px;
+    overflow: hidden;
+    padding-top: $toolbar-height;
+    position: relative;
+  }
+
+  .page.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 500px;
+  }
+
+  .ProseMirror {
+    background: #fff;
+    border: none;
+    color: $color-n900;
+    font-size: 16px;
+    line-height: 1.85;
+    margin: 0 auto;
+    padding: 30px;
+    outline: none;
+  }
+
+  .bias {
+    background: none;
+    border-bottom: 2px solid;
+    cursor: pointer;
+    color: $color-n900;
+    position: relative;
+  }
+
+  .bias.language {
+    border-color: $color-language-border;
+  }
+}
+
+/**
+ * Copy and Body Styles
+ */
+#RevisionApp {
+  .copy {
+    line-height: 1.65;
+    padding: 20px;
+
+    &.centered {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    &.large {
+      p {
+        font-size: 20px;
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      padding: 20px 0 10px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    p + p {
+      padding-top: 15px;
+    }
+  }
+}
+
+/**
+ * Recommendations
+ */
+#RevisionApp {
+  .tippy-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    line-height: 1.65;
+    overflow: hidden;
+
+    .header {
+      background: $color-n200;
+      border-bottom: 1px solid $color-n300;
+      line-height: 1;
+      padding: 10px 15px;
+
+      .action {
+        height: 14px;
+        width: 14px;
+
+        span {
+          display: none;
+        }
+
+        svg {
+          height: 14px;
+          width: 14px;
+        }
+      }
+    }
+
+    .message {
+      padding: 10px 15px;
+    }
+
+    .suggestions {
+      border-top: 2px solid $color-n300;
+      font-style: italic;
+      margin: 0;
+      padding: 0;
+
+      li {
+        background-color: $color-n100;
+        color: $color-n900;
+        cursor: pointer;
+        font-weight: 600;
+        line-height: 1.5;
+        margin: 0;
+        padding: 8px 15px;
+        transition: background-color 0.2s, color 0.2s;
+
+        + li {
+          border-top: 1px solid $color-n300;
+        }
+
+        &:hover {
+          background-color: $color-g300;
+          color: $color-n900;
+        }
+      }
+    }
+  }
+
+  .lt {
+    border-bottom: 2px solid #e86a69;
+    transition: background 0.25s ease-in-out;
+
+    &:hover {
+      background: rgba($color: #e86a69, $alpha: 0.2);
+    }
+
+    &.lt-style {
+      border-bottom: 2px solid #9d8eff;
+
+      &:hover {
+        background: rgba($color: #9d8eff, $alpha: 0.2) !important;
+      }
+    }
+
+    &.lt-typographical,
+    &.lt-grammar {
+      border-bottom: 2px solid #eeb55c;
+
+      &:hover {
+        background: rgba($color: #eeb55c, $alpha: 0.2) !important;
+      }
+    }
+
+    &.lt-misspelling {
+      border-bottom: 2px solid #e86a69;
+
+      &:hover {
+        background: rgba($color: #e86a69, $alpha: 0.2) !important;
+      }
+    }
+  }
+}
