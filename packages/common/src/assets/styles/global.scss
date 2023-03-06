@@ -31,14 +31,15 @@
     min-height: 500px;
   }
 
-  .ProseMirror {
+  .ProseMirror,
+  .Revision {
     background: #fff;
     border: none;
     color: $color-n900;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.85;
     margin: 0 auto;
-    padding: 30px 0;
+    padding: 20px 15px;
     outline: none;
   }
 
