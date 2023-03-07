@@ -2,7 +2,7 @@
 
 import type { PlasmoCSConfig } from 'plasmo'
 import jQuery from 'jquery'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
@@ -45,9 +45,8 @@ window.addEventListener('load', () => {
 
       gmail.observe.on('compose', (compose, type) => {
         const el = compose.$el[0]
-        console.log('api.dom.compose object:', compose, el.clientHeight)
-        // console.log('api.dom.compose children', el.children)
-        // console.log('api.dom.compose editor', jQuery(el))
+
+        console.log('api.dom.compose object:', compose)
 
         const bodyId = setInterval(() => {
           if (!compose.body()) return
@@ -55,13 +54,23 @@ window.addEventListener('load', () => {
           clearInterval(bodyId)
 
           const $editor = jQuery('.editable').first()
-          const $parent = $editor.parent()
+          const $parent = $editor.parentsUntil('.GP').parent()
+          // const $parent = $editor.parentsUntil('table').parentsUntil('table')
 
-          // $editor.hide()
+          const styles: CSSProperties = {
+            background: '#fff',
+            height: $parent.height() || 400,
+            overflow: 'scroll',
+            position: 'absolute',
+            zIndex: '999',
+            marginTop: '-10px',
+            ...$editor.offset(),
+            width: $parent.width() || 500,
+          }
 
           const onUpdate = (text: string) => gmail.dom.compose(el).body(text)
 
-          runApp($parent[0], onUpdate)
+          runApp($parent[0], styles, onUpdate)
         }, 500)
 
         // runApp(jQuery('.editable')[0])
@@ -76,13 +85,13 @@ window.addEventListener('load', () => {
   }
 })
 
-function runApp(mount: Element, onUpdate: (text: string) => void) {
+function runApp(mount: Element, styles: CSSProperties, onUpdate: (text: string) => void) {
   const rootElement = document.createElement('div')
   rootElement.id = 'root'
   // const mount = document.querySelector('.editable')
   document.body.appendChild(rootElement)
 
-  console.log('Mount point', mount)
+  // console.log('Mount point', mount)
   // mount?.appendChild(rootElement)
 
   const root = ReactDOM.createRoot(rootElement)
@@ -90,7 +99,7 @@ function runApp(mount: Element, onUpdate: (text: string) => void) {
   root.render(
     <RecoilRoot>
       <React.StrictMode>
-        <div id="RevisionApp" style={{ position: 'fixed', left: '50px', bottom: 0, zIndex: 999 }}>
+        <div id="RevisionApp" style={styles}>
           <MainScreen mode="embedded" onUpdate={onUpdate} />
         </div>
       </React.StrictMode>
