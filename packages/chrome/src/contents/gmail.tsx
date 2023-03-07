@@ -2,11 +2,12 @@
 
 import type { PlasmoCSConfig } from 'plasmo'
 import jQuery from 'jquery'
-import React, { CSSProperties } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
 import MainScreen from '@common/views/MainScreen'
+import Close from '@common/views/Revise/Close'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
@@ -17,90 +18,53 @@ export const config: PlasmoCSConfig = {
 }
 
 window.addEventListener('load', () => {
-  console.log('Gmail React Injection Content Script', window._gmailjs, jQuery)
+  console.log('Gmail React Injection Content Script', window.gmail, jQuery)
 
   const loaderId = setInterval(() => {
-    if (!window._gmailjs) {
+    if (!window.gmail) {
       console.log('!window._gmailjs not defined')
       return
     }
 
     clearInterval(loaderId)
-    startExtension(window._gmailjs)
+    startExtension()
   }, 100)
 
-  function startExtension(gmail) {
-    console.log('Extension loading...')
-    window.gmail = gmail
+  function startExtension() {
+    window.gmail.observe.on('compose', composeHandler)
+  }
 
-    gmail.observe.on('load', () => {
-      const userEmail = gmail.get.user_email()
-      console.log('Hello, ' + userEmail + '. This is your extension talking!')
+  function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
+    const $el = compose.$el
 
-      gmail.observe.on('view_email', domEmail => {
-        console.log('Looking at email:', domEmail)
-        const emailData = gmail.new.get.email_data(domEmail)
-        console.log('Email data:', emailData)
-      })
+    const bodyId = setInterval(() => {
+      if (!compose.body()) return
 
-      gmail.observe.on('compose', (compose, type) => {
-        const el = compose.$el[0]
+      clearInterval(bodyId)
 
-        console.log('api.dom.compose object:', compose)
+      const $editor = jQuery('.editable').first()
+      const $parent = $editor.parent()
+      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text)
 
-        const bodyId = setInterval(() => {
-          if (!compose.body()) return
-
-          clearInterval(bodyId)
-
-          const $editor = jQuery('.editable').first()
-          const $parent = $editor.parentsUntil('.GP').parent()
-          // const $parent = $editor.parentsUntil('table').parentsUntil('table')
-
-          const styles: CSSProperties = {
-            background: '#fff',
-            height: $parent.height() || 400,
-            overflow: 'scroll',
-            position: 'absolute',
-            zIndex: '999',
-            marginTop: '-10px',
-            ...$editor.offset(),
-            width: $parent.width() || 500,
-          }
-
-          const onUpdate = (text: string) => gmail.dom.compose(el).body(text)
-
-          runApp($parent[0], styles, onUpdate)
-        }, 500)
-
-        // runApp(jQuery('.editable')[0])
-
-        // console.log('Setting body: ', gmail.dom.compose(el).to('test@test.com'))
-
-        // console.log('To: ', compose.to('test@test.com'))
-        // console.log('Body: ', compose.body('Test'))
-        // runApp()
-      })
-    })
+      runApp(document.body, $parent[0], updateHandler)
+    }, 100)
   }
 })
 
-function runApp(mount: Element, styles: CSSProperties, onUpdate: (text: string) => void) {
+function runApp(rootMount: Element, iconMount: Element, updateHandler: (text: string) => void) {
   const rootElement = document.createElement('div')
-  rootElement.id = 'root'
-  // const mount = document.querySelector('.editable')
-  document.body.appendChild(rootElement)
-
-  // console.log('Mount point', mount)
-  // mount?.appendChild(rootElement)
+  rootElement.id = 'gmailRoot'
+  rootMount.appendChild(rootElement)
 
   const root = ReactDOM.createRoot(rootElement)
 
   root.render(
     <RecoilRoot>
       <React.StrictMode>
-        <div id="RevisionApp" style={styles}>
-          <MainScreen mode="embedded" onUpdate={onUpdate} />
+        <div id="RevisionApp">
+          <MainScreen mode="embedded" onUpdate={updateHandler} />
+          <Close handler={() => rootElement.remove()} />
+          <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
       </React.StrictMode>
     </RecoilRoot>

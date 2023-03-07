@@ -25,7 +25,7 @@ function MainScreen({ mode, onUpdate }: Props) {
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
 
   const editor = useEditor({
-    autofocus: true,
+    autofocus: 'start',
     onUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
       console.log('onUpdate?', onUpdate)
@@ -83,13 +83,11 @@ function MainScreen({ mode, onUpdate }: Props) {
     <div className="Main">
       <Suggestion editor={editor} message={_message()} replacements={_replacements()} ignore={_ignore} accept={_acceptSuggestion} />
 
-      <div>
-        {_revision ? (
-          <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
-        ) : (
-          <EditorContent editor={editor} />
-        )}
-      </div>
+      {_revision ? (
+        <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
+      ) : (
+        <EditorContent editor={editor} />
+      )}
 
       <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} />
     </div>

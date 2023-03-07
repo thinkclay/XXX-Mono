@@ -29,3 +29,11 @@ $color-language-border: #faec2e;
 $color-language-background: #faec2e55;
 
 $toolbar-height: 40px;
+
+%Main {
+  background-color: #fff;
+  margin: 0 auto;
+  max-width: 1000px;
+  position: relative;
+  width: 100%;
+}

@@ -5,8 +5,6 @@ import { useState } from 'react'
 import LogoFull from './LogoFull'
 import Fill from './Fill'
 
-import '@common/assets/styles/welcome.css'
-
 interface WelcomeScreenProps {
   handler: () => void
 }

@@ -12,8 +12,4 @@ export const config: PlasmoCSConfig = {
 const GmailFactory = require('gmail-js')
 const jQuery = require('jquery')
 
-window._gmailjs = window._gmailjs || new GmailFactory.Gmail(jQuery)
-
-window.addEventListener('load', () => {
-  console.log('Gmail Preloader')
-})
+window.gmail = window.gmail || new GmailFactory.Gmail(jQuery)
