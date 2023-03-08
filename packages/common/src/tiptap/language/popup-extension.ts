@@ -32,7 +32,6 @@ export const Popup = Extension.create<PopupOptions>({
         editor: this.editor,
         element: this.options.element,
         tippyOptions: this.options.tippyOptions,
-        updateDelay: this.options.updateDelay,
         shouldShow: this.options.shouldShow,
       }),
     ]

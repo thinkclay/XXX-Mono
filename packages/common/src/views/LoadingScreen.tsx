@@ -1,7 +1,14 @@
 /** @format */
 
+import LogoFull from './Welcome/LogoFull'
+
 function LoadingScreen() {
-  return <p>Loading...</p>
+  return (
+    <div className="LoadingScreen">
+      <LogoFull />
+      <p>Loading...</p>
+    </div>
+  )
 }
 
 export default LoadingScreen

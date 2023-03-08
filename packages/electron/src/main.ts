@@ -14,13 +14,13 @@ if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
-async function handleRequest(event, prompt) {
-  const response = await getRevision(prompt)
-    .then(response => Promise.resolve(parseRevision(response)))
-    .catch(err => Promise.reject(err))
+// async function handleRequest(event, prompt) {
+//   const response = await getRevision(prompt)
+//     .then(response => Promise.resolve(parseRevision(response)))
+//     .catch(err => Promise.reject(err))
 
-  return response
-}
+//   return response
+// }
 
 const createWindow = (): void => {
   // Create the browser window.
@@ -62,6 +62,6 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(() => {
-  ipcMain.handle('revision:request', handleRequest)
+  // ipcMain.handle('revision:request', handleRequest)
   createWindow()
 })

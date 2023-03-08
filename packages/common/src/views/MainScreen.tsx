@@ -14,6 +14,7 @@ import { getRevisedCopy } from '@common/helpers/openai'
 import Revision from './Revise/Revision'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { PageProps } from '@common/types/UI'
+import { IWindow } from '@common/types/Global'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
@@ -28,7 +29,6 @@ function MainScreen({ mode, onUpdate }: Props) {
     autofocus: 'start',
     onUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
-      console.log('onUpdate?', onUpdate)
       onUpdate && onUpdate(editor.getHTML())
     },
     onSelectionUpdate({ editor }) {

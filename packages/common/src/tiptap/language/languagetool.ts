@@ -70,7 +70,7 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
     uuid: uuidv4(),
   })
 
-const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: number, cur: Node) => {
+const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: number, cur: PMModel) => {
   console.log('proofreadNodeAndUpdateItsDecorations')
   // Mocking the Loading state when text from a node is changed
   // await new Promise(r => setTimeout(r, 500))
@@ -319,6 +319,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
             if (tr.docChanged && this.options.automaticMode) {
               if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc)
+              // @ts-ignore
               else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofreadNodeAndUpdateItsDecorations)
             }
 

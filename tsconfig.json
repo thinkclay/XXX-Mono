@@ -24,6 +24,5 @@
       "@electron/*": ["./packages/electron/src/*"]
     }
   },
-  "include": ["./packages/common/src/**/*"],
-  "references": ["./packages/common", "./packages/chrome", "./packages/electron"]
+  "include": ["./packages/common/src/**/*"]
 }

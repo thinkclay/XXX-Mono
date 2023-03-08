@@ -1,8 +1,10 @@
 /** @format */
 
 @import './_variables.scss';
-@import './global.scss';
-@import './button.scss';
-@import './toolbar.scss';
-@import './logo.scss';
-@import './welcome.scss';
+@import './global';
+@import './button';
+@import './toolbar';
+@import './logo';
+@import './welcome';
+@import './loading';
+@import './auth';

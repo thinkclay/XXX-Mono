@@ -9,10 +9,5 @@
       "@electron/*": ["../electron/*"]
     }
   },
-  "references": [
-    {
-      "path": "../common"
-    }
-  ],
   "include": [".plasmo/index.d.ts"]
 }

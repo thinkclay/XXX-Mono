@@ -1,8 +1,7 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
-import jQuery from 'jquery'
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
@@ -18,13 +17,8 @@ export const config: PlasmoCSConfig = {
 }
 
 window.addEventListener('load', () => {
-  console.log('Gmail React Injection Content Script', window.gmail, jQuery)
-
   const loaderId = setInterval(() => {
-    if (!window.gmail) {
-      console.log('!window._gmailjs not defined')
-      return
-    }
+    if (!window.gmail) return
 
     clearInterval(loaderId)
     startExtension()
@@ -42,16 +36,14 @@ window.addEventListener('load', () => {
 
       clearInterval(bodyId)
 
-      const $editor = jQuery('.editable').first()
-      const $parent = $editor.parent()
       const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text)
 
-      runApp(document.body, $parent[0], updateHandler)
+      runApp(document.body, updateHandler)
     }, 100)
   }
 })
 
-function runApp(rootMount: Element, iconMount: Element, updateHandler: (text: string) => void) {
+function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   const rootElement = document.createElement('div')
   rootElement.id = 'gmailRoot'
   rootMount.appendChild(rootElement)
@@ -60,13 +52,13 @@ function runApp(rootMount: Element, iconMount: Element, updateHandler: (text: st
 
   root.render(
     <RecoilRoot>
-      <React.StrictMode>
+      <StrictMode>
         <div id="RevisionApp">
           <MainScreen mode="embedded" onUpdate={updateHandler} />
           <Close handler={() => rootElement.remove()} />
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
-      </React.StrictMode>
+      </StrictMode>
     </RecoilRoot>
   )
 

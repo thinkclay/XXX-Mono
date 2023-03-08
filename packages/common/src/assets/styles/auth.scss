@@ -1,10 +1,11 @@
 /** @format */
+@import './_variables';
 
 #RevisionApp {
   .auth {
+    @extend %Main;
     margin: 0 auto;
-    max-width: 400px;
-    padding: 20px;
+    min-width: 400px;
 
     input[type='text'],
     input[type='password'] {
@@ -32,23 +33,6 @@
   .Form {
     display: flex;
     flex-direction: column;
-  }
-
-  .button {
-    &.primary {
-      background-color: var(--color-brand-1);
-      color: #fff;
-      flex: 1;
-      padding: 12px 25px;
-    }
-
-    &.secondary {
-      background-color: var(--color-brand-2);
-    }
-
-    + .button {
-      margin-left: 20px;
-    }
   }
 
   .LinkRow {

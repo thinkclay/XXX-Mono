@@ -14,12 +14,11 @@ function AuthScreen({ mode }: PageProps) {
   if (authUser) return <AccountScreen mode={mode} />
 
   return (
-    <div className="Login auth centered">
+    <div className={`Login auth centered ${mode}`}>
       <div className="copy centered large">
         <h1>Welcome to ReVision</h1>
         <p>Interrupting bias and re-imagining communication.</p>
         <p>Implicit bias is a part of being human. ReVision helps you spot it, fix it, and track your improvement over time.</p>
-        Login: {mode}
       </div>
 
       <div className="ButtonRow centered">

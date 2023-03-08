@@ -93,8 +93,6 @@ export class PopupView {
     const { state, composing } = view
     const { selection } = state
 
-    console.log('updated')
-
     if (composing) return
 
     this.createTooltip()

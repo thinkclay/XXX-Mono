@@ -21,7 +21,7 @@ export function changedDescendants(
   old: PMModel,
   cur: PMModel,
   offset: number,
-  f: (node: PMModel, offset: number, cur: PMModel) => void
+  f: (node: PMModel, offset: number, cur: PMModel | null) => void
 ): void {
   const oldSize = old.childCount,
     curSize = cur.childCount
@@ -88,8 +88,6 @@ export function findAndCreateMatch(text: string, body: string, type: string, mes
 
 export async function getBiasMatches(text: string): Promise<Match[]> {
   let matches: Match[] = []
-  const completions = await fetchCompletions(text)
-  const classifications = await fetchClassifications(text)
   const biases = await fetchBiases(text)
 
   biases.results.forEach(bias => {
@@ -98,7 +96,6 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
     // Skip if the top match is None for bias
     if (type === 'None') return
 
-    // const r = cl.results.map(cls => ({ ...cls, value: `${cls.name}: ${cls.percent.toPrecision(2)}%` }))
     const m = findAndCreateMatch(
       bias.input,
       text,
@@ -109,37 +106,6 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
 
     if (m) matches.push(m)
   })
-
-  // console.log('getMatchAndSetDecorations/completions:', completions)
-  // console.log('getMatchAndSetDecorations/classifications', classifications)
-
-  // const recs = await getRevision(text)
-  //   .then(response => Promise.resolve(parseRevision(response)))
-  //   .catch(err => Promise.reject(err))
-
-  // if (recs && recs.bias) {
-  //   recs.bias.forEach(rec => {
-  //     const m = findAndCreateMatch(rec.original, text, 'Bias', rec.reason, [{ value: rec.correction }])
-
-  //     if (m) matches.push(m)
-  //   })
-  // }
-
-  // classifications.forEach(cl => {
-  //   // Skip if the top match is None for bias
-  //   if (cl.results[0].name === 'None') return
-
-  //   const r = cl.results.map(cls => ({ ...cls, value: `${cls.name}: ${cls.percent.toPrecision(2)}%` }))
-  //   const m = findAndCreateMatch(cl.input, text, 'Bias', 'Potential Biases in Statement', r)
-
-  //   if (m) matches.push(m)
-  // })
-
-  // console.log('Recs from openai', recs?.bias)
-
-  // classifications.forEach(c =>
-  //   findAndCreateMatch(c.input, c.results[0].name, `${c.results[0].name} Bias`, [{ value: 'Recommendation Here' }])
-  // )
 
   return matches
 }

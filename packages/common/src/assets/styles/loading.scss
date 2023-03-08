@@ -1,0 +1,19 @@
+/** @format */
+
+@import './variables';
+
+#RevisionApp {
+  .LoadingScreen {
+    @extend %Main;
+    font-size: 18px;
+    padding: 60px 0;
+    text-align: center;
+    min-width: 400px;
+
+    .Logo {
+      margin-bottom: 30px;
+      opacity: 0.5;
+      width: 250px;
+    }
+  }
+}

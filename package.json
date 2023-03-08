@@ -22,7 +22,7 @@
     "chrome:start": "yarn workspace @revision/chrome start",
     "chrome:build": "yarn workspace @revision/chrome build",
     "chrome:dist": "yarn workspace @revision/chrome dist",
-    "com:start": "dotenv yarn workspace @revision/electron start",
+    "electron:start": "dotenv yarn workspace @revision/electron start",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
   },
   "packageManager": "yarn@3.4.1",
