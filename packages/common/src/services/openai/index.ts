@@ -76,3 +76,18 @@ export const parseRevision = (response: AxiosResponse<CreateCompletionResponse>)
 
   return null
 }
+
+export function getTone(prompt: string): Promise<AxiosResponse<CreateCompletionResponse>> {
+  const promptScaffold = `
+    What is the current tone of the following? "${prompt}"`
+
+  return openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: promptScaffold,
+    temperature: 1.0,
+    max_tokens: 1500,
+    top_p: 1.0,
+    frequency_penalty: 0.0,
+    presence_penalty: 0.0,
+  })
+}

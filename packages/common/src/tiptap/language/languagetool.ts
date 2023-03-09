@@ -10,10 +10,9 @@ import { Extension } from '@tiptap/core'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
-import { LanguageToolResponse, Match, TextNodesWithPosition, Replacement, LanguageToolOptions, LanguageToolStorage } from './language-types'
-import { BiasClass, fetchClassifications, fetchCompletions, fetchProof } from './language-service'
+import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions, LanguageToolStorage } from './language-types'
+import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
-import { getRevision, parseRevision } from '@common/helpers/openai'
 
 let db: Dexie
 

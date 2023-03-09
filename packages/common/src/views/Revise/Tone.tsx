@@ -1,9 +1,23 @@
 /** @format */
 
 import { useState } from 'react'
+import { useRecoilValue } from 'recoil'
+
+import { toneMessage } from '@common/helpers/tone'
 
 function Tone() {
+  const message = useRecoilValue(toneMessage)
   const [_active, _setActive] = useState(false)
+
+  const _renderTone = () => {
+    if (!message || message.length < 5) return null
+
+    return (
+      <div className="tooltip">
+        <p>{message}</p>
+      </div>
+    )
+  }
 
   return (
     <button className={_active ? 'active' : ''} onClick={() => _setActive(!_active)}>
@@ -16,12 +30,7 @@ function Tone() {
         </g>
       </svg>
 
-      <div className="tooltip">
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint itaque accusamus optio, ipsam soluta, aliquid consequatur quas
-          recusandae voluptates commodi quaerat saepe pariatur fugiat vero nesciunt doloribus tempora minima asperiores.
-        </p>
-      </div>
+      {_renderTone()}
     </button>
   )
 }

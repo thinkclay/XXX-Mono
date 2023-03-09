@@ -17,31 +17,31 @@ export const rootState = atom({
 })
 
 export const routeState = selector({
-  key: 'routeState',
+  key: 'root.routeState',
   get: ({ get }) => get(rootState).route,
 })
 
 export const menuState = selector({
-  key: 'menuState',
+  key: 'root.menuState',
   get: ({ get }) => get(rootState).menuOpen,
 })
 
 export const loadingState = selector({
-  key: 'loadingState',
+  key: 'root.loadingState',
   get: ({ get }) => get(rootState).loading,
 })
 
 export const fetchingLanguageState = selector({
-  key: 'fetchingLanguageState',
+  key: 'root.fetchingLanguageState',
   get: ({ get }) => get(rootState).fetchingLanguage,
 })
 
 export const fetchingRevisionState = selector({
-  key: 'fetchingRevisionState',
+  key: 'root.fetchingRevisionState',
   get: ({ get }) => get(rootState).fetchingRevision,
 })
 
 export const termsState = selector({
-  key: 'termsState',
+  key: 'root.termsState',
   get: ({ get }) => get(rootState).acceptedTerms,
 })

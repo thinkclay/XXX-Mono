@@ -6,6 +6,8 @@ import { Popup } from '@common/tiptap/language'
 import { Replacement } from '@common/tiptap/language/language-types'
 
 import Close from './Close'
+import { v4 } from 'uuid'
+import { useEffect, useState } from 'react'
 
 interface SuggestionProps {
   editor: Editor
@@ -16,6 +18,12 @@ interface SuggestionProps {
 }
 
 function Suggestion({ editor, message, replacements, ignore, accept }: SuggestionProps) {
+  const [_show, _setShow] = useState<boolean>(false)
+
+  useEffect(() => {
+    _setShow(replacements || message ? true : false)
+  }, [replacements, message])
+
   return (
     <Popup editor={editor} tippyOptions={{ placement: 'bottom', animation: 'fade' }}>
       <header className="header">
@@ -25,9 +33,15 @@ function Suggestion({ editor, message, replacements, ignore, accept }: Suggestio
       <div className="message">{message}</div>
 
       <ul className="suggestions">
-        {replacements.map((replacement, index) => {
+        {replacements.map(replacement => {
           return (
-            <li key={index} onClick={() => accept(replacement)}>
+            <li
+              key={v4()}
+              onClick={() => {
+                console.log('Suggestion clicked')
+                accept(replacement)
+              }}
+            >
               {replacement.value}
             </li>
           )

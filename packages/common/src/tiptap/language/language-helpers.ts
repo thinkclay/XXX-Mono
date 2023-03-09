@@ -1,9 +1,7 @@
 /** @format */
-import { matches } from 'lodash'
 import { Node as PMModel } from 'prosemirror-model'
 
-import { getRevision, parseRevision } from '@common/helpers/openai'
-import { fetchCompletions, fetchClassifications, fetchBiases } from './language-service'
+import { fetchBiases } from './language-service'
 import { Match, Replacement } from './language-types'
 
 export const selectElementText = (el: EventTarget) => {

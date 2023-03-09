@@ -76,17 +76,15 @@ export class PopupView {
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
-    if (this.preventHide) {
-      this.preventHide = false
-
-      return
-    }
-
-    if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
-      return
-    }
-
-    this.hide()
+    console.log('Popup blur')
+    // if (this.preventHide) {
+    //   this.preventHide = false
+    //   return
+    // }
+    // if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
+    //   return
+    // }
+    // this.hide()
   }
 
   updateHandler = (view: EditorView, oldState?: EditorState) => {

@@ -10,35 +10,37 @@ export type PopupProps = Omit<Optional<PopupPluginProps, 'pluginKey'>, 'element'
   children: React.ReactNode
 }
 
-export const Popup = (props: PopupProps) => {
+export const Popup = ({ editor, className, children }: PopupProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
+
+  const pluginKey = 'popup'
 
   useEffect(() => {
     if (!element) {
       return
     }
 
-    if (props.editor.isDestroyed) {
+    if (editor.isDestroyed) {
       return
     }
 
-    const { pluginKey = 'popup', editor, tippyOptions = {}, shouldShow = null } = props
+    // const { pluginKey = 'popup', editor, tippyOptions = {}, shouldShow = null } = props
 
     const plugin = PopupPlugin({
       pluginKey,
       editor,
       element,
-      tippyOptions,
-      shouldShow,
+      tippyOptions: {},
+      shouldShow: null,
     })
 
     editor.registerPlugin(plugin)
     return () => editor.unregisterPlugin(pluginKey)
-  }, [props.editor, element])
+  }, [editor, element])
 
   return (
-    <div ref={setElement} className={props.className} style={{ visibility: 'hidden' }}>
-      {props.children}
+    <div ref={setElement} className={className} style={{ visibility: 'hidden' }}>
+      {children}
     </div>
   )
 }
