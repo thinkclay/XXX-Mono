@@ -27,6 +27,8 @@ const Toolbar = ({ mode, copy, reload, rewrite }: Props) => {
         <Tone />
         <Rewrite handler={rewrite} />
       </div>
+
+      <span className="version">0.4.0</span>
     </aside>
   )
 }

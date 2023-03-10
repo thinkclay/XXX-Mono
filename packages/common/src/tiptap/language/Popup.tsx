@@ -12,7 +12,6 @@ export type PopupProps = Omit<Optional<PopupPluginProps, 'pluginKey'>, 'element'
 
 export const Popup = ({ editor, className, children }: PopupProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
-
   const pluginKey = 'popup'
 
   useEffect(() => {
@@ -23,8 +22,6 @@ export const Popup = ({ editor, className, children }: PopupProps) => {
     if (editor.isDestroyed) {
       return
     }
-
-    // const { pluginKey = 'popup', editor, tippyOptions = {}, shouldShow = null } = props
 
     const plugin = PopupPlugin({
       pluginKey,

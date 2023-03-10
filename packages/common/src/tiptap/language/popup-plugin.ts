@@ -36,7 +36,7 @@ export class PopupView {
     // So we check also for an empty text size.
     const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
 
-    if (!view.hasFocus() || empty || isEmptyTextBlock) {
+    if (empty || isEmptyTextBlock) {
       return false
     }
 
@@ -76,15 +76,17 @@ export class PopupView {
   }
 
   blurHandler = ({ event }: { event: FocusEvent }) => {
-    console.log('Popup blur')
-    // if (this.preventHide) {
-    //   this.preventHide = false
-    //   return
-    // }
-    // if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
-    //   return
-    // }
-    // this.hide()
+    if (this.preventHide) {
+      this.preventHide = false
+
+      return
+    }
+
+    if (event?.relatedTarget && this.element.parentNode?.contains(event.relatedTarget as Node)) {
+      return
+    }
+
+    this.hide()
   }
 
   updateHandler = (view: EditorView, oldState?: EditorState) => {
