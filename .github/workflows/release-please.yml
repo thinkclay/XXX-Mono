@@ -1,3 +1,5 @@
+# @format
+
 on:
   push:
     branches:
@@ -17,3 +19,16 @@ jobs:
         with:
           release-type: node
           package-name: release-please-action
+          extra-files:
+            - type: json
+              path: ./package.json
+              jsonpath: $.version
+            - type: json
+              path: ./packages/chrome/package.json
+              jsonpath: $.version
+            - type: json
+              path: ./packages/common/package.json
+              jsonpath: $.version
+            - type: json
+              path: ./packages/electron/package.json
+              jsonpath: $.version
