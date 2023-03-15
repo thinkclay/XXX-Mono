@@ -5,6 +5,7 @@ import Rewrite from './Rewrite'
 import Copy from './Copy'
 import Reload from './Reload'
 import Tone from './Tone'
+import meta from '@common/meta.json'
 
 interface Props {
   mode: RenderMode
@@ -28,7 +29,7 @@ const Toolbar = ({ mode, copy, reload, rewrite }: Props) => {
         <Rewrite handler={rewrite} />
       </div>
 
-      <span className="version">0.4.0</span>
+      <span className="version">{meta.version}</span>
     </aside>
   )
 }

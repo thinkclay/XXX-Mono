@@ -32,3 +32,6 @@ jobs:
             - type: json
               path: ./packages/electron/package.json
               jsonpath: $.version
+            - type: json
+              path: ./packages/common/src/meta.json
+              jsonpath: $.version
