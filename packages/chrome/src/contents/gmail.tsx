@@ -26,6 +26,11 @@ window.addEventListener('load', () => {
 
   function startExtension() {
     window.gmail.observe.on('compose', composeHandler)
+    window.gmail.observe.on('load', loadHandler)
+  }
+
+  function loadHandler() {
+    console.log('Email', window.gmail.get.user_email())
   }
 
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
