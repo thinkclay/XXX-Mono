@@ -1,13 +1,16 @@
-React-TypeScript-Electron sample with Create React App and Electron Builder
-===========================================================================
+<!-- @format -->
+
+# ReVision Mono Repo
+
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--template typescript`option.
 
 On the top of it, the following features have been added with relatively small changes:
 
-* TypeScript supports for Electron main process source code
-* Hot-reload support for Electron app
-* Electron Builder support
+- TypeScript supports for Electron main process source code
+- Hot-reload support for Electron app
+- Electron Builder support
 
 ## Available Scripts in addition to the existing ones
 
@@ -82,9 +85,7 @@ yarn add -D concurrently electron electron-builder wait-on cross-env
     "outDir": "../build", // Output transpiled files to build/electron/
     "rootDir": "../",
     "noEmitOnError": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["node_modules/@types"]
   }
 }
 ```
@@ -92,30 +93,30 @@ yarn add -D concurrently electron electron-builder wait-on cross-env
 #### electron/main.ts
 
 ```ts
-import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
-import * as isDev from 'electron-is-dev';
-import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
+import { app, BrowserWindow } from 'electron'
+import * as path from 'path'
+import * as isDev from 'electron-is-dev'
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 
-let win: BrowserWindow | null = null;
+let win: BrowserWindow | null = null
 
 function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   })
 
   if (isDev) {
-    win.loadURL('http://localhost:3000/index.html');
+    win.loadURL('http://localhost:3000/index.html')
   } else {
     // 'build/index.html'
-    win.loadURL(`file://${__dirname}/../index.html`);
+    win.loadURL(`file://${__dirname}/../index.html`)
   }
 
-  win.on('closed', () => win = null);
+  win.on('closed', () => (win = null))
 
   // Hot Reloading
   if (isDev) {
@@ -123,33 +124,33 @@ function createWindow() {
     require('electron-reload')(__dirname, {
       electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
       forceHardReset: true,
-      hardResetMethod: 'exit'
-    });
+      hardResetMethod: 'exit',
+    })
   }
 
   // DevTools
   installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err))
 
   if (isDev) {
-    win.webContents.openDevTools();
+    win.webContents.openDevTools()
   }
 }
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
 app.on('activate', () => {
   if (win === null) {
-    createWindow();
+    createWindow()
   }
-});
+})
 ```
 
 ### Adjust package.json
@@ -194,4 +195,4 @@ app.on('activate', () => {
 - [Application entry file reset to default (react-cra detected and config changed incorrectly)](https://github.com/electron-userland/electron-builder/issues/2030)
 - [Serving the Same Build from Different Paths](https://create-react-app.dev/docs/deployment#serving-the-same-build-from-different-paths)
 
-## 
+##
