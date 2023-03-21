@@ -2,7 +2,6 @@
 
 import { RenderMode } from '@common/types/UI'
 import Rewrite from './Rewrite'
-import Copy from './Copy'
 import Reload from './Reload'
 import Tone from './Tone'
 import meta from '@common/meta.json'
@@ -23,7 +22,7 @@ const Toolbar = ({ mode, copy, reload, rewrite }: Props) => {
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
-        <Copy handler={copy} />
+        {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
         <Tone />
         <Rewrite handler={rewrite} />

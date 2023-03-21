@@ -235,7 +235,8 @@
       }
     }
 
-    &.lt-misspelling {
+    &.lt-misspelling,
+    &.lt-whitespace {
       border-bottom: 2px solid #e86a69;
 
       &:hover {

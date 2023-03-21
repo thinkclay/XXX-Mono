@@ -52,9 +52,6 @@ export function findAndCreateMatch(text: string, body: string, type: string, mes
 
   const from = m.index
 
-  console.log('From: ', text, body, from)
-  // const completions = await (await fetchCompletions(text)).results
-
   return {
     message,
     shortMessage: message,
@@ -98,7 +95,7 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
       bias.input,
       text,
       type,
-      `${type} Bias in Statement`,
+      `This phrase may contain ${type.toLocaleLowerCase()} bias. Here are some examples of alternative statements:`,
       bias.replacements.map(r => ({ value: r }))
     )
 

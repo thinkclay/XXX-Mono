@@ -49,7 +49,7 @@ object.bias should explain bias with reasons and replacements as an array with a
 
 export function getRevisedCopy(prompt: string) {
   const promptScaffold = `
-    Rewrite the following text removing bias, softening tone, correcting spelling, and grammar.\n\n${prompt}`
+    Remove all opinions, subjective language, and judgments from the following sentences, and rewrite them using objective language with no opinions, only observable actions and words and statements of events that have taken place:\n\n${prompt}`
 
   return openai.createCompletion({
     model: 'text-davinci-003',

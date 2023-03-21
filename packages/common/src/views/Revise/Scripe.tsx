@@ -83,7 +83,9 @@ function Scribe({ editor, match, mode }: ScribeProps) {
       {_revision ? (
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
       ) : (
-        <EditorContent editor={editor} />
+        <div>
+          <EditorContent editor={editor} />
+        </div>
       )}
 
       <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} />

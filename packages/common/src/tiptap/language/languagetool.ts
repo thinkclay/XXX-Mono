@@ -13,8 +13,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions, LanguageToolStorage } from './language-types'
 import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
+import IgnoredDB from '@common/helpers/db'
 
-let db: Dexie
+let db: IgnoredDB
 
 let editorView: EditorView
 let decorationSet: DecorationSet
@@ -90,7 +91,7 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
 
     if (extensionDocId) {
       const content = editorView.state.doc.textBetween(from, to)
-      const result = await (db as any).ignoredWords.get({ value: content, documentId: extensionDocId })
+      const result = await db.ignoredWords.get({ value: content })
 
       if (!result) nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -122,7 +123,7 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
 
     if (extensionDocId) {
       const content = doc.textBetween(from, to)
-      const result = await (db as any).ignoredWords.get({ value: content })
+      const result = await db.ignoredWords.get({ value: content })
 
       if (!result) decorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -260,7 +261,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
           const content = doc.textBetween(from, to)
 
-          ;(db as any).ignoredWords.add({ value: content, documentId: `${extensionDocId}` })
+          db.ignoredWords.add({ value: content })
 
           return false
         },
@@ -289,17 +290,9 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
             if (documentId) {
               extensionDocId = documentId
-
-              db = new Dexie('LanguageToolIgnoredSuggestions')
-
-              db.version(1).stores({
-                ignoredWords: `
-                  ++id,
-                  &value,
-                  documentId
-                `,
-              })
             }
+
+            db = new IgnoredDB()
 
             return decorationSet
           },

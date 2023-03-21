@@ -1,7 +1,7 @@
 {
   "name": "@revision/electron",
   "productName": "ReVision",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
