@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 
 interface SuggestionProps {
   editor: Editor
-  message: string
+  message: string | undefined;
   replacements: Replacement[]
   ignore: () => void
   accept: (replacement: Replacement) => void
@@ -26,6 +26,8 @@ function Suggestion({ editor, message, replacements, ignore, accept }: Suggestio
 
   return (
     <Popup editor={editor} tippyOptions={{ placement: 'bottom', animation: 'fade' }}>
+     {message &&    
+     <>
       <header className="header">
         <Close handler={ignore} />
       </header>
@@ -47,6 +49,8 @@ function Suggestion({ editor, message, replacements, ignore, accept }: Suggestio
           )
         })}
       </ul>
+      </>
+      }
     </Popup>
   )
 }

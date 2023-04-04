@@ -71,7 +71,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
   }
   const _declineRevision = () => _setRevision()
 
-  const _message = () => match?.message || 'No Message'
+  const _message = () => match?.message;
   const _replacements = () => match?.replacements || []
   const _ignore = () => editor.commands.ignoreLanguageToolSuggestion()
   const _acceptSuggestion = (replacement: Replacement) => editor.commands.insertContent(replacement.value)
