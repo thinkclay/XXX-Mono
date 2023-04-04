@@ -33,7 +33,7 @@ function Suggestion({ editor, message, replacements, ignore, accept }: Suggestio
       <div className="message">{message}</div>
 
       <ul className="suggestions">
-        {replacements.map(replacement => {
+        {replacements.slice(0,5).map(replacement => {
           return (
             <li
               key={v4()}
