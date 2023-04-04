@@ -42,11 +42,18 @@
 
         svg {
           height: 20px;
+          cursor: pointer;
+          
         }
 
         .FillLayer {
           fill: $color-n300;
           transition: fill 0.25s;
+        }
+        .FillLayerTone {
+          fill: $color-n300;
+          transition: fill 0.25s;
+          opacity: 50%;
         }
 
         &:hover {

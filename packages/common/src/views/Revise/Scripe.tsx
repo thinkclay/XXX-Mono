@@ -88,7 +88,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} />
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor}/>
     </div>
   )
 }
