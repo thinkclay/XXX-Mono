@@ -12,6 +12,21 @@ On the top of it, the following features have been added with relatively small c
 - Hot-reload support for Electron app
 - Electron Builder support
 
+
+## Example Copy
+
+Baseline copy we use to test with for spelling, grammar, and tone:
+
+```
+To the parnts of Lizzy James,
+
+
+I’m sending you a note to request a meeting ASAP regarding Jesse’s behavior.  He has been out of control the last few days and has destroyed the classroom.If this behavior doesnt stop soon, we’ll have to consider more drastic measures.  Please reply to this email with a time and a phone number where I can reach you- I’ve tried several times and no if the phone numbers work.
+
+
+Mrs. English
+```
+
 ## Available Scripts in addition to the existing ones
 
 ### `npm run electron:dev`
