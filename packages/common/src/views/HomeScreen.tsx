@@ -19,8 +19,8 @@ function HomeScreen(screen: PageProps) {
 
   const _handler = () => {
     if (authUser) {
-      setUser({ ...authUser, acceptedTerms: true })
-      updateUser(authUser, { acceptedTerms: true })
+      setUser({ ...authUser, acceptedTerms: true, spellCheck: true })
+      updateUser(authUser, { acceptedTerms: true, spellCheck: true })
     }
   }
 

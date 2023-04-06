@@ -9,6 +9,7 @@ export interface CustomUserModel extends Partial<User> {
   firstName?: string
   lastName?: string
   acceptedTerms?: boolean
+  spellCheck?: boolean
   authProvider?: 'local' | 'google'
 }
 
