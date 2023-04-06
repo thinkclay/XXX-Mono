@@ -14,15 +14,29 @@ import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions
 import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
+import { auth, db } from '@common/services/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
-let db: IgnoredDB
-
+let DB: IgnoredDB
+let SpellCheckValue :  string | undefined 
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
 let textNodesWithPosition: TextNodesWithPosition[] = []
 let match: Match | undefined = undefined
 let proofReadInitially = false
+
+
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    const _doc = doc(db, 'users', user.uid)
+    const _result = await getDoc(_doc)
+    console.log("useruseruser", _result.data()?.spellCheck)
+    SpellCheckValue =  _result.data()?.spellCheck === true ? "true" : _result.data()?.spellCheck === false ? "false" : undefined
+    console.log("useruseruser", SpellCheckValue)
+  }
+})
 
 export enum LanguageToolHelpingWords {
   LanguageToolTransactionName = 'languageToolTransaction',
@@ -91,7 +105,7 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
 
     if (extensionDocId) {
       const content = editorView.state.doc.textBetween(from, to)
-      const result = await db.ignoredWords.get({ value: content })
+      const result = await DB.ignoredWords.get({ value: content })
 
       if (!result) nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -123,7 +137,7 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
 
     if (extensionDocId) {
       const content = doc.textBetween(from, to)
-      const result = await db.ignoredWords.get({ value: content })
+      const result = await DB.ignoredWords.get({ value: content })
 
       if (!result) decorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -261,7 +275,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
           const content = doc.textBetween(from, to)
 
-          db.ignoredWords.add({ value: content })
+          DB.ignoredWords.add({ value: content })
 
           return false
         },
@@ -279,7 +293,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             return this.getState(state)
           },
           attributes: {
-            spellcheck: 'false',
+            spellcheck: SpellCheckValue !== undefined ? SpellCheckValue : "true"
           },
         },
         state: {
@@ -292,7 +306,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
               extensionDocId = documentId
             }
 
-            db = new IgnoredDB()
+            DB = new IgnoredDB()
 
             return decorationSet
           },

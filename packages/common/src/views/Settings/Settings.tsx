@@ -6,12 +6,12 @@ import { useEffect, useState } from "react";
 import { useFirebase } from "@common/services/firebase/hook";
 
 function Settings({ mode }: PageProps) {
-  const [spellcheck, setSpellcheck] = useState<boolean | undefined>(true);
+  const [spellcheck, setSpellcheck] = useState<boolean | undefined>(false);
   const { authUser ,updateUser, getUser } = useFirebase();
 
   const _handlerSpellCheck = async (check: boolean) => {
     if (authUser) {
-      updateUser(authUser, { spellCheck: check });
+      updateUser(authUser, { spellCheck: check,acceptedTerms: true });
     }
     setSpellcheck(check);
   };
