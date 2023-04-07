@@ -1,9 +1,9 @@
 //  @format 
 
 
-import { PageProps } from "@common/types/UI";
-import Fill from "../Welcome/Fill";
-import { useState } from "react";
+import { PageProps } from '@common/types/UI'
+import Fill from '../Welcome/Fill'
+import { useState } from 'react'
 
 
 function Settings({ mode }: PageProps) {
@@ -29,7 +29,7 @@ function Settings({ mode }: PageProps) {
         </li>
       </ul>
     </div>
-  );
+  )
 }
 
 
