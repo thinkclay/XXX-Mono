@@ -14,11 +14,8 @@ import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions
 import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
-import { auth, db } from '@common/services/firebase'
-import { onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
 
-let DB: IgnoredDB
+let db: IgnoredDB
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
@@ -93,7 +90,7 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
 
     if (extensionDocId) {
       const content = editorView.state.doc.textBetween(from, to)
-      const result = await DB.ignoredWords.get({ value: content })
+      const result = await db.ignoredWords.get({ value: content })
 
       if (!result) nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -125,7 +122,7 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
 
     if (extensionDocId) {
       const content = doc.textBetween(from, to)
-      const result = await DB.ignoredWords.get({ value: content })
+      const result = await db.ignoredWords.get({ value: content })
 
       if (!result) decorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -294,7 +291,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
               extensionDocId = documentId
             }
 
-            DB = new IgnoredDB()
+            db = new IgnoredDB()
 
             return decorationSet
           },
