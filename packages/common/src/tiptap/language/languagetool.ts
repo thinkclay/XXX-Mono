@@ -16,7 +16,6 @@ import { changedDescendants, getBiasMatches, selectElementText } from './languag
 import IgnoredDB from '@common/helpers/db'
 
 let db: IgnoredDB
-
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
@@ -218,7 +217,6 @@ const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
 }
 
 const debouncedProofreadAndDecorate = debounce(proofreadAndDecorateWholeDoc, 1000)
-
 export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolStorage>({
   name: 'languagetool',
 
@@ -261,7 +259,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
           const content = doc.textBetween(from, to)
 
-          db.ignoredWords.add({ value: content })
+          DB.ignoredWords.add({ value: content })
 
           return false
         },
@@ -270,6 +268,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
   addProseMirrorPlugins() {
     const { documentId } = this.options
+    const spellCheck = localStorage.getItem("spellcheck");
 
     return [
       new Plugin({
@@ -279,7 +278,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             return this.getState(state)
           },
           attributes: {
-            spellcheck: 'false',
+            spellcheck: spellCheck !== null ? spellCheck :  'true'
           },
         },
         state: {
