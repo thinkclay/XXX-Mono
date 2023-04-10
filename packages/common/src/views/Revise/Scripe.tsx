@@ -13,18 +13,22 @@ import Suggestion from './Suggestion'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
 import { RenderMode } from '@common/types/UI'
+import IgnoredDB from '@common/helpers/db'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '@common/services/firebase'
+import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
 
 interface ScribeProps {
   editor: Editor
   match: Match | null
   mode: RenderMode
 }
-
+let DB: IgnoredDB
 function Scribe({ editor, match, mode }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
-
+  DB = new IgnoredDB()
   const _fetchRevision = async (text: string) => {
     setRoot({ ...root, fetchingRevision: true })
 
@@ -54,7 +58,36 @@ function Scribe({ editor, match, mode }: ScribeProps) {
 
   useEffect(() => {
     console.log('Fetch Tone')
-
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        const userCollection = collection(db, 'users')
+        const userDocRef = doc(userCollection, user.uid)
+        const ignoreCollection = collection(userDocRef, 'ignorelist')
+        const queryDocs = query(ignoreCollection)
+        getDocs(queryDocs)
+          .then(checkQuery => {
+            if (checkQuery.size > 0) {
+              getDocs(ignoreCollection)
+                .then(querySnapshot => {
+                  DB.ignoredWords.clear()
+                  querySnapshot.forEach(async (data: any) => {
+                    const newData = data.data().data
+                    console.log(newData)
+                    newData.forEach((data: { Value: any }) => {
+                      DB.ignoredWords.add({ value: data.Value })
+                    })
+                  })
+                })
+                .catch(error => {
+                  console.error('Error getting documents: ', error)
+                })
+            }
+          })
+          .catch(error => {
+            console.error('Error getting ignoreCollection:', error)
+          })
+      }
+    })
     const text = editor.getText()
 
     if (text.length < 200) return
@@ -71,7 +104,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
   }
   const _declineRevision = () => _setRevision()
 
-  const _message = () => match?.message;
+  const _message = () => match?.message
   const _replacements = () => match?.replacements || []
   const _ignore = () => editor.commands.ignoreLanguageToolSuggestion()
   const _acceptSuggestion = (replacement: Replacement) => editor.commands.insertContent(replacement.value)
@@ -88,7 +121,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor}/>
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} />
     </div>
   )
 }
