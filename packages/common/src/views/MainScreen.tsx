@@ -10,7 +10,7 @@ import { LanguageTool, LanguageToolHelpingWords } from '@common/tiptap/language'
 import { Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
-import Scribe from './Revise/Scripe'
+import Scribe from './Revise/Scribe'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
