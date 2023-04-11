@@ -2,10 +2,8 @@
  * @see https://github.com/sereneinserenade/tiptap-languagetool/blob/main/src/components/extensions/languagetool.ts
  * @format
  */
-
 import { debounce } from 'lodash'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
-import { Dexie } from 'dexie'
 import { Extension } from '@tiptap/core'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
@@ -14,8 +12,11 @@ import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions
 import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
+import { auth, db } from '@common/services/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
 
-let db: IgnoredDB
+let DB: IgnoredDB
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
@@ -90,7 +91,7 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
 
     if (extensionDocId) {
       const content = editorView.state.doc.textBetween(from, to)
-      const result = await db.ignoredWords.get({ value: content })
+      const result = await DB.ignoredWords.get({ value: content })
 
       if (!result) nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -122,7 +123,7 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
 
     if (extensionDocId) {
       const content = doc.textBetween(from, to)
-      const result = await db.ignoredWords.get({ value: content })
+      const result = await DB.ignoredWords.get({ value: content })
 
       if (!result) decorations.push(gimmeDecoration(from, to, match))
     } else {
@@ -253,12 +254,48 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
         ({ editor }) => {
           if (this.options.documentId === undefined) throw new Error('Please provide a unique Document ID(number|string)')
 
-          const { selection, doc } = editor.state
+          const { selection } = editor.state
           const { from, to } = selection
           decorationSet = decorationSet.remove(decorationSet.find(from, to))
 
-          const content = doc.textBetween(from, to)
+          const content = editor.state.doc.textBetween(from, to)
 
+          onAuthStateChanged(auth, async user => {
+            if (user) {
+              const userCollection = collection(db, 'users')
+              const userDocRef = doc(userCollection, user.uid)
+              const ignoreCollection = collection(userDocRef, 'ignorelist')
+              const queryDocs = query(ignoreCollection)
+              getDocs(queryDocs)
+                .then(checkQuery => {
+                  if (checkQuery.size > 0) {
+                    getDocs(ignoreCollection)
+                      .then(querySnapshot => {
+                        querySnapshot.forEach((data: any) => {
+                          const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
+                          const newDocRef = doc(ignoreListCollection, data.id)
+                          const newData = data.data().data
+                          console.log(newData.length)
+                          newData.push({ Key: newData.length + 1, Value: content })
+                          updateDoc(newDocRef, { data: newData })
+                            .then(data => console.log('UPDATED Firebase', data))
+                            .catch(e => console.log('Error', e))
+                        })
+                      })
+                      .catch(error => {
+                        console.error('Error getting documents: ', error)
+                      })
+                  } else {
+                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content }] })
+                      .then(data => console.log('NEW_ADDED Firebase', data))
+                      .catch(e => console.log('Error', e))
+                  }
+                })
+                .catch(error => {
+                  console.error('Error getting ignoreCollection:', error)
+                })
+            }
+          })
           DB.ignoredWords.add({ value: content })
 
           return false
@@ -268,7 +305,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
   addProseMirrorPlugins() {
     const { documentId } = this.options
-    const spellCheck = localStorage.getItem("spellcheck");
+    const spellCheck = localStorage.getItem('spellcheck')
 
     return [
       new Plugin({
@@ -278,7 +315,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             return this.getState(state)
           },
           attributes: {
-            spellcheck: spellCheck !== null ? spellCheck :  'true'
+            spellcheck: spellCheck !== null ? spellCheck : 'true',
           },
         },
         state: {
@@ -291,7 +328,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
               extensionDocId = documentId
             }
 
-            db = new IgnoredDB()
+            DB = new IgnoredDB()
 
             return decorationSet
           },
