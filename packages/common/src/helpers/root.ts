@@ -9,6 +9,7 @@ export const rootDefault = {
   fetchingLanguage: false,
   fetchingRevision: false,
   acceptedTerms: false,
+  spellCheck:true
 }
 
 export const rootState = atom({
@@ -44,4 +45,9 @@ export const fetchingRevisionState = selector({
 export const termsState = selector({
   key: 'root.termsState',
   get: ({ get }) => get(rootState).acceptedTerms,
+})
+
+export const gStatus = selector({
+  key: 'root.spellCheckStatus',
+  get: ({ get }) => get(rootState).spellCheck,
 })

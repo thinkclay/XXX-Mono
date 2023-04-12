@@ -26,9 +26,17 @@ export const useFirebase = () => {
   const firestore = useMemo(() => (authUser ? getFirestore(app) : null), [authUser])
 
   useEffect(() => {
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth,async user => {
       setAuthLoading(false)
       setAuthUser(user)
+      if(user){
+        const u = await getUser(user);
+        if(u.spellCheck !== undefined){
+          localStorage.setItem('spellcheck', u.spellCheck.toString());
+        }else{
+          localStorage.setItem('spellcheck', 'true');
+        }
+      }
     })
   }, [])
 
@@ -74,7 +82,8 @@ export const useFirebase = () => {
   }
 
   const logout = async () => {
-    setAuthLoading(true)
+    setAuthLoading(true);
+    localStorage.clear();
     if (authUser) {
       await auth.signOut()
     }

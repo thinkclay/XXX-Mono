@@ -19,8 +19,11 @@ function HomeScreen(screen: PageProps) {
 
   const _handler = () => {
     if (authUser) {
-      setUser({ ...authUser, acceptedTerms: true })
-      updateUser(authUser, { acceptedTerms: true })
+      setUser({ ...authUser, acceptedTerms: true, spellCheck: true })
+      updateUser(authUser, {
+        acceptedTerms: true,
+        spellCheck: true
+      })
     }
   }
 
@@ -30,6 +33,11 @@ function HomeScreen(screen: PageProps) {
       if (authUser) {
         const u = await getUser(authUser)
         setUser(u)
+        if(u.spellCheck !== undefined){
+          localStorage.setItem('spellcheck', u.spellCheck.toString());
+        }else{
+          localStorage.setItem('spellcheck', 'true');
+        }
       }
     })()
   }, [authUser])
