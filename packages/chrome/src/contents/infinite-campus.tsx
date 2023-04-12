@@ -17,21 +17,15 @@ export const config: PlasmoCSConfig = {
 }
 
 window.addEventListener('load', () => {
-  console.log('Load site');
-  console.log('platform is working', document);
   const frameSidebar = document.getElementById('frameSidebar');
   const iframeDocument = frameSidebar?.contentDocument;
   if (iframeDocument) {
-    console.log('mli gy id', iframeDocument.getElementById('aside'));
     const title = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]');
     if (title) {
-      console.log('mli gy id title', title);
       title.addEventListener('click', () => {
-        console.log('on CLicking');
         setTimeout(() => {
           const frameWorkspaceHeader = document.getElementById('frameWorkspace');
           const workspaceDocumentHeader = frameWorkspaceHeader?.contentDocument;
-          console.log("hayehaye mli gyu", workspaceDocumentHeader);
           if (workspaceDocumentHeader) {
             const frameWorkspaceWrapper = workspaceDocumentHeader.getElementById('frameWorkspaceWrapper');
             const workspaceDocumentWrapper = frameWorkspaceWrapper?.contentDocument;
@@ -39,26 +33,18 @@ window.addEventListener('load', () => {
               const frameWorkspaceHeaderWarper = workspaceDocumentWrapper.getElementById('frameWorkspaceHeader');
               const workspaceDocumentWrap = frameWorkspaceHeaderWarper?.contentDocument;
               const newButton = workspaceDocumentWrap?.getElementById('newDiv');
-              console.log("newButton mli gyu", newButton, workspaceDocumentWrap);
               newButton.addEventListener('click', () => {
-                console.log('on CLicking new');
                 setTimeout(() => {
                   const frameWorkspaceFooterDetails = workspaceDocumentWrapper.getElementById('frameWorkspaceDetail');
                   const workspaceDocumentFooter = frameWorkspaceFooterDetails?.contentDocument;
-                  console.log("newButton mli gyu details", frameWorkspaceFooterDetails, workspaceDocumentFooter);
                   if (workspaceDocumentFooter) {
                     const detailFrame = workspaceDocumentFooter?.getElementById('detailFrame');
                     const detailsFrame = detailFrame?.contentDocument;
-                    console.log("DetailsFields mli gyu details", detailFrame, detailsFrame);
                     if (detailsFrame) {
                       const descriptionField = detailsFrame?.getElementById('description');
-                      console.log(descriptionField)
                       if (descriptionField) {
-                        console.log('mli gy id finaliy 😊😊😊', descriptionField);
                         descriptionField.addEventListener('click', () => {
-                          console.log("clicking by me 😒")
                           const updateHandler = (text: string) => {
-                            console.log("clicking by me 😍")
                             var newText = text.replace(/<\/?[^>]+>/gi, ' ');
                             descriptionField.value = newText;
                             const event = new Event('input', { bubbles: true });
