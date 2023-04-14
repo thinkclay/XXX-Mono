@@ -1,0 +1,24 @@
+{
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+        "@release-it/bumper": {
+          "in": [
+            "packages/chrome/package.json",
+            "packages/common/package.json",
+            "packages/electron/package.json",
+            "packages/common/src/meta.json"
+          ],
+          "out": [
+            "packages/chrome/package.json",
+            "packages/common/package.json",
+            "packages/electron/package.json",
+            "packages/common/src/meta.json"
+          ]
+        }
+    }
+}

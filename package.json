@@ -24,7 +24,8 @@
     "chrome:dist": "yarn workspace @revision/chrome dist",
     "electron:start": "dotenv yarn workspace @revision/electron start",
     "commit": "yarn cz",
-    "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock"
+    "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock",
+    "release": "release-it"
   },
   "packageManager": "yarn@3.4.1",
   "devDependencies": {
@@ -33,7 +34,9 @@
     "cz-conventional-changelog": "^3.3.0"
   },
   "dependencies": {
-    "dotenv-cli": "^7.0.0"
+    "@release-it/bumper": "^4.0.2",
+    "dotenv-cli": "^7.0.0",
+    "release-it": "^15.10.1"
   },
   "config": {
     "commitizen": {
