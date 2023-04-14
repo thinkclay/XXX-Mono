@@ -214,9 +214,10 @@ app.on('activate', () => {
 
 # Release It! 🚀
 
+<img align="right" src="https://raw.githubusercontent.com/release-it/release-it/main/docs/assets/release-it-interactive.gif">
+
 #### Installation
 
-<img align="right" src="https://raw.githubusercontent.com/release-it/release-it/main/docs/assets/release-it-interactive.gif">
 ```
 yarn add --dev @release-it/bumper release-it
 
