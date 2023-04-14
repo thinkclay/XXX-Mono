@@ -211,3 +211,32 @@ app.on('activate', () => {
 - [Serving the Same Build from Different Paths](https://create-react-app.dev/docs/deployment#serving-the-same-build-from-different-paths)
 
 ##
+
+# Release It! 🚀
+
+#### Installation
+
+<img align="right" src="https://raw.githubusercontent.com/release-it/release-it/main/docs/assets/release-it-interactive.gif">
+```
+yarn add --dev @release-it/bumper release-it
+
+```
+
+#### Usage
+```
+yarn run release
+
+```
+#### Updating Files
+
+To update the files that are included in the versioning process, edit the .release-it.json file in the root of the project. Specifically, update the in and out arrays under plugins/@release-it/bumper to include the file paths that you want to include or exclude.
+
+#### Interactive vs. CI mode
+
+By default, release-it is interactive and allows you to confirm each task before execution:
+
+By using the --ci option, the process is fully automated without prompts. The configured tasks will be executed as demonstrated in the first animation above. On a Continuous Integration (CI) environment, this non-interactive mode is activated automatically.
+
+Use --only-version to use a prompt only to determine the version, and automate the rest.
+
+For more information on Release It, please see the official documentation at https://github.com/release-it/release-it.
