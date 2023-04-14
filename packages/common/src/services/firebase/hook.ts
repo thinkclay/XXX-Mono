@@ -26,15 +26,15 @@ export const useFirebase = () => {
   const firestore = useMemo(() => (authUser ? getFirestore(app) : null), [authUser])
 
   useEffect(() => {
-    onAuthStateChanged(auth,async user => {
+    onAuthStateChanged(auth, async user => {
       setAuthLoading(false)
       setAuthUser(user)
-      if(user){
+      if (user) {
         const u = await getUser(user);
-        if(u.spellCheck !== undefined){
-          localStorage.setItem('spellcheck', u.spellCheck.toString());
-        }else{
-          localStorage.setItem('spellcheck', 'true');
+        if (u.spellCheck !== undefined) {
+          localStorage.setItem('spellCheck', u.spellCheck.toString());
+        } else {
+          localStorage.setItem('spellCheck', 'true');
         }
       }
     })
@@ -92,14 +92,18 @@ export const useFirebase = () => {
   const googlePopupLogin = async () => {
     setAuthLoading(true)
 
+
     try {
       const res = await signInWithPopup(auth, googleProvider)
       const user = res.user
-
-      await updateUser(user, {
-        authProvider: 'google',
-        displayName: user.displayName,
-      })
+      if (user) {
+        const u = await getUser(user);
+        await updateUser(user, {
+          authProvider: 'google',
+          displayName: user.displayName,
+          spellCheck: u.spellCheck
+        })
+      }
     } catch (err) {
       console.error(err)
     }

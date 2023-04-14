@@ -305,7 +305,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
   addProseMirrorPlugins() {
     const { documentId } = this.options
-    const spellCheck = localStorage.getItem('spellcheck')
+    const spellCheck = localStorage.getItem('spellCheck')
 
     return [
       new Plugin({
