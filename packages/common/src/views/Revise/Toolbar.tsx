@@ -8,7 +8,8 @@ import meta from '@common/meta.json'
 import { Editor } from '@tiptap/react'
 import Link from './Link'
 import AddImage from './AddImage'
-import EditorWithFontFamily from './FontFamliy'
+import EditorWithFontFamily from './FontFamily'
+import EditorWithHeading from './Heading'
 interface Props {
   mode: RenderMode
   copy: () => void
@@ -35,6 +36,8 @@ const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink,addImage}: Props
         <Link handler={setLink} />
         <AddImage handler={addImage} />
         <EditorWithFontFamily editor={editor}/>
+        <EditorWithHeading editor={editor}/>
+
       </div>
 
       <span className="version">{meta.version}</span>

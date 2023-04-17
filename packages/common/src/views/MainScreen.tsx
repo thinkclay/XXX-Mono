@@ -14,6 +14,8 @@ import LoadingScreen from './LoadingScreen'
 import Scribe from './Revise/Scribe'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
+// import { ExtensionFontSize } from '@tiptap/extension-font-size';
+import Heading from '@tiptap/extension-heading'
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
 }
@@ -48,12 +50,17 @@ function MainScreen({ mode, onUpdate }: Props) {
         automaticMode: true,
         documentId: 'main',
       }),
+      Heading.configure({
+        levels: [1, 2, 3, 4 ,5],
+      }),
+    //  ExtensionFontSize.configure({
+    //   sizes: [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72]
+    // }),
     ],
   })
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} />
-}
+  return <Scribe editor={editor} match={_match} mode={mode} />}
 
 export default MainScreen

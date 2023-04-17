@@ -11,11 +11,20 @@ interface Props {
 
 
 const fontOptions: IOption[] = [
-    { label: 'Inter', value: 'Inter' },
+    { label: 'Font', value: '' },
+    { label: 'Arial', value: 'Arial' },
+    { label: 'Courier New', value: 'Courier New' },
+    { label: 'Georgia', value: 'Georgia' },
+    { label: 'Impact', value: 'Impact' },
+    { label: 'Lucida Console', value: 'Lucida Console' },
+    { label: 'Lucida Sans Unicode', value: 'Lucida Sans Unicode' },
+    { label: 'Palatino Linotype', value: 'Palatino Linotype' },
+    { label: 'Tahoma', value: 'Tahoma' },
+    { label: 'Times New Roman', value: 'Times New Roman' },
+    { label: 'Trebuchet MS', value: 'Trebuchet MS' },
+    { label: 'Verdana', value: 'Verdana' },
     { label: 'Comic Sans', value: 'Comic Sans MS, Comic Sans' },
-    { label: 'Serif', value: 'serif' },
-    { label: 'Monospace', value: 'monospace' },
-    { label: 'Cursive', value: 'cursive' },
+    { label: 'Open Sans', value: 'Open Sans' }
 ]
 
 export default function EditorWithFontFamily({ editor }: Props) {
@@ -26,7 +35,7 @@ export default function EditorWithFontFamily({ editor }: Props) {
     }
 
     return (
-        <div className='FontFamliy'>
+        <div className='fontOptions'>
             <select value={selectedFont.value} onChange={(e) => handleFontChange(fontOptions.find((f) => f.value === e.target.value)!)} >
                 {fontOptions.map((fontOption) => (
                     <option key={fontOption.value} value={fontOption.value}>
