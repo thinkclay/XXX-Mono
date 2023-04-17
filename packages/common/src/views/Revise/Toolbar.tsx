@@ -6,11 +6,16 @@ import Reload from './Reload'
 import Tone from './Tone'
 import meta from '@common/meta.json'
 import { Editor } from '@tiptap/react'
+import Link from './Link'
+import AddImage from './AddImage'
+import EditorWithFontFamily from './FontFamliy'
 interface Props {
   mode: RenderMode
   copy: () => void
   reload: () => void
   rewrite: () => void
+  setLink: () => void
+  addImage: () => void
   editor: Editor
 }
 
@@ -19,14 +24,17 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ mode, copy, reload, rewrite ,editor}: Props) => {
+const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink,addImage}: Props) => {
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
-        <Tone editor={editor}/>
+        <Tone editor={editor} />
         <Rewrite handler={rewrite} />
+        <Link handler={setLink} />
+        <AddImage handler={addImage} />
+        <EditorWithFontFamily editor={editor}/>
       </div>
 
       <span className="version">{meta.version}</span>

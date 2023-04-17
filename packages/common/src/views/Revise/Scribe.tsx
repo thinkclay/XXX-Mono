@@ -1,6 +1,6 @@
 /** @format */
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
@@ -54,6 +54,38 @@ function Scribe({ editor, match, mode }: ScribeProps) {
       .catch(console.log)
 
     setTone({ fetching: false, message: result || '' })
+  }
+
+  const _setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes('link').href
+    const url = window.prompt('URL', previousUrl)
+    console.log(previousUrl)
+    // cancelled
+    if (url === null) {
+      return
+    }
+
+    // empty
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run()
+      return
+    }
+
+    // update link
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+      .run()
+  }, [editor])
+
+  const _addImage = useCallback(() => {
+    const url = window.prompt('URL')
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run()
+    }
+  }, [editor])
+
+  if (!editor) {
+    return null
   }
 
   useEffect(() => {
@@ -121,7 +153,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} />
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
     </div>
   )
 }
