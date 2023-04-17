@@ -211,11 +211,11 @@
   }
 
   .lt {
-    border-bottom: 2px solid #e86a69;
+    border-bottom: 2px solid #ff0000;
     transition: background 0.25s ease-in-out;
 
     &:hover {
-      background: rgba($color: #e86a69, $alpha: 0.2);
+      background: rgba($color: #ff0000, $alpha: 0.2);
     }
 
     &.lt-style {
@@ -228,7 +228,7 @@
 
     &.lt-typographical,
     &.lt-grammar {
-      border-bottom: 2px solid #eeb55c;
+      border-bottom: 2px solid #FF7F50;
 
       &:hover {
         background: rgba($color: #eeb55c, $alpha: 0.2) !important;
@@ -237,7 +237,7 @@
 
     &.lt-misspelling,
     &.lt-whitespace {
-      border-bottom: 2px solid #e86a69;
+      border-bottom: 2px solid #ff0000;
 
       &:hover {
         background: rgba($color: #e86a69, $alpha: 0.2) !important;
