@@ -6,7 +6,7 @@
   // position: absolute;
   // right: 0;
   // top: 0;
-
+ 
   #RevisionApp .Main {
     height: 80vh;
     left: 50%;
@@ -38,6 +38,7 @@
 #RevisionApp {
   font-size: 10px;
 
+  
   a {
     color: $color-brand-1;
     font-weight: 600;
@@ -108,6 +109,11 @@
   .bias.language {
     border-color: $color-language-border;
   }
+}
+.infinite-campus{
+ .Main {
+  z-index: 100000000 !important;
+ }
 }
 
 /**
