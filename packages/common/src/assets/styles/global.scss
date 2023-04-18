@@ -40,9 +40,9 @@
 
   
   a {
-    color: $color-brand-1;
+    color: #3366cc;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: underline;
     transition: color 0.2s;
   }
 
@@ -217,11 +217,11 @@
   }
 
   .lt {
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 2px solid #e86a69;
     transition: background 0.25s ease-in-out;
 
     &:hover {
-      background: rgba($color: #ff0000, $alpha: 0.2);
+      background: rgba($color: #e86a69, $alpha: 0.2);
     }
 
     &.lt-style {
@@ -234,7 +234,7 @@
 
     &.lt-typographical,
     &.lt-grammar {
-      border-bottom: 2px solid #FF7F50;
+      border-bottom: 2px solid #eeb55c;
 
       &:hover {
         background: rgba($color: #eeb55c, $alpha: 0.2) !important;
@@ -243,7 +243,7 @@
 
     &.lt-misspelling,
     &.lt-whitespace {
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 2px solid #e86a69;
 
       &:hover {
         background: rgba($color: #e86a69, $alpha: 0.2) !important;

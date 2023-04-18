@@ -4,14 +4,20 @@ import { useState } from 'react'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useRecoilState } from 'recoil'
-
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
 import { PageProps } from '@common/types/UI'
 import { LanguageTool, LanguageToolHelpingWords } from '@common/tiptap/language'
 import { Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from './Revise/Scribe'
-
+import TextStyle from '@tiptap/extension-text-style'
+import FontFamily from '@tiptap/extension-font-family'
+import Heading from '@tiptap/extension-heading'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import Underline from '@tiptap/extension-underline'
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
 }
@@ -37,16 +43,24 @@ function MainScreen({ mode, onUpdate }: Props) {
     },
     extensions: [
       StarterKit,
+      Link.configure({
+        validate: (href: string) => /^https?:\/\//.test(href)
+      }),
+      Image,
+      TextStyle, FontFamily,
       LanguageTool.configure({
         automaticMode: true,
         documentId: 'main',
       }),
+      Heading.configure({
+        levels: [1, 2, 3, 4 ,5],
+      }),
+      Bold,Italic,Underline
     ],
   })
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} />
-}
+  return <Scribe editor={editor} match={_match} mode={mode} />}
 
 export default MainScreen
