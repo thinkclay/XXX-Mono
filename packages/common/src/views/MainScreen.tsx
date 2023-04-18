@@ -15,6 +15,9 @@ import Scribe from './Revise/Scribe'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import Heading from '@tiptap/extension-heading'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import Underline from '@tiptap/extension-underline'
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
 }
@@ -52,6 +55,7 @@ function MainScreen({ mode, onUpdate }: Props) {
       Heading.configure({
         levels: [1, 2, 3, 4 ,5],
       }),
+      Bold,Italic,Underline
     ],
   })
 

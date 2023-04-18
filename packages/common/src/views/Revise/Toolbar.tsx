@@ -10,6 +10,9 @@ import Link from './Link'
 import AddImage from './AddImage'
 import EditorWithFontFamily from './FontFamily'
 import EditorWithHeading from './Heading'
+import Bold from './Bold'
+import Italic from './Italic'
+import Underline from './Underline'
 interface Props {
   mode: RenderMode
   copy: () => void
@@ -35,6 +38,9 @@ const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink,addImage}: Props
         <Rewrite handler={rewrite} />
         <Link handler={setLink} />
         <AddImage handler={addImage} />
+        <Bold editor={editor} />
+        <Italic editor={editor} />
+        <Underline editor={editor} />
         <EditorWithFontFamily editor={editor}/>
         <EditorWithHeading editor={editor}/>
 
