@@ -17,10 +17,16 @@ function HomeScreen(screen: PageProps) {
 
   const _loading = () => authLoading || loading
 
-  const _handler = () => {
+  const _handler = async () => {
     if (authUser) {
-      setUser({ ...authUser, acceptedTerms: true })
-      updateUser(authUser, { acceptedTerms: true })
+      const u = await getUser(authUser)
+      if (u.spellCheck !== undefined) {
+        setUser({ ...authUser, acceptedTerms: true, spellCheck: u.spellCheck })
+        updateUser(authUser, { acceptedTerms: true, spellCheck: u.spellCheck })
+      } else {
+        setUser({ ...authUser, acceptedTerms: true, spellCheck: true })
+        updateUser(authUser, { acceptedTerms: true, spellCheck: true })
+      }
     }
   }
 
@@ -30,6 +36,11 @@ function HomeScreen(screen: PageProps) {
       if (authUser) {
         const u = await getUser(authUser)
         setUser(u)
+        if(u.spellCheck !== undefined){
+          localStorage.setItem('spellCheck', u.spellCheck.toString());
+        }else{
+          localStorage.setItem('spellCheck', 'true');
+        }
       }
     })()
   }, [authUser])

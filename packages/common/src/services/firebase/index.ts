@@ -10,6 +10,7 @@ export interface CustomUserModel extends Partial<User> {
   lastName?: string
   acceptedTerms?: boolean
   authProvider?: 'local' | 'google'
+  spellCheck?:boolean
 }
 
 export const firebaseConfig = {

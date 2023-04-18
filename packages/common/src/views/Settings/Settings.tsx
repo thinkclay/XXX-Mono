@@ -3,16 +3,31 @@
 
 import { PageProps } from '@common/types/UI'
 import Fill from '../Welcome/Fill'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useFirebase } from "@common/services/firebase/hook";
 
 
 function Settings({ mode }: PageProps) {
-  const settings = localStorage.getItem("spellcheck");
+  const settings = localStorage.getItem("spellCheck");
   const [spellcheck, setSpellcheck] = useState<boolean | undefined>(settings !== null ? settings === 'false' ? false : true : true);
- const _handlerSpellCheck = (check:boolean) =>{
-  setSpellcheck(check);
-   localStorage.setItem('spellcheck',check.toString());
- }
+  const { authUser, updateUser, getUser } = useFirebase();
+
+  const _handlerSpellCheck = async (check: boolean) => {
+    if (authUser) {
+      updateUser(authUser, { spellCheck: check, acceptedTerms: true });
+      localStorage.setItem('spellCheck', check.toString());
+    }
+    setSpellcheck(check);
+  };
+  useEffect(() => {
+    (async () => {
+      if (authUser) {
+        const user = await getUser(authUser);
+        user.spellCheck !== undefined && setSpellcheck(user.spellCheck);
+      }
+    })();
+  }, [authUser]);
+
   return (
     <div className="WelcomeScreen">
       <h1>Setting page</h1>
