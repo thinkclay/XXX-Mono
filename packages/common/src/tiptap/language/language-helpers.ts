@@ -95,7 +95,9 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
       bias.input,
       text,
       type,
-      `This phrase may contain ${type.toLocaleLowerCase()} bias. Here are some examples of alternative statements:`,
+      `This phrase may contain ${type
+        .toLocaleLowerCase()
+        .replace('potential ', '')} bias. Here are some examples of alternative statements:`,
       bias.replacements.map(r => ({ value: r }))
     )
 
