@@ -43,7 +43,7 @@ window.addEventListener('load', () => {
                           const event = new Event('input', { bubbles: true });
                           descriptionField.dispatchEvent(event);
                         };
-                        runApp(document.body, updateHandler);
+                        runApp(document.body, updateHandler,descriptionField.value);
                       });
                     }
                   }
@@ -63,7 +63,7 @@ window.addEventListener('load', () => {
 
 
 
-function runApp(rootMount: Element, updateHandler: (text: string) => void) {
+function runApp(rootMount: Element, updateHandler: (text: string) => void, defaultText: string | undefined) {
   const rootElement = document.createElement('div');
   rootElement.id = 'gmailRoot';
   rootMount.appendChild(rootElement);
@@ -74,7 +74,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp" className='infinite-campus'>
-          <MainScreen mode="embedded" onUpdate={updateHandler} />
+          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText}/>
           <Close handler={() => rootElement.remove()} />
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>

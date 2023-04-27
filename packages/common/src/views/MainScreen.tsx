@@ -15,19 +15,18 @@ import Scribe from './Revise/Scribe'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import Heading from '@tiptap/extension-heading'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
-import Underline from '@tiptap/extension-underline'
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
+  defaultValue?: string | undefined
 }
 
-function MainScreen({ mode, onUpdate }: Props) {
+function MainScreen({ mode, onUpdate ,defaultValue}: Props) {
   const [root, setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
 
   const editor = useEditor({
     autofocus: 'start',
+    content: defaultValue,
     onUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
       onUpdate && onUpdate(editor.getHTML())
@@ -55,7 +54,6 @@ function MainScreen({ mode, onUpdate }: Props) {
       Heading.configure({
         levels: [1, 2, 3, 4 ,5],
       }),
-      Bold,Italic,Underline
     ],
   })
 
