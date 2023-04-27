@@ -28,22 +28,21 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink,addImage}: Props) => {
+const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
         <Tone editor={editor} />
-        <Rewrite handler={rewrite} />
+        {/* <Rewrite handler={rewrite} /> */}
         <Link handler={setLink} />
         <AddImage handler={addImage} />
         <Bold editor={editor} />
         <Italic editor={editor} />
         <Underline editor={editor} />
-        <EditorWithFontFamily editor={editor}/>
-        <EditorWithHeading editor={editor}/>
-
+        <EditorWithFontFamily editor={editor} />
+        <EditorWithHeading editor={editor} />
       </div>
 
       <span className="version">{meta.version}</span>
