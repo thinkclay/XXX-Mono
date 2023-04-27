@@ -23,11 +23,9 @@ window.addEventListener('load', () => {
       const title = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]');
       if (title) {
         title?.addEventListener('click', () => {
-          console.log("iframeDocument,title", iframeDocument, title)
           setTimeout(() => {
             const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader').contentDocument
             const newButton = workspaceDocumentHeader?.getElementById('newDiv')
-            console.log(workspaceDocumentHeader, newButton)
             if (workspaceDocumentHeader) {
               workspaceDocumentHeader?.addEventListener('click', () => {
                 setTimeout(() => {
