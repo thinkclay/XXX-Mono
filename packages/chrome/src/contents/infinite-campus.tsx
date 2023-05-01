@@ -99,8 +99,13 @@ window.addEventListener('load', () => {
           BehaviorPopUp()
         })
       }
-      if (Curriculum && Scheduling) {
-        Curriculum && Scheduling?.addEventListener('click', () => {
+      if (Curriculum) {
+        Curriculum?.addEventListener('click', () => {
+          CoursePopUp()
+        })
+      }
+      if (Scheduling) {
+        Scheduling?.addEventListener('click', () => {
           CoursePopUp()
         })
       }
