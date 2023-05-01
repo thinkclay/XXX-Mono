@@ -14,19 +14,25 @@ export const config: PlasmoCSConfig = {
   matches: ['*://nycloud1.infinitecampus.org/*'],
   run_at: 'document_start',
 }
-const PopUp = (() => {
-  return (
-    setTimeout(() => {
-      const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader').contentDocument
-      const newButton = workspaceDocumentHeader?.getElementById('newDiv')
-      if (workspaceDocumentHeader && newButton) {
-        newButton?.addEventListener('click', () => {
-          setTimeout(() => {
-            const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame').contentDocument
-            if (workspaceDocumentFooter) {
+
+const BehaviorPopUp = (() => {
+  const intervalId = setInterval(() => {
+    const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader')?.contentDocument
+    const newButton = workspaceDocumentHeader?.getElementById('newDiv')
+    if (workspaceDocumentHeader && newButton) {
+      clearInterval(intervalId);
+      console.log(workspaceDocumentHeader, newButton, intervalId);
+      newButton?.addEventListener('click', () => {
+        const intervalId2 = setInterval(() => {
+          const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame')?.contentDocument
+          if (workspaceDocumentFooter) {
+            clearInterval(intervalId2);
+            console.log(workspaceDocumentFooter, intervalId2)
+            const intervalId3 = setInterval(() => {
               const descriptionField = workspaceDocumentFooter?.getElementById('description');
               if (descriptionField) {
-                console.log(descriptionField, workspaceDocumentFooter)
+                clearInterval(intervalId3)
+                console.log(descriptionField, intervalId3)
                 descriptionField?.addEventListener('click', () => {
                   const updateHandler = (text: string) => {
                     var newText = text.replace(/<\/?[^>]+>/gi, ' ');
@@ -37,33 +43,68 @@ const PopUp = (() => {
                   runApp(document.body, updateHandler, descriptionField.value);
                 });
               }
-            }
-          }, 1000)
-        })
+            }, 500)
+          }
+        }, 500);
+      });
+    }
+  }, 500);
+});
 
-      }
-    }, 2000)
-  )
+const CoursePopUp = (() => {
+  const intervalId = setInterval(() => {
+    const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader')?.contentDocument
+    const guestGradeBookLink = workspaceDocumentHeader?.querySelector('a[aria-label="Guest Grade Book"]');
+    if (workspaceDocumentHeader && guestGradeBookLink)
+      clearInterval(intervalId);
+    console.log(intervalId, guestGradeBookLink, workspaceDocumentHeader);
+    guestGradeBookLink?.addEventListener('click', () => {
+      const intervalId2 = setInterval(() => {
+        const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('instruction-wrapper-iframe')?.contentDocument
+        if (workspaceDocumentFooter) {
+          clearInterval(intervalId2);
+          console.log(intervalId2, workspaceDocumentFooter)
+          const intervalId3 = setInterval(() => {
+            const ccLink = workspaceDocumentFooter?.querySelector('.cannedComment');
+            if (ccLink) { clearInterval(intervalId3); }
+            console.log(ccLink)
+            ccLink?.addEventListener('click', function () {
+              // perform your event here  
+              console.log('CC link clicked');
+            });
+          }, 500)
+
+        }
+      }, 500)
+    });
+  }, 500)
 })
 window.addEventListener('load', () => {
   console.log("infinitecampus")
   const iframeDocument = document.getElementById('frameSidebar')?.contentDocument
   if (iframeDocument) {
+
     setTimeout(() => {
       const BehaviorManagement = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]');
       const BehaviorReferral = iframeDocument.querySelector('[title="behavior.BehaviorReferral"]');
+      const Curriculum = iframeDocument.querySelector('[title="curriculum.Course.ToolSet"]');
+      const Scheduling = iframeDocument.querySelector('[title="scheduling.Section.ToolSet"]');
       if (BehaviorManagement) {
         BehaviorManagement?.addEventListener('click', () => {
-          PopUp()
+          BehaviorPopUp()
         })
       }
       if (BehaviorReferral) {
         BehaviorReferral?.addEventListener('click', () => {
-          PopUp()
+          BehaviorPopUp()
+        })
+      }
+      if (Curriculum && Scheduling) {
+        Curriculum && Scheduling?.addEventListener('click', () => {
+          CoursePopUp()
         })
       }
     }, 2000)
-
   }
 
 
