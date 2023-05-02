@@ -22,7 +22,7 @@ const BehaviorPopUp = (() => {
     if (workspaceDocumentHeader && newButton) {
       clearInterval(intervalId);
       console.log(workspaceDocumentHeader, newButton, intervalId);
-      newButton?.addEventListener('click', () => {
+      newButton?.addEventListener('mousedown', () => {
         const intervalId2 = setInterval(() => {
           const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame')?.contentDocument
           if (workspaceDocumentFooter) {
@@ -33,7 +33,7 @@ const BehaviorPopUp = (() => {
               if (descriptionField) {
                 clearInterval(intervalId3)
                 console.log(descriptionField, intervalId3)
-                descriptionField?.addEventListener('click', () => {
+                descriptionField?.addEventListener('mousedown', () => {
                   const updateHandler = (text: string) => {
                     var newText = text.replace(/<\/?[^>]+>/gi, ' ');
                     descriptionField.value = newText;
@@ -59,32 +59,35 @@ const CoursePopUp = (() => {
       clearInterval(intervalId);
     console.log(intervalId, guestGradeBookLink, workspaceDocumentHeader);
     guestGradeBookLink?.addEventListener('click', () => {
+      console.log("Im clicked book")
       const intervalId2 = setInterval(() => {
         const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('instruction-wrapper-iframe')?.contentDocument
-        if (workspaceDocumentFooter) {
+        const ccLink = workspaceDocumentFooter?.querySelector('.cannedComment');
+        const textarea = workspaceDocumentFooter?.querySelector('textarea[ng-model="preview.value"]');
+        if (workspaceDocumentFooter && ccLink && textarea) {
+          console.log(workspaceDocumentFooter, intervalId2, ccLink, textarea)
+          ccLink?.addEventListener('mousedown', () => { console.log("ccLink click") })
+          textarea?.addEventListener('mousedown', () => { console.log("textarea click") })
+          const updateHandler = (text: string) => {
+            var newText = text.replace(/<\/?[^>]+>/gi, ' ');
+            textarea.value = newText;
+            const event = new Event('input', { bubbles: true });
+            textarea.dispatchEvent(event);
+          }; 
+          runApp(document.body, updateHandler, textarea.value);
           clearInterval(intervalId2);
-          console.log(intervalId2, workspaceDocumentFooter)
-          const intervalId3 = setInterval(() => {
-            const ccLink = workspaceDocumentFooter?.querySelector('.cannedComment');
-            if (ccLink) { clearInterval(intervalId3); }
-            console.log(ccLink)
-            ccLink?.addEventListener('click', function () {
-              // perform your event here  
-              console.log('CC link clicked');
-            });
-          }, 500)
-
         }
-      }, 500)
-    });
+      }, 100)
+    });    
   }, 500)
 })
+
+
 window.addEventListener('load', () => {
   console.log("infinitecampus")
   const iframeDocument = document.getElementById('frameSidebar')?.contentDocument
   if (iframeDocument) {
-
-    setTimeout(() => {
+    const interval = setInterval(() => {
       const BehaviorManagement = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]');
       const BehaviorReferral = iframeDocument.querySelector('[title="behavior.BehaviorReferral"]');
       const Curriculum = iframeDocument.querySelector('[title="curriculum.Course.ToolSet"]');
@@ -107,9 +110,13 @@ window.addEventListener('load', () => {
       if (Scheduling) {
         Scheduling?.addEventListener('click', () => {
           CoursePopUp()
+
         })
       }
-    }, 2000)
+      if (BehaviorManagement && BehaviorReferral && Curriculum && Scheduling)
+        clearInterval(interval);
+
+    }, 100)
   }
 
 
