@@ -15,6 +15,7 @@ import Scribe from './Revise/Scribe'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import Heading from '@tiptap/extension-heading'
+
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
   defaultValue?: string | undefined
@@ -43,10 +44,11 @@ function MainScreen({ mode, onUpdate, defaultValue }: Props) {
     extensions: [
       StarterKit,
       Link.configure({
-        validate: (href: string) => /^https?:\/\//.test(href)
+        validate: (href: string) => /^https?:\/\//.test(href),
       }),
       Image,
-      TextStyle, FontFamily,
+      TextStyle,
+      FontFamily,
       LanguageTool.configure({
         automaticMode: true,
         documentId: 'main',
@@ -54,7 +56,6 @@ function MainScreen({ mode, onUpdate, defaultValue }: Props) {
       Heading.configure({
         levels: [1, 2, 3, 4, 5],
       }),
-      Bold, Italic, Underline
     ],
   })
 
