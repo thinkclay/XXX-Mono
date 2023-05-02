@@ -6,7 +6,7 @@
   // position: absolute;
   // right: 0;
   // top: 0;
- 
+
   #RevisionApp .Main {
     height: 80vh;
     left: 50%;
@@ -38,7 +38,7 @@
 #RevisionApp {
   font-size: 10px;
 
-  
+
   a {
     color: #3366cc;
     font-weight: 600;
@@ -74,6 +74,7 @@
       opacity: 1;
       z-index: 800;
     }
+
   }
 
   .page.centered {
@@ -110,10 +111,13 @@
     border-color: $color-language-border;
   }
 }
-.infinite-campus{
- .Main {
-  z-index: 100000000 !important;
- }
+
+.infinite-campus {
+  margin-top: 60px;
+
+  .Main {
+    z-index: 100000000 !important;
+  }
 }
 
 /**
@@ -145,7 +149,7 @@
       font-size: 18px;
     }
 
-    p + p {
+    p+p {
       padding-top: 15px;
     }
   }
@@ -204,7 +208,7 @@
         padding: 8px 15px;
         transition: background-color 0.2s, color 0.2s;
 
-        + li {
+        +li {
           border-top: 1px solid $color-n300;
         }
 
