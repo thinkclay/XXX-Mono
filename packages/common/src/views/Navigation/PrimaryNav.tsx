@@ -26,6 +26,7 @@ function PrimaryNav({ open }: PrimaryNavProps) {
           </>
         )}
         <NavLink href="/settings">Settings</NavLink>
+        <NavLink href="/feedback">send product feedback</NavLink>
       </>
     );
   };

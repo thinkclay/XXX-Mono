@@ -9,6 +9,7 @@ import AuthScreen from "@common/views/Auth/AuthScreen";
 import PrimaryNav from "@common/views/Navigation/PrimaryNav";
 import { RenderMode } from "@common/types/UI";
 import Settings from "./Settings/Settings";
+import Feedback from "./Feedback/Feedback";
 
 interface AppProps {
   mode: RenderMode;
@@ -28,6 +29,9 @@ function App(screen: AppProps) {
 
       case "/settings":
         return <Settings {...screen} />;
+
+      case "/feedback":
+        return <Feedback {...screen} />;
 
       default:
         return <HomeScreen {...screen} />;
