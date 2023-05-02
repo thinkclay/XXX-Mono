@@ -21,7 +21,7 @@
     "web:dist": "yarn web:build && yarn workspace @revision/common firebase:deploy:hosting",
     "chrome:start": "yarn workspace @revision/chrome start",
     "chrome:build": "yarn workspace @revision/chrome build",
-    "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && move chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",
+    "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && mv chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",
     "electron:start": "dotenv yarn workspace @revision/electron start",
     "commit": "yarn cz",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock",
