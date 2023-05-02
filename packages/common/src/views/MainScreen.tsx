@@ -20,7 +20,7 @@ interface Props extends PageProps {
   defaultValue?: string | undefined
 }
 
-function MainScreen({ mode, onUpdate ,defaultValue}: Props) {
+function MainScreen({ mode, onUpdate, defaultValue }: Props) {
   const [root, setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
 
@@ -52,13 +52,15 @@ function MainScreen({ mode, onUpdate ,defaultValue}: Props) {
         documentId: 'main',
       }),
       Heading.configure({
-        levels: [1, 2, 3, 4 ,5],
+        levels: [1, 2, 3, 4, 5],
       }),
+      Bold, Italic, Underline
     ],
   })
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} />}
+  return <Scribe editor={editor} match={_match} mode={mode} />
+}
 
 export default MainScreen
