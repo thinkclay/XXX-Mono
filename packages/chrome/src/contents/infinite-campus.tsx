@@ -22,7 +22,7 @@ const BehaviorPopUp = (() => {
     if (workspaceDocumentHeader && newButton) {
       clearInterval(intervalId);
       console.log(workspaceDocumentHeader, newButton, intervalId);
-      newButton?.addEventListener('mousedown', () => {
+      newButton?.addEventListener('click', () => {
         const intervalId2 = setInterval(() => {
           const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame')?.contentDocument
           if (workspaceDocumentFooter) {
@@ -33,7 +33,7 @@ const BehaviorPopUp = (() => {
               if (descriptionField) {
                 clearInterval(intervalId3)
                 console.log(descriptionField, intervalId3)
-                descriptionField?.addEventListener('mousedown', () => {
+                descriptionField?.addEventListener('click', () => {
                   const updateHandler = (text: string) => {
                     var newText = text.replace(/<\/?[^>]+>/gi, ' ');
                     descriptionField.value = newText;
