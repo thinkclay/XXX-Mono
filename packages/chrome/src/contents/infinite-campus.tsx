@@ -21,20 +21,17 @@ const BehaviorPopUp = (() => {
     const newButton = workspaceDocumentHeader?.getElementById('newDiv')
     if (workspaceDocumentHeader && newButton) {
       clearInterval(intervalId);
-      console.log(workspaceDocumentHeader, newButton, intervalId);
       newButton?.addEventListener('click', () => {
         const intervalId2 = setInterval(() => {
           const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame')?.contentDocument
           if (workspaceDocumentFooter) {
             clearInterval(intervalId2);
-            console.log(workspaceDocumentFooter, intervalId2)
             const intervalId3 = setInterval(() => {
               const descriptionField = workspaceDocumentFooter?.getElementById('description');
               if (descriptionField) {
                 clearInterval(intervalId3)
-                console.log(descriptionField, intervalId3)
                 descriptionField?.addEventListener('click', () => {
-                  const updateHandler = (text: string) => {
+                  var updateHandler = (text: string) => {
                     var newText = text.replace(/<\/?[^>]+>/gi, ' ');
                     descriptionField.value = newText;
                     const event = new Event('input', { bubbles: true });
@@ -51,47 +48,38 @@ const BehaviorPopUp = (() => {
   }, 500);
 });
 
-const CoursePopUp = (() => {
-  const intervalId = setInterval(() => {
-    const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader')?.contentDocument
-    const guestGradeBookLink = workspaceDocumentHeader?.querySelector('a[aria-label="Guest Grade Book"]');
-    if (workspaceDocumentHeader && guestGradeBookLink)
-      clearInterval(intervalId);
-    console.log(intervalId, guestGradeBookLink, workspaceDocumentHeader);
-    guestGradeBookLink?.addEventListener('click', () => {
-      console.log("Im clicked book")
-      const intervalId2 = setInterval(() => {
-        const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('instruction-wrapper-iframe')?.contentDocument
-        const ccLink = workspaceDocumentFooter?.querySelector('.cannedComment');
-        const textarea = workspaceDocumentFooter?.querySelector('textarea[ng-model="preview.value"]');
-        if (workspaceDocumentFooter && ccLink && textarea) {
-          console.log(workspaceDocumentFooter, intervalId2, ccLink, textarea)
-          ccLink?.addEventListener('mousedown', () => { console.log("ccLink click") })
-          textarea?.addEventListener('mousedown', () => { console.log("textarea click") })
-          const updateHandler = (text: string) => {
-            var newText = text.replace(/<\/?[^>]+>/gi, ' ');
-            textarea.value = newText;
-            const event = new Event('input', { bubbles: true });
-            textarea.dispatchEvent(event);
-          }; 
-          runApp(document.body, updateHandler, textarea.value);
-          clearInterval(intervalId2);
-        }
-      }, 100)
-    });    
-  }, 500)
-})
-
-
 window.addEventListener('load', () => {
   console.log("infinitecampus")
+  const intervalId2 = setInterval(() => {
+    const selector = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('instruction-wrapper-iframe')?.contentDocument
+    if (selector) {
+      let allComment = selector.querySelectorAll('.cannedComment')
+      for (let itm of allComment) {
+        itm.addEventListener("click", function () {
+          setTimeout(function () {
+            let textBox = selector.querySelector('[name="cannedForm"] .cannedComment');
+            if (textBox) {
+              textBox?.addEventListener('click', function () {
+                var updateHandler = (text: string) => {
+                  var newText = text.replace(/<\/?[^>]+>/gi, ' ');
+                  textBox.value = newText;
+                };
+                runApp(document.body, updateHandler, textBox.value);
+              });
+            }
+          }, 500)
+        })
+      }
+      if (allComment.length > 1) clearInterval(intervalId2)
+    }
+  }, 500);
+
+
   const iframeDocument = document.getElementById('frameSidebar')?.contentDocument
   if (iframeDocument) {
     const interval = setInterval(() => {
       const BehaviorManagement = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]');
       const BehaviorReferral = iframeDocument.querySelector('[title="behavior.BehaviorReferral"]');
-      const Curriculum = iframeDocument.querySelector('[title="curriculum.Course.ToolSet"]');
-      const Scheduling = iframeDocument.querySelector('[title="scheduling.Section.ToolSet"]');
       if (BehaviorManagement) {
         BehaviorManagement?.addEventListener('click', () => {
           BehaviorPopUp()
@@ -102,26 +90,12 @@ window.addEventListener('load', () => {
           BehaviorPopUp()
         })
       }
-      if (Curriculum) {
-        Curriculum?.addEventListener('click', () => {
-          CoursePopUp()
-        })
-      }
-      if (Scheduling) {
-        Scheduling?.addEventListener('click', () => {
-          CoursePopUp()
-
-        })
-      }
-      if (BehaviorManagement && BehaviorReferral && Curriculum && Scheduling)
+      if (BehaviorManagement && BehaviorReferral)
         clearInterval(interval);
 
     }, 100)
   }
-
-
 })
-
 
 
 function runApp(rootMount: Element, updateHandler: (text: string) => void, defaultText: string | undefined) {
