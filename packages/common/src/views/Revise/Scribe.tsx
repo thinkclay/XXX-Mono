@@ -22,9 +22,11 @@ interface ScribeProps {
   editor: Editor
   match: Match | null
   mode: RenderMode
+  handleKeyDown?: ((event: any, editor: Editor) => void | undefined) | undefined
+
 }
 let DB: IgnoredDB
-function Scribe({ editor, match, mode }: ScribeProps) {
+function Scribe({ editor, match, mode,handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
@@ -149,7 +151,7 @@ function Scribe({ editor, match, mode }: ScribeProps) {
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
       ) : (
         <div>
-          <EditorContent editor={editor} />
+          <EditorContent editor={editor} onKeyDown={handleKeyDown && ((event)=>handleKeyDown(event ,editor))}/>
         </div>
       )}
 

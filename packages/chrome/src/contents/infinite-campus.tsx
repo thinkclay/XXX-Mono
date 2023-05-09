@@ -7,7 +7,7 @@ import { RecoilRoot } from 'recoil';
 import MainScreen from '@common/views/MainScreen';
 import Close from '@common/views/Revise/Close';
 import reportWebVitals from '@common/reportWebVitals';
-
+import { Editor } from '@tiptap/react'
 import '@common/assets/styles/index.scss';
 
 export const config: PlasmoCSConfig = {
@@ -96,7 +96,15 @@ window.addEventListener('load', () => {
     }, 100)
   }
 })
-
+const handleKeyDown = (event: any,editor: Editor)=> {
+  if (event.key === "Backspace") {
+    const { from, to } = editor.state.selection;
+    if (from === to && from > 0) {
+      editor.commands.deleteRange({ from: from - 1, to });
+      editor.view.focus();
+    }
+  }
+};
 
 function runApp(rootMount: Element, updateHandler: (text: string) => void, defaultText: string | undefined) {
   const rootElement = document.createElement('div');
@@ -109,7 +117,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void, defau
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp" className='infinite-campus'>
-          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText} />
+          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText} handleKeyDown={handleKeyDown}/>
           <Close handler={() => rootElement.remove()} />
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
