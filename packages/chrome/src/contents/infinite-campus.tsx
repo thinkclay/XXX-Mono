@@ -14,7 +14,7 @@ export const config: PlasmoCSConfig = {
   matches: ['*://nycloud1.infinitecampus.org/*'],
   run_at: 'document_start',
 }
-
+let closed = false;
 const BehaviorPopUp = (() => {
   const intervalId = setInterval(() => {
     const workspaceDocumentHeader = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceHeader')?.contentDocument
@@ -22,22 +22,25 @@ const BehaviorPopUp = (() => {
     if (workspaceDocumentHeader && newButton) {
       clearInterval(intervalId);
       newButton?.addEventListener('click', () => {
+        closed = false;
         const intervalId2 = setInterval(() => {
           const workspaceDocumentFooter = document.getElementById('frameWorkspace')?.contentWindow.document.getElementById('frameWorkspaceWrapper')?.contentWindow.document.getElementById('frameWorkspaceDetail')?.contentWindow.document.getElementById('detailFrame')?.contentDocument
-          if (workspaceDocumentFooter) {
+          const descriptionField = workspaceDocumentFooter?.getElementById('description');
+          if (workspaceDocumentFooter && descriptionField) {
             clearInterval(intervalId2);
             const intervalId3 = setInterval(() => {
-              const descriptionField = workspaceDocumentFooter?.getElementById('description');
               if (descriptionField) {
                 clearInterval(intervalId3)
                 descriptionField?.addEventListener('click', () => {
-                  var updateHandler = (text: string) => {
-                    var newText = text.replace(/<\/?[^>]+>/gi, ' ');
-                    descriptionField.value = newText;
-                    const event = new Event('input', { bubbles: true });
-                    descriptionField.dispatchEvent(event);
-                  };
-                  runApp(document.body, updateHandler, descriptionField.value);
+                  if (!closed) {
+                    var updateHandler = (text: string) => {
+                      var newText = text.replace(/<\/?[^>]+>/gi, ' ');
+                      descriptionField.value = newText;
+                      const event = new Event('input', { bubbles: true });
+                      descriptionField.dispatchEvent(event);
+                    };
+                    runApp(document.body, updateHandler, descriptionField.value);
+                  }
                 });
               }
             }, 500)
@@ -56,18 +59,22 @@ window.addEventListener('load', () => {
       let allComment = selector.querySelectorAll('.cannedComment')
       for (let itm of allComment) {
         itm.addEventListener("click", function () {
+          closed = false;
           setTimeout(function () {
             let textBox = selector.querySelector('[name="cannedForm"] .cannedComment');
             if (textBox) {
               textBox?.addEventListener('click', function () {
-                var updateHandler = (text: string) => {
-                  var newText = text.replace(/<\/?[^>]+>/gi, ' ');
-                  textBox.value = newText;
-                };
-                runApp(document.body, updateHandler, textBox.value);
+                if (!closed) {
+                  var updateHandler = (text: string) => {
+                    var newText = text.replace(/<\/?[^>]+>/gi, ' ');
+                    textBox.value = newText;
+                  };
+                  runApp(document.body, updateHandler, textBox.value);
+                }
+
               });
             }
-          }, 500)
+          }, 1000)
         })
       }
       if (allComment.length > 1) clearInterval(intervalId2)
@@ -96,7 +103,7 @@ window.addEventListener('load', () => {
     }, 100)
   }
 })
-const handleKeyDown = (event: any,editor: Editor)=> {
+const handleKeyDown = (event: any, editor: Editor) => {
   if (event.key === "Backspace") {
     const { from, to } = editor.state.selection;
     if (from === to && from > 0) {
@@ -117,8 +124,11 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void, defau
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp" className='infinite-campus'>
-          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText} handleKeyDown={handleKeyDown}/>
-          <Close handler={() => rootElement.remove()} />
+          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText} handleKeyDown={handleKeyDown} />
+          <Close handler={() => {
+            closed = true;
+            rootElement.remove()
+          }} />
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
       </StrictMode>
