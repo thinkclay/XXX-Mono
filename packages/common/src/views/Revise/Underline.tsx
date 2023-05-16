@@ -1,5 +1,5 @@
 /** @format */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Editor } from '@tiptap/react'
 
 interface Props {
@@ -11,7 +11,7 @@ function Underline({ editor }: Props) {
 
     const handler = () => {
         _setActive(!_active)
-        editor.chain().focus().toggleUnderline().run()
+// -        editor.chain().focus().toggleUnderline().run()
     }
 
 

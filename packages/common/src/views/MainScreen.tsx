@@ -1,7 +1,7 @@
 /** @format */
 
 import { useState } from 'react'
-import { useEditor } from '@tiptap/react'
+import { Editor, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useRecoilState } from 'recoil'
 import Link from '@tiptap/extension-link'
@@ -19,9 +19,10 @@ import Heading from '@tiptap/extension-heading'
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
   defaultValue?: string | undefined
+  handleKeyDown?: (event: any, editor: Editor) => void
 }
 
-function MainScreen({ mode, onUpdate, defaultValue }: Props) {
+function MainScreen({ mode, onUpdate, defaultValue,handleKeyDown }: Props) {
   const [root, setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
 
@@ -41,6 +42,7 @@ function MainScreen({ mode, onUpdate, defaultValue }: Props) {
       if (fetchingSuggestions === true) setRoot({ ...root, fetchingLanguage: true })
       if (fetchingSuggestions === false) setRoot({ ...root, fetchingLanguage: false })
     },
+
     extensions: [
       StarterKit,
       Link.configure({
@@ -61,7 +63,7 @@ function MainScreen({ mode, onUpdate, defaultValue }: Props) {
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} />
+  return <Scribe editor={editor} match={_match} mode={mode} handleKeyDown={handleKeyDown}/>
 }
 
 export default MainScreen

@@ -221,7 +221,6 @@
   }
 
   .lt {
-    border-bottom: 2px solid #e86a69;
     transition: background 0.25s ease-in-out;
 
     &:hover {
@@ -238,16 +237,19 @@
 
     &.lt-typographical,
     &.lt-grammar {
-      border-bottom: 2px solid #eeb55c;
+      background: rgba($color: #ff5c38, $alpha: 0.2) !important;
 
       &:hover {
-        background: rgba($color: #eeb55c, $alpha: 0.2) !important;
+        background: rgba($color: #ff5c38, $alpha: 0.2) !important;
       }
     }
 
     &.lt-misspelling,
     &.lt-whitespace {
-      border-bottom: 2px solid #e86a69;
+      text-decoration-line: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: red;
+      text-decoration-thickness: -0.1em !important ;
 
       &:hover {
         background: rgba($color: #e86a69, $alpha: 0.2) !important;
