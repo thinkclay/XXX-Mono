@@ -30,7 +30,6 @@ export const toneMessage = selector({
   get: ({ get }) => get(toneState).message,
 })
 
-
 /**
  * Override the behavior of pasting. `slice` is the
  * pasted content parsed by the editor, but you can directly access

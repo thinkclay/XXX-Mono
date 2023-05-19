@@ -24,7 +24,7 @@ function Tone({editor}: Props) {
   }
   const _handleCharacterCountChange = () => {
     const contentsLength = editor.getHTML().length
-    if (contentsLength > 150) {
+    if (contentsLength > 250) {
       _setActiveTone(true)
     } else {
       _setActiveTone(false)
@@ -37,7 +37,7 @@ function Tone({editor}: Props) {
     }
   }, [editor])
   return (
-    <button className={_active ? 'active' : ''} onMouseOver={() => _setActive(true)} onMouseOut={() => _setActive(false)}>
+    <button className={_active ? 'active' : ''} onClick={() => _setActive(!_active)}>
       <svg viewBox="0 0 100 100">
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <path
@@ -46,6 +46,7 @@ function Tone({editor}: Props) {
           ></path>
         </g>
       </svg>
+
       {_renderTone()}
     </button>
   )

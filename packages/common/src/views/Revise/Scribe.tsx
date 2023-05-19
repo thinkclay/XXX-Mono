@@ -5,33 +5,30 @@ import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 
-import { getRevisedCopy, getTone, getToneEmoji } from '@common/services/openai'
+import { getRevisedCopy, getTone } from '@common/services/openai'
 import { rootState } from '@common/helpers/root'
 import { toneState } from '@common/helpers/tone'
 import { Match, Replacement } from '@common/tiptap/language/language-types'
 import Suggestion from './Suggestion'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
-import { RenderMode } from '@common/types/UI' 
+import { RenderMode } from '@common/types/UI'
 import IgnoredDB from '@common/helpers/db'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@common/services/firebase'
-import { doc, collection, getDocs, query } from 'firebase/firestore'
-import EmojisAnimation from './Emojis'
+import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
 
 interface ScribeProps {
   editor: Editor
   match: Match | null
   mode: RenderMode
   handleKeyDown?: ((event: any, editor: Editor) => void | undefined) | undefined
+
 }
 let DB: IgnoredDB
-function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
+function Scribe({ editor, match, mode,handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
-  const [emoji, setEmoji] = useState('')
-  const [isFetchingEmoji, setIsFetchingEmoji] = useState<boolean>(false)
-  const [timeoutId, setTimeoutId] = useState<any>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
   DB = new IgnoredDB()
   const _fetchRevision = async (text: string) => {
@@ -48,12 +45,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     setRoot({ ...root, fetchingRevision: false })
   }
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [timeoutId])
-
   const _fetchTone = async (text: string) => {
     setTone({ ...tone, fetching: true })
 
@@ -63,21 +54,8 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         return response.data.choices[0].text
       })
       .catch(console.log)
-    setTone({...tone, fetching: false, message: result || '' })
-  }
 
-  const _fetchToneEmoji = async (text: string) => {
-
-    const result = await getToneEmoji(text)
-      .then(response => {
-        console.log('_fetchTone Response', response.data.choices[0].text)
-        const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/;
-        const emojis = response.data.choices[0].text?.match(emojiRegex)
-        emojis && setEmoji(emojis[0])
-        setIsFetchingEmoji(false)
-        return response.data.choices[0].text
-      })
-      .catch(() => setIsFetchingEmoji(false))
+    setTone({ fetching: false, message: result || '' })
   }
 
   const _setLink = useCallback(() => {
@@ -96,7 +74,8 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     }
 
     // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+      .run()
   }, [editor])
 
   const _addImage = useCallback(() => {
@@ -143,25 +122,13 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
           })
       }
     })
+    const text = editor.getText()
 
+    if (text.length < 200) return
 
+    _fetchTone(text)
   }, [match])
 
-
-    useEffect(() => {
-      const text = editor.getText();
-      text && setIsFetchingEmoji(true)
-      const newTimeoutId = setTimeout(() => {
-        if (text.length < 150) {
-          setIsFetchingEmoji(false);
-          setEmoji('');
-          return
-        }
-        _fetchToneEmoji(text)
-        _fetchTone(text)
-      }, 1000)
-      setTimeoutId(newTimeoutId)
-    }, [editor.getText()])
   const _copy = () => navigator.clipboard.writeText(editor.getHTML())
   const _reload = () => editor.commands.proofread()
   const _rewrite = () => _fetchRevision(editor.getText())
@@ -184,14 +151,14 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
       ) : (
         <div>
-          <EditorContent editor={editor} onKeyDown={handleKeyDown && (event => handleKeyDown(event, editor))} />
-          <EmojisAnimation emoji={emoji} isLoading={isFetchingEmoji} />
+          <EditorContent editor={editor} onKeyDown={handleKeyDown && ((event)=>handleKeyDown(event ,editor))}/>
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage}/>
     </div>
   )
 }
 
 export default Scribe
+ 
