@@ -222,6 +222,7 @@
 
   .lt {
     transition: background 0.25s ease-in-out;
+    background: rgba($color: #e86a69, $alpha: 0.2) !important;
 
     &:hover {
       background: rgba($color: #e86a69, $alpha: 0.2);
@@ -255,5 +256,96 @@
         background: rgba($color: #e86a69, $alpha: 0.2) !important;
       }
     }
+  }
+}
+.emoji-wrapper{
+  position: absolute;
+  right:10px;
+  top:50px;
+
+  span{
+    font-size: 25px;
+  }
+  .emoji-container{
+  position: relative;
+  .current-emoji{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    z-index: 2;
+    background-color: #FF5C38;
+    cursor: pointer;
+    svg{
+      height: 18px;
+      fill: white;
+    }
+    &.loading{
+      svg{
+        animation: rotation infinite 2s linear;
+      }
+    }
+    &.no-load{
+      background-color: white;
+    }
+    p{
+      visibility: hidden;
+      opacity: 0;
+      transition: all .3s;
+      user-select: none;
+      font-size: 18px;
+      &.visible{
+         visibility: visible;
+         opacity: 1;
+      }
+    }
+  }
+  .emoji {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    user-select: none;
+    animation: emojiAnimation 2s linear;
+  }
+ }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(-360deg)
+  }
+}
+
+@keyframes emojiAnimation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  20% {
+    font-size: 50px;
+  }
+  40% {
+    font-size: 30px;
+  }
+  60% {
+    font-size: 50px;
+  }
+  80% {
+    font-size: 30px;
+  }
+  100% {
+    transform: translate(0, calc(500px));
+    opacity: 0;
+    font-size: 50px;
   }
 }
