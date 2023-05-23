@@ -1,5 +1,4 @@
-//  @format 
-
+//  @format
 
 import { PageProps } from '@common/types/UI'
 
@@ -8,7 +7,7 @@ function Feedback({ mode }: PageProps) {
     <div className="WelcomeScreen">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLScBSAbu4sKwqZa4EAZQSpt2eUZie_jhA_9unXrsh2OuXLGbdA/viewform?embedded=true"
-        width="100%"
+        width="600px"
         height="1200px"
       >
         Loading…
@@ -17,5 +16,4 @@ function Feedback({ mode }: PageProps) {
   )
 }
 
-
-export default Feedback;
+export default Feedback

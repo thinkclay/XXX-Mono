@@ -1,17 +1,17 @@
 /** @format */
 
-import { useFirebase } from "@common/services/firebase/hook";
-import Toggle from "./Toggle";
-import NavLink from "./NavLink";
+import { useFirebase } from '@common/services/firebase/hook'
+import Toggle from './Toggle'
+import NavLink from './NavLink'
 
-import "@common/assets/styles/navigation.scss";
+import '@common/assets/styles/navigation.scss'
 
 interface PrimaryNavProps {
-  open: boolean;
+  open: boolean
 }
 
 function PrimaryNav({ open }: PrimaryNavProps) {
-  const { authUser } = useFirebase();
+  const { authUser } = useFirebase()
 
   const _renderAuthLinks = () => {
     return (
@@ -26,13 +26,13 @@ function PrimaryNav({ open }: PrimaryNavProps) {
           </>
         )}
         <NavLink href="/settings">Settings</NavLink>
-        <NavLink href="/feedback">send product feedback</NavLink>
+        <NavLink href="/feedback">Feedback</NavLink>
       </>
-    );
-  };
+    )
+  }
 
   return (
-    <nav className={`PrimaryNav ${open ? "open" : "closed"}`}>
+    <nav className={`PrimaryNav ${open ? 'open' : 'closed'}`}>
       <Toggle />
 
       <div className="links">
@@ -40,7 +40,7 @@ function PrimaryNav({ open }: PrimaryNavProps) {
         {_renderAuthLinks()}
       </div>
     </nav>
-  );
+  )
 }
 
-export default PrimaryNav;
+export default PrimaryNav
