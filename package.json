@@ -23,24 +23,13 @@
     "chrome:build": "yarn workspace @revision/chrome build",
     "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && mv chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",
     "electron:start": "dotenv yarn workspace @revision/electron start",
-    "commit": "yarn cz",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock",
     "release": "release-it"
   },
   "packageManager": "yarn@3.4.1",
-  "devDependencies": {
-    "commitizen": "^4.3.0",
-    "concurrently": "^7.6.0",
-    "cz-conventional-changelog": "^3.3.0"
-  },
   "dependencies": {
     "@release-it/bumper": "^4.0.2",
     "dotenv-cli": "^7.0.0",
     "release-it": "^15.10.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
