@@ -77,6 +77,53 @@ export const parseRevision = (response: AxiosResponse<CreateCompletionResponse>)
   return null
 }
 
+export function getToneEmoji(prompt: string): Promise<AxiosResponse<CreateCompletionResponse>> {
+  const promptScaffold = `
+  Please analyze the tone of the following sentence: "${prompt}."? Which emoji best represents the tone.
+  Positive - thumbs up 👍
+  Accusatory - thumbs down 👎
+  Happy - smiley face 😃
+  Sad - crying face 😢
+  Enthusiastic - hands raised 🙌
+  Neutral - shrug 🤷‍♀️
+  Surprised - shocked face 😮
+  Collaborative - clapping hands 👏
+  Discouraging - face with open mouth and sweat 😰
+  Insulting - 😤
+  Angry- 😡
+  Concerned - worried face 😟
+  Condescending - rolling eyes 🙄
+  Angry - red-faced angry 😠
+  Confident - sunglasses face 😎
+  Defensive - face shouting 🗣️
+  Joyful - smiling face with heart-eyes 😍
+  Optimistic - folded hands 🙏
+  Confused - face with raised eyebrow 🤨
+  Amused - grinning face with smiling eyes 😄
+  Frustrated - face with steam from nose 😤
+  Calm - relaxed face 😌
+  Anxious - face with raised eyebrow and sweat 😅
+  Hopeful - face with starry eyes 😊
+  Excited - face with party hat 🎉
+  Proud - face with smiling eyes and hands on hips 😊
+  Impatient - hourglass ⌛
+  Bored - expressionless face 😑
+  Relieved - smiling face with sweat 😅
+  Loving - red heart ❤️
+  Crying - loudly crying face 😭
+  `
+
+  return openai.createCompletion({
+    model: 'text-davinci-003',
+    prompt: promptScaffold,
+    temperature: 1.0,
+    max_tokens: 1500,
+    top_p: 1.0,
+    frequency_penalty: 0.0,
+    presence_penalty: 0.0,
+  })
+}
+
 export function getTone(prompt: string): Promise<AxiosResponse<CreateCompletionResponse>> {
   const promptScaffold = `
     What is the current tone of the following? "${prompt}"`
