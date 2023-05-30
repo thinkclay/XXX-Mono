@@ -35,19 +35,19 @@ window.addEventListener('load', () => {
 
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
     const $el = compose.$el
-
+    let signatureHTML = ""
     const bodyId = setInterval(() => {
       if (!compose.body()) return
-
       clearInterval(bodyId)
-
-      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text)
-      runApp(document.body, updateHandler, window.gmail.dom.compose($el).body())
+      signatureHTML = window.gmail.dom.compose($el).body()
+      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML) 
+      console.log(signatureHTML)
+      runApp(document.body, updateHandler)
     }, 100)
   }
 })
 
-function runApp(rootMount: Element, updateHandler: (text: string) => void , defaultText: string | undefined)  {
+function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   const rootElement = document.createElement('div')
   rootElement.id = 'gmailRoot'
   rootMount.appendChild(rootElement)
@@ -58,7 +58,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void , defa
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp">
-          <MainScreen mode="embedded" onUpdate={updateHandler}  defaultValue={defaultText}/>
+          <MainScreen mode="embedded" onUpdate={updateHandler} />
           <Close handler={() => rootElement.remove()} />
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>

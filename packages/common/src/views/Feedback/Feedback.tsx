@@ -6,7 +6,7 @@ function Feedback({ mode }: PageProps) {
   return (
     <div className="WelcomeScreen">
       <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLScBSAbu4sKwqZa4EAZQSpt2eUZie_jhA_9unXrsh2OuXLGbdA/viewform?embedded=true"
+        src="https://docs.google.com/forms/d/e/1FAIpQLScnBXnRyIGaM7gWoxORbR1ENOgjBDE78aveKm7cgfHCxpvDoQ/viewform?embedded=true"
         width="600px"
         height="1200px"
       >
