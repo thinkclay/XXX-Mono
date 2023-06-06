@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
 import MainScreen from '@common/views/MainScreen'
-import Close from '@common/views/Revise/Close'
+import Close from '@common/views/Revise/Popup/Close'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
@@ -35,12 +35,12 @@ window.addEventListener('load', () => {
 
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
     const $el = compose.$el
-    let signatureHTML = ""
+    let signatureHTML = ''
     const bodyId = setInterval(() => {
       if (!compose.body()) return
       clearInterval(bodyId)
       signatureHTML = window.gmail.dom.compose($el).body()
-      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML) 
+      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML)
       console.log(signatureHTML)
       runApp(document.body, updateHandler)
     }, 100)
