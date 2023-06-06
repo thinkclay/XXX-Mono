@@ -1,0 +1,100 @@
+/**
+ * Recommendations
+ */
+#RevisionApp {
+  .tippy-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    line-height: 1.65;
+    overflow: hidden;
+
+    .header {
+      background: $color-n200;
+      border-bottom: 1px solid $color-n300;
+      line-height: 1;
+      padding: 10px 15px;
+
+      .action {
+        height: 14px;
+        width: 14px;
+
+        span {
+          display: none;
+        }
+
+        svg {
+          height: 14px;
+          width: 14px;
+        }
+      }
+    }
+
+    .message {
+      padding: 10px 15px;
+    }
+
+    .suggestions {
+      border-top: 2px solid $color-n300;
+      font-style: italic;
+      margin: 0;
+      padding: 0;
+
+      li {
+        background-color: $color-n100;
+        color: $color-n900;
+        cursor: pointer;
+        font-weight: 600;
+        line-height: 1.5;
+        margin: 0;
+        padding: 8px 15px;
+        transition: background-color 0.2s, color 0.2s;
+
+        +li {
+          border-top: 1px solid $color-n300;
+        }
+
+        &:hover {
+          background-color: $color-g300;
+          color: $color-n900;
+        }
+      }
+    }
+  }
+
+
+  .lt {
+    transition: background 0.25s ease-in-out;
+
+    // &::selection {
+    //   background-color: $color-brand-2;
+    // }
+
+    &.lt-style {
+      border-bottom: 2px solid #9d8eff;
+
+      &:hover {
+        background: rgba($color: #9d8eff, $alpha: 0.2) !important;
+      }
+    }
+
+    &.lt-typographical,
+    &.lt-grammar {
+      border-bottom: 2px solid #ffb61a;
+
+      &:hover {
+        background: rgba($color: #e4b868, $alpha: 0.2) !important;
+      }
+    }
+
+    &.lt-misspelling,
+    &.lt-whitespace {
+      border-bottom: 2px solid $color-brand-1;
+
+      &::selection {
+        background-color: rgba($color: $color-brand-1, $alpha: 0.2);
+      }
+    }
+  }
+}

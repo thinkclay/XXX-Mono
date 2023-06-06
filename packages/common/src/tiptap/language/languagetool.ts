@@ -8,7 +8,15 @@ import { Extension } from '@tiptap/core'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
-import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions, LanguageToolStorage } from './language-types'
+import {
+  LanguageToolResponse,
+  Match,
+  TextNodesWithPosition,
+  LanguageToolOptions,
+  LanguageToolStorage,
+  ltTypes,
+  IssueType,
+} from './language-types'
 import { fetchProof } from './language-service'
 import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
@@ -39,33 +47,35 @@ const updateMatch = (m?: Match) => {
   editorView.dispatch(editorView.state.tr.setMeta('matchUpdated', true))
 }
 
-const mouseEnterEventListener = (e: Event) => {
-  if (!e.target) return
-  selectElementText(e.target)
+// const mouseEnterEventListener = (e: Event) => {
+//   if (!e.target) return
+//   selectElementText(e.target)
 
-  const matchString = (e.target as HTMLSpanElement).getAttribute('match')
+//   const matchString = (e.target as HTMLSpanElement).getAttribute('match')
 
-  if (matchString) updateMatch(JSON.parse(matchString))
-  else updateMatch()
-}
+//   if (matchString) updateMatch(JSON.parse(matchString))
+//   else updateMatch()
+// }
 
-const mouseLeaveEventListener = () => updateMatch()
+// const mouseLeaveEventListener = () => updateMatch()
 
 const addEventListenersToDecorations = () => {
-  const decos = document.querySelectorAll('span.lt')
+  const decos = document.querySelectorAll('mark.lt')
 
-  if (decos.length) {
-    decos.forEach(el => {
-      el.addEventListener('click', mouseEnterEventListener)
-      el.addEventListener('mouseleave', mouseLeaveEventListener)
-    })
-  }
+  console.log('Decos', decos)
+
+  // if (decos.length) {
+  //   decos.forEach(el => {
+  //     el.addEventListener('click', mouseEnterEventListener)
+  //     el.addEventListener('mouseleave', mouseLeaveEventListener)
+  //   })
+  // }
 }
 
 const gimmeDecoration = (from: number, to: number, match: Match) =>
   Decoration.inline(from, to, {
     class: `lt lt-${match.rule.issueType}`,
-    nodeName: 'span',
+    nodeName: ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span',
     match: JSON.stringify(match),
     uuid: uuidv4(),
   })

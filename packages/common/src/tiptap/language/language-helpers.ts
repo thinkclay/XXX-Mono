@@ -2,7 +2,7 @@
 import { Node as PMModel } from 'prosemirror-model'
 
 import { fetchBiases } from './language-service'
-import { Match, Replacement } from './language-types'
+import { IssueType, Match, Replacement } from './language-types'
 
 export const selectElementText = (el: EventTarget) => {
   const range = document.createRange()
@@ -43,7 +43,13 @@ export function changedDescendants(
   }
 }
 
-export function findAndCreateMatch(text: string, body: string, type: string, message: string, replacements: Replacement[]): Match | void {
+export function findAndCreateMatch(
+  text: string,
+  body: string,
+  type: IssueType,
+  message: string,
+  replacements: Replacement[]
+): Match | void {
   if (type === 'None') return
 
   const m = new RegExp(text, 'gid').exec(body)

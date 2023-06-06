@@ -1,7 +1,7 @@
 {
   "name": "@revision/chrome",
   "private": true,
-  "version": "0.9.1",
+  "version": "0.10.0",
   "scripts": {
     "start": "plasmo dev",
     "build": "craco build; plasmo build",
@@ -12,7 +12,7 @@
     "name": "ReVision: Fighting Bias",
     "short_name": "ReVision",
     "description": "A proof-reading app that will help you identify and eliminate bias",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "author": "Clay Unicorn <thinkclay@gmail.com>",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAobgFUuZG44LbLDgWBNGhNFXy963Z64az79BhZ9tLTdyj9DPtElufNO8ocIAZbs7XStJa9lCf7Pj/cZ7NHkAybWYW23B2hm60Qu5/H7xbPauEHC4aMxl/vvBu40gdlus1+Ph/NatzSO77Kzhq5E6uL4wswafL9uq2R0yubxvppshFC7oVKDwAqIPEBaPqSWoZIbjFLcX4+OAAGe4/+hkpDKdsGTwn3FUD+xdhSm0uCHnkVckLEPAAaCCsiFqraLZFhSrxb4cWayCoEdvMFP1qOfpzPaTZvd79HKrQ7wX/yNm+u6GDjoWbjHxkZff0qSC0QboszliGbmFBXFm8kxd+EwIDAQAB",
     "permissions": [

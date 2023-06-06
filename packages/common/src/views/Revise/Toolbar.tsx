@@ -8,12 +8,12 @@ import meta from '@common/meta.json'
 import { Editor } from '@tiptap/react'
 import Link from './Link'
 import AddImage from './AddImage'
-import EditorWithFontFamily from './FontFamily'
-import EditorWithHeading from './Heading'
-import Bold from './Bold'
-import Italic from './Italic'
-import Underline from './Underline'
+
+import Format from './Format'
+
 interface Props {
+  emoji: string
+  isFetchingEmoji: boolean
   mode: RenderMode
   copy: () => void
   reload: () => void
@@ -28,21 +28,17 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
+const Toolbar = ({ emoji, isFetchingEmoji, mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
-        <Tone editor={editor} />
+        <Tone emoji={emoji} isLoading={isFetchingEmoji} />
         {/* <Rewrite handler={rewrite} /> */}
+        <Format editor={editor} />
         <Link handler={setLink} />
         <AddImage handler={addImage} />
-        <Bold editor={editor} />
-        <Italic editor={editor} />
-        <Underline editor={editor} />
-        <EditorWithFontFamily editor={editor} />
-        <EditorWithHeading editor={editor} />
       </div>
 
       <span className="version">{meta.version}</span>

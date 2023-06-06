@@ -1,6 +1,4 @@
 /** @format */
-import { Node as PMModel } from 'prosemirror-model'
-
 export interface Software {
   name: string
   version: string
@@ -46,10 +44,17 @@ export interface Category {
   name: string
 }
 
+export type LTType = 'misspelling' | 'grammar' | 'typographical' | 'style' | 'whitespace' | 'non-conformance'
+export type AIType = 'None' | 'Cultural' | 'Disability' | 'Behavioral' | 'Gender' | 'Household' | 'Potential' | 'Racial'
+export type IssueType = LTType | AIType
+
+export const ltTypes: LTType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
+export const aiTypes: AIType[] = ['None', 'Cultural', 'Disability', 'Behavioral', 'Gender', 'Household', 'Potential', 'Racial']
+
 export interface Rule {
   id: string
   description: string
-  issueType: string
+  issueType: IssueType
   category: Category
 }
 

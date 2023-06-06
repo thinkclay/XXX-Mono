@@ -12,12 +12,11 @@ import { Match, Replacement } from '@common/tiptap/language/language-types'
 import Suggestion from './Suggestion'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
-import { RenderMode } from '@common/types/UI' 
+import { RenderMode } from '@common/types/UI'
 import IgnoredDB from '@common/helpers/db'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@common/services/firebase'
 import { doc, collection, getDocs, query } from 'firebase/firestore'
-import EmojisAnimation from './Emojis'
 
 interface ScribeProps {
   editor: Editor
@@ -25,7 +24,9 @@ interface ScribeProps {
   mode: RenderMode
   handleKeyDown?: ((event: any, editor: Editor) => void | undefined) | undefined
 }
+
 let DB: IgnoredDB
+
 function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
@@ -63,15 +64,14 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         return response.data.choices[0].text
       })
       .catch(console.log)
-    setTone({...tone, fetching: false, message: result || '' })
+    setTone({ ...tone, fetching: false, message: result || '' })
   }
 
   const _fetchToneEmoji = async (text: string) => {
-
     const result = await getToneEmoji(text)
       .then(response => {
         console.log('_fetchTone Response', response.data.choices[0].text)
-        const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/;
+        const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/
         const emojis = response.data.choices[0].text?.match(emojiRegex)
         emojis && setEmoji(emojis[0])
         setIsFetchingEmoji(false)
@@ -111,6 +111,11 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     return null
   }
 
+  const doUpdate = () => {
+    // const decos = document.querySelectorAll('mark.lt')
+    // console.log('Decos', decos)
+  }
+
   useEffect(() => {
     console.log('Fetch Tone')
     onAuthStateChanged(auth, async user => {
@@ -143,25 +148,25 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
           })
       }
     })
-
-
   }, [match])
 
+  useEffect(() => {
+    const text = editor.getText()
+    text && setIsFetchingEmoji(true)
+    const newTimeoutId = setTimeout(() => {
+      doUpdate()
 
-    useEffect(() => {
-      const text = editor.getText();
-      text && setIsFetchingEmoji(true)
-      const newTimeoutId = setTimeout(() => {
-        if (text.length < 150) {
-          setIsFetchingEmoji(false);
-          setEmoji('');
-          return
-        }
-        _fetchToneEmoji(text)
-        _fetchTone(text)
-      }, 1000)
-      setTimeoutId(newTimeoutId)
-    }, [editor.getText()])
+      if (text.length < 150) {
+        setIsFetchingEmoji(false)
+        setEmoji('')
+        return
+      }
+      _fetchToneEmoji(text)
+      _fetchTone(text)
+    }, 1000)
+    setTimeoutId(newTimeoutId)
+  }, [editor.getText()])
+
   const _copy = () => navigator.clipboard.writeText(editor.getHTML())
   const _reload = () => editor.commands.proofread()
   const _rewrite = () => _fetchRevision(editor.getText())
@@ -170,7 +175,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     _setRevision()
   }
   const _declineRevision = () => _setRevision()
-
   const _message = () => match?.message
   const _replacements = () => match?.replacements || []
   const _ignore = () => editor.commands.ignoreLanguageToolSuggestion()
@@ -185,11 +189,20 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
       ) : (
         <div>
           <EditorContent editor={editor} onKeyDown={handleKeyDown && (event => handleKeyDown(event, editor))} />
-          <EmojisAnimation emoji={emoji} isLoading={isFetchingEmoji} />
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
+      <Toolbar
+        emoji={emoji}
+        isFetchingEmoji={isFetchingEmoji}
+        mode={mode}
+        copy={_copy}
+        reload={_reload}
+        rewrite={_rewrite}
+        editor={editor}
+        setLink={_setLink}
+        addImage={_addImage}
+      />
     </div>
   )
 }

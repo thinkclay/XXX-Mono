@@ -1,6 +1,6 @@
 /** @format */
 
-import { LanguageToolResponse, Replacement } from './language-types'
+import { IssueType, LanguageToolResponse, Replacement } from './language-types'
 
 export interface BiasCategory {
   id: number
@@ -36,7 +36,7 @@ export interface Bias {
     input: string
     biases: {
       id: number
-      name: string
+      name: IssueType
       color: string
       percent: number
     }[]
