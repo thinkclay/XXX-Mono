@@ -96,7 +96,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   }
 
   useEffect(() => {
-    console.log('Fetch Tone')
     onAuthStateChanged(auth, async user => {
       if (user) {
         const userCollection = collection(db, 'users')

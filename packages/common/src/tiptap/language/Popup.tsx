@@ -10,7 +10,7 @@ export type PopupProps = Omit<Optional<PopupPluginProps, 'pluginKey'>, 'element'
   children: React.ReactNode
 }
 
-export const Popup = ({ editor, className, children }: PopupProps) => {
+export const Popup = ({ editor, className, children, tippyOptions }: PopupProps) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null)
   const pluginKey = 'popup'
 
@@ -27,7 +27,7 @@ export const Popup = ({ editor, className, children }: PopupProps) => {
       pluginKey,
       editor,
       element,
-      tippyOptions: {},
+      tippyOptions,
       shouldShow: null,
     })
 

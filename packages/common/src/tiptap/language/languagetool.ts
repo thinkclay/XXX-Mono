@@ -21,7 +21,7 @@ import {
   LTMeta,
 } from './language-types'
 import { fetchProof } from './language-service'
-import { changedDescendants, moreThan500Words, selectElementText } from './language-helpers'
+import { changedDescendants, getBiasMatches, moreThan500Words, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
 
@@ -54,7 +54,7 @@ const mouseEnterEventListener = (e: Event) => {
 
 const mouseLeaveEventListener = () => updateMatch()
 
-const addEventListenersToDecorations = () => {
+const addListenerDecorations = () => {
   const decos = document.querySelectorAll('.lt')
 
   if (decos.length) {
@@ -65,7 +65,7 @@ const addEventListenersToDecorations = () => {
   }
 }
 
-const gimmeDecoration = (from: number, to: number, match: Match) =>
+const decorate = (from: number, to: number, match: Match) =>
   Decoration.inline(from, to, {
     class: `lt lt-${match.rule.issueType}`,
     nodeName: ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span',
@@ -73,17 +73,18 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
     uuid: uuidv4(),
   })
 
-const proofDecorator = async (node: PMModel, offset: number, cur: PMModel) => {
+const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) => {
+  console.log('proofDecoratorJIT')
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
 
   const ltRes: LanguageToolResponse = await fetchProof(node.textContent)
-
-  let { matches } = ltRes
   const nodeSpecificDecorations: Decoration[] = []
+  let { matches } = ltRes
+
   decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
 
   // TODO: Migrate to AI plugin
-  // matches.push(...(await getBiasMatches(node.textContent)))
+  matches.push(...(await getBiasMatches(node.textContent)))
 
   for (const match of matches) {
     const from = match.offset + offset
@@ -93,9 +94,9 @@ const proofDecorator = async (node: PMModel, offset: number, cur: PMModel) => {
       const content = editorView.state.doc.textBetween(from, to)
       const result = await DB.ignoredWords.get({ value: content })
 
-      if (!result) nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
+      if (!result) nodeSpecificDecorations.push(decorate(from, to, match))
     } else {
-      nodeSpecificDecorations.push(gimmeDecoration(from, to, match))
+      nodeSpecificDecorations.push(decorate(from, to, match))
     }
   }
 
@@ -104,16 +105,17 @@ const proofDecorator = async (node: PMModel, offset: number, cur: PMModel) => {
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.InitTransaction, true))
 }
 
-const debouncedProofDecorator = debounce(proofDecorator, 500)
+const debouncedProofDecorator = debounce(proofDecoratorJIT, 500)
 
-const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFrom: number) => {
+const proofDecoratorDOC = async (doc: PMModel, text: string, originalFrom: number) => {
+  console.log('proofDecoratorDOC')
   const ltRes = await fetchProof(text)
 
   let { matches } = ltRes
   const decorations: Decoration[] = []
 
   // TODO: Migrate to AI plugin
-  // matches.push(...(await getBiasMatches(text)))
+  matches.push(...(await getBiasMatches(text)))
 
   for (const match of matches) {
     if (!match) return
@@ -124,9 +126,9 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
       const content = doc.textBetween(from, to)
       const result = await DB.ignoredWords.get({ value: content })
 
-      if (!result) decorations.push(gimmeDecoration(from, to, match))
+      if (!result) decorations.push(decorate(from, to, match))
     } else {
-      decorations.push(gimmeDecoration(from, to, match))
+      decorations.push(decorate(from, to, match))
     }
   }
 
@@ -135,10 +137,10 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
 
   if (editorView) dispatch(editorView.state.tr.setMeta(LTMeta.InitTransaction, true))
 
-  setTimeout(addEventListenersToDecorations)
+  setTimeout(addListenerDecorations)
 }
 
-const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
+const proofDoc = async (doc: PMModel) => {
   textNodesWithPosition = []
 
   let index = 0
@@ -164,13 +166,10 @@ const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
 
   textNodesWithPosition = textNodesWithPosition.filter(Boolean)
 
-  let finalText = ''
-
   const chunksOf500Words: { from: number; text: string }[] = []
-
+  let finalText = ''
   let upperFrom = 0
   let newDataSet = true
-
   let lastPos = 1
 
   for (const { text, from, to } of textNodesWithPosition) {
@@ -205,7 +204,7 @@ const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
     text: finalText,
   })
 
-  const requests = chunksOf500Words.map(({ text, from }) => getMatchAndSetDecorations(doc, text, from))
+  const requests = chunksOf500Words.map(({ text, from }) => proofDecoratorDOC(doc, text, from))
 
   if (editorView) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, true))
 
@@ -216,7 +215,11 @@ const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
     .finally(() => (proofReadInitially = true))
 }
 
-const debouncedProofreadAndDecorate = debounce(proofreadAndDecorateWholeDoc, 1000)
+const debouncedProofreadAndDecorate = debounce(proofDoc, 1000)
+
+/**
+ * Extension Registration
+ */
 export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolStorage>({
   name: 'languagetool',
 
@@ -241,7 +244,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
       proofread:
         () =>
         ({ tr }) => {
-          proofreadAndDecorateWholeDoc(tr.doc)
+          proofDoc(tr.doc)
           return true
         },
       toggleProofreading: () => () => {
@@ -321,7 +324,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
           init: (config, state) => {
             decorationSet = DecorationSet.empty
 
-            // if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc)
+            // if (this.options.automaticMode) proofDoc(state.doc)
 
             if (documentId) {
               extensionDocId = documentId
@@ -351,7 +354,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             }
 
             decorationSet = decorationSet.map(tr.mapping, tr.doc)
-            setTimeout(addEventListenersToDecorations)
+            setTimeout(addListenerDecorations)
 
             return decorationSet
           },

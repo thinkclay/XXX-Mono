@@ -1,6 +1,6 @@
 /** @format */
 
-import { ToolbarActionProps } from './Toolbar'
+import { ToolbarActionProps } from '../Toolbar'
 
 function Close({ handler }: ToolbarActionProps) {
   return (
