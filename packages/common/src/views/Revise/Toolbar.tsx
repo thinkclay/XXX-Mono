@@ -12,8 +12,6 @@ import AddImage from './AddImage'
 import Format from './Format'
 
 interface Props {
-  emoji: string
-  isFetchingEmoji: boolean
   mode: RenderMode
   copy: () => void
   reload: () => void
@@ -28,13 +26,13 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ emoji, isFetchingEmoji, mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
+const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
-        <Tone emoji={emoji} isLoading={isFetchingEmoji} />
+        <Tone />
         {/* <Rewrite handler={rewrite} /> */}
         <Format editor={editor} />
         <Link handler={setLink} />

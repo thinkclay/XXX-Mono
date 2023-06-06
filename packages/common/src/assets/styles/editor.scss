@@ -65,6 +65,8 @@
 
 
   .lt {
+    background: transparent;
+    border-bottom: 2px solid $color-brand-2;
     transition: background 0.25s ease-in-out;
 
     // &::selection {
@@ -72,28 +74,29 @@
     // }
 
     &.lt-style {
-      border-bottom: 2px solid #9d8eff;
+      border-color: #9d8eff;
 
-      &:hover {
-        background: rgba($color: #9d8eff, $alpha: 0.2) !important;
+      &:hover, &::selection {
+        background: lighten(#9d8eff, 12%);
       }
     }
 
     &.lt-typographical,
+    &.lt-non-conformance,
     &.lt-grammar {
-      border-bottom: 2px solid #ffb61a;
+      border-color: #ffb61a;
 
-      &:hover {
-        background: rgba($color: #e4b868, $alpha: 0.2) !important;
+      &:hover, &::selection {
+        background: lighten(#e4b868, 15%);
       }
     }
 
     &.lt-misspelling,
     &.lt-whitespace {
-      border-bottom: 2px solid $color-brand-1;
+      border-color: $color-brand-1;
 
-      &::selection {
-        background-color: rgba($color: $color-brand-1, $alpha: 0.2);
+      &:hover, &::selection {
+        background: lighten($color-brand-1, 30%);
       }
     }
   }

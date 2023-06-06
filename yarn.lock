@@ -5925,6 +5925,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-typography@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@tiptap/extension-typography@npm:2.0.3"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: d5e7be1ef9d0aa28fcf3c5747de663b36c3973fcfdd739a07330030fc27889bc258afadc7f194b288f280d02b933e81e9d021adfd61567501f5aab44dc720553
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-underline@npm:^2.0.3":
   version: 2.0.3
   resolution: "@tiptap/extension-underline@npm:2.0.3"
@@ -21103,6 +21112,7 @@ __metadata:
   resolution: "revision@workspace:."
   dependencies:
     "@release-it/bumper": ^4.0.2
+    "@tiptap/extension-typography": ^2.0.3
     dotenv-cli: ^7.0.0
     release-it: ^15.10.1
   languageName: unknown

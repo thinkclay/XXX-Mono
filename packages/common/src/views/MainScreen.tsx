@@ -1,20 +1,21 @@
 /** @format */
 
 import { useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { Editor, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useRecoilState } from 'recoil'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
+import TextStyle from '@tiptap/extension-text-style'
+import Typography from '@tiptap/extension-typography'
+import FontFamily from '@tiptap/extension-font-family'
+
 import { PageProps } from '@common/types/UI'
-import { LanguageTool, LanguageToolHelpingWords } from '@common/tiptap/language'
-import { Match } from '@common/tiptap/language/language-types'
+import { LanguageTool } from '@common/tiptap/language'
+import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from './Revise/Scribe'
-import TextStyle from '@tiptap/extension-text-style'
-import FontFamily from '@tiptap/extension-font-family'
-import Heading from '@tiptap/extension-heading'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
@@ -22,9 +23,10 @@ interface Props extends PageProps {
   handleKeyDown?: (event: any, editor: Editor) => void
 }
 
-function MainScreen({ mode, onUpdate, defaultValue,handleKeyDown }: Props) {
-  const [root, setRoot] = useRecoilState(rootState)
+function MainScreen({ mode, onUpdate, defaultValue, handleKeyDown }: Props) {
+  const [_root, _setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
+  const [_decos, _setDecos] = useState(0)
 
   const editor = useEditor({
     autofocus: 'start',
@@ -37,33 +39,29 @@ function MainScreen({ mode, onUpdate, defaultValue,handleKeyDown }: Props) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
     },
     onTransaction({ transaction }) {
-      const fetchingSuggestions = transaction.getMeta(LanguageToolHelpingWords.LoadingTransactionName)
+      const fetchingLanguage = transaction.getMeta(LTMeta.LoadingTransaction)
+      const spellingCount = document.querySelectorAll('mark.lt').length
 
-      if (fetchingSuggestions === true) setRoot({ ...root, fetchingLanguage: true })
-      if (fetchingSuggestions === false) setRoot({ ...root, fetchingLanguage: false })
+      _setRoot({ ..._root, fetchingLanguage, spellingCount })
     },
-
     extensions: [
       StarterKit,
+      Typography,
       Link.configure({
         validate: (href: string) => /^https?:\/\//.test(href),
       }),
       Image,
       TextStyle,
-      FontFamily,
       LanguageTool.configure({
         automaticMode: true,
         documentId: 'main',
-      }),
-      Heading.configure({
-        levels: [1, 2, 3, 4, 5],
       }),
     ],
   })
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} handleKeyDown={handleKeyDown}/>
+  return <Scribe editor={editor} match={_match} mode={mode} handleKeyDown={handleKeyDown} />
 }
 
 export default MainScreen

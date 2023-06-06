@@ -3,11 +3,14 @@
  * @format
  */
 import { debounce } from 'lodash'
+import { onAuthStateChanged } from 'firebase/auth'
+import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { Extension } from '@tiptap/core'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
+
 import {
   LanguageToolResponse,
   Match,
@@ -15,14 +18,12 @@ import {
   LanguageToolOptions,
   LanguageToolStorage,
   ltTypes,
-  IssueType,
+  LTMeta,
 } from './language-types'
 import { fetchProof } from './language-service'
-import { changedDescendants, getBiasMatches, selectElementText } from './language-helpers'
+import { changedDescendants, moreThan500Words, selectElementText } from './language-helpers'
 import IgnoredDB from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
-import { onAuthStateChanged } from 'firebase/auth'
-import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
 
 let DB: IgnoredDB
 let editorView: EditorView
@@ -31,12 +32,6 @@ let extensionDocId: string | number
 let textNodesWithPosition: TextNodesWithPosition[] = []
 let match: Match | undefined = undefined
 let proofReadInitially = false
-
-export enum LanguageToolHelpingWords {
-  LanguageToolTransactionName = 'languageToolTransaction',
-  MatchUpdatedTransactionName = 'matchUpdated',
-  LoadingTransactionName = 'languageToolLoading',
-}
 
 const dispatch = (tr: Transaction) => editorView.dispatch(tr)
 
@@ -47,29 +42,27 @@ const updateMatch = (m?: Match) => {
   editorView.dispatch(editorView.state.tr.setMeta('matchUpdated', true))
 }
 
-// const mouseEnterEventListener = (e: Event) => {
-//   if (!e.target) return
-//   selectElementText(e.target)
+const mouseEnterEventListener = (e: Event) => {
+  if (!e.target) return
+  selectElementText(e.target)
 
-//   const matchString = (e.target as HTMLSpanElement).getAttribute('match')
+  const matchString = (e.target as HTMLSpanElement).getAttribute('match')
 
-//   if (matchString) updateMatch(JSON.parse(matchString))
-//   else updateMatch()
-// }
+  if (matchString) updateMatch(JSON.parse(matchString))
+  else updateMatch()
+}
 
-// const mouseLeaveEventListener = () => updateMatch()
+const mouseLeaveEventListener = () => updateMatch()
 
 const addEventListenersToDecorations = () => {
-  const decos = document.querySelectorAll('mark.lt')
+  const decos = document.querySelectorAll('.lt')
 
-  console.log('Decos', decos)
-
-  // if (decos.length) {
-  //   decos.forEach(el => {
-  //     el.addEventListener('click', mouseEnterEventListener)
-  //     el.addEventListener('mouseleave', mouseLeaveEventListener)
-  //   })
-  // }
+  if (decos.length) {
+    decos.forEach(el => {
+      el.addEventListener('click', mouseEnterEventListener)
+      el.addEventListener('mouseleave', mouseLeaveEventListener)
+    })
+  }
 }
 
 const gimmeDecoration = (from: number, to: number, match: Match) =>
@@ -80,12 +73,8 @@ const gimmeDecoration = (from: number, to: number, match: Match) =>
     uuid: uuidv4(),
   })
 
-const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: number, cur: PMModel) => {
-  console.log('proofreadNodeAndUpdateItsDecorations')
-  // Mocking the Loading state when text from a node is changed
-  // await new Promise(r => setTimeout(r, 500))
-
-  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, false))
+const proofDecorator = async (node: PMModel, offset: number, cur: PMModel) => {
+  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
 
   const ltRes: LanguageToolResponse = await fetchProof(node.textContent)
 
@@ -93,7 +82,8 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
   const nodeSpecificDecorations: Decoration[] = []
   decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
 
-  matches.push(...(await getBiasMatches(node.textContent)))
+  // TODO: Migrate to AI plugin
+  // matches.push(...(await getBiasMatches(node.textContent)))
 
   for (const match of matches) {
     const from = match.offset + offset
@@ -111,12 +101,10 @@ const proofreadNodeAndUpdateItsDecorations = async (node: PMModel, offset: numbe
 
   decorationSet = decorationSet.add(cur, nodeSpecificDecorations)
 
-  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LanguageToolTransactionName, true))
+  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.InitTransaction, true))
 }
 
-const debouncedProofreadNodeAndUpdateItsDecorations = debounce(proofreadNodeAndUpdateItsDecorations, 500)
-
-const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
+const debouncedProofDecorator = debounce(proofDecorator, 500)
 
 const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFrom: number) => {
   const ltRes = await fetchProof(text)
@@ -124,7 +112,8 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
   let { matches } = ltRes
   const decorations: Decoration[] = []
 
-  matches.push(...(await getBiasMatches(text)))
+  // TODO: Migrate to AI plugin
+  // matches.push(...(await getBiasMatches(text)))
 
   for (const match of matches) {
     if (!match) return
@@ -144,7 +133,7 @@ const getMatchAndSetDecorations = async (doc: PMModel, text: string, originalFro
   decorationSet = decorationSet.remove(decorationSet.find(originalFrom, originalFrom + text.length))
   decorationSet = decorationSet.add(doc, decorations)
 
-  if (editorView) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LanguageToolTransactionName, true))
+  if (editorView) dispatch(editorView.state.tr.setMeta(LTMeta.InitTransaction, true))
 
   setTimeout(addEventListenersToDecorations)
 }
@@ -218,11 +207,11 @@ const proofreadAndDecorateWholeDoc = async (doc: PMModel) => {
 
   const requests = chunksOf500Words.map(({ text, from }) => getMatchAndSetDecorations(doc, text, from))
 
-  if (editorView) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, true))
+  if (editorView) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, true))
 
   Promise.all(requests)
     .then(() => {
-      if (editorView) dispatch(editorView.state.tr.setMeta(LanguageToolHelpingWords.LoadingTransactionName, false))
+      if (editorView) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
     })
     .finally(() => (proofReadInitially = true))
 }
@@ -330,7 +319,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
         },
         state: {
           init: (config, state) => {
-            decorationSet = DecorationSet.create(state.doc, [])
+            decorationSet = DecorationSet.empty
 
             // if (this.options.automaticMode) proofreadAndDecorateWholeDoc(state.doc)
 
@@ -343,22 +332,22 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             return decorationSet
           },
           apply: (tr, oldPluginState, oldEditorState) => {
-            const matchUpdated = tr.getMeta(LanguageToolHelpingWords.MatchUpdatedTransactionName)
-            const loading = tr.getMeta(LanguageToolHelpingWords.LoadingTransactionName)
+            const matchUpdated = tr.getMeta(LTMeta.MatchUpdatedTransaction)
+            const loading = tr.getMeta(LTMeta.LoadingTransaction)
 
             if (loading) this.storage.loading = true
             else this.storage.loading = false
 
             if (matchUpdated) this.storage.match = match
 
-            const languageToolDecorations = tr.getMeta(LanguageToolHelpingWords.LanguageToolTransactionName)
+            const languageToolDecorations = tr.getMeta(LTMeta.InitTransaction)
 
             if (languageToolDecorations) return decorationSet
 
             if (tr.docChanged && this.options.automaticMode) {
               if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc)
               // @ts-ignore
-              else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofreadNodeAndUpdateItsDecorations)
+              else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofDecorator)
             }
 
             decorationSet = decorationSet.map(tr.mapping, tr.doc)

@@ -25,16 +25,12 @@ interface ScribeProps {
   handleKeyDown?: ((event: any, editor: Editor) => void | undefined) | undefined
 }
 
-let DB: IgnoredDB
-
 function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
-  const [emoji, setEmoji] = useState('')
-  const [isFetchingEmoji, setIsFetchingEmoji] = useState<boolean>(false)
   const [timeoutId, setTimeoutId] = useState<any>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
-  DB = new IgnoredDB()
+  const DB = new IgnoredDB()
   const _fetchRevision = async (text: string) => {
     setRoot({ ...root, fetchingRevision: true })
 
@@ -58,26 +54,14 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const _fetchTone = async (text: string) => {
     setTone({ ...tone, fetching: true })
 
-    const result = await getTone(text)
+    await getToneEmoji(text)
       .then(response => {
-        console.log('_fetchTone Response', response.data.choices[0].text)
-        return response.data.choices[0].text
-      })
-      .catch(console.log)
-    setTone({ ...tone, fetching: false, message: result || '' })
-  }
-
-  const _fetchToneEmoji = async (text: string) => {
-    const result = await getToneEmoji(text)
-      .then(response => {
-        console.log('_fetchTone Response', response.data.choices[0].text)
         const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/
-        const emojis = response.data.choices[0].text?.match(emojiRegex)
-        emojis && setEmoji(emojis[0])
-        setIsFetchingEmoji(false)
-        return response.data.choices[0].text
+        const message = response.data.choices[0].text
+
+        setTone({ ...tone, fetching: false, icon: message?.match(emojiRegex)?.[0], message })
       })
-      .catch(() => setIsFetchingEmoji(false))
+      .catch(() => setTone({ ...tone, fetching: false }))
   }
 
   const _setLink = useCallback(() => {
@@ -109,11 +93,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
 
   if (!editor) {
     return null
-  }
-
-  const doUpdate = () => {
-    // const decos = document.querySelectorAll('mark.lt')
-    // console.log('Decos', decos)
   }
 
   useEffect(() => {
@@ -152,16 +131,8 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
 
   useEffect(() => {
     const text = editor.getText()
-    text && setIsFetchingEmoji(true)
     const newTimeoutId = setTimeout(() => {
-      doUpdate()
-
-      if (text.length < 150) {
-        setIsFetchingEmoji(false)
-        setEmoji('')
-        return
-      }
-      _fetchToneEmoji(text)
+      if (text.length < 150) return setTone({ ...tone, fetching: false, icon: null })
       _fetchTone(text)
     }, 1000)
     setTimeoutId(newTimeoutId)
@@ -192,17 +163,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar
-        emoji={emoji}
-        isFetchingEmoji={isFetchingEmoji}
-        mode={mode}
-        copy={_copy}
-        reload={_reload}
-        rewrite={_rewrite}
-        editor={editor}
-        setLink={_setLink}
-        addImage={_addImage}
-      />
+      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
     </div>
   )
 }

@@ -30,15 +30,16 @@
       flex-flow: row nowrap;
       font-size: 12px;
 
-      button {
+      button, .action {
+        align-items: center;
         background: transparent;
         border: none;
-        display: block;
+        display: flex;
         height: $toolbar-height;
         line-height: 0;
         margin: 0 0 0 15px;
-        padding: 8px;
         position: relative;
+        width: $toolbar-height;
 
         svg {
           height: 20px;
@@ -79,8 +80,8 @@
         }
 
         &.reload {
-          &.fetching {
-            animation: spin 5s infinite linear;
+          &.fetching svg {
+            animation: spin infinite 2s linear;
           }
         }
 
@@ -100,11 +101,23 @@
         }
       }
 
+      .counter {
+        background: #fff;
+        color: $color-brand-1;
+        display: block;
+        font-weight: 700;
+        padding: 6px;
+        height: 12px;
+        display: flex;
+        align-items: center;
+        border-radius: 6px;
+      }
+
       .tooltip {
         background: $color-n100;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         display: flex;
-        left: 7px;
+        left: 0;
         line-height: 1.65;
         opacity: 0;
         padding: 15px;
@@ -121,13 +134,13 @@
           border-style: solid;
           border-width: 6px;
           content: ' ';
-          left: 10px;
+          left: 9px;
           margin-left: -5px;
           position: absolute;
           top: -12px;
         }
 
-        button {
+        button, .action {
           .FillLayer {
             fill: $color-n700;
             transition: fill 0.3s;
@@ -155,7 +168,7 @@
   }
 
   .tone {
-    &.loading {
+    &.fetching {
       svg {
         animation: spin infinite 2s linear;
       }

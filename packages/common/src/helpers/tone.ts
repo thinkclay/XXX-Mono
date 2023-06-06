@@ -7,26 +7,33 @@ import { EditorView } from '@tiptap/pm/view'
 
 export interface ToneState {
   fetching: boolean
-  message: string
+  icon?: string | null
+  message?: string | null
 }
 
 export const toneDefault: ToneState = {
   fetching: false,
-  message: '',
+  icon: null,
+  message: null,
 }
 
 export const toneState = atom({
-  key: 'main',
+  key: 'tone',
   default: toneDefault,
 })
 
 export const toneFetching = selector({
-  key: 'main.toneFetching',
+  key: 'tone.fetching',
   get: ({ get }) => get(toneState).fetching,
 })
 
+export const toneIcon = selector({
+  key: 'tone.icon',
+  get: ({ get }) => get(toneState).icon,
+})
+
 export const toneMessage = selector({
-  key: 'main.toneState',
+  key: 'tone.message',
   get: ({ get }) => get(toneState).message,
 })
 

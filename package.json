@@ -29,6 +29,7 @@
   "packageManager": "yarn@3.4.1",
   "dependencies": {
     "@release-it/bumper": "^4.0.2",
+    "@tiptap/extension-typography": "^2.0.3",
     "dotenv-cli": "^7.0.0",
     "release-it": "^15.10.1"
   }

@@ -118,3 +118,9 @@ export interface LanguageToolStorage {
   matchRange?: { from: number; to: number }
   active: boolean
 }
+
+export enum LTMeta {
+  InitTransaction = 'languageToolTransaction',
+  MatchUpdatedTransaction = 'matchUpdated',
+  LoadingTransaction = 'languageToolLoading',
+}

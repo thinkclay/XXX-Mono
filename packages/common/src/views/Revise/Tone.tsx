@@ -1,17 +1,13 @@
 /** @format */
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
-import { toneMessage } from '@common/helpers/tone'
-import { Editor } from '@tiptap/react'
+import { toneFetching, toneIcon, toneMessage } from '@common/helpers/tone'
 
-interface Props {
-  emoji: string
-  isLoading: boolean
-}
-
-function Tone({ emoji, isLoading }: Props) {
-  const [showEmoji, setShowEmoji] = useState(false)
+function Tone() {
+  const fetching = useRecoilValue(toneFetching)
+  const icon = useRecoilValue(toneIcon)
   const message = useRecoilValue(toneMessage)
+  const [showEmoji, setShowEmoji] = useState(false)
   const [_active, _setActive] = useState(false)
 
   const _renderTone = () => {
@@ -25,19 +21,19 @@ function Tone({ emoji, isLoading }: Props) {
   }
 
   useEffect(() => {
-    if (emoji) {
+    if (icon) {
       setShowEmoji(false)
       setTimeout(() => {
         setShowEmoji(true)
       }, 300)
     }
-  }, [emoji])
+  }, [icon])
 
   return (
     <button className={_active ? 'active' : ''} onMouseOver={() => _setActive(true)} onMouseOut={() => _setActive(false)}>
-      <span className={`tone ${isLoading && 'loading'}`}>
-        {emoji && !isLoading ? (
-          <p className={showEmoji ? 'visible' : ''}>{emoji}</p>
+      <span className={`tone ${fetching && 'fetching'}`}>
+        {icon && !fetching ? (
+          <p className={showEmoji ? 'visible' : ''}>{icon}</p>
         ) : (
           <svg viewBox="0 0 100 100">
             <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

@@ -4,6 +4,8 @@ import { Node as PMModel } from 'prosemirror-model'
 import { fetchBiases } from './language-service'
 import { IssueType, Match, Replacement } from './language-types'
 
+export const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
+
 export const selectElementText = (el: EventTarget) => {
   const range = document.createRange()
   range.selectNode(el as HTMLSpanElement)
