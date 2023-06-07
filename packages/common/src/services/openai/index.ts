@@ -54,7 +54,7 @@ export function getRevisedCopy(prompt: string) {
   return openai.createCompletion({
     model: 'text-davinci-003',
     prompt: promptScaffold,
-    temperature: 1.0,
+    temperature: 2.0,
     max_tokens: 1500,
     top_p: 1.0,
     frequency_penalty: 0.0,

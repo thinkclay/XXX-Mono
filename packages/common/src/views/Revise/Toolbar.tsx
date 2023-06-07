@@ -33,7 +33,7 @@ const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink, addImage }: Pro
         {/* <Copy handler={copy} /> */}
         <Reload handler={reload} />
         <Tone />
-        {/* <Rewrite handler={rewrite} /> */}
+        <Rewrite handler={rewrite} />
         <Format editor={editor} />
         <Link handler={setLink} />
         <AddImage handler={addImage} />
