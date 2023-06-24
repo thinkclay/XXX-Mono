@@ -16,6 +16,7 @@ import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from './Revise/Scribe'
+import Bias from '@common/tiptap/bias/bias-plugin'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
@@ -53,9 +54,9 @@ function MainScreen({ mode, onUpdate, defaultValue, handleKeyDown }: Props) {
       Image,
       TextStyle,
       LanguageTool.configure({
-        automaticMode: true,
         documentId: 'main',
       }),
+      Bias,
     ],
   })
 

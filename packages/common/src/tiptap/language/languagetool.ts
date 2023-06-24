@@ -5,8 +5,8 @@
 import { debounce } from 'lodash'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, collection, addDoc, getDocs, updateDoc, query } from 'firebase/firestore'
-import { Decoration, DecorationSet, EditorView } from 'prosemirror-view'
 import { Extension } from '@tiptap/core'
+import { Decoration, DecorationSet, EditorView } from '@tiptap/pm/view'
 import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
@@ -42,7 +42,7 @@ const updateMatch = (m?: Match) => {
   editorView.dispatch(editorView.state.tr.setMeta('matchUpdated', true))
 }
 
-const mouseEnterEventListener = (e: Event) => {
+const mouseEnter = (e: Event) => {
   if (!e.target) return
   selectElementText(e.target)
 
@@ -52,55 +52,63 @@ const mouseEnterEventListener = (e: Event) => {
   else updateMatch()
 }
 
-const mouseLeaveEventListener = () => updateMatch()
+const mouseLeave = () => updateMatch()
 
 const addListenerDecorations = () => {
   const decos = document.querySelectorAll('.lt')
 
   if (decos.length) {
     decos.forEach(el => {
-      el.addEventListener('click', mouseEnterEventListener)
-      el.addEventListener('mouseleave', mouseLeaveEventListener)
+      el.addEventListener('click', mouseEnter)
+      el.addEventListener('mouseleave', mouseLeave)
     })
   }
 }
 
-const decorate = (from: number, to: number, match: Match) =>
-  Decoration.inline(from, to, {
+const decorate = (from: number, to: number, match: Match): Decoration => {
+  console.log('Decorate', match.rule.issueType, ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span')
+
+  return Decoration.inline(from, to, {
     class: `lt lt-${match.rule.issueType}`,
     nodeName: ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span',
     match: JSON.stringify(match),
     uuid: uuidv4(),
   })
+}
 
-const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) => {
-  console.log('proofDecoratorJIT')
-  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
-
-  const ltRes: LanguageToolResponse = await fetchProof(node.textContent)
-  const nodeSpecificDecorations: Decoration[] = []
-  let { matches } = ltRes
-
-  decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
-
-  // TODO: Migrate to AI plugin
-  matches.push(...(await getBiasMatches(node.textContent)))
+async function matchesToDecorations(doc: PMModel, res: LanguageToolResponse, offset: number): Promise<Decoration[]> {
+  const { matches } = res
+  const decorations: Decoration[] = []
 
   for (const match of matches) {
+    if (!match) continue
+
     const from = match.offset + offset
     const to = from + match.length
 
     if (extensionDocId) {
-      const content = editorView.state.doc.textBetween(from, to)
-      const result = await DB.ignoredWords.get({ value: content })
-
-      if (!result) nodeSpecificDecorations.push(decorate(from, to, match))
+      const result = await DB.ignoredWords.get({ value: doc.textBetween(from, to) })
+      if (!result) decorations.push(decorate(from, to, match))
     } else {
-      nodeSpecificDecorations.push(decorate(from, to, match))
+      decorations.push(decorate(from, to, match))
     }
   }
 
-  decorationSet = decorationSet.add(cur, nodeSpecificDecorations)
+  return decorations
+}
+
+const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) => {
+  console.log('proofDecoratorJIT', node.textContent)
+  if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
+
+  const res: LanguageToolResponse = await fetchProof(node.textContent)
+  const decorations = await matchesToDecorations(editorView.state.doc, res, offset)
+
+  // TODO: Migrate to AI plugin
+  // matches.push(...(await getBiasMatches(node.textContent)))
+
+  decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
+  decorationSet = decorationSet.add(cur, decorations)
 
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.InitTransaction, true))
 }
@@ -109,28 +117,11 @@ const debouncedProofDecorator = debounce(proofDecoratorJIT, 500)
 
 const proofDecoratorDOC = async (doc: PMModel, text: string, originalFrom: number) => {
   console.log('proofDecoratorDOC')
-  const ltRes = await fetchProof(text)
-
-  let { matches } = ltRes
-  const decorations: Decoration[] = []
+  const res = await fetchProof(text)
+  const decorations = await matchesToDecorations(doc, res, originalFrom)
 
   // TODO: Migrate to AI plugin
-  matches.push(...(await getBiasMatches(text)))
-
-  for (const match of matches) {
-    if (!match) return
-    const from = match.offset + originalFrom
-    const to = from + match.length
-
-    if (extensionDocId) {
-      const content = doc.textBetween(from, to)
-      const result = await DB.ignoredWords.get({ value: content })
-
-      if (!result) decorations.push(decorate(from, to, match))
-    } else {
-      decorations.push(decorate(from, to, match))
-    }
-  }
+  // matches.push(...(await getBiasMatches(text)))
 
   decorationSet = decorationSet.remove(decorationSet.find(originalFrom, originalFrom + text.length))
   decorationSet = decorationSet.add(doc, decorations)
@@ -226,7 +217,6 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
   addOptions() {
     return {
       language: 'auto',
-      automaticMode: true,
       documentId: undefined,
     }
   },
@@ -324,7 +314,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
           init: (config, state) => {
             decorationSet = DecorationSet.empty
 
-            // if (this.options.automaticMode) proofDoc(state.doc)
+            proofDoc(state.doc)
 
             if (documentId) {
               extensionDocId = documentId
@@ -347,7 +337,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
             if (languageToolDecorations) return decorationSet
 
-            if (tr.docChanged && this.options.automaticMode) {
+            if (tr.docChanged) {
               if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc)
               // @ts-ignore
               else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofDecorator)

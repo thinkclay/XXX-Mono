@@ -112,6 +112,7 @@ export const fetchBiases = async (input: string): Promise<Bias> => {
   if (urlRegex.test(input)) {
     console.log('Biases/IGNORED URL: ', input)
     const urlMatch = input.match(urlRegex)
+
     if (urlMatch) {
       const urlIndex = input.indexOf(urlMatch[0])
       const textAfterUrl = input.slice(urlIndex + urlMatch[0].length).trim()

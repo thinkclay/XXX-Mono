@@ -108,7 +108,6 @@ export interface TextNodesWithPosition {
 
 export interface LanguageToolOptions {
   language: string
-  automaticMode: boolean
   documentId: string | number | undefined
 }
 
