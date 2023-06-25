@@ -4,19 +4,19 @@ import { useCallback, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
+import { onAuthStateChanged } from 'firebase/auth'
+import { doc, collection, getDocs, query } from 'firebase/firestore'
 
-import { getRevisedCopy, getTone, getToneEmoji } from '@common/services/openai'
+import { DB } from '@common/helpers/db'
+import { auth, db } from '@common/services/firebase'
+import { getRevisedCopy, getToneEmoji } from '@common/services/openai'
 import { rootState } from '@common/helpers/root'
 import { toneState } from '@common/helpers/tone'
 import { Match, Replacement } from '@common/tiptap/language/language-types'
-import Suggestion from './Suggestion'
+import { SuggestionsModal } from '@common/tiptap/suggestions'
+import { RenderMode } from '@common/types/UI'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
-import { RenderMode } from '@common/types/UI'
-import { DB } from '@common/helpers/db'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from '@common/services/firebase'
-import { doc, collection, getDocs, query } from 'firebase/firestore'
 
 interface ScribeProps {
   editor: Editor
@@ -152,7 +152,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
 
   return (
     <div className="Main">
-      <Suggestion editor={editor} message={_message()} replacements={_replacements()} ignore={_ignore} accept={_acceptSuggestion} />
+      <SuggestionsModal editor={editor} message={_message()} replacements={_replacements()} ignore={_ignore} accept={_acceptSuggestion} />
 
       {_revision ? (
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />

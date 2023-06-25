@@ -9,11 +9,13 @@ export function findAndCreateMatch(
   message: string,
   replacements: Replacement[]
 ): Match | void {
-  if (type === 'None') return
+  if (type === 'none') return
 
   const m = new RegExp(text, 'gid').exec(body)
 
   if (!m || !m[0]) return
+
+  console.log('matcher', m)
 
   const from = m.index
 
@@ -32,17 +34,6 @@ export function findAndCreateMatch(
     type: {
       typeName: type,
     },
-    rule: {
-      id: 'noid',
-      description: 'no description',
-      issueType: type,
-      category: {
-        id: 'noid',
-        name: type,
-      },
-    },
-    ignoreForIncompleteSentence: false,
-    contextForSureMatch: 0,
   }
 }
 
@@ -51,10 +42,11 @@ export async function getBiasMatches(text: string): Promise<Match[]> {
   const biases = await fetchBiases(text)
 
   biases.results.forEach(bias => {
+    // Biases are returned with weights with highest probability match returned first
     const type = bias.biases[0].name
 
     // Skip if the top match is None for bias
-    if (type === 'None') return
+    if (type === 'none') return
 
     const m = findAndCreateMatch(
       bias.input,

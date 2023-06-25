@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
 import MainScreen from '@common/views/MainScreen'
-import Close from '@common/views/Revise/Popup/Close'
 import reportWebVitals from '@common/reportWebVitals'
+import Close from './Close'
 
 import '@common/assets/styles/index.scss'
 
@@ -59,7 +59,9 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
       <StrictMode>
         <div id="RevisionApp">
           <MainScreen mode="embedded" onUpdate={updateHandler} />
+
           <Close handler={() => rootElement.remove()} />
+
           <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
       </StrictMode>

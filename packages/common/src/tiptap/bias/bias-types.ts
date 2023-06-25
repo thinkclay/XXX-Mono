@@ -40,15 +40,8 @@ export interface Category {
   name: string
 }
 
-export interface Rule {
-  id: string
-  description: string
-  issueType: IssueType
-  category: Category
-}
-
-export type IssueType = 'None' | 'Cultural' | 'Disability' | 'Behavioral' | 'Gender' | 'Household' | 'Potential' | 'Racial'
-export const aiTypes: IssueType[] = ['None', 'Cultural', 'Disability', 'Behavioral', 'Gender', 'Household', 'Potential', 'Racial']
+export type IssueType = 'none' | 'cultural' | 'disability' | 'behavioral' | 'gender' | 'household' | 'potential' | 'racial'
+export const aiTypes: IssueType[] = ['none', 'cultural', 'disability', 'behavioral', 'gender', 'household', 'potential', 'racial']
 
 export interface Match {
   message: string
@@ -59,9 +52,6 @@ export interface Match {
   context: Context
   sentence: string
   type: Type
-  rule: Rule
-  ignoreForIncompleteSentence: boolean
-  contextForSureMatch: number
 }
 
 export interface Replacement {

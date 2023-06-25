@@ -16,22 +16,22 @@ import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
-import Bias from '@common/tiptap/bias/bias-plugin'
+import Bias, { BiasNode } from '@common/tiptap/bias/bias-plugin'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
-  defaultValue?: string | undefined
+  content?: string | undefined
   handleKeyDown?: (event: any, editor: Editor) => void
 }
 
-function MainScreen({ mode, onUpdate, defaultValue, handleKeyDown }: Props) {
+function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
   const [_root, _setRoot] = useRecoilState(rootState)
   const [_match, _setMatch] = useState<Match | null>(null)
   const [_decos, _setDecos] = useState(0)
 
   const editor = useEditor({
     autofocus: 'start',
-    content: defaultValue,
+    content, //: `<bias-node><p>The owner, Bob, he's a real good ol' boy, and he treats his customers like family.</p></bias-node>`,
     onUpdate({ editor }) {
       setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
       onUpdate && onUpdate(editor.getHTML())
@@ -53,10 +53,11 @@ function MainScreen({ mode, onUpdate, defaultValue, handleKeyDown }: Props) {
       }),
       Image,
       TextStyle,
+      BiasNode,
+      Bias,
       LanguageTool.configure({
         documentId: 'main',
       }),
-      Bias,
     ],
   })
 

@@ -1,8 +1,10 @@
 /** @format */
 
-import { ToolbarActionProps } from '../Toolbar'
+interface Props {
+  handler: () => void
+}
 
-function Close({ handler }: ToolbarActionProps) {
+function Close({ handler }: Props) {
   return (
     <button className="action close" onClick={handler}>
       <svg viewBox="0 0 100 100">

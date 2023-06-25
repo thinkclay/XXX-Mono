@@ -5,8 +5,9 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 import MainScreen from '@common/views/MainScreen'
-import Close from '@common/views/Revise/Popup/Close'
 import reportWebVitals from '@common/reportWebVitals'
+import Close from './Close'
+
 import { Editor } from '@tiptap/react'
 import '@common/assets/styles/index.scss'
 
@@ -132,7 +133,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void, defau
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp" className="infinite-campus">
-          <MainScreen mode="embedded" onUpdate={updateHandler} defaultValue={defaultText} handleKeyDown={handleKeyDown} />
+          <MainScreen mode="embedded" onUpdate={updateHandler} content={defaultText} handleKeyDown={handleKeyDown} />
           <Close
             handler={() => {
               closed = true
