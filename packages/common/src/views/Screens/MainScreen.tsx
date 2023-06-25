@@ -16,7 +16,8 @@ import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
-import Bias, { BiasNode } from '@common/tiptap/bias/bias-plugin'
+import { Bias, BiasNode, BiasMark } from '@common/tiptap/bias'
+import Highlight from '@tiptap/extension-highlight'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void
@@ -47,6 +48,7 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
     },
     extensions: [
       StarterKit,
+      Highlight,
       Typography,
       Link.configure({
         validate: (href: string) => /^https?:\/\//.test(href),
@@ -54,6 +56,7 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
       Image,
       TextStyle,
       BiasNode,
+      BiasMark,
       Bias,
       LanguageTool.configure({
         documentId: 'main',

@@ -65,11 +65,9 @@ const addListenerDecorations = () => {
 }
 
 const decorate = (from: number, to: number, match: Match): Decoration => {
-  console.log('Decorate', match.rule.issueType, ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span')
-
   return Decoration.inline(from, to, {
     class: `lt lt-${match.rule.issueType}`,
-    nodeName: ltTypes.includes(match.rule.issueType as any) ? 'mark' : 'span',
+    nodeName: 'span',
     match: JSON.stringify(match),
     uuid: uuidv4(),
   })

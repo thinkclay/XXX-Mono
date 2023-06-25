@@ -29,6 +29,7 @@
   "packageManager": "yarn@3.4.1",
   "dependencies": {
     "@release-it/bumper": "^4.0.2",
+    "@tiptap/extension-highlight": "^2.0.3",
     "@tiptap/extension-typography": "^2.0.3",
     "@visx/visx": "^3.1.2",
     "d3-array": "^3.2.4",

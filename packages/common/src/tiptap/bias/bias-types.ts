@@ -31,10 +31,6 @@ export interface Context {
   length: number
 }
 
-export interface Type {
-  typeName: string
-}
-
 export interface Category {
   id: string
   name: string
@@ -51,7 +47,7 @@ export interface Match {
   length: number
   context: Context
   sentence: string
-  type: Type
+  type: IssueType
 }
 
 export interface Replacement {
