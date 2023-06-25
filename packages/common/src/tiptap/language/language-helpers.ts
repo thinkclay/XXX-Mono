@@ -1,7 +1,5 @@
 /** @format */
 import { Node as PMModel } from 'prosemirror-model'
-
-import { fetchBiases } from './language-service'
 import { IssueType, Match, Replacement } from './language-types'
 
 export const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
@@ -52,8 +50,6 @@ export function findAndCreateMatch(
   message: string,
   replacements: Replacement[]
 ): Match | void {
-  if (type === 'None') return
-
   const m = new RegExp(text, 'gid').exec(body)
 
   if (!m || !m[0]) return
@@ -87,30 +83,4 @@ export function findAndCreateMatch(
     ignoreForIncompleteSentence: false,
     contextForSureMatch: 0,
   }
-}
-
-export async function getBiasMatches(text: string): Promise<Match[]> {
-  let matches: Match[] = []
-  const biases = await fetchBiases(text)
-
-  biases.results.forEach(bias => {
-    const type = bias.biases[0].name
-
-    // Skip if the top match is None for bias
-    if (type === 'None') return
-
-    const m = findAndCreateMatch(
-      bias.input,
-      text,
-      type,
-      `This phrase may contain ${type
-        .toLocaleLowerCase()
-        .replace('potential ', '')} bias. Here are some examples of alternative statements:`,
-      bias.replacements.map(r => ({ value: r }))
-    )
-
-    if (m) matches.push(m)
-  })
-
-  return matches
 }

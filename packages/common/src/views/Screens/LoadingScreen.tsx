@@ -1,6 +1,6 @@
 /** @format */
 
-import LogoFull from './Welcome/LogoFull'
+import LogoFull from '../Welcome/LogoFull'
 
 function LoadingScreen() {
   return (

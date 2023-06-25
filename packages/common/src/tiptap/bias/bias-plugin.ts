@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import { v4 as uuidv4 } from 'uuid'
 
-import { getBiasMatches } from '../language/language-helpers'
+import { getBiasMatches } from './bias-helpers'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 

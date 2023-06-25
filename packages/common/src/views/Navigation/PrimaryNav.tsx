@@ -25,6 +25,7 @@ function PrimaryNav({ open }: PrimaryNavProps) {
             <NavLink href="/reset">Reset Password</NavLink>
           </>
         )}
+        <NavLink href="/analytics">Analytics</NavLink>
         <NavLink href="/settings">Settings</NavLink>
         <NavLink href="/feedback">Feedback</NavLink>
       </>

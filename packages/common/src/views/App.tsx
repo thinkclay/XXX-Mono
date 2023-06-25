@@ -3,13 +3,14 @@
 import { useRecoilValue } from 'recoil'
 
 import { menuState, routeState } from '@common/helpers/root'
-import HomeScreen from '@common/views/HomeScreen'
-import AccountScreen from '@common/views/Auth/AccountScreen'
-import AuthScreen from '@common/views/Auth/AuthScreen'
-import PrimaryNav from '@common/views/Navigation/PrimaryNav'
 import { RenderMode } from '@common/types/UI'
-import Settings from './Settings/Settings'
-import Feedback from './Feedback/Feedback'
+import HomeScreen from '@common/views/Screens/HomeScreen'
+import AccountScreen from '@common/views/Auth/AccountScreen'
+import AuthScreen from '@common/views/Screens/AuthScreen'
+import PrimaryNav from '@common/views/Navigation/PrimaryNav'
+import AnalyticsScreen from '@common/views/Screens/AnalyticsScreen'
+import Settings from './Screens/SettingsScreen'
+import FeedbackScreen from '@common/views/Screens/FeedbackScreen'
 
 interface AppProps {
   mode: RenderMode
@@ -27,11 +28,14 @@ function App(screen: AppProps) {
       case '/auth':
         return <AuthScreen {...screen} />
 
+      case '/analytics':
+        return <AnalyticsScreen {...screen} />
+
       case '/settings':
         return <Settings {...screen} />
 
       case '/feedback':
-        return <Feedback {...screen} />
+        return <FeedbackScreen />
 
       default:
         return <HomeScreen {...screen} />

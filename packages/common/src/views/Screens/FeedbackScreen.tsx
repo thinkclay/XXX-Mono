@@ -1,8 +1,6 @@
 //  @format
 
-import { PageProps } from '@common/types/UI'
-
-function Feedback({ mode }: PageProps) {
+function FeedbackScreen() {
   return (
     <div className="WelcomeScreen">
       <iframe
@@ -16,4 +14,4 @@ function Feedback({ mode }: PageProps) {
   )
 }
 
-export default Feedback
+export default FeedbackScreen

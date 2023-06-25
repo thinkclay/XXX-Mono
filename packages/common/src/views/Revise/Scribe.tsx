@@ -13,7 +13,7 @@ import Suggestion from './Suggestion'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
 import { RenderMode } from '@common/types/UI'
-import IgnoredDB from '@common/helpers/db'
+import { DB } from '@common/helpers/db'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@common/services/firebase'
 import { doc, collection, getDocs, query } from 'firebase/firestore'
@@ -30,7 +30,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const [tone, setTone] = useRecoilState(toneState)
   const [timeoutId, setTimeoutId] = useState<any>(null)
   const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
-  const DB = new IgnoredDB()
+
   const _fetchRevision = async (text: string) => {
     setRoot({ ...root, fetchingRevision: true })
 

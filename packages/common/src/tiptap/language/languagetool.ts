@@ -21,11 +21,10 @@ import {
   LTMeta,
 } from './language-types'
 import { fetchProof } from './language-service'
-import { changedDescendants, getBiasMatches, moreThan500Words, selectElementText } from './language-helpers'
-import IgnoredDB from '@common/helpers/db'
+import { changedDescendants, moreThan500Words, selectElementText } from './language-helpers'
+import { DB } from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
 
-let DB: IgnoredDB
 let editorView: EditorView
 let decorationSet: DecorationSet
 let extensionDocId: string | number
@@ -104,9 +103,6 @@ const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) =>
   const res: LanguageToolResponse = await fetchProof(node.textContent)
   const decorations = await matchesToDecorations(editorView.state.doc, res, offset)
 
-  // TODO: Migrate to AI plugin
-  // matches.push(...(await getBiasMatches(node.textContent)))
-
   decorationSet = decorationSet.remove(decorationSet.find(offset, offset + node.nodeSize))
   decorationSet = decorationSet.add(cur, decorations)
 
@@ -119,9 +115,6 @@ const proofDecoratorDOC = async (doc: PMModel, text: string, originalFrom: numbe
   console.log('proofDecoratorDOC')
   const res = await fetchProof(text)
   const decorations = await matchesToDecorations(doc, res, originalFrom)
-
-  // TODO: Migrate to AI plugin
-  // matches.push(...(await getBiasMatches(text)))
 
   decorationSet = decorationSet.remove(decorationSet.find(originalFrom, originalFrom + text.length))
   decorationSet = decorationSet.add(doc, decorations)
@@ -319,8 +312,6 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             if (documentId) {
               extensionDocId = documentId
             }
-
-            DB = new IgnoredDB()
 
             return decorationSet
           },

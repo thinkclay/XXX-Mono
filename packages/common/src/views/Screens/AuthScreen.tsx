@@ -2,9 +2,9 @@
 
 import { useFirebase } from '@common/services/firebase/hook'
 import { PageProps } from '@common/types/UI'
-import LoadingScreen from '@common/views/LoadingScreen'
-import AccountScreen from './AccountScreen'
-import GoogleIcon from './GoogleIcon'
+import LoadingScreen from '@common/views/Screens/LoadingScreen'
+import AccountScreen from '../Auth/AccountScreen'
+import GoogleIcon from '../Auth/GoogleIcon'
 
 function AuthScreen({ mode }: PageProps) {
   const { authUser, authLoading, googlePopupLogin, googleTokenLogin, logout } = useFirebase()

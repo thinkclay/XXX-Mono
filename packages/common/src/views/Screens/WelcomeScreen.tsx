@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import LogoFull from './LogoFull'
-import Fill from './Fill'
+import LogoFull from '../Welcome/LogoFull'
+import Fill from '../Welcome/Fill'
 
 interface WelcomeScreenProps {
   handler: () => void

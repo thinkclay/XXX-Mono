@@ -5,7 +5,7 @@ import Fill from '../Welcome/Fill'
 import { useEffect, useState } from 'react'
 import { useFirebase } from '@common/services/firebase/hook'
 
-function Settings({ mode }: PageProps) {
+function SettingsScreen({ mode }: PageProps) {
   const settings = localStorage.getItem('spellCheck')
   const [spellcheck, setSpellcheck] = useState<boolean | undefined>(settings !== null ? (settings === 'false' ? false : true) : true)
   const { authUser, updateUser, getUser } = useFirebase()
@@ -40,4 +40,4 @@ function Settings({ mode }: PageProps) {
   )
 }
 
-export default Settings
+export default SettingsScreen

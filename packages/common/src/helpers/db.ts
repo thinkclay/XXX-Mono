@@ -2,23 +2,32 @@
 
 import Dexie, { Table } from 'dexie'
 
-export interface Ignored {
+export interface IgnoredWords {
   id?: number
   value: string
+}
+
+export interface SpellingSuggestions {
+  id?: number
+  session: string
+  text: string
+  suggestion: string
 }
 
 //
 // Declare Database
 //
-export default class IgnoredDB extends Dexie {
-  public ignoredWords!: Table<Ignored, number> // id is number in this case
+export class RevisionDB extends Dexie {
+  public ignoredWords!: Table<IgnoredWords, number>
+  public spellingSuggestions!: Table<SpellingSuggestions, number>
 
   public constructor() {
     super('revision')
     this.version(1).stores({
-      ignoredWords: '++id,value',
+      ignoredWords: '++id, value',
+      spellingSuggestions: '++, session',
     })
-
-    // TODO: Add in a default ignored word list on construction
   }
 }
+
+export const DB = new RevisionDB()

@@ -15,7 +15,7 @@ import { LanguageTool } from '@common/tiptap/language'
 import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
-import Scribe from './Revise/Scribe'
+import Scribe from '../Revise/Scribe'
 import Bias from '@common/tiptap/bias/bias-plugin'
 
 interface Props extends PageProps {

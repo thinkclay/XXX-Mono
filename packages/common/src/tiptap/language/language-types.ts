@@ -25,10 +25,6 @@ export interface Language {
   detectedLanguage: DetectedLanguage
 }
 
-export interface Replacement {
-  value: string
-}
-
 export interface Context {
   text: string
   offset: number
@@ -44,19 +40,16 @@ export interface Category {
   name: string
 }
 
-export type LTType = 'misspelling' | 'grammar' | 'typographical' | 'style' | 'whitespace' | 'non-conformance'
-export type AIType = 'None' | 'Cultural' | 'Disability' | 'Behavioral' | 'Gender' | 'Household' | 'Potential' | 'Racial'
-export type IssueType = LTType | AIType
-
-export const ltTypes: LTType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
-export const aiTypes: AIType[] = ['None', 'Cultural', 'Disability', 'Behavioral', 'Gender', 'Household', 'Potential', 'Racial']
-
 export interface Rule {
   id: string
   description: string
   issueType: IssueType
   category: Category
 }
+
+export type IssueType = 'misspelling' | 'grammar' | 'typographical' | 'style' | 'whitespace' | 'non-conformance'
+
+export const ltTypes: IssueType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
 
 export interface Match {
   message: string
@@ -70,6 +63,10 @@ export interface Match {
   rule: Rule
   ignoreForIncompleteSentence: boolean
   contextForSureMatch: number
+}
+
+export interface Replacement {
+  value: string
 }
 
 export interface LanguageToolResponse {

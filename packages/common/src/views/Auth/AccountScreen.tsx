@@ -2,8 +2,8 @@
 
 import { useFirebase } from '@common/services/firebase/hook'
 import { PageProps } from '@common/types/UI'
-import LoadingScreen from '../LoadingScreen'
-import AuthScreen from './AuthScreen'
+import LoadingScreen from '../Screens/LoadingScreen'
+import AuthScreen from '../Screens/AuthScreen'
 
 function AccountScreen({ mode }: PageProps) {
   const { authUser, authLoading, logout } = useFirebase()
