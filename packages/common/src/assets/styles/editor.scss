@@ -64,6 +64,14 @@
   }
 
 
+  .bias {
+    background-color: lighten($color-brand-2, 25%);
+
+    &:hover {
+      background-color: $color-brand-2;
+    }
+  }
+
   .lt {
     background: transparent;
     border-bottom: 2px solid $color-brand-2;

@@ -10,11 +10,11 @@ declare module '@tiptap/core' {
       /**
        * Set a bias mark
        */
-      setBiasMark: (attributes?: { class: string; message: string; suggestions: string[] }) => ReturnType
+      setBiasMark: (attributes?: { class: string; message: string; suggestions: string[]; from: number; to: number }) => ReturnType
       /**
        * Toggle a bias mark
        */
-      toggleBiasMark: (attributes?: { class: string; message: string; suggestions: string[] }) => ReturnType
+      toggleBiasMark: (attributes?: { class: string; message: string; suggestions: string[]; from: number; to: number }) => ReturnType
       /**
        * Unset a bias mark
        */
@@ -49,6 +49,14 @@ export const BiasMark = Mark.create<BiasMarkOptions>({
       suggestions: {
         default: [],
         renderHTML: attributes => ({ 'data-suggestions': attributes.suggestions }),
+      },
+      from: {
+        default: -1,
+        renderHTML: attributes => ({ 'data-from': attributes.from }),
+      },
+      to: {
+        default: -1,
+        renderHTML: attributes => ({ 'data-from': attributes.from }),
       },
     }
   },

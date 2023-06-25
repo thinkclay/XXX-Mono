@@ -313,13 +313,11 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
             return decorationSet
           },
-          apply: (tr, oldPluginState, oldEditorState) => {
+          apply: (tr, value, oldState) => {
             const matchUpdated = tr.getMeta(LTMeta.MatchUpdatedTransaction)
             const loading = tr.getMeta(LTMeta.LoadingTransaction)
 
-            if (loading) this.storage.loading = true
-            else this.storage.loading = false
-
+            this.storage.loading = loading
             if (matchUpdated) this.storage.match = match
 
             const languageToolDecorations = tr.getMeta(LTMeta.InitTransaction)
@@ -329,7 +327,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
             if (tr.docChanged) {
               if (!proofReadInitially) debouncedProofreadAndDecorate(tr.doc)
               // @ts-ignore
-              else changedDescendants(oldEditorState.doc, tr.doc, 0, debouncedProofDecorator)
+              else changedDescendants(oldState.doc, tr.doc, 0, debouncedProofDecorator)
             }
 
             decorationSet = decorationSet.map(tr.mapping, tr.doc)

@@ -91,18 +91,6 @@
     padding: 20px;
     outline: none;
   }
-
-  .bias {
-    background: none;
-    border-bottom: 2px solid;
-    cursor: pointer;
-    color: $color-n900;
-    position: relative;
-  }
-
-  .bias.language {
-    border-color: $color-language-border;
-  }
 }
 
 .infinite-campus {

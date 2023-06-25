@@ -95,3 +95,7 @@ export interface Bias {
     replacements: string[]
   }[]
 }
+
+export enum BIAS_TR {
+  MATCH_SET = 'MATCH_SET',
+}

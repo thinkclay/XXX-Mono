@@ -42,9 +42,10 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
     },
     onTransaction({ transaction }) {
       const fetchingLanguage = transaction.getMeta(LTMeta.LoadingTransaction)
-      const spellingCount = document.querySelectorAll('mark.lt').length
+      const spellingCount = document.querySelectorAll('span.lt').length
+      const biasCount = document.querySelectorAll('mark.bias').length
 
-      _setRoot({ ..._root, fetchingLanguage, spellingCount })
+      _setRoot({ ..._root, fetchingLanguage, spellingCount, biasCount })
     },
     extensions: [
       StarterKit,

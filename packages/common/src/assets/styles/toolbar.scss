@@ -102,8 +102,8 @@
       }
 
       .counter {
-        background: #fff;
-        color: $color-brand-1;
+        background-color: $color-brand-1;
+        color: #000;
         display: block;
         font-weight: 700;
         padding: 6px;
@@ -111,6 +111,10 @@
         display: flex;
         align-items: center;
         border-radius: 6px;
+
+        &.bias {
+          background-color: $color-brand-2;
+        }
       }
 
       .tooltip {

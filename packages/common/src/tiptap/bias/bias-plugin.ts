@@ -1,21 +1,16 @@
-import { AnyExtension, Extension, Command } from '@tiptap/core'
+import { AnyExtension, Extension, Command, getMarkRange } from '@tiptap/core'
 import { debounce } from 'lodash'
-import { Transaction } from '@tiptap/pm/state'
+import { Plugin, PluginKey, TextSelection, Transaction } from '@tiptap/pm/state'
+import { DecorationSet, EditorView } from '@tiptap/pm/view'
 
 import { fetchBiases } from './bias-service'
+import { BIAS_TR } from './bias-types'
 import { Editor } from '@tiptap/react'
-
-// function selectElementText(el: EventTarget) {
-//   const range = document.createRange()
-//   range.selectNode(el as HTMLSpanElement)
-
-//   const sel = window.getSelection()
-//   sel?.removeAllRanges()
-//   sel?.addRange(range)
-// }
+import { Match } from './bias-types'
 
 interface BiasStorage {
   updating: boolean
+  match?: Match
 }
 
 function checkBias(editor: Editor, storage: BiasStorage) {
@@ -51,6 +46,8 @@ function checkBias(editor: Editor, storage: BiasStorage) {
             from,
             to,
             schema.marks.biasMark.create({
+              from,
+              to,
               message,
               suggestions,
             })
@@ -63,7 +60,10 @@ function checkBias(editor: Editor, storage: BiasStorage) {
       })
     })
 
-    transactions.forEach(view.dispatch)
+    transactions.forEach(tr => {
+      tr.setMeta('biasMarkUpdate', { storage })
+      view.dispatch(tr)
+    })
   }, 500)
 
   getMatches()
@@ -71,25 +71,62 @@ function checkBias(editor: Editor, storage: BiasStorage) {
   storage.updating = false
 }
 
+const debouncedCheckBias = debounce(checkBias)
+
 export const Bias: AnyExtension = Extension.create<BiasStorage>({
   name: 'bias',
 
   addStorage(): BiasStorage {
     return {
       updating: false,
+      match: undefined,
     }
   },
 
   onUpdate(this) {
-    checkBias(this.editor as Editor, this.storage)
+    debouncedCheckBias(this.editor as Editor, this.storage)
   },
 
   addCommands() {
     return {
       proofread: () => () => {
-        checkBias(this.editor as Editor, this.storage)
+        debouncedCheckBias(this.editor as Editor, this.storage)
         return true
       },
     }
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('bias'),
+        props: {
+          handleClick(view: EditorView, pos: number, _event: MouseEvent) {
+            const mark = view.state.doc.nodeAt(pos)?.marks.find(mark => mark.type.name === 'biasMark')
+
+            if (!mark) return
+
+            const message = mark.attrs?.message
+            const suggestions = mark.attrs?.suggestions || []
+            const from = mark.attrs?.from || -1
+            const to = mark.attrs?.to || -1
+            const target = view.domAtPos(pos)
+            const markType = view.state.schema.marks.biasMark
+
+            console.log('Node:', target)
+            console.log('Message:', message)
+            console.log('Suggestions:', suggestions)
+            console.log('From:', from)
+            console.log('To:', to)
+
+            view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
+          },
+        },
+        state: {
+          init(config, instance) {},
+          apply(tr, value, oldState, newState) {},
+        },
+      }),
+    ]
   },
 })

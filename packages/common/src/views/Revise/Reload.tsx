@@ -11,7 +11,7 @@ function Reload({ handler }: ToolbarActionProps) {
   return (
     <button className={`reload ${fetching ? 'active fetching' : ''}`} onClick={handler}>
       {spellingCount ? (
-        <span className="counter">{spellingCount}</span>
+        <div className="counter">{spellingCount}</div>
       ) : (
         <svg viewBox="0 0 100 100">
           <path
