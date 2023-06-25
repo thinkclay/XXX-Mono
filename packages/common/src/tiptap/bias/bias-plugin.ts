@@ -2,11 +2,10 @@ import { AnyExtension, Extension, Command, getMarkRange } from '@tiptap/core'
 import { debounce } from 'lodash'
 import { Plugin, PluginKey, TextSelection, Transaction } from '@tiptap/pm/state'
 import { DecorationSet, EditorView } from '@tiptap/pm/view'
+import { Editor } from '@tiptap/react'
 
 import { fetchBiases } from './bias-service'
-import { BIAS_TR } from './bias-types'
-import { Editor } from '@tiptap/react'
-import { Match } from './bias-types'
+import { Match } from '@common/tiptap/language/language-types'
 
 interface BiasStorage {
   updating: boolean
@@ -14,9 +13,15 @@ interface BiasStorage {
 }
 
 function checkBias(editor: Editor, storage: BiasStorage) {
-  if (storage.updating) return
+  console.log('bias/checkBias/updating?:', storage.updating)
 
-  console.log('Bias onUpdate')
+  if (storage.updating) {
+    console.log('bias/checkBias/clearing')
+    // editor.chain().focus().clearNodes().unsetAllMarks().run()
+    return
+  }
+
+  console.log('bias/checkBias/running')
 
   const { state, view } = editor
   const { tr, schema } = state
@@ -25,6 +30,7 @@ function checkBias(editor: Editor, storage: BiasStorage) {
 
   const getMatches = debounce(async () => {
     storage.updating = true
+    tr.setMeta('BIAS_FETCHING', true)
 
     await fetchBiases(originalText).then(bias => {
       bias.results.forEach(r => {
@@ -39,7 +45,6 @@ function checkBias(editor: Editor, storage: BiasStorage) {
         const message = `This phrase may contain ${r.biases[0].name
           .toLocaleLowerCase()
           .replace('potential ', '')} bias. Here are some examples of alternative statements:`
-        const suggestions = JSON.stringify(r.replacements)
 
         transactions.push(
           tr.addMark(
@@ -49,7 +54,7 @@ function checkBias(editor: Editor, storage: BiasStorage) {
               from,
               to,
               message,
-              suggestions,
+              replacements: r.replacements.map(value => ({ value })),
             })
           )
         )
@@ -69,6 +74,7 @@ function checkBias(editor: Editor, storage: BiasStorage) {
   getMatches()
 
   storage.updating = false
+  tr.setMeta('BIAS_FETCHING', false)
 }
 
 const debouncedCheckBias = debounce(checkBias)
@@ -79,7 +85,6 @@ export const Bias: AnyExtension = Extension.create<BiasStorage>({
   addStorage(): BiasStorage {
     return {
       updating: false,
-      match: undefined,
     }
   },
 
@@ -91,6 +96,7 @@ export const Bias: AnyExtension = Extension.create<BiasStorage>({
     return {
       proofread: () => () => {
         debouncedCheckBias(this.editor as Editor, this.storage)
+
         return true
       },
     }
@@ -107,24 +113,13 @@ export const Bias: AnyExtension = Extension.create<BiasStorage>({
             if (!mark) return
 
             const message = mark.attrs?.message
-            const suggestions = mark.attrs?.suggestions || []
+            const replacements = mark.attrs?.replacements || []
             const from = mark.attrs?.from || -1
             const to = mark.attrs?.to || -1
-            const target = view.domAtPos(pos)
-            const markType = view.state.schema.marks.biasMark
 
-            console.log('Node:', target)
-            console.log('Message:', message)
-            console.log('Suggestions:', suggestions)
-            console.log('From:', from)
-            console.log('To:', to)
-
+            view.dispatch(view.state.tr.setMeta('SUGGESTION', { message, replacements, from, to }))
             view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
           },
-        },
-        state: {
-          init(config, instance) {},
-          apply(tr, value, oldState, newState) {},
         },
       }),
     ]

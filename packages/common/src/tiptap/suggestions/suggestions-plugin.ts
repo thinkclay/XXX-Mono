@@ -69,7 +69,6 @@ export class SuggestionsView {
     }
 
     this.element.addEventListener('mousedown', this.mousedownHandler, { capture: true })
-    this.view.dom.addEventListener('dragstart', this.dragstartHandler)
     this.editor.on('focus', this.focusHandler)
     this.editor.on('blur', this.blurHandler)
     this.tippyOptions = tippyOptions
@@ -80,10 +79,6 @@ export class SuggestionsView {
 
   mousedownHandler = () => {
     this.preventHide = true
-  }
-
-  dragstartHandler = () => {
-    this.hide()
   }
 
   focusHandler = () => {
@@ -127,11 +122,6 @@ export class SuggestionsView {
       hideOnClick: 'toggle',
       ...this.tippyOptions,
     })
-
-    // maybe we have to hide tippy on its own blur event as well
-    if (this.tippy.popper.firstChild) {
-      ;(this.tippy.popper.firstChild as HTMLElement).addEventListener('blur', this.tippyBlurHandler)
-    }
   }
 
   update(view: EditorView, oldState?: EditorState) {
@@ -237,7 +227,6 @@ export class SuggestionsView {
     }
     this.tippy?.destroy()
     this.element.removeEventListener('mousedown', this.mousedownHandler, { capture: true })
-    this.view.dom.removeEventListener('dragstart', this.dragstartHandler)
     this.editor.off('focus', this.focusHandler)
     this.editor.off('blur', this.blurHandler)
   }

@@ -41,7 +41,7 @@ export const fetchCompletions = async (input: string): Promise<BiasCompletions> 
 }
 
 export const fetchClassifications = async (input: string): Promise<BiasClassResult[]> => {
-  console.log('Completions/FETCHING: ', input)
+  console.log('Completions/FETCHING')
   const result = await fetch(`${BIAS_URL}/api/v1/classifications`, apiBody(input)).then(r => r.json())
   console.log('Completions/RESPONSE: ', result)
 
@@ -49,12 +49,12 @@ export const fetchClassifications = async (input: string): Promise<BiasClassResu
 }
 
 export const fetchBiases = async (input: string): Promise<Bias> => {
-  console.log('Biases/FETCHING: ', input)
+  console.log('Biases/FETCHING')
 
   // Ignore URLs
   const urlRegex = /(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/
   if (urlRegex.test(input)) {
-    console.log('Biases/IGNORED URL: ', input)
+    console.log('Biases/IGNORED URL', input)
     const urlMatch = input.match(urlRegex)
 
     if (urlMatch) {

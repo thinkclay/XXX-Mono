@@ -47,9 +47,12 @@ export interface Rule {
   category: Category
 }
 
-export type IssueType = 'misspelling' | 'grammar' | 'typographical' | 'style' | 'whitespace' | 'non-conformance'
+export type LTType = 'misspelling' | 'grammar' | 'typographical' | 'style' | 'whitespace' | 'non-conformance'
+export type AIType = 'none' | 'cultural' | 'disability' | 'behavioral' | 'gender' | 'household' | 'potential' | 'racial'
+export type IssueType = LTType | AIType
 
-export const ltTypes: IssueType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
+export const ltTypes: LTType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
+export const aiTypes: AIType[] = ['none', 'cultural', 'disability', 'behavioral', 'gender', 'household', 'potential', 'racial']
 
 export interface Match {
   message: string

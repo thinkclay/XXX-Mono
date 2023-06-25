@@ -72,7 +72,7 @@
     }
   }
 
-  .lt {
+  .language {
     background: transparent;
     border-bottom: 2px solid $color-brand-2;
     transition: background 0.25s ease-in-out;
@@ -81,7 +81,7 @@
     //   background-color: $color-brand-2;
     // }
 
-    &.lt-style {
+    &.style {
       border-color: #9d8eff;
 
       &:hover, &::selection {
@@ -89,9 +89,9 @@
       }
     }
 
-    &.lt-typographical,
-    &.lt-non-conformance,
-    &.lt-grammar {
+    &.typographical,
+    &.non-conformance,
+    &.grammar {
       border-color: #ffb61a;
 
       &:hover, &::selection {
@@ -99,8 +99,8 @@
       }
     }
 
-    &.lt-misspelling,
-    &.lt-whitespace {
+    &.misspelling,
+    &.whitespace {
       border-color: $color-brand-1;
 
       &:hover, &::selection {

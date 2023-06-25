@@ -46,9 +46,9 @@ export const BiasMark = Mark.create<BiasMarkOptions>({
         default: null,
         renderHTML: attributes => ({ 'data-message': attributes.message }),
       },
-      suggestions: {
+      replacements: {
         default: [],
-        renderHTML: attributes => ({ 'data-suggestions': attributes.suggestions }),
+        renderHTML: attributes => ({ 'data-replacements': JSON.stringify(attributes.replacements) }),
       },
       from: {
         default: -1,

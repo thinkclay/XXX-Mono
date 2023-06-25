@@ -16,7 +16,7 @@ import { LTMeta, Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
-import { Bias, BiasNode, BiasMark } from '@common/tiptap/bias'
+import { Bias, BiasMark } from '@common/tiptap/bias'
 import Highlight from '@tiptap/extension-highlight'
 
 interface Props extends PageProps {
@@ -26,26 +26,27 @@ interface Props extends PageProps {
 }
 
 function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
-  const [_root, _setRoot] = useRecoilState(rootState)
-  const [_match, _setMatch] = useState<Match | null>(null)
-  const [_decos, _setDecos] = useState(0)
+  const [root, setRoot] = useRecoilState(rootState)
+  const [match, setMatch] = useState<Match | null>(null)
 
   const editor = useEditor({
     autofocus: 'start',
-    content, //: `<bias-node><p>The owner, Bob, he's a real good ol' boy, and he treats his customers like family.</p></bias-node>`,
+    content,
     onUpdate({ editor }) {
-      setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
       onUpdate && onUpdate(editor.getHTML())
     },
-    onSelectionUpdate({ editor }) {
-      setTimeout(() => _setMatch(editor.extensionStorage.languagetool.match))
-    },
-    onTransaction({ transaction }) {
+    onTransaction({ editor, transaction }) {
       const fetchingLanguage = transaction.getMeta(LTMeta.LoadingTransaction)
-      const spellingCount = document.querySelectorAll('span.lt').length
+      const fetchingBias = transaction.getMeta('BIAS_FETCHING')
+      const spellingCount = document.querySelectorAll('span.language').length
       const biasCount = document.querySelectorAll('mark.bias').length
+      setRoot({ ...root, fetchingLanguage, fetchingBias, spellingCount, biasCount })
 
-      _setRoot({ ..._root, fetchingLanguage, spellingCount, biasCount })
+      const match = editor.extensionStorage.languagetool.match || transaction.getMeta('SUGGESTION')
+
+      if (!match) return
+
+      setTimeout(() => setMatch(match))
     },
     extensions: [
       StarterKit,
@@ -56,7 +57,6 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
       }),
       Image,
       TextStyle,
-      BiasNode,
       BiasMark,
       Bias,
       LanguageTool.configure({
@@ -67,7 +67,7 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
 
   if (!editor) return <LoadingScreen />
 
-  return <Scribe editor={editor} match={_match} mode={mode} handleKeyDown={handleKeyDown} />
+  return <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
 }
 
 export default MainScreen

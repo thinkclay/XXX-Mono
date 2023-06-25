@@ -110,7 +110,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
                   DB.ignoredWords.clear()
                   querySnapshot.forEach(async (data: any) => {
                     const newData = data.data().data
-                    console.log(newData)
+                    console.log('Scribe/Firebase/ignorelist', newData)
                     newData.forEach((data: { Value: any }) => {
                       DB.ignoredWords.add({ value: data.Value })
                     })
@@ -148,7 +148,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const _message = () => match?.message
   const _replacements = () => match?.replacements || []
   const _ignore = () => editor.commands.ignoreLanguageToolSuggestion()
-  const _acceptSuggestion = (replacement: Replacement) => editor.commands.insertContent(replacement.value)
+  const _acceptSuggestion = (replacement: Replacement) => editor.chain().toggleBiasMark().insertContent(replacement.value).run()
 
   return (
     <div className="Main">

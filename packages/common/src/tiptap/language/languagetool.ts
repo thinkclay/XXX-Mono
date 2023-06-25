@@ -54,7 +54,7 @@ const mouseEnter = (e: Event) => {
 const mouseLeave = () => updateMatch()
 
 const addListenerDecorations = () => {
-  const decos = document.querySelectorAll('.lt')
+  const decos = document.querySelectorAll('span.language')
 
   if (decos.length) {
     decos.forEach(el => {
@@ -66,7 +66,7 @@ const addListenerDecorations = () => {
 
 const decorate = (from: number, to: number, match: Match): Decoration => {
   return Decoration.inline(from, to, {
-    class: `lt lt-${match.rule.issueType}`,
+    class: `language ${match.rule.issueType}`,
     nodeName: 'span',
     match: JSON.stringify(match),
     uuid: uuidv4(),
@@ -95,7 +95,7 @@ async function matchesToDecorations(doc: PMModel, res: LanguageToolResponse, off
 }
 
 const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) => {
-  console.log('proofDecoratorJIT', node.textContent)
+  console.log('language/proofDecoratorJIT')
   if (editorView?.state) dispatch(editorView.state.tr.setMeta(LTMeta.LoadingTransaction, false))
 
   const res: LanguageToolResponse = await fetchProof(node.textContent)
@@ -110,7 +110,7 @@ const proofDecoratorJIT = async (node: PMModel, offset: number, cur: PMModel) =>
 const debouncedProofDecorator = debounce(proofDecoratorJIT, 500)
 
 const proofDecoratorDOC = async (doc: PMModel, text: string, originalFrom: number) => {
-  console.log('proofDecoratorDOC')
+  console.log('language/proofDecoratorDOC')
   const res = await fetchProof(text)
   const decorations = await matchesToDecorations(doc, res, originalFrom)
 
@@ -258,7 +258,6 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                           const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
                           const newDocRef = doc(ignoreListCollection, data.id)
                           const newData = data.data().data
-                          console.log(newData.length)
                           newData.push({ Key: newData.length + 1, Value: content })
                           updateDoc(newDocRef, { data: newData })
                             .then(data => console.log('UPDATED Firebase', data))

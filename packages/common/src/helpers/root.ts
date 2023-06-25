@@ -10,6 +10,7 @@ export const rootDefault = {
   biasCount: 0,
   fetchingTone: false,
   fetchingLanguage: false,
+  fetchingBias: false,
   fetchingRevision: false,
   acceptedTerms: false,
   spellCheck: true,
@@ -53,6 +54,11 @@ export const fetchingToneState = selector({
 export const fetchingLanguageState = selector({
   key: 'root.fetchingLanguageState',
   get: ({ get }) => get(rootState).fetchingLanguage,
+})
+
+export const fetchingBiasState = selector({
+  key: 'root.fetchingBiasState',
+  get: ({ get }) => get(rootState).fetchingBias,
 })
 
 export const fetchingRevisionState = selector({
