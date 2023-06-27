@@ -107,12 +107,12 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
             if (checkQuery.size > 0) {
               getDocs(ignoreCollection)
                 .then(querySnapshot => {
-                  DB.ignoredWords.clear()
+                  DB.dictionary.clear()
                   querySnapshot.forEach(async (data: any) => {
                     const newData = data.data().data
                     console.log('Scribe/Firebase/ignorelist', newData)
                     newData.forEach((data: { Value: any }) => {
-                      DB.ignoredWords.add({ value: data.Value })
+                      DB.dictionary.add({ value: data.Value })
                     })
                   })
                 })

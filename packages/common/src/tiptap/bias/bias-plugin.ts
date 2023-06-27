@@ -6,6 +6,7 @@ import { Editor } from '@tiptap/react'
 
 import { fetchBiases } from './bias-service'
 import { Match } from '@common/tiptap/language/language-types'
+import { DB } from '@common/helpers/db'
 
 interface BiasStorage {
   updating: boolean
@@ -33,18 +34,25 @@ function checkBias(editor: Editor, storage: BiasStorage) {
     tr.setMeta('BIAS_FETCHING', true)
 
     await fetchBiases(originalText).then(bias => {
-      bias.results.forEach(r => {
-        if (r.biases[0].name === 'none') return
+      bias.results.forEach(({ input, biases, replacements }) => {
+        const type = biases[0].name
 
-        const m = new RegExp(r.input, 'gid').exec(originalText)
+        if (type === 'none') return
+
+        const m = new RegExp(input, 'gid').exec(originalText)
 
         if (!m || !m[0]) return
 
         const from = m.index + 1
-        const to = m.index + r.input.length + 1
-        const message = `This phrase may contain ${r.biases[0].name
-          .toLocaleLowerCase()
-          .replace('potential ', '')} bias. Here are some examples of alternative statements:`
+        const to = m.index + input.length + 1
+        const message = `This phrase may contain ${type.replace('potential ', '')} bias. Here are some examples of alternative statements:`
+
+        DB.suggestion.add({
+          category: 'bias',
+          type,
+          input,
+          date: Date.now(),
+        })
 
         transactions.push(
           tr.addMark(
@@ -54,7 +62,7 @@ function checkBias(editor: Editor, storage: BiasStorage) {
               from,
               to,
               message,
-              replacements: r.replacements.map(value => ({ value })),
+              replacements: replacements.map(value => ({ value })),
             })
           )
         )

@@ -1,31 +1,35 @@
 /** @format */
 
+import { IssueType } from '@common/tiptap/language/language-types'
 import Dexie, { Table } from 'dexie'
 
-export interface IgnoredWords {
+export interface Dictionary {
   id?: number
   value: string
 }
 
-export interface SpellingSuggestions {
+export interface Suggestion {
   id?: number
-  session: string
-  text: string
-  suggestion: string
+  category: 'language' | 'bias'
+  type: IssueType
+  date: number
+  input: string
+  accepted?: boolean
+  replacement?: string
 }
 
 //
 // Declare Database
 //
 export class RevisionDB extends Dexie {
-  public ignoredWords!: Table<IgnoredWords, number>
-  public spellingSuggestions!: Table<SpellingSuggestions, number>
+  public dictionary!: Table<Dictionary, number>
+  public suggestion!: Table<Suggestion, number>
 
   public constructor() {
     super('revision')
-    this.version(1).stores({
-      ignoredWords: '++id, value',
-      spellingSuggestions: '++, session',
+    this.version(2).stores({
+      dictionary: '++id, value',
+      suggestion: '++id, category, type, date',
     })
   }
 }

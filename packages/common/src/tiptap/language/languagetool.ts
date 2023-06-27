@@ -65,6 +65,13 @@ const addListenerDecorations = () => {
 }
 
 const decorate = (from: number, to: number, match: Match): Decoration => {
+  DB.suggestion.add({
+    category: 'language',
+    type: match.rule.issueType,
+    input: match.sentence,
+    date: Date.now(),
+  })
+
   return Decoration.inline(from, to, {
     class: `language ${match.rule.issueType}`,
     nodeName: 'span',
@@ -84,7 +91,7 @@ async function matchesToDecorations(doc: PMModel, res: LanguageToolResponse, off
     const to = from + match.length
 
     if (extensionDocId) {
-      const result = await DB.ignoredWords.get({ value: doc.textBetween(from, to) })
+      const result = await DB.dictionary.get({ value: doc.textBetween(from, to) })
       if (!result) decorations.push(decorate(from, to, match))
     } else {
       decorations.push(decorate(from, to, match))
@@ -278,7 +285,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                 })
             }
           })
-          DB.ignoredWords.add({ value: content })
+          DB.dictionary.add({ value: content })
 
           return false
         },

@@ -54,6 +54,8 @@ export type IssueType = LTType | AIType
 export const ltTypes: LTType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
 export const aiTypes: AIType[] = ['none', 'cultural', 'disability', 'behavioral', 'gender', 'household', 'potential', 'racial']
 
+export type CategoryType = 'bias' | 'language'
+
 export interface Match {
   message: string
   shortMessage: string
