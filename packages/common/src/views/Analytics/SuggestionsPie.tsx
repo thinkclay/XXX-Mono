@@ -5,21 +5,10 @@ import Pie from '@visx/shape/lib/shapes/Pie'
 import { scaleOrdinal } from '@visx/scale'
 import { Group } from '@visx/group'
 import { GradientPinkBlue } from '@visx/gradient'
-import letterFrequency, { LetterFrequency } from '@visx/mock-data/lib/mocks/letterFrequency'
-import browserUsage, { BrowserUsage as Browsers } from '@visx/mock-data/lib/mocks/browserUsage'
 
 import { DB, Suggestion } from '@common/helpers/db'
 import { CategoryType, IssueType } from '@common/tiptap/language/language-types'
 import AnimatedPie from './AnimatedPie'
-
-//
-type BrowserNames = keyof Browsers
-
-interface BrowserUsage {
-  label: BrowserNames
-  usage: number
-}
-//
 
 type CategoryMap = {
   [key in CategoryType]?: Suggestion[]
@@ -76,13 +65,13 @@ const SuggestionsPie = ({ animate = true, margin = { top: 20, right: 20, bottom:
   const typeColors = scaleOrdinal({
     domain: Object.keys(types),
     range: [
-      'rgba(255,255,255,0.7)',
-      'rgba(255,255,255,0.6)',
-      'rgba(255,255,255,0.5)',
-      'rgba(255,255,255,0.4)',
-      'rgba(255,255,255,0.3)',
-      'rgba(255,255,255,0.2)',
-      'rgba(255,255,255,0.1)',
+      'rgba(0,0,0,0.35)',
+      'rgba(0,0,0,0.3)',
+      'rgba(0,0,0,0.25)',
+      'rgba(0,0,0,0.2)',
+      'rgba(0,0,0,0.15)',
+      'rgba(0,0,0,0.1)',
+      'rgba(0,0,0,0.05)',
     ],
   })
 
@@ -91,11 +80,8 @@ const SuggestionsPie = ({ animate = true, margin = { top: 20, right: 20, bottom:
     range: ['#ff5c38', '#fcf051'],
   })
 
-  console.log('inspect', letterFrequency)
-
   return (
     <svg width={width} height={height}>
-      <GradientPinkBlue id="visx-pie-gradient" />
       <rect rx={14} width={width} height={height} fill="url('#visx-pie-gradient')" />
       <Group top={centerY + margin.top} left={centerX + margin.left}>
         <Pie

@@ -1,7 +1,6 @@
 //  @format
 
 import { PageProps } from '@common/types/UI'
-import UsageChart from '@common/views/Analytics/UsageChart'
 import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 
 function Settings({ mode }: PageProps) {

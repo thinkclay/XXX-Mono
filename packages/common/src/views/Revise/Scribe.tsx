@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { Editor, EditorContent } from '@tiptap/react'
+import { Editor, EditorContent, FloatingMenu } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, collection, getDocs, query } from 'firebase/firestore'
@@ -17,6 +17,8 @@ import { SuggestionsModal } from '@common/tiptap/suggestions'
 import { RenderMode } from '@common/types/UI'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
+import Heading from './Insert/Heading'
+import List from './Insert/List'
 
 interface ScribeProps {
   editor: Editor
@@ -137,7 +139,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     setTimeoutId(newTimeoutId)
   }, [editor.getText()])
 
-  const _copy = () => navigator.clipboard.writeText(editor.getHTML())
   const _reload = () => editor.commands.proofread()
   const _rewrite = () => _fetchRevision(editor.getText())
   const _acceptRevision = (content: string) => {
@@ -154,6 +155,13 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     <div className="Main">
       <SuggestionsModal editor={editor} message={_message()} replacements={_replacements()} ignore={_ignore} accept={_acceptSuggestion} />
 
+      <FloatingMenu className="header" editor={editor} tippyOptions={{ duration: 100 }}>
+        <Heading level={1} editor={editor} />
+        <Heading level={2} editor={editor} />
+        <Heading level={3} editor={editor} />
+        <List editor={editor} />
+      </FloatingMenu>
+
       {_revision ? (
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
       ) : (
@@ -162,7 +170,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar mode={mode} copy={_copy} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
+      <Toolbar mode={mode} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
     </div>
   )
 }

@@ -1,7 +1,27 @@
 /**
  * Recommendations
  */
+
+$action-height: 27px;
+
 #RevisionApp {
+  // Editor content formatting
+  .ProseMirror {
+    ul, ol {
+      padding: 15px;
+    }
+
+    ul li {
+      list-style-type: disc;
+    }
+
+    li { line-height: 1; }
+
+    li + li {
+      padding-top: 15px;
+    }
+  }
+
   .tippy-box {
     background: #fff;
     border-radius: 10px;
@@ -11,22 +31,39 @@
     overflow: hidden;
 
     .header {
-      background: $color-n200;
-      border-bottom: 1px solid $color-n300;
+      background: $color-n800;
+      height: $action-height;
       line-height: 1;
-      padding: 10px 15px;
+      padding: 0 10px;
 
       .action {
-        height: 14px;
-        width: 14px;
+        display: inline-flex;
+        justify-content: center;
+        transition: background-color .2s;
 
         span {
           display: none;
         }
 
         svg {
-          height: 14px;
-          width: 14px;
+          height: $action-height;
+          width: $action-height;
+        }
+
+        .path {
+          fill: $color-n100;
+        }
+
+        + .action {
+          margin-left: 10px;
+        }
+
+        &:hover {
+          background-color: $color-n700;
+        }
+
+        &.active {
+          .path { fill: $color-brand-3; }
         }
       }
     }
@@ -62,7 +99,6 @@
       }
     }
   }
-
 
   .bias {
     background-color: lighten($color-brand-2, 25%);

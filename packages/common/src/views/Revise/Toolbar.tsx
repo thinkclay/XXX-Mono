@@ -13,7 +13,6 @@ import Format from './Format'
 
 interface Props {
   mode: RenderMode
-  copy: () => void
   reload: () => void
   rewrite: () => void
   setLink: () => void
@@ -26,14 +25,16 @@ export interface ToolbarActionProps {
   handler: () => void
 }
 
-const Toolbar = ({ mode, copy, reload, rewrite, editor, setLink, addImage }: Props) => {
+const Toolbar = ({ mode, reload, rewrite, editor, setLink, addImage }: Props) => {
+  const copy = () => navigator.clipboard.writeText(editor.getHTML())
+
   return (
     <aside className={`Toolbar ${mode}`}>
       <div className="actions">
         {/* <Copy handler={copy} /> */}
+        <Rewrite handler={rewrite} />
         <Reload handler={reload} />
         <Tone />
-        <Rewrite handler={rewrite} />
         <Format editor={editor} />
         <Link handler={setLink} />
         <AddImage handler={addImage} />

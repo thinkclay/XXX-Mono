@@ -9,6 +9,8 @@ import Image from '@tiptap/extension-image'
 import TextStyle from '@tiptap/extension-text-style'
 import Typography from '@tiptap/extension-typography'
 import FontFamily from '@tiptap/extension-font-family'
+import Highlight from '@tiptap/extension-highlight'
+import FloatingMenu from '@tiptap/extension-floating-menu'
 
 import { PageProps } from '@common/types/UI'
 import { LanguageTool } from '@common/tiptap/language'
@@ -17,7 +19,6 @@ import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
 import { Bias, BiasMark } from '@common/tiptap/bias'
-import Highlight from '@tiptap/extension-highlight'
 
 interface Props extends PageProps {
   onUpdate?: (text: string) => void

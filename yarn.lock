@@ -5148,17 +5148,21 @@ __metadata:
   resolution: "@revision/common@workspace:packages/common"
   dependencies:
     "@craco/craco": ^7.0.0
+    "@react-spring/web": ^9.7.3
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
     "@tiptap/core": ^2.0.0-beta.220
     "@tiptap/extension-bold": ^2.0.3
+    "@tiptap/extension-floating-menu": ^2.0.3
     "@tiptap/extension-font-family": ^2.0.0-beta.220
     "@tiptap/extension-heading": ^2.0.0-beta.220
+    "@tiptap/extension-highlight": ^2.0.3
     "@tiptap/extension-image": ^2.0.0-beta.220
     "@tiptap/extension-italic": ^2.0.3
     "@tiptap/extension-link": ^2.0.0-beta.220
     "@tiptap/extension-text-style": ^2.0.0-beta.220
+    "@tiptap/extension-typography": ^2.0.3
     "@tiptap/extension-underline": ^2.0.3
     "@tiptap/pm": ^2.0.0-beta.218
     "@tiptap/react": ^2.0.0-beta.218
@@ -5170,6 +5174,7 @@ __metadata:
     "@types/react": ^18.0.28
     "@types/react-dom": ^18.0.11
     "@types/uuid": ^9.0.1
+    "@visx/visx": ^3.1.2
     dexie: ^3.2.3
     firebase: ^9.17.1
     firebase-admin: ^11.5.0
@@ -5832,6 +5837,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-floating-menu@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@tiptap/extension-floating-menu@npm:2.0.3"
+  dependencies:
+    tippy.js: ^6.3.7
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/pm": ^2.0.0
+  checksum: c5b3ef0e32975da8fe68fd56370407cf20fc7aa77aa32e6b38b83f383d65142c51bdafa8e0eafaa19061b1b1765b54a72d5dc146aa5ef0bcc8c45cdd1039660a
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-font-family@npm:^2.0.0-beta.220":
   version: 2.0.3
   resolution: "@tiptap/extension-font-family@npm:2.0.3"
@@ -6256,13 +6273,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-array@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "@types/d3-array@npm:3.0.5"
-  checksum: c0014042f75dc77ff4749f6a7a78074aa73e63e5b6a985ac79a0abf3e3d943b19ddd3fbfcfcd11124f25b7f4b97cd0948eec84b2e0783cd617b49c593de695f0
-  languageName: node
-  linkType: hard
-
 "@types/d3-cloud@npm:1.2.5":
   version: 1.2.5
   resolution: "@types/d3-cloud@npm:1.2.5"
@@ -6333,13 +6343,6 @@ __metadata:
   dependencies:
     "@types/d3-path": ^1
   checksum: a7f78a3f0be1215b512efb636ba381768ab4104ef9b72b7fcc2ab9810e7d6fc2ee062f3103ef99236f4462deabac60d2fd96375315ec7ad33278757918c94592
-  languageName: node
-  linkType: hard
-
-"@types/d3-time-format@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@types/d3-time-format@npm:4.0.0"
-  checksum: ac3a841b0cd6e7f4d4c6c2cd09a2662facea6993c16b10f40fdf84f55adf7be59a6d08fd6ac1c42c27c7340f3b5eeafef968b45b052a5476a580c78a991668db
   languageName: node
   linkType: hard
 
@@ -10646,7 +10649,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-array@npm:2 - 3, d3-array@npm:2.10.0 - 3, d3-array@npm:^3.2.4":
+"d3-array@npm:2 - 3, d3-array@npm:2.10.0 - 3":
   version: 3.2.4
   resolution: "d3-array@npm:3.2.4"
   dependencies:
@@ -10778,7 +10781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-time-format@npm:2 - 4, d3-time-format@npm:^4.1.0":
+"d3-time-format@npm:2 - 4":
   version: 4.1.0
   resolution: "d3-time-format@npm:4.1.0"
   dependencies:
@@ -22110,15 +22113,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "revision@workspace:."
   dependencies:
-    "@react-spring/web": ^9.7.3
     "@release-it/bumper": ^4.0.2
-    "@tiptap/extension-highlight": ^2.0.3
-    "@tiptap/extension-typography": ^2.0.3
-    "@types/d3-array": ^3.0.5
-    "@types/d3-time-format": ^4.0.0
-    "@visx/visx": ^3.1.2
-    d3-array: ^3.2.4
-    d3-time-format: ^4.1.0
     dotenv-cli: ^7.0.0
     release-it: ^15.10.1
   languageName: unknown

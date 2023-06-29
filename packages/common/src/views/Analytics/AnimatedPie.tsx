@@ -52,7 +52,7 @@ function AnimatedPie<Datum>({ animate, arcs, path, getKey, getColor, onClickDatu
         />
         {hasSpaceForLabel && (
           <animated.g style={{ opacity: props.opacity }}>
-            <text fill="white" x={centroidX} y={centroidY} dy=".33em" fontSize={9} textAnchor="middle" pointerEvents="none">
+            <text fill="#000" x={centroidX} y={centroidY} dy=".33em" fontSize={9} textAnchor="middle" pointerEvents="none">
               {getKey(arc)}
             </text>
           </animated.g>

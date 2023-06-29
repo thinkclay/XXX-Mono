@@ -2,12 +2,10 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { biasCountState } from '@common/helpers/root'
 import { toneFetching, toneIcon, toneMessage } from '@common/helpers/tone'
 
 function Tone() {
   const fetching = useRecoilValue(toneFetching)
-  const biasCount = useRecoilValue(biasCountState)
 
   const icon = useRecoilValue(toneIcon)
   const message = useRecoilValue(toneMessage)
@@ -34,8 +32,6 @@ function Tone() {
   }, [icon])
 
   const _render = () => {
-    if (biasCount) return <div className="counter bias">{biasCount}</div>
-
     if (icon && !fetching) return <p className={showEmoji ? 'visible' : ''}>{icon}</p>
 
     return (

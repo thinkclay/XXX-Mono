@@ -28,18 +28,8 @@
   },
   "packageManager": "yarn@3.4.1",
   "dependencies": {
-    "@react-spring/web": "^9.7.3",
     "@release-it/bumper": "^4.0.2",
-    "@tiptap/extension-highlight": "^2.0.3",
-    "@tiptap/extension-typography": "^2.0.3",
-    "@visx/visx": "^3.1.2",
-    "d3-array": "^3.2.4",
-    "d3-time-format": "^4.1.0",
     "dotenv-cli": "^7.0.0",
     "release-it": "^15.10.1"
-  },
-  "devDependencies": {
-    "@types/d3-array": "^3.0.5",
-    "@types/d3-time-format": "^4.0.0"
   }
 }
