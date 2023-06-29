@@ -22,58 +22,130 @@ $action-height: 27px;
     }
   }
 
+  .formatting {
+    background: $color-n700;
+    height: $action-height;
+    line-height: 1;
+    padding: 0 10px;
+
+    .action {
+      display: inline-flex;
+      justify-content: center;
+      transition: background-color .2s;
+
+      span {
+        display: none;
+      }
+
+      svg {
+        height: $action-height;
+        width: $action-height;
+      }
+
+      .path {
+        fill: $color-n100;
+      }
+
+      + .action {
+        margin-left: 10px;
+      }
+
+      &:hover {
+        background-color: $color-n700;
+      }
+
+      &.active {
+        .path { fill: $color-brand-3; }
+      }
+    }
+  }
+
   .tippy-box {
     background: #fff;
-    border-radius: 10px;
+    border: 1px solid $color-n300;
+    border-radius: 18px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: $color-n100;
     font-size: 15px;
     line-height: 1.65;
     overflow: hidden;
 
     .header {
       background: $color-n800;
-      height: $action-height;
-      line-height: 1;
-      padding: 0 10px;
+      padding: 2px;
+    }
 
-      .action {
-        display: inline-flex;
-        justify-content: center;
-        transition: background-color .2s;
+    .footer {
+      background: lighten($color-n200, 3%);
+    }
 
-        span {
-          display: none;
-        }
+    .header, .footer {
+      align-items: center;
+      display: flex;
+      flex-flow: row nowrap;
+      font-size: 12px;
+      line-height: 1.4;
 
-        svg {
-          height: $action-height;
-          width: $action-height;
-        }
+      .message {
+        padding: 10px 15px;
+      }
+    }
+
+    .action {
+      cursor: pointer;
+    }
+
+    .close {
+      margin: 0 10px;
+
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+
+      .path {
+        fill: $color-n400;
+      }
+
+      span {
+        display: none;
+      }
+
+      &:hover {
+        background-color: transparent;
 
         .path {
-          fill: $color-n100;
-        }
-
-        + .action {
-          margin-left: 10px;
-        }
-
-        &:hover {
-          background-color: $color-n700;
-        }
-
-        &.active {
-          .path { fill: $color-brand-3; }
+          fill: $color-brand-1;
         }
       }
     }
 
-    .message {
-      padding: 10px 15px;
+    .dictionary {
+      align-items: center;
+      display: flex;
+      font-style: italic;
+      margin: 10px;
+
+      svg {
+        height: 22px;
+        margin-right: 5px;
+        width: 22px;
+      }
+
+      .path {
+        fill: $color-brand-1;
+      }
+
+      &:hover {
+        background-color: transparent;
+
+        .path {
+          fill: $color-brand-3;
+        }
+      }
     }
 
     .suggestions {
-      border-top: 2px solid $color-n300;
       font-style: italic;
       margin: 0;
       padding: 0;
@@ -82,8 +154,9 @@ $action-height: 27px;
         background-color: $color-n100;
         color: $color-n900;
         cursor: pointer;
-        font-weight: 600;
-        line-height: 1.5;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.4;
         margin: 0;
         padding: 8px 15px;
         transition: background-color 0.2s, color 0.2s;
@@ -93,7 +166,7 @@ $action-height: 27px;
         }
 
         &:hover {
-          background-color: $color-g300;
+          background-color: $color-g400;
           color: $color-n900;
         }
       }

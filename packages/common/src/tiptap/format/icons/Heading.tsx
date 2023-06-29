@@ -13,12 +13,10 @@ function H1({ editor, level = 1 }: Props) {
         <>
           <polygon
             className="path"
-            fill-rule="nonzero"
             points="37.68 53.42 24.12 53.42 24.12 71 15.9 71 15.9 29 24.12 29 24.12 46.1 37.68 46.1 37.68 29 45.9 29 45.9 71 37.68 71"
           ></polygon>
           <polygon
             className="path"
-            fill-rule="nonzero"
             points="56.36 64.4 65.54 64.4 65.54 38.18 57.62 44.24 54.02 39.44 67.7 29 72.98 29 72.98 64.4 81.98 64.4 81.98 71 56.36 71"
           ></polygon>
         </>

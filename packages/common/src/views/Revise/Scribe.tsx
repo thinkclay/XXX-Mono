@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { Editor, EditorContent, FloatingMenu } from '@tiptap/react'
+import { Editor, EditorContent } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, collection, getDocs, query } from 'firebase/firestore'
@@ -17,8 +17,8 @@ import { SuggestionsModal } from '@common/tiptap/suggestions'
 import { RenderMode } from '@common/types/UI'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
-import Heading from './Insert/Heading'
-import List from './Insert/List'
+import Format from '@common/tiptap/format'
+import { SuggestionProps } from '@common/tiptap/suggestions/views/Suggestions'
 
 interface ScribeProps {
   editor: Editor
@@ -65,33 +65,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
       })
       .catch(() => setTone({ ...tone, fetching: false }))
   }
-
-  const _setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
-    console.log(previousUrl)
-    // cancelled
-    if (url === null) {
-      return
-    }
-
-    // empty
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run()
-      return
-    }
-
-    // update link
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }, [editor])
-
-  const _addImage = useCallback(() => {
-    const url = window.prompt('URL')
-
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run()
-    }
-  }, [editor])
 
   if (!editor) {
     return null
@@ -146,21 +119,11 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     _setRevision()
   }
   const _declineRevision = () => _setRevision()
-  const _message = () => match?.message
-  const _replacements = () => match?.replacements || []
-  const _ignore = () => editor.commands.ignoreLanguageToolSuggestion()
-  const _acceptSuggestion = (replacement: Replacement) => editor.chain().toggleBiasMark().insertContent(replacement.value).run()
 
   return (
     <div className="Main">
-      <SuggestionsModal editor={editor} message={_message()} replacements={_replacements()} ignore={_ignore} accept={_acceptSuggestion} />
-
-      <FloatingMenu className="header" editor={editor} tippyOptions={{ duration: 100 }}>
-        <Heading level={1} editor={editor} />
-        <Heading level={2} editor={editor} />
-        <Heading level={3} editor={editor} />
-        <List editor={editor} />
-      </FloatingMenu>
+      <SuggestionsModal editor={editor} match={match} />
+      <Format editor={editor} />
 
       {_revision ? (
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />
@@ -170,7 +133,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         </div>
       )}
 
-      <Toolbar mode={mode} reload={_reload} rewrite={_rewrite} editor={editor} setLink={_setLink} addImage={_addImage} />
+      <Toolbar mode={mode} reload={_reload} rewrite={_rewrite} editor={editor} />
     </div>
   )
 }

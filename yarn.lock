@@ -5154,7 +5154,6 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     "@tiptap/core": ^2.0.0-beta.220
     "@tiptap/extension-bold": ^2.0.3
-    "@tiptap/extension-floating-menu": ^2.0.3
     "@tiptap/extension-font-family": ^2.0.0-beta.220
     "@tiptap/extension-heading": ^2.0.0-beta.220
     "@tiptap/extension-highlight": ^2.0.3
@@ -5834,18 +5833,6 @@ __metadata:
     "@tiptap/core": ^2.0.0-beta.209
     "@tiptap/pm": ^2.0.0-beta.209
   checksum: 1ad917ecd93a089e908f75095f43ae3653988793ae7c09e3a26ccbdb4cd5ba98ba24d57bd21e387c98f086a7acce07ae1aeb5b895831bd9c2d6678422c424706
-  languageName: node
-  linkType: hard
-
-"@tiptap/extension-floating-menu@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@tiptap/extension-floating-menu@npm:2.0.3"
-  dependencies:
-    tippy.js: ^6.3.7
-  peerDependencies:
-    "@tiptap/core": ^2.0.0
-    "@tiptap/pm": ^2.0.0
-  checksum: c5b3ef0e32975da8fe68fd56370407cf20fc7aa77aa32e6b38b83f383d65142c51bdafa8e0eafaa19061b1b1765b54a72d5dc146aa5ef0bcc8c45cdd1039660a
   languageName: node
   linkType: hard
 
