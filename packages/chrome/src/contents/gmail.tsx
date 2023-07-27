@@ -2,12 +2,11 @@
 
 import type { PlasmoCSConfig } from 'plasmo'
 import React, { StrictMode } from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 
-import MainScreen from '@common/views/MainScreen'
+import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
-import Close from './Close'
 
 import '@common/assets/styles/index.scss'
 
@@ -39,37 +38,36 @@ window.addEventListener('load', () => {
     const bodyId = setInterval(() => {
       if (!compose.body()) return
       clearInterval(bodyId)
-      signatureHTML = window.gmail.dom.compose($el).body()
       const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML)
-      console.log(signatureHTML)
       runApp(document.body, updateHandler)
     }, 100)
   }
 })
 
 function runApp(rootMount: Element, updateHandler: (text: string) => void) {
-  const rootElement = document.createElement('div')
-  rootElement.id = 'gmailRoot'
-  rootMount.appendChild(rootElement)
-
-  const root = ReactDOM.createRoot(rootElement)
-
-  root.render(
+  const App = () => (
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp">
           <MainScreen mode="embedded" onUpdate={updateHandler} />
-
-          <Close handler={() => rootElement.remove()} />
-
-          <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
         </div>
       </StrictMode>
     </RecoilRoot>
   )
 
-  // If you want to start measuring performance in your app, pass a function
-  // to log results (for example: reportWebVitals(console.log))
-  // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+  const rootElement = document.createElement('div')
+  rootElement.id = 'gmailRoot'
+  rootMount.appendChild(rootElement)
+
+  const root = createRoot(rootElement)
+  const composeElement = document.querySelector('[g_editable="true"]')
+
+  if (!composeElement) return // Return if the compose element is not found
+
+  const shadowRoot = composeElement.attachShadow({ mode: 'open' })
+  shadowRoot.appendChild(rootElement)
+
+  root.render(<App />)
+
   reportWebVitals()
 }

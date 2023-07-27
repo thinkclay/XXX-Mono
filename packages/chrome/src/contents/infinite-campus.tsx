@@ -4,7 +4,7 @@ import type { PlasmoCSConfig } from 'plasmo'
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
-import MainScreen from '@common/views/MainScreen'
+import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
 import Close from './Close'
 

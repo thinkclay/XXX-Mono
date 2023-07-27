@@ -1,6 +1,6 @@
 /** @format */
 
-import { IssueType, LanguageToolResponse, Replacement } from './language-types'
+import { LanguageToolResponse } from './language-types'
 
 export const LANGUAGE_URL = 'https://language-tool.herokuapp.com/v2'
 

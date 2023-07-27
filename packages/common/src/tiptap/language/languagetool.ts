@@ -11,15 +11,7 @@ import { Node as PMModel } from 'prosemirror-model'
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state'
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-  LanguageToolResponse,
-  Match,
-  TextNodesWithPosition,
-  LanguageToolOptions,
-  LanguageToolStorage,
-  ltTypes,
-  LTMeta,
-} from './language-types'
+import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions, LanguageToolStorage, LTMeta } from './language-types'
 import { fetchProof } from './language-service'
 import { changedDescendants, moreThan500Words, selectElementText } from './language-helpers'
 import { DB } from '@common/helpers/db'

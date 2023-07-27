@@ -1,6 +1,5 @@
 /** @format */
 import { Node as PMModel } from 'prosemirror-model'
-import { IssueType, Match, Replacement } from './language-types'
 
 export const moreThan500Words = (s: string) => s.trim().split(/\s+/).length >= 500
 

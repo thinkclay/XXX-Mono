@@ -29,7 +29,7 @@
   }
 }
 
-#RevisionApp {
+#RevisionApp, :host {
   font-size: 10px;
 
   a {
@@ -104,7 +104,7 @@
 /**
  * Copy and Body Styles
  */
-#RevisionApp {
+#RevisionApp, :host {
   .copy {
     line-height: 1.65;
     padding: 20px;
