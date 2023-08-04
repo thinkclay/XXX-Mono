@@ -3,10 +3,50 @@
 import { fetchingLanguageState, spellingCountState } from '@common/helpers/root'
 import { useRecoilValue } from 'recoil'
 import { ToolbarActionProps } from './Toolbar'
+import { doc, collection, getDocs, query, addDoc, setDoc, Timestamp } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '@common/services/firebase'
+import { useEffect, useState } from 'react'
 
 function Reload({ handler }: ToolbarActionProps) {
   const fetching = useRecoilValue(fetchingLanguageState)
   const spellingCount = useRecoilValue(spellingCountState)
+  const [addCount, setAddCoun] = useState(0);
+
+  useEffect(() => {
+    const result = spellingCount - addCount;
+    if (result <= 0) {
+      setAddCoun(spellingCount);
+      return;
+    }
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userCollection = collection(db, 'users');
+        const userDocRef = doc(userCollection, user.uid);
+        const flagsCollection = collection(userDocRef, 'flags');
+        const queryDocs = query(flagsCollection);
+        try {
+          const checkQuery = await getDocs(queryDocs);
+          if (checkQuery.size > 0) {
+            const querySnapshot = await getDocs(flagsCollection);
+            querySnapshot.forEach((data) => {
+              const flagsListDocument = doc(flagsCollection, data.id);
+              const newData = data.data().data;
+              newData.push({ timestamp: Timestamp.now(), value: result });
+              setDoc(flagsListDocument, { data: newData })
+                .then(() => console.log('UPDATED Firebase'))
+                .catch((e) => console.log('Error', e));
+            });
+          } else {
+            await addDoc(flagsCollection, { data: [{ timestamp: Timestamp.now(), value: result }] });
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    });
+    setAddCoun(spellingCount);
+  }, [spellingCount]);
 
   return (
     <button className={`reload ${fetching ? 'active fetching' : ''}`} onClick={handler}>
