@@ -16,10 +16,7 @@ module.exports = {
     {
       plugin: cracoBabelLoader,
       options: {
-        includes: [
-          // No "unexpected token" error importing components from these lerna siblings:
-          resolvePackage('../common/src'),
-        ],
+        includes: [resolvePackage('../common/src')],
       },
     },
   ],
@@ -36,6 +33,27 @@ module.exports = {
       )
 
       webpackConfig.resolve.plugins.splice(scopePluginIndex, 1)
+
+      const oneOfRule = webpackConfig.module.rules.find(rule => rule.oneOf)
+      if (oneOfRule) {
+        oneOfRule.oneOf.unshift({
+          test: /\.scss$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+            {
+              loader: path.resolve(__dirname, 'scssToStringLoader.js'),
+            },
+          ],
+        })
+      }
+
       return webpackConfig
     },
   },
