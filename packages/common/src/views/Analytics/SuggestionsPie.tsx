@@ -1,59 +1,79 @@
-import { Pie } from '@visx/shape'
-import { scaleOrdinal } from '@visx/scale'
-import { Group } from '@visx/group'
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import Plot from 'react-plotly.js'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@common/services/firebase'
 import { doc, collection, getDocs, query } from 'firebase/firestore'
+import { DB } from '@common/helpers/db'
+
+interface DataItem {
+  label: string
+  value: number
+}
+
+interface DetailedDataset {
+  data: number[]
+  colors: string[]
+}
+
+interface DetailedChartProps {
+  selectedBar: number | null
+}
+
+const Analytics: React.FC = () => {
+  const [flags, setFlags] = useState(0)
+  const [acceptedFlag, setAcceptedFlag] = useState(0)
+  const [ignoreList, setIgnoreList] = useState(0)
+  const [rewriteFlag, setRewriteFlag] = useState(0)
 
 
-const getValidLabel = (label: string | null | number) => (label === null ? 'default' : label)
+  const [subFlagValue, setSubFlagValue] = useState([])
+  const [potentialFlag, setPotentialFlag] = useState(0)
+  const [gender, setGender] = useState(0)
+  const [racial, setRacial] = useState(0)
+  const [ableism, setAbleism] = useState(0)
+  const [language, setLanguage] = useState(0)
+  const [cultural, setCultural] = useState(0)
+  const [disability, setDisability] = useState(0)
+  const [behavioral, setBehavioral] = useState(0)
 
-const SuggestionsPie = ({ width = 500, height = 300 }) => {
-  const [flags, setFlags] = useState(0);
-  const [acceptedFlag, setAcceptedFlag] = useState(0);
-  const [ignoreList, setIgnoreList] = useState(0);
+  const getAllSuggestions = async () => {
+    try {
+      const suggestions: any = await DB.suggestion.toArray();
+      setSubFlagValue(suggestions);
+      const countByCategoryAndType = (category: string, type: string) =>
+        subFlagValue.filter((flag: any) => flag.category === category && flag.type === type).length;
+      setLanguage(countByCategoryAndType('language', 'misspelling') + countByCategoryAndType('language', 'typographical'));
+      setPotentialFlag(countByCategoryAndType('bias', 'potential'));
+      setGender(countByCategoryAndType('bias', 'gender'));
+      setCultural(countByCategoryAndType('bias', 'cultural'));
+      setDisability(countByCategoryAndType('bias', 'disability'));
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    }
+  };
 
-  const margin = { top: 20, right: 20, bottom: 20, left: 20 }
-  const innerWidth = width - margin.left - margin.right
-  const innerHeight = height - margin.top - margin.bottom
-  const radius = Math.min(innerWidth, innerHeight) / 2
-  const centerY = innerHeight / 2
-  const centerX = innerWidth / 2
-  const donutThickness = 50
-
-  const data = [
-    { label: flags, count: flags },
-    { label: acceptedFlag, count: acceptedFlag },
-    { label: ignoreList, count: ignoreList },
-  ]
-  const typeColors = scaleOrdinal({
-    domain: data.map(d => getValidLabel(d.label)),
-    range: [
-      'rgba(237,140,142,255)',
-      'rgba(248,211,102,255)',
-      'rgba(137,189,84,255)'
-    ],
-  })
+  useEffect(() => {
+    getAllSuggestions();
+  }, [flags]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async user => {
       if (user) {
         const userCollection = collection(db, 'users')
         const userDocRef = doc(userCollection, user.uid)
-        const ignoreCollection = collection(userDocRef, 'flags')
-        const acceptedFlagsCollection = collection(userDocRef, 'acceptedflags');
-        const ignoreListCollection = collection(userDocRef, 'ignorelist');
-        const queryDocs = query(ignoreCollection)
-        console.log(queryDocs)
+        const flagCollection = collection(userDocRef, 'flags')
+        const acceptedFlagsCollection = collection(userDocRef, 'acceptedflags')
+        const ignoreListCollection = collection(userDocRef, 'ignorelist')
+        const rewriteflags = collection(userDocRef, 'rewriteflags')
+        const queryDocs = query(flagCollection)
         getDocs(queryDocs)
           .then(checkQuery => {
             if (checkQuery.size > 0) {
-              getDocs(ignoreCollection)
+              getDocs(flagCollection)
                 .then(querySnapshot => {
                   querySnapshot.forEach((data: any) => {
                     const newData = data.data().data
-                    const sum = newData.reduce((total: any, item: any) => total + item.value, 0);
+                    const sum = newData.length
                     setFlags(sum)
                   })
                 })
@@ -64,8 +84,7 @@ const SuggestionsPie = ({ width = 500, height = 300 }) => {
                 .then(querySnapshot => {
                   querySnapshot.forEach((data: any) => {
                     const newData = data.data().data
-                    console.log(newData)
-                    const sum = newData.reduce((total: any, item: any) => total + item.value, 0);
+                    const sum = newData.length
                     setAcceptedFlag(sum)
                   })
                 })
@@ -82,6 +101,16 @@ const SuggestionsPie = ({ width = 500, height = 300 }) => {
                 .catch(error => {
                   console.error('Error getting documents: ', error)
                 })
+              getDocs(rewriteflags)
+                .then(querySnapshot => {
+                  querySnapshot.forEach((data: any) => {
+                    const newData = data.data().data
+                    setRewriteFlag(newData.length)
+                  })
+                })
+                .catch(error => {
+                  console.error('Error getting documents: ', error)
+                })
             }
           })
           .catch(error => {
@@ -90,47 +119,70 @@ const SuggestionsPie = ({ width = 500, height = 300 }) => {
       }
     })
   }, [])
+  const data: DataItem[] = [
+    { label: 'Total Number of flags', value: flags },
+    { label: 'Number of correction Accepted', value: acceptedFlag },
+    { label: 'IgnoreList', value: ignoreList },
+    { label: 'Number of rewrites after flags', value: rewriteFlag },
+  ]
+
+  const [selectedBar, setSelectedBar] = useState<number | null>(null)
+
+  const detailedDatasets: DetailedDataset[] = [
+    {
+      data: [flags, potentialFlag, gender, racial, ableism, language, cultural, disability],
+      colors: ['#e98e8c', '#f8b159', '#f67280', '#c06c84 ', '#6c5b7b ', '#355c7d ', '#ffd700', '#EE82EE'],
+    },
+  ]
+
+  const DetailedChart: React.FC<DetailedChartProps> = ({ selectedBar }) => {
+    if (selectedBar === 0) { 
+      const selectedData = detailedDatasets[selectedBar];
+      const detailedData: Plotly.Data[] = [
+        {
+          x: [
+            'Total number of flags',
+            'Potential bias flags',
+            'gender bias flags',
+            'racial bias flags',
+            'ableism bias flags',
+            'language bias flags',
+            'cultural bias flags',
+            'disability flags',
+          ],
+          y: selectedData.data,
+          type: 'bar',
+          marker: { color: selectedData.colors },
+        },
+      ];
+  
+      const layout: Partial<Plotly.Layout> = {
+        title: `Sub Data of ${data[selectedBar].label}`,
+      };
+  
+      return <Plot data={detailedData} layout={layout} />;
+    }
+  
+    return null;
+  };
 
   return (
-    <svg width={width} height={height}>
-      <rect rx={14} width={width} height={height} fill="url('#visx-pie-gradient')" />
-      <Group top={centerY + margin.top} left={centerX + margin.left}>
-        <Pie
-          data={data}
-          pieValue={d => d.count}
-          outerRadius={radius}
-          innerRadius={radius - donutThickness}
-          cornerRadius={15}
-          padAngle={0.005}
-        >
-          {pie =>
-            pie.arcs.map((arc, index) => {
-              const label = getValidLabel(data[index].label)
-              const [centroidX, centroidY] = pie.path.centroid(arc)
-              const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.5
-              return (
-                <g key={`arc-${index}`}>
-                  <path d={pie.path(arc) || ''} fill={typeColors(label)} />
-                  {hasSpaceForLabel && (
-                    <text
-                      x={centroidX}
-                      y={centroidY}
-                      dy=".33em"
-                      fill="white"
-                      fontSize="15"
-                      textAnchor="middle"
-                    >
-                      {label}
-                    </text>
-                  )}
-                </g>
-              )
-            })
-          }
-        </Pie>
-      </Group>
-    </svg>
+    <div>
+      <Plot
+        data={[
+          {
+            x: data.map(item => item.label),
+            y: data.map(item => item.value),
+            type: 'bar',
+            marker: { color: ['#e98e8c', '#f6d45a', '#8cbb4b', 'orange'] },
+          },
+        ]}
+        onClick={event => setSelectedBar(event.points[0]?.pointIndex)}
+        layout={{ title: 'Analytics' }}
+      />
+      {selectedBar !== null && <DetailedChart selectedBar={selectedBar} />}
+    </div>
   )
 }
 
-export default SuggestionsPie
+export default Analytics

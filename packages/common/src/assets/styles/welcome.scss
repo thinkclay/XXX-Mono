@@ -95,42 +95,6 @@
         opacity: 1;
       }
     }
-
-    .analyticsview {
-      display: flex;
-      justify-content: flex-end;
-
-      .analyticsbox {
-        width: 180px;
-        border-radius: 10px;
-        padding: 10px;
-
-        .flags {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-left: 10px;
-
-          .flagsback {
-            height: 15px;
-            width: 15px;
-            background-color: #ed8c8e;
-          }
-
-          .acceptedFlag {
-            height: 15px;
-            width: 15px;
-            background-color: #f8d366;
-          }
-
-          .ignoreList {
-            height: 15px;
-            width: 15px;
-            background-color: #89bd54;
-          }
-        }
-      }
-    }
   }
 
   @keyframes scribble {

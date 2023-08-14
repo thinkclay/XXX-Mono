@@ -11,43 +11,93 @@ import { useEffect, useState } from 'react'
 function Reload({ handler }: ToolbarActionProps) {
   const fetching = useRecoilValue(fetchingLanguageState)
   const spellingCount = useRecoilValue(spellingCountState)
-  const [addCount, setAddCoun] = useState(0);
+  const [addCount, setAddCoun] = useState(0)
 
-  useEffect(() => {
-    const result = spellingCount - addCount;
-    if (result <= 0) {
-      setAddCoun(spellingCount);
-      return;
-    }
-    onAuthStateChanged(auth, async (user) => {
+  const rewriteData = (item: any) => {
+    onAuthStateChanged(auth, async user => {
       if (user) {
-        const userCollection = collection(db, 'users');
-        const userDocRef = doc(userCollection, user.uid);
-        const flagsCollection = collection(userDocRef, 'flags');
-        const queryDocs = query(flagsCollection);
+        const userCollection = collection(db, 'users')
+        const userDocRef = doc(userCollection, user.uid)
+        const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
+        const queryDocs = query(rewriteFlagCollection)
         try {
-          const checkQuery = await getDocs(queryDocs);
+          const checkQuery = await getDocs(queryDocs)
           if (checkQuery.size > 0) {
-            const querySnapshot = await getDocs(flagsCollection);
-            querySnapshot.forEach((data) => {
-              const flagsListDocument = doc(flagsCollection, data.id);
-              const newData = data.data().data;
-              newData.push({ timestamp: Timestamp.now(), value: result });
-              setDoc(flagsListDocument, { data: newData })
-                .then(() => console.log('UPDATED Firebase'))
-                .catch((e) => console.log('Error', e));
-            });
+            const querySnapshot = await getDocs(rewriteFlagCollection)
+            querySnapshot.forEach(data => {
+              const rewriteListDocument = doc(rewriteFlagCollection, data.id)
+              const filterData = data.data().data
+              item.forEach((element: any) => {
+                filterData.push({ timestamp: Timestamp.now(), value: element })
+              })
+              setDoc(rewriteListDocument, { data: filterData })
+                .then(() => console.log('UPDATED rewriteList Firebase'))
+                .catch(e => console.log('Error', e))
+            })
           } else {
-            await addDoc(flagsCollection, { data: [{ timestamp: Timestamp.now(), value: result }] });
+            const filterData: any = []
+            item.forEach((element: any) => {
+              filterData.push({ timestamp: Timestamp.now(), value: element })
+            })
+            await addDoc(rewriteFlagCollection, { data: filterData })
           }
         } catch (error) {
-          console.error('Error:', error);
+          console.log(error)
         }
       }
-    });
-    setAddCoun(spellingCount);
-  }, [spellingCount]);
+    })
+  }
 
+  useEffect(() => {
+    const spelling = document.querySelectorAll('span.language')
+    const textContents: any = Array.from(spelling).map(span => span.textContent)
+    const result = spellingCount - addCount
+    if (result <= 0) {
+      setAddCoun(spellingCount)
+      return
+    }
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        const userCollection = collection(db, 'users')
+        const userDocRef = doc(userCollection, user.uid)
+        const flagsCollection = collection(userDocRef, 'flags')
+        const queryDocs = query(flagsCollection)
+        try {
+          const checkQuery = await getDocs(queryDocs)
+          if (checkQuery.size > 0) {
+            const querySnapshot = await getDocs(flagsCollection)
+            querySnapshot.forEach(data => {
+              const rewriteListDocument = doc(flagsCollection, data.id)
+              const newData = data.data().data
+              console.log(newData)
+              const commonValues = textContents.map((flag: any) => {
+                const data = newData.find((d: { key: number; value: string }) => d.value === flag)
+                return data.value
+              })
+              rewriteData(commonValues)
+              textContents.forEach((element: any) => {
+                if (element.trim()) {
+                  newData.push({ timestamp: Timestamp.now(), value: element })
+                }
+              })
+              setDoc(rewriteListDocument, { data: newData })
+                .then(() => console.log('UPDATED flags Firebase'))
+                .catch(e => console.log('Error', e))
+            })
+          } else {
+            const filterData: any = []
+            textContents.forEach((element: any) => {
+              filterData.push({ timestamp: Timestamp.now(), value: element })
+            })
+            await addDoc(flagsCollection, { data: filterData })
+          }
+        } catch (error) {
+          console.error('Error:', error)
+        }
+      }
+    })
+    setAddCoun(spellingCount)
+  }, [spellingCount])
   return (
     <button className={`reload ${fetching ? 'active fetching' : ''}`} onClick={handler}>
       {spellingCount ? (
