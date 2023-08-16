@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 function Reload({ handler }: ToolbarActionProps) {
   const fetching = useRecoilValue(fetchingLanguageState)
   const spellingCount = useRecoilValue(spellingCountState)
-  const [addCount, setAddCoun] = useState(0)
+  const [addCount, setAddCount] = useState(0)
 
   const rewriteData = (item: any) => {
     onAuthStateChanged(auth, async user => {
@@ -53,7 +53,7 @@ function Reload({ handler }: ToolbarActionProps) {
     const textContents: any = Array.from(spelling).map(span => span.textContent)
     const result = spellingCount - addCount
     if (result <= 0) {
-      setAddCoun(spellingCount)
+      setAddCount(spellingCount)
       return
     }
     onAuthStateChanged(auth, async user => {
@@ -69,10 +69,11 @@ function Reload({ handler }: ToolbarActionProps) {
             querySnapshot.forEach(data => {
               const rewriteListDocument = doc(flagsCollection, data.id)
               const newData = data.data().data
-              console.log(newData)
               const commonValues = textContents.map((flag: any) => {
                 const data = newData.find((d: { key: number; value: string }) => d.value === flag)
-                return data.value
+                if(data){
+                  return data.value
+                }
               })
               rewriteData(commonValues)
               textContents.forEach((element: any) => {
@@ -96,7 +97,7 @@ function Reload({ handler }: ToolbarActionProps) {
         }
       }
     })
-    setAddCoun(spellingCount)
+    setAddCount(spellingCount)
   }, [spellingCount])
   return (
     <button className={`reload ${fetching ? 'active fetching' : ''}`} onClick={handler}>
