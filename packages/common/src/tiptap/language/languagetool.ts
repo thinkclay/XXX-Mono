@@ -57,6 +57,7 @@ const addListenerDecorations = () => {
 }
 
 const decorate = (from: number, to: number, match: Match): Decoration => {
+
   DB.suggestion.add({
     category: 'language',
     type: match.rule.issueType,
@@ -72,9 +73,61 @@ const decorate = (from: number, to: number, match: Match): Decoration => {
   })
 }
 
+const handleStoreData = (newSubmisionData: Array<any>) => {
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      const userCollection = collection(db, 'users')
+      const userDocRef = doc(userCollection, user.uid)
+      const languageCollection = collection(userDocRef, 'language')
+      const queryDocs = query(languageCollection)
+      getDocs(queryDocs)
+        .then(checkQuery => {
+          if (checkQuery.size > 0) {
+            getDocs(languageCollection)
+              .then(querySnapshot => {
+                querySnapshot.forEach((data: any) => {
+                  const biasListCollection = collection(db, 'users', user.uid, 'language')
+                  const newDocRef = doc(biasListCollection, data.id)
+                  const newData = data.data().language
+                  newSubmisionData.forEach((data) => {
+                    newData.push(data)
+                  })
+                  updateDoc(newDocRef, { language: newData })
+                    .then(data => console.log('UPDATED Firebase', data))
+                    .catch(e => console.log('Error', e))
+                })
+              })
+              .catch(error => {
+                console.error('Error getting documents: ', error)
+              })
+          } else {
+            console.log('new', newSubmisionData)
+            addDoc(languageCollection, { language: newSubmisionData })
+              .then(data => console.log('NEW_ADDED Firebase', data))
+              .catch(e => console.log('Error', e))
+          }
+        })
+        .catch(error => {
+          console.error('Error getting languageCollection:', error)
+        })
+    }
+  })
+}
 async function matchesToDecorations(doc: PMModel, res: LanguageToolResponse, offset: number): Promise<Decoration[]> {
   const { matches } = res
   const decorations: Decoration[] = []
+
+  if (matches.length > 0) {
+    const submitData = matches.map(d => {
+      return {
+        category: 'language',
+        type: d.rule.issueType,
+        input: d.sentence,
+        date: Date.now(),
+      }
+    })
+    handleStoreData(submitData)
+  }
 
   for (const match of matches) {
     if (!match) continue
@@ -223,64 +276,64 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
     return {
       proofread:
         () =>
-        ({ tr }) => {
-          proofDoc(tr.doc)
-          return true
-        },
+          ({ tr }) => {
+            proofDoc(tr.doc)
+            return true
+          },
       toggleProofreading: () => () => {
         // TODO: implement toggling proofreading
         return false
       },
       ignoreLanguageToolSuggestion:
         () =>
-        ({ editor }) => {
-          if (this.options.documentId === undefined) throw new Error('Please provide a unique Document ID(number|string)')
+          ({ editor }) => {
+            if (this.options.documentId === undefined) throw new Error('Please provide a unique Document ID(number|string)')
 
-          const { selection } = editor.state
-          const { from, to } = selection
-          decorationSet = decorationSet.remove(decorationSet.find(from, to))
+            const { selection } = editor.state
+            const { from, to } = selection
+            decorationSet = decorationSet.remove(decorationSet.find(from, to))
 
-          const content = editor.state.doc.textBetween(from, to)
+            const content = editor.state.doc.textBetween(from, to)
 
-          onAuthStateChanged(auth, async user => {
-            if (user) {
-              const userCollection = collection(db, 'users')
-              const userDocRef = doc(userCollection, user.uid)
-              const ignoreCollection = collection(userDocRef, 'ignorelist')
-              const queryDocs = query(ignoreCollection)
-              getDocs(queryDocs)
-                .then(checkQuery => {
-                  if (checkQuery.size > 0) {
-                    getDocs(ignoreCollection)
-                      .then(querySnapshot => {
-                        querySnapshot.forEach((data: any) => {
-                          const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
-                          const newDocRef = doc(ignoreListCollection, data.id)
-                          const newData = data.data().data
-                          newData.push({ Key: newData.length + 1, Value: content })
-                          updateDoc(newDocRef, { data: newData })
-                            .then(data => console.log('UPDATED Firebase', data))
-                            .catch(e => console.log('Error', e))
+            onAuthStateChanged(auth, async user => {
+              if (user) {
+                const userCollection = collection(db, 'users')
+                const userDocRef = doc(userCollection, user.uid)
+                const ignoreCollection = collection(userDocRef, 'ignorelist')
+                const queryDocs = query(ignoreCollection)
+                getDocs(queryDocs)
+                  .then(checkQuery => {
+                    if (checkQuery.size > 0) {
+                      getDocs(ignoreCollection)
+                        .then(querySnapshot => {
+                          querySnapshot.forEach((data: any) => {
+                            const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
+                            const newDocRef = doc(ignoreListCollection, data.id)
+                            const newData = data.data().data
+                            newData.push({ Key: newData.length + 1, Value: content })
+                            updateDoc(newDocRef, { data: newData })
+                              .then(data => console.log('UPDATED Firebase', data))
+                              .catch(e => console.log('Error', e))
+                          })
                         })
-                      })
-                      .catch(error => {
-                        console.error('Error getting documents: ', error)
-                      })
-                  } else {
-                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content }] })
-                      .then(data => console.log('NEW_ADDED Firebase', data))
-                      .catch(e => console.log('Error', e))
-                  }
-                })
-                .catch(error => {
-                  console.error('Error getting ignoreCollection:', error)
-                })
-            }
-          })
-          DB.dictionary.add({ value: content })
+                        .catch(error => {
+                          console.error('Error getting documents: ', error)
+                        })
+                    } else {
+                      addDoc(ignoreCollection, { data: [{ Key: 1, Value: content }] })
+                        .then(data => console.log('NEW_ADDED Firebase', data))
+                        .catch(e => console.log('Error', e))
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error getting ignoreCollection:', error)
+                  })
+              }
+            })
+            DB.dictionary.add({ value: content })
 
-          return false
-        },
+            return false
+          },
     }
   },
 
