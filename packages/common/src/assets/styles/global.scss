@@ -29,7 +29,8 @@
   }
 }
 
-#RevisionApp, :host {
+#RevisionApp,
+:host {
   font-size: 10px;
 
   a {
@@ -91,6 +92,12 @@
     padding: 20px;
     outline: none;
   }
+
+  &.google-docs {
+    .ProseMirror {
+      min-width: unset;
+    }
+  }
 }
 
 .infinite-campus {
@@ -104,7 +111,8 @@
 /**
  * Copy and Body Styles
  */
-#RevisionApp, :host {
+#RevisionApp,
+:host {
   .copy {
     line-height: 1.65;
     padding: 20px;
@@ -135,4 +143,3 @@
     }
   }
 }
-
