@@ -73,7 +73,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   useEffect(() => {
     const fetchAndProcessData = async (collectionRef: Query<unknown>, dbKey: string) => {
       const queryDocs = query(collectionRef);
-      console.log(collectionRef)
       try {
         const querySnapshot = await getDocs(queryDocs);
         if (querySnapshot.size > 0) {
@@ -110,7 +109,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
                   querySnapshot.forEach(async (data: any) => {
                     const newData = data.data().data
                     newData.forEach((data: { Value: any }) => {
-                      console.log("data ignored", data)
                       DB.dictionary.add({ value: data.Value })
                     })
                   })

@@ -43,7 +43,6 @@ const handleStoreData = (newSubmisionData: Array<any>) => {
               .catch(error => {
                 console.error('Error getting documents: ', error)
               })
-            console.log('Im calling if')
           } else {
             console.log('new', newSubmisionData)
             addDoc(biasCollection, { bias: newSubmisionData })

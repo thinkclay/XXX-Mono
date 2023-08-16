@@ -58,7 +58,6 @@ const addListenerDecorations = () => {
 
 const decorate = (from: number, to: number, match: Match): Decoration => {
 
-  console.log('hello world')
   DB.suggestion.add({
     category: 'language',
     type: match.rule.issueType,
@@ -101,7 +100,6 @@ const handleStoreData = (newSubmisionData: Array<any>) => {
               .catch(error => {
                 console.error('Error getting documents: ', error)
               })
-            console.log('Im calling if')
           } else {
             console.log('new', newSubmisionData)
             addDoc(languageCollection, { language: newSubmisionData })

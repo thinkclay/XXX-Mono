@@ -45,7 +45,6 @@ const SuggestionsPie = ({ width = 500, height = 300 }) => {
         const acceptedFlagsCollection = collection(userDocRef, 'acceptedflags');
         const ignoreListCollection = collection(userDocRef, 'ignorelist');
         const queryDocs = query(ignoreCollection)
-        console.log(queryDocs)
         getDocs(queryDocs)
           .then(checkQuery => {
             if (checkQuery.size > 0) {
@@ -64,7 +63,6 @@ const SuggestionsPie = ({ width = 500, height = 300 }) => {
                 .then(querySnapshot => {
                   querySnapshot.forEach((data: any) => {
                     const newData = data.data().data
-                    console.log(newData)
                     const sum = newData.reduce((total: any, item: any) => total + item.value, 0);
                     setAcceptedFlag(sum)
                   })

@@ -14,14 +14,11 @@ export const config: PlasmoCSConfig = {
 }
 
 window.addEventListener('load', () => {
-  console.log('Hello google docs 😁');
   const titl1: any = document.getElementById("docs-extensions-menu")
   titl1.addEventListener('click', () => {
-    console.log("clicked")
     const intervalId = setInterval(() => {
       const title: any = document.querySelector(".script-application-sidebar-title")
       const docRoot: any = document.querySelector("#docRoot")
-      console.log("title come")
       if (title && title?.textContent.trim() === 'Revision') {
         if (!docRoot) {
           let selector: any = document.querySelector('.script-application-sidebar-content')
