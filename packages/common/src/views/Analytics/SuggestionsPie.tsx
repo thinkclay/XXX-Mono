@@ -65,6 +65,7 @@ const SuggestionsPie: React.FC = () => {
         const ignoreListCollection = collection(userDocRef, 'ignorelist')
         const rewriteflags = collection(userDocRef, 'rewriteflags')
         const queryDocs = query(flagCollection)
+
         getDocs(queryDocs)
           .then(checkQuery => {
             if (checkQuery.size > 0) {
@@ -83,7 +84,8 @@ const SuggestionsPie: React.FC = () => {
                 .then(querySnapshot => {
                   querySnapshot.forEach((data: any) => {
                     const newData = data.data().data
-                    const sum = newData.length
+                    const sum = newData.reduce((total: any, item: any) => total + item.value, 0);
+
                     setAcceptedFlag(sum)
                   })
                 })

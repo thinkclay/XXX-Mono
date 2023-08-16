@@ -7,10 +7,54 @@ import { Editor } from '@tiptap/react'
 import { fetchBiases } from './bias-service'
 import { Match } from '@common/tiptap/language/language-types'
 import { DB } from '@common/helpers/db'
+import { onAuthStateChanged } from 'firebase/auth'
+import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore'
+import { auth, db } from '@common/services/firebase'
 
 interface BiasStorage {
   updating: boolean
   match?: Match
+}
+
+const handleStoreData = (newSubmisionData: Array<any>) => {
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      const userCollection = collection(db, 'users')
+      const userDocRef = doc(userCollection, user.uid)
+      const biasCollection = collection(userDocRef, 'bias')
+      const queryDocs = query(biasCollection)
+      getDocs(queryDocs)
+        .then(checkQuery => {
+          if (checkQuery.size > 0) {
+            getDocs(biasCollection)
+              .then(querySnapshot => {
+                querySnapshot.forEach((data: any) => {
+                  const biasListCollection = collection(db, 'users', user.uid, 'bias')
+                  const newDocRef = doc(biasListCollection, data.id)
+                  const newData = data.data().bias
+                  newSubmisionData.forEach((data) => {
+                    newData.push(data)
+                  })
+                  updateDoc(newDocRef, { bias: newData })
+                    .then(data => console.log('UPDATED Firebase', data))
+                    .catch(e => console.log('Error', e))
+                })
+              })
+              .catch(error => {
+                console.error('Error getting documents: ', error)
+              })
+          } else {
+            console.log('new', newSubmisionData)
+            addDoc(biasCollection, { bias: newSubmisionData })
+              .then(data => console.log('NEW_ADDED Firebase', data))
+              .catch(e => console.log('Error', e))
+          }
+        })
+        .catch(error => {
+          console.error('Error getting biasCollection:', error)
+        })
+    }
+  })
 }
 
 function checkBias(editor: Editor, storage: BiasStorage) {
@@ -34,6 +78,18 @@ function checkBias(editor: Editor, storage: BiasStorage) {
     tr.setMeta('BIAS_FETCHING', true)
 
     await fetchBiases(originalText).then(bias => {
+      if (bias.results.length > 0) {
+        const submitData = bias.results.map(d => {
+          const type = d.biases[0].name
+          return {
+            category: 'bias',
+            type,
+            input: d.input,
+            date: Date.now(),
+          }
+        })
+        handleStoreData(submitData)
+      }
       bias.results.forEach(({ input, biases, replacements }) => {
         const type = biases[0].name
 

@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
 import { CreateCompletionResponseChoicesInner } from 'openai'
 import { onAuthStateChanged } from 'firebase/auth'
-import { doc, collection, getDocs, query } from 'firebase/firestore'
+import { doc, collection, getDocs, query, Query } from 'firebase/firestore'
 
 import { DB } from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
@@ -71,13 +71,36 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   }
 
   useEffect(() => {
-    onAuthStateChanged(auth, async user => {
+    const fetchAndProcessData = async (collectionRef: Query<unknown>, dbKey: string) => {
+      const queryDocs = query(collectionRef);
+      try {
+        const querySnapshot = await getDocs(queryDocs);
+        if (querySnapshot.size > 0) {
+          querySnapshot.forEach(async (data: any) => {
+            const newData = data.data()[dbKey];
+            newData.forEach((entry: any) => {
+              DB.suggestion.add({
+                category: entry.category,
+                type: entry.type,
+                input: entry.input,
+                date: entry.date,
+              });
+            });
+          });
+        }
+      } catch (error) {
+        console.error(`Error getting ${dbKey}: `, error);
+      }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, user.uid)
-        const ignoreCollection = collection(userDocRef, 'ignorelist')
-        const queryDocs = query(ignoreCollection)
-        getDocs(queryDocs)
+        const userCollection = collection(db, 'users');
+        const userDocRef = doc(userCollection, user.uid);
+
+        const ignoreCollection = collection(userDocRef, 'ignorelist');
+        const ignorequeryDocs = query(ignoreCollection)
+        getDocs(ignorequeryDocs)
           .then(checkQuery => {
             if (checkQuery.size > 0) {
               getDocs(ignoreCollection)
@@ -85,7 +108,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
                   DB.dictionary.clear()
                   querySnapshot.forEach(async (data: any) => {
                     const newData = data.data().data
-                    console.log('Scribe/Firebase/ignorelist', newData)
                     newData.forEach((data: { Value: any }) => {
                       DB.dictionary.add({ value: data.Value })
                     })
@@ -97,11 +119,17 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
             }
           })
           .catch(error => {
-            console.error('Error getting ignoreCollection:', error)
+            console.error('Error getting ignore:', error)
           })
+
+        const biasCollection = collection(userDocRef, 'bias');
+        fetchAndProcessData(biasCollection, 'bias');
+
+        const languageCollection = collection(userDocRef, 'language');
+        fetchAndProcessData(languageCollection, 'language');
       }
-    })
-  }, [match])
+    });
+  }, [match]);
 
   useEffect(() => {
     const text = editor.getText()
