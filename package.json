@@ -27,14 +27,9 @@
     "release": "release-it"
   },
   "packageManager": "yarn@3.4.1",
-  "dependencies": {
+  "devDependencies": {
     "@release-it/bumper": "^4.0.2",
     "dotenv-cli": "^7.2.1",
-    "plotly.js": "^2.25.2",
-    "react-plotly.js": "^2.6.0",
-    "release-it": "^15.11.0"
-  },
-  "devDependencies": {
-    "@types/react-plotly.js": "^2.6.0"
+    "release-it": "^16.1.5"
   }
 }

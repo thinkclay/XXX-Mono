@@ -107,7 +107,7 @@ svg {
   margin: 0 auto;
   min-height: 500px;
   min-width: 500px;
-  padding: 20px;
+  padding: 0;
   outline: none;
 }
 .Toolbar {

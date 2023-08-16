@@ -1,24 +1,23 @@
 /** @format */
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
-import { CreateCompletionResponseChoicesInner } from 'openai'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, collection, getDocs, query, Query } from 'firebase/firestore'
+import OpenAI from 'openai'
 
 import { DB } from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
 import { getRevisedCopy, getToneEmoji } from '@common/services/openai'
 import { rootState } from '@common/helpers/root'
 import { toneState } from '@common/helpers/tone'
-import { Match, Replacement } from '@common/tiptap/language/language-types'
+import { Match } from '@common/tiptap/language/language-types'
 import { SuggestionsModal } from '@common/tiptap/suggestions'
 import { RenderMode } from '@common/types/UI'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
 import Format from '@common/tiptap/format'
-import { SuggestionProps } from '@common/tiptap/suggestions/views/Suggestions'
 
 interface ScribeProps {
   editor: Editor
@@ -31,7 +30,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
   const [timeoutId, setTimeoutId] = useState<any>(null)
-  const [_revision, _setRevision] = useState<void | CreateCompletionResponseChoicesInner[]>()
+  const [_revision, _setRevision] = useState<void | OpenAI.CompletionChoice[]>()
 
   const _fetchRevision = async (text: string) => {
     setRoot({ ...root, fetchingRevision: true })
@@ -39,7 +38,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     const result = await getRevisedCopy(text)
       .then(response => {
         console.log('_fetchRevision Response', response)
-        return response.data.choices
+        return response.choices
       })
       .catch(console.log)
 
@@ -59,7 +58,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
     await getToneEmoji(text)
       .then(response => {
         const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/
-        const message = response.data.choices[0].text
+        const message = response.choices[0].text
 
         setTone({ ...tone, fetching: false, icon: message?.match(emojiRegex)?.[0], message })
       })
@@ -72,33 +71,33 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
 
   useEffect(() => {
     const fetchAndProcessData = async (collectionRef: Query<unknown>, dbKey: string) => {
-      const queryDocs = query(collectionRef);
+      const queryDocs = query(collectionRef)
       try {
-        const querySnapshot = await getDocs(queryDocs);
+        const querySnapshot = await getDocs(queryDocs)
         if (querySnapshot.size > 0) {
           querySnapshot.forEach(async (data: any) => {
-            const newData = data.data()[dbKey];
+            const newData = data.data()[dbKey]
             newData.forEach((entry: any) => {
               DB.suggestion.add({
                 category: entry.category,
                 type: entry.type,
                 input: entry.input,
                 date: entry.date,
-              });
-            });
-          });
+              })
+            })
+          })
         }
       } catch (error) {
-        console.error(`Error getting ${dbKey}: `, error);
+        console.error(`Error getting ${dbKey}: `, error)
       }
-    };
+    }
 
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, async user => {
       if (user) {
-        const userCollection = collection(db, 'users');
-        const userDocRef = doc(userCollection, user.uid);
+        const userCollection = collection(db, 'users')
+        const userDocRef = doc(userCollection, user.uid)
 
-        const ignoreCollection = collection(userDocRef, 'ignorelist');
+        const ignoreCollection = collection(userDocRef, 'ignorelist')
         const ignorequeryDocs = query(ignoreCollection)
         getDocs(ignorequeryDocs)
           .then(checkQuery => {
@@ -122,14 +121,14 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
             console.error('Error getting ignore:', error)
           })
 
-        const biasCollection = collection(userDocRef, 'bias');
-        fetchAndProcessData(biasCollection, 'bias');
+        const biasCollection = collection(userDocRef, 'bias')
+        fetchAndProcessData(biasCollection, 'bias')
 
-        const languageCollection = collection(userDocRef, 'language');
-        fetchAndProcessData(languageCollection, 'language');
+        const languageCollection = collection(userDocRef, 'language')
+        fetchAndProcessData(languageCollection, 'language')
       }
-    });
-  }, [match]);
+    })
+  }, [match])
 
   useEffect(() => {
     const text = editor.getText()

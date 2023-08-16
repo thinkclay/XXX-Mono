@@ -1,11 +1,11 @@
 /** @format */
 
-import { CreateCompletionResponseChoicesInner } from 'openai'
+import OpenAI from 'openai'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { v4 } from 'uuid'
 
 interface RevisionProps {
-  revision?: void | CreateCompletionResponseChoicesInner[]
+  revision?: void | OpenAI.CompletionChoice[]
   accept: (content: string) => void
   decline: () => void
 }
