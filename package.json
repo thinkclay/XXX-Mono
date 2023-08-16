@@ -30,6 +30,11 @@
   "dependencies": {
     "@release-it/bumper": "^4.0.2",
     "dotenv-cli": "^7.0.0",
+    "plotly.js": "^2.25.1",
+    "react-plotly.js": "^2.6.0",
     "release-it": "^15.10.1"
+  },
+  "devDependencies": {
+    "@types/react-plotly.js": "^2.6.0"
   }
 }
