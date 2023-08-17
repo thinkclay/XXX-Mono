@@ -1,6 +1,13 @@
 import { Bias, BiasCategory, BiasCompletions, BiasClassResult } from './bias-types'
 
-export const BIAS_URL = 'https://revisioned.herokuapp.com'
+const API_BASE = 'https://revisioned.herokuapp.com'
+
+enum API_PATH {
+  CHECK = 'check',
+  CATEGORIES = 'api/v1/categories',
+  COMPLETIONS = 'api/v1/completions',
+  CLASSIFICATIONS = 'api/v1/classifications',
+}
 
 function apiBody(input: string) {
   return {
@@ -14,47 +21,35 @@ function apiBody(input: string) {
   }
 }
 
-export const fetchCategories = async (): Promise<BiasCategory[]> => {
-  console.log('Categories/FETCHING: ')
-  const result = await fetch(`${BIAS_URL}/api/v1/categories`).then(r => r.json())
-  console.log('Categories/RESPONSE: ', result)
+async function apiRequest<T>(path: API_PATH, body?: string): Promise<T> {
+  console.log(`BIAS/REQUEST/${path.toUpperCase()}`, { body })
 
-  return result
-}
+  const response = body ? await fetch(`${API_BASE}/${path}`, apiBody(body)) : await fetch(`${API_BASE}/${path}`)
 
-export const fetchCompletions = async (input: string): Promise<BiasCompletions> => {
-  console.log('Completions/FETCHING: ')
-
-  const response = await fetch(`${BIAS_URL}/api/v1/completions`, apiBody(input)).then(r => r.json())
-  const result: BiasCompletions = {
-    input: response.input,
-    results: response.results.map((r: string) => {
-      {
-        value: r
-      }
-    }),
+  if (!response.ok) {
+    throw new Error(`API request failed with status: ${response.statusText}`)
   }
 
-  console.log('Completions/RESPONSE: ', result)
+  const data: T = await response.json()
 
-  return result
+  console.log(`BIAS/RESPONSE/${path.toUpperCase()}`, data)
+
+  return data
+}
+
+export const fetchCategories = async (): Promise<BiasCategory[]> => {
+  return await apiRequest<BiasCategory[]>(API_PATH.CATEGORIES)
 }
 
 export const fetchClassifications = async (input: string): Promise<BiasClassResult[]> => {
-  console.log('Completions/FETCHING')
-  const result = await fetch(`${BIAS_URL}/api/v1/classifications`, apiBody(input)).then(r => r.json())
-  console.log('Completions/RESPONSE: ', result)
-
-  return result
+  return await apiRequest<BiasClassResult[]>(API_PATH.CLASSIFICATIONS, input)
 }
 
 export const fetchBiases = async (input: string): Promise<Bias> => {
-  console.log('Biases/FETCHING')
-
+  // @TODO: consider moving this to helper. Does it work for text before url matching or just after?
   // Ignore URLs
   const urlRegex = /(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/
   if (urlRegex.test(input)) {
-    console.log('Biases/IGNORED URL', input)
     const urlMatch = input.match(urlRegex)
 
     if (urlMatch) {
@@ -63,17 +58,12 @@ export const fetchBiases = async (input: string): Promise<Bias> => {
       if (textAfterUrl) {
         input = textAfterUrl
       } else {
-        console.log('Biases/NO TEXT AFTER URL: ', input)
         return {} as Bias
       }
     } else {
-      console.log('Biases/URL MATCH NOT FOUND: ', input)
       return {} as Bias
     }
   }
 
-  const result = await fetch(`${BIAS_URL}/check`, apiBody(input)).then(r => r.json())
-  console.log('Biases/RESPONSE: ', result)
-
-  return result
+  return await apiRequest<Bias>(API_PATH.CHECK, input)
 }
