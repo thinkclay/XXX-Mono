@@ -4,16 +4,15 @@
   "author": "Clay Unicorn <thinkclay@gmail.com>",
   "description": "Your sidekick for fighting bias!",
   "private": true,
+  "packageManager": "yarn@3.4.1",
   "workspaces": {
     "packages": [
       "packages/*"
     ],
-    "nohoist": [
-      "**/@tiptap/*",
-      "**/electron",
-      "**/electron-reload",
-      "**/electron-devtools-installer"
-    ]
+    "nmHoistingLimits": "workspaces"
+  },
+  "git": {
+    "requireBranch": "main"
   },
   "scripts": {
     "web:start": "dotenv yarn workspace @revision/common start",
@@ -24,9 +23,8 @@
     "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && mv chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",
     "electron:start": "dotenv yarn workspace @revision/electron start",
     "reset": "find . -type dir -name node_modules | xargs rm -rf && rm -rf yarn.lock",
-    "release": "release-it"
+    "release": "release-it --no-git.requireUpstream"
   },
-  "packageManager": "yarn@3.4.1",
   "devDependencies": {
     "@release-it/bumper": "^4.0.2",
     "dotenv-cli": "^7.2.1",
