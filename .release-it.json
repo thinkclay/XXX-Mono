@@ -8,10 +8,7 @@
     "plugins": {
         "@release-it/bumper": {
           "in": [
-            "packages/chrome/package.json",
-            "packages/common/package.json",
-            "packages/electron/package.json",
-            "packages/common/src/meta.json"
+            "package.json"
           ],
           "out": [
             "packages/chrome/package.json",
