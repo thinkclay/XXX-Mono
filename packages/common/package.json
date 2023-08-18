@@ -1,6 +1,7 @@
 {
   "name": "@revision/common",
   "private": true,
+  "version": "0.11.3",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
@@ -73,6 +74,5 @@
     "firebase-functions": "^4.4.1",
     "firebase-tools": "^12.4.8",
     "typescript": "^5.1.6"
-  },
-  "version": "0.11.3"
+  }
 }
