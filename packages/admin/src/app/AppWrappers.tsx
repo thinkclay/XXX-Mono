@@ -15,56 +15,56 @@ interface Props {
   children: ReactNode
 }
 
+// export default function AppWrappers({ children }: Props) {
+//   const [mini, setMini] = useState(false)
+//   const [contrast, setContrast] = useState(false)
+//   const [hovered, setHovered] = useState(false)
+//   const [theme, setTheme] = useState(initialTheme)
+//   return (
+//     <ConfiguratorContext.Provider
+//       value={{
+//         mini,
+//         setMini,
+//         theme,
+//         setTheme,
+//         hovered,
+//         setHovered,
+//         contrast,
+//         setContrast,
+//       }}
+//     >
+//       <ChakraProvider theme={theme}>{children}</ChakraProvider>
+//     </ConfiguratorContext.Provider>
+//   )
+// }
+
+const _NoSSR = ({ children }: Props) => <React.Fragment>{children}</React.Fragment>
+
+const NoSSR = dynamic(() => Promise.resolve(_NoSSR), {
+  ssr: false,
+})
+
 export default function AppWrappers({ children }: Props) {
   const [mini, setMini] = useState(false)
   const [contrast, setContrast] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [theme, setTheme] = useState(initialTheme)
   return (
-    <ConfiguratorContext.Provider
-      value={{
-        mini,
-        setMini,
-        theme,
-        setTheme,
-        hovered,
-        setHovered,
-        contrast,
-        setContrast,
-      }}
-    >
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
-    </ConfiguratorContext.Provider>
+    <NoSSR>
+      <ConfiguratorContext.Provider
+        value={{
+          mini,
+          setMini,
+          theme,
+          setTheme,
+          hovered,
+          setHovered,
+          contrast,
+          setContrast,
+        }}
+      >
+        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      </ConfiguratorContext.Provider>
+    </NoSSR>
   )
 }
-
-// const _NoSSR = ({ children }) => <React.Fragment>{children}</React.Fragment>;
-
-// const NoSSR = dynamic(() => Promise.resolve(_NoSSR), {
-//   ssr: false,
-// });
-
-// export default function AppWrappers({ children }: { children: ReactNode }) {
-//   const [mini, setMini] = useState(false);
-//   const [contrast, setContrast] = useState(false);
-//   const [hovered, setHovered] = useState(false);
-//   const [theme, setTheme] = useState(initialTheme);
-//   return (
-//     <NoSSR>
-//       <ConfiguratorContext.Provider
-//         value={{
-//           mini,
-//           setMini,
-//           theme,
-//           setTheme,
-//           hovered,
-//           setHovered,
-//           contrast,
-//           setContrast,
-//         }}
-//       >
-//         <ChakraProvider theme={theme}>{children}</ChakraProvider>
-//       </ConfiguratorContext.Provider>
-//     </NoSSR>
-//   );
-// }

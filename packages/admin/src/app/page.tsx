@@ -12,7 +12,8 @@ import LoginForm from './auth/form/LoginForm'
 const DynamicEditor = dynamic(
   () => {
     console.log('Dynamic component rendered')
-    return import('@common/views/Screens/MainScreen')
+    return import('../../../common/src/views/Screens/MainScreen')
+    // return import('@common/views/Screens/MainScreen')
   },
   {
     ssr: false,

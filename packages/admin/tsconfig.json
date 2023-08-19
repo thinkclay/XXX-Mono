@@ -10,7 +10,6 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false,
     "strict": true,
     "target": "es5",
     "typeRoots": [
