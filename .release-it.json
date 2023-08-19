@@ -11,6 +11,7 @@
             "package.json"
           ],
           "out": [
+            "packages/admin/package.json",
             "packages/chrome/package.json",
             "packages/common/package.json",
             "packages/electron/package.json",

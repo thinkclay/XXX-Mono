@@ -18,6 +18,7 @@
     "web:start": "dotenv yarn workspace @revision/common start",
     "web:build": "yarn workspace @revision/common build",
     "web:dist": "yarn web:build && yarn workspace @revision/common firebase:deploy:hosting",
+    "admin:dev": "yarn workspace @revision/admin dev",
     "chrome:start": "yarn workspace @revision/chrome start",
     "chrome:build": "yarn workspace @revision/chrome build",
     "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && mv chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",

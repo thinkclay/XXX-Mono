@@ -19,6 +19,7 @@
     "target": "esnext",
     "paths": {
       "@root/*": ["./"],
+      "@admin/*": ["./packages/admin/src/*"],
       "@common/*": ["./packages/common/src/*"],
       "@chrome/*": ["./packages/chrome/src/*"],
       "@electron/*": ["./packages/electron/src/*"]
