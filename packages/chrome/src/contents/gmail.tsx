@@ -4,11 +4,26 @@ import type { PlasmoCSConfig } from 'plasmo'
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
+import 'gmail-js'
 
 import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
+
+declare global {
+  interface Window {
+    gmail: Gmail
+    dataLayer: Array<any>
+    gtag: (a: string, b: any, c?: any) => void
+  }
+}
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    PLASMO_PUBLIC_GTAG_ID?: string
+  }
+}
 
 export const config: PlasmoCSConfig = {
   matches: ['*://mail.google.com/*'],

@@ -10,12 +10,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore'
 import { auth, db } from '@common/services/firebase'
 import { FIREBASE, TIPTAP, logger } from '@common/helpers/logger'
-
-interface BiasStorage {
-  fetching: boolean
-  match: Match | null
-  lastCheckedAt: number
-}
+import { BiasStorage } from './bias'
 
 const handleStoreData = (suggestions: Suggestion[]) => {
   onAuthStateChanged(auth, async user => {

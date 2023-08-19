@@ -1,29 +1,6 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Extension, Mark, mergeAttributes } from '@tiptap/core'
 
-export interface BiasMarkOptions {
-  HTMLAttributes: Record<string, any>
-}
-
-declare module '@tiptap/core' {
-  interface Commands<ReturnType> {
-    mark: {
-      /**
-       * Set a bias mark
-       */
-      setBiasMark: (attributes?: { class: string; message: string; suggestions: string[]; from: number; to: number }) => ReturnType
-      /**
-       * Toggle a bias mark
-       */
-      toggleBiasMark: (attributes?: { class: string; message: string; suggestions: string[]; from: number; to: number }) => ReturnType
-      /**
-       * Unset a bias mark
-       */
-      unsetBiasMark: () => ReturnType
-    }
-  }
-}
-
-export const BiasMark = Mark.create<BiasMarkOptions>({
+export const BiasMark = Mark.create({
   name: 'biasMark',
 
   addOptions() {

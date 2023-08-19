@@ -2,12 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./src",
-    "downlevelIteration": true,
     "incremental": true,
     "jsx": "preserve",
     "noEmit": true,
-    "noImplicitAny": false,
-    "noImplicitThis": true,
     "plugins": [
       {
         "name": "next"
@@ -19,7 +16,10 @@
     "typeRoots": [
       "node_modules/@types",
       "src/types"
-    ]
+    ],
+    "paths": {
+      "@common/*": ["../../common/src/*"],
+    }
   },
   "exclude": [
     "node_modules"

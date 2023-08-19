@@ -1,13 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@root/*": ["../../"],
-      "@common/*": ["../common/src/*"],
-      "@chrome/*": ["./src/*"],
-      "@electron/*": ["../electron/*"]
+      "@common/*": ["../../common/src/*"],
     }
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [".plasmo/index.d.ts"]
 }

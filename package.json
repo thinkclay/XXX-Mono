@@ -18,7 +18,8 @@
     "web:start": "dotenv yarn workspace @revision/common start",
     "web:build": "yarn workspace @revision/common build",
     "web:dist": "yarn web:build && yarn workspace @revision/common firebase:deploy:hosting",
-    "admin:dev": "yarn workspace @revision/admin dev",
+    "admin:start": "yarn workspace @revision/admin dev",
+    "admin:build": "yarn workspace @revision/admin build",
     "chrome:start": "yarn workspace @revision/chrome start",
     "chrome:build": "yarn workspace @revision/chrome build",
     "chrome:dist": "yarn workspace @revision/chrome dist && cd packages/chrome/build && mv chrome-mv3-prod.zip ../../../release/chrome/v$npm_package_version.zip",
@@ -28,7 +29,7 @@
   },
   "devDependencies": {
     "@release-it/bumper": "^4.0.2",
-    "dotenv-cli": "^7.2.1",
+    "dotenv-cli": "^7.3.0",
     "release-it": "^16.1.5"
   }
 }

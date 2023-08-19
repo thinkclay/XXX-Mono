@@ -1,6 +1,10 @@
 import { mode } from '@chakra-ui/theme-tools'
 
 export const globalStyles = {
+  fonts: {
+    heading: 'Fraunces, serif',
+    body: 'Roboto, sans-serif',
+  },
   colors: {
     brand: {
       50: '#fffde7',
@@ -169,15 +173,22 @@ export const globalStyles = {
   },
   styles: {
     global: (props: any) => ({
+      html: {
+        bg: mode('neutral.100', 'neutral.900')(props),
+        fontFamily: globalStyles.fonts.body,
+      },
       body: {
         bg: mode('neutral.100', 'neutral.900')(props),
-        fontFamily: 'Poppins',
+        fontFamily: globalStyles.fonts.body,
       },
       input: {
         color: 'gray.700',
       },
-      html: {
-        fontFamily: 'Poppins',
+      h1: {
+        fontFamily: globalStyles.fonts.heading,
+      },
+      p: {
+        fontFamily: globalStyles.fonts.body,
       },
     }),
   },
