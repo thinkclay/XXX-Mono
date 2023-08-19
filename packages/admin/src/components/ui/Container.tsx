@@ -12,6 +12,7 @@ export default function Container({ children }: Props) {
       alignSelf="center"
       flexFlow="row wrap"
       justifySelf="center"
+      justifyContent="space-between"
       margin="0 auto"
       alignContent="center"
       maxW="container.xl"

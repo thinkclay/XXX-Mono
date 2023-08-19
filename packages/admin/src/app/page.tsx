@@ -12,7 +12,7 @@ import LoginForm from './auth/form/LoginForm'
 const DynamicEditor = dynamic(
   () => {
     console.log('Dynamic component rendered')
-    return import('../../../common/src/views/Screens/MainScreen')
+    return import('@common/views/Screens/MainScreen')
     // return import('@common/views/Screens/MainScreen')
   },
   {
@@ -35,7 +35,7 @@ export default function Home() {
         padding={{ base: '140px 20px' }}
       >
         <Container>
-          <Box width={{ base: '100%', lg: '50%' }}>
+          <Box width={{ base: '100%', lg: '49%' }}>
             <Heading as="h1" color="whiteAlpha.900">
               Interrupting Bias
               <br />

@@ -23,7 +23,7 @@ module.exports = {
   webpack: {
     alias: {
       '@root': path.resolve(__dirname, '../../'),
-      '@common': path.resolve(__dirname, '../common/src'),
+      '@common': path.resolve(__dirname, '../../common/src'),
       '@chrome': path.resolve(__dirname, './src'),
       '@electron': path.resolve(__dirname, '../electron/src'),
     },
@@ -39,16 +39,12 @@ module.exports = {
         oneOfRule.oneOf.unshift({
           test: /\.scss$/,
           use: [
-            'style-loader',
-            'css-loader',
+            { loader: 'css-loader', options: { exportType: 'css-style-sheet' } },
             {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
               },
-            },
-            {
-              loader: path.resolve(__dirname, 'scssToStringLoader.js'),
             },
           ],
         })
