@@ -1,62 +1,51 @@
 /* eslint-disable */
 // Chakra Imports
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Flex,
-  Link,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { useEffect, useState, useContext } from 'react';
-import { ConfiguratorContext } from 'contexts/ConfiguratorContext';
-import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin';
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Link, useColorModeValue } from '@chakra-ui/react'
+import { useEffect, useState, useContext } from 'react'
+import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
+import AdminNavbarLinks from 'components/navigation/NavbarLinksAdmin'
 
 export default function AdminNavbar(props: {
-  secondary: boolean;
-  brandText: string;
-  logoText: string;
-  fixed: boolean;
-  onOpen: (...args: any[]) => any;
-  [x: string]: any;
+  secondary: boolean
+  brandText: string
+  logoText: string
+  fixed: boolean
+  onOpen: (...args: any[]) => any
+  [x: string]: any
 }) {
-  const [scrolled, setScrolled] = useState(false);
-  const context = useContext(ConfiguratorContext);
-  const { mini, hovered } = context;
+  const [scrolled, setScrolled] = useState(false)
+  const context = useContext(ConfiguratorContext)
+  const { mini, hovered } = context
 
   useEffect(() => {
-    window.addEventListener('scroll', changeNavbar);
+    window.addEventListener('scroll', changeNavbar)
 
     return () => {
-      window.removeEventListener('scroll', changeNavbar);
-    };
-  });
+      window.removeEventListener('scroll', changeNavbar)
+    }
+  })
 
-  const { secondary, brandText } = props;
+  const { secondary, brandText } = props
 
   // Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
-  let mainText = useColorModeValue('navy.700', 'white');
-  let secondaryText = useColorModeValue('gray.700', 'white');
-  let navbarPosition = 'fixed' as const;
-  let navbarFilter = 'none';
-  let navbarBackdrop = 'blur(20px)';
-  let navbarShadow = 'none';
-  let navbarBg = useColorModeValue(
-    'rgba(244, 247, 254, 0.2)',
-    'rgba(11,20,55,0.5)',
-  );
-  let navbarBorder = 'transparent';
-  let secondaryMargin = '0px';
-  let paddingX = '15px';
-  let gap = '0px';
+  let mainText = useColorModeValue('navy.700', 'white')
+  let secondaryText = useColorModeValue('gray.700', 'white')
+  let navbarPosition = 'fixed' as const
+  let navbarFilter = 'none'
+  let navbarBackdrop = 'blur(20px)'
+  let navbarShadow = 'none'
+  let navbarBg = useColorModeValue('rgba(244, 247, 254, 0.2)', 'rgba(11,20,55,0.5)')
+  let navbarBorder = 'transparent'
+  let secondaryMargin = '0px'
+  let paddingX = '15px'
+  let gap = '0px'
   const changeNavbar = () => {
     if (window.scrollY > 1) {
-      setScrolled(true);
+      setScrolled(true)
     } else {
-      setScrolled(false);
+      setScrolled(false)
     }
-  };
+  }
 
   return (
     <Box
@@ -168,5 +157,5 @@ export default function AdminNavbar(props: {
         </Box>
       </Flex>
     </Box>
-  );
+  )
 }

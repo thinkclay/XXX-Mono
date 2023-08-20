@@ -6,7 +6,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import Card from 'components/card/Card'
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 import Footer from 'components/footer/FooterAuthCentered'
-import Navbar from 'components/navbar/NavbarAuth'
+import Navbar from 'components/navigation/NavbarAuth'
 import { PropsWithChildren } from 'react'
 
 interface CenteredAuthLayoutProps extends PropsWithChildren {

@@ -1,32 +1,25 @@
-'use client';
+'use client'
 // Chakra imports
-import { Box, Flex, Text } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAuthCentered';
+import { Box, Flex, Text } from '@chakra-ui/react'
+import Footer from 'components/footer/FooterAuthCentered'
 // Custom components
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin';
-import Navbar from 'components/navbar/NavbarAuth';
-import { PropsWithChildren } from 'react';
+import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
+import Navbar from 'components/navigation/NavbarAuth'
+import { PropsWithChildren } from 'react'
 
 interface PricingAuthLayoutProps {
-  children: JSX.Element;
-  title?: string;
-  description?: string;
-  image?: string;
-  contentTop?: any;
-  contentBottom?: any;
+  children: JSX.Element
+  title?: string
+  description?: string
+  image?: string
+  contentTop?: any
+  contentBottom?: any
 }
 
 function PricingAuthLayout(props: PricingAuthLayoutProps) {
-  const { children, title, description, contentTop, contentBottom } = props;
+  const { children, title, description, contentTop, contentBottom } = props
   return (
-    <Flex
-      direction="column"
-      alignSelf="center"
-      justifySelf="center"
-      overflow="hidden"
-      mx={{ base: '10px', lg: '0px' }}
-      minH="100vh"
-    >
+    <Flex direction="column" alignSelf="center" justifySelf="center" overflow="hidden" mx={{ base: '10px', lg: '0px' }} minH="100vh">
       <Box
         position="absolute"
         minH={{ base: '60vh', md: '60vh' }}
@@ -53,14 +46,7 @@ function PricingAuthLayout(props: PricingAuthLayoutProps) {
         mb={contentBottom}
       >
         {title && description ? (
-          <Flex
-            direction="column"
-            textAlign="center"
-            justifyContent="center"
-            align="center"
-            mt="125px"
-            mb="30px"
-          >
+          <Flex direction="column" textAlign="center" justifyContent="center" align="center" mt="125px" mb="30px">
             <Text fontSize="4xl" color="white" fontWeight="bold">
               {title}
             </Text>
@@ -81,8 +67,8 @@ function PricingAuthLayout(props: PricingAuthLayoutProps) {
       <Footer />
       <FixedPlugin />
     </Flex>
-  );
+  )
 }
 // PROPS
 
-export default PricingAuthLayout;
+export default PricingAuthLayout

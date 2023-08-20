@@ -417,7 +417,7 @@ export default function HeaderLinks() {
 
   const circlePurple = useColorModeValue('horizonPurple.500', 'horizonPurple.400')
   const circleGreen = useColorModeValue('horizonGreen.500', 'horizonGreen.400')
-  const circleOrange = useColorModeValue('horizonOrange.500', 'horizonOrange.400')
+  const circleOrange = useColorModeValue('brandOrange.500', 'brandOrange.400')
   const circleRed = useColorModeValue('horizonRed.500', 'horizonRed.400')
   const circleBlue = useColorModeValue('horizonBlue.500', 'horizonBlue.400')
   const circleTeal = useColorModeValue('horizonTeal.500', 'horizonTeal.400')
@@ -433,7 +433,7 @@ export default function HeaderLinks() {
   useEffect(() => {
     if (theme.colors.brand[500] === theme.colors.horizonGreen[500]) {
       setActive('Green')
-    } else if (theme.colors.brand[500] === theme.colors.horizonOrange[500]) {
+    } else if (theme.colors.brand[500] === theme.colors.brandOrange[500]) {
       setActive('Orange')
     } else if (theme.colors.brand[500] === theme.colors.horizonRed[500]) {
       setActive('Red')
@@ -447,7 +447,7 @@ export default function HeaderLinks() {
   }, [
     theme.colors.brand,
     theme.colors.horizonGreen,
-    theme.colors.horizonOrange,
+    theme.colors.brandOrange,
     theme.colors.horizonRed,
     theme.colors.horizonBlue,
     theme.colors.horizonTeal,

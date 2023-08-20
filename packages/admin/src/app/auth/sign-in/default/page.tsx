@@ -4,7 +4,7 @@ import { Flex } from '@chakra-ui/react'
 
 import DefaultAuth from 'components/auth/variants/DefaultAuthLayout/page'
 import illustration from '/public/img/auth/auth.png'
-import LoginForm from 'app/auth/form/LoginForm'
+import LoginForm from 'components/forms/LoginForm'
 
 function SignIn() {
   return (

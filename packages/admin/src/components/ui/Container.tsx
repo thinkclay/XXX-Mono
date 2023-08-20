@@ -1,24 +1,22 @@
-import { ReactNode } from 'react'
-import { Flex } from '@chakra-ui/react'
+import { Flex, FlexProps } from '@chakra-ui/react'
 
-interface Props {
-  children: ReactNode
-}
-
-export default function Container({ children }: Props) {
+export default function Container(props: FlexProps) {
   return (
     <Flex
       as="section"
+      alignContent="center"
       alignSelf="center"
       flexFlow="row wrap"
-      justifySelf="center"
       justifyContent="space-between"
+      justifySelf="center"
       margin="0 auto"
-      alignContent="center"
       maxW="container.xl"
+      position="relative"
+      px={{ base: 8, lg: 12 }}
       w="100%"
+      {...props}
     >
-      {children}
+      {props.children}
     </Flex>
   )
 }

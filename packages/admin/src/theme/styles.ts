@@ -6,6 +6,30 @@ export const globalStyles = {
     body: 'Roboto, sans-serif',
   },
   colors: {
+    brandOrange: {
+      50: '#f9e1db',
+      100: '#f2c2b8',
+      200: '#eca494',
+      300: '#e58571',
+      400: '#df674d',
+      500: '#c95d45',
+      600: '#9c4836',
+      700: '#703427',
+      800: '#431f17',
+      900: '#160a08',
+    },
+    brandYellow: {
+      50: '#fefcdc',
+      100: '#fef9ba',
+      200: '#fdf697',
+      300: '#fdf375',
+      400: '#fcf052',
+      500: '#e3d84a',
+      600: '#b0a839',
+      700: '#7e7829',
+      800: '#4c4819',
+      900: '#191808',
+    },
     brand: {
       50: '#fffde7',
       100: '#fffab7',
@@ -43,18 +67,6 @@ export const globalStyles = {
       900: '#160907',
     },
     horizonGreen: {
-      50: '#fffde7',
-      100: '#fffab7',
-      200: '#fff788',
-      300: '#fff458',
-      400: '#fff128',
-      500: '#e6d70e',
-      600: '#b3a70b',
-      700: '#807808',
-      800: '#4d4805',
-      900: '#191802',
-    },
-    horizonOrange: {
       50: '#fffde7',
       100: '#fffab7',
       200: '#fff788',
@@ -174,11 +186,11 @@ export const globalStyles = {
   styles: {
     global: (props: any) => ({
       html: {
-        bg: mode('neutral.100', 'neutral.900')(props),
+        background: 'neutral.100',
         fontFamily: globalStyles.fonts.body,
       },
       body: {
-        bg: mode('neutral.100', 'neutral.900')(props),
+        bg: 'neutral.100', // mode('neutral.100', 'neutral.900')(props),
         fontFamily: globalStyles.fonts.body,
       },
       input: {

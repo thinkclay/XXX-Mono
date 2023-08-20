@@ -4,7 +4,7 @@ import React from 'react'
 import { Flex } from '@chakra-ui/react'
 
 import CenteredAuth from 'components/auth/variants/CenteredAuthLayout/page'
-import LoginForm from 'app/auth/form/LoginForm'
+import LoginForm from 'components/forms/LoginForm'
 
 function SignIn() {
   return (

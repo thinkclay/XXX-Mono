@@ -3,7 +3,7 @@
 import { Portal, Box, useDisclosure } from '@chakra-ui/react'
 import Footer from 'components/footer/FooterAdmin'
 // Layout components
-import Navbar from 'components/navbar/NavbarRTL'
+import Navbar from 'components/navigation/NavbarRTL'
 import Sidebar from 'components/sidebar/Sidebar'
 import { RtlProvider } from 'components/rtlProvider/RtlProvider'
 import { SidebarContext } from 'contexts/SidebarContext'

@@ -28,6 +28,7 @@ import dropdown from '/public/img/layout/dropdown.png'
 import { GoChevronDown } from 'react-icons/go'
 import routes from 'routes'
 import { IRoute } from 'types/navigation'
+import Container from 'components/ui/Container'
 
 export default function AuthNavbar(props: { logo?: JSX.Element | string; logoText?: string; secondary?: boolean; sidebarWidth?: any }) {
   const { logoText, sidebarWidth } = props
@@ -62,7 +63,6 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
   let mainText = '#242321'
   let navbarBg = '#FFFCF5'
   let navbarShadow = 'initial'
-  let navbarPosition = 'absolute' as 'absolute'
 
   let brand = (
     <Link
@@ -173,17 +173,7 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
           <Icon mt="8px" as={GoChevronDown} color={mainText} w="14px" h="14px" fontWeight="2000" />
         </Box>
         <Menu isOpen={isOpenAuth}>
-          <MenuList
-            bg={menuBg}
-            p="22px"
-            cursor="default"
-            borderRadius="15px"
-            position="absolute"
-            top="30px"
-            left="-10px"
-            display="flex"
-            w="max-content"
-          >
+          <MenuList bg={menuBg} p="22px" cursor="default" position="absolute" top="30px" left="-10px" display="flex" w="max-content">
             <SimpleGrid me="20px" columns={2} alignItems="start" minW="180px" gap="24px">
               {createAuthLinks(authObject)}
             </SimpleGrid>
@@ -197,28 +187,17 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
   return (
     <SidebarContext.Provider value={{ sidebarWidth }}>
       <Flex
-        background="#FFFCF5"
+        background="white"
+        borderTopWidth="16px"
+        borderTopColor="brandOrange.400"
         flexDirection="row"
-        padding="10px 20px"
+        py={{ base: 4, lg: 8 }}
         justifyContent="center"
-        position="absolute"
         left="0"
         right="0"
         top="20px"
       >
-        <Flex
-          top="16px"
-          background={navbarBg}
-          boxShadow={navbarShadow}
-          borderRadius="15px"
-          px="16px"
-          py="22px"
-          mx="auto"
-          width="1044px"
-          maxW="90%"
-          alignItems="center"
-          zIndex="3"
-        >
+        <Container>
           <Flex w="100%" justifyContent={{ sm: 'start', lg: 'space-between' }} alignItems={{ sm: 'center', lg: 'center' }}>
             {brand}
             <Box ms={{ base: 'auto', lg: '0px' }} display={{ base: 'flex', lg: 'none' }} justifyContent="center" alignItems="center">
@@ -226,7 +205,7 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
             </Box>
             {linksAuth}
           </Flex>
-        </Flex>
+        </Container>
       </Flex>
     </SidebarContext.Provider>
   )
