@@ -8,6 +8,7 @@ import { Box, Flex, Heading, SimpleGrid, Text, Stack, Image, Button, useColorMod
 import Container from 'components/ui/Container'
 import Subtitle from 'components/ui/Subtitle'
 import YouTubePlayer from 'components/ui/YoutubePlayer'
+import HeroCapped from 'components/ui/HeroCapped'
 
 const DynamicEditor = dynamic(() => import('@common/views/Screens/MainScreen'), {
   ssr: false,
@@ -24,37 +25,34 @@ const content = `
 export default function Home() {
   const ctaHeadingColor = useColorModeValue('whiteAlpha.900', 'brandOrange.400')
   const textColor = useColorModeValue('neutral.900', 'neutral.50')
-  const gradientColor = useColorModeValue('linear(to-b, brandOrange.400, brandOrange.500)', 'linear(to-b, neutral.900, black)')
   const backgroundColor = useColorModeValue('neutral.50', 'neutral.800')
 
   return (
     <Box background={backgroundColor}>
-      <Box bgGradient={gradientColor}>
-        <Container justifyContent="center" py={{ base: '80px', lg: '140px' }}>
-          <Stack direction={{ base: 'column', lg: 'row' }} spacing={10}>
-            <Flex flexDirection="column" justifyContent="center" minWidth="300px">
-              <Heading as="h1" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
-                Interrupting Bias
-                <br />
-                Reimagining Communication
-              </Heading>
-              <Text paddingTop="6" fontSize={{ base: 'lg', lg: '2xl' }}>
-                <strong>Implicit bias is a part of being human.</strong>
-                <br />
-                ReVision helps you spot it, fix it, and track your improvement over time.
-              </Text>
-            </Flex>
+      <HeroCapped>
+        <Stack direction={{ base: 'column', lg: 'row' }} spacing={10}>
+          <Flex flexDirection="column" justifyContent="center" minWidth="300px">
+            <Heading as="h1" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
+              Interrupting Bias
+              <br />
+              Reimagining Communication
+            </Heading>
+            <Text paddingTop="6" fontSize={{ base: 'lg', lg: '2xl' }}>
+              <strong>Implicit bias is a part of being human.</strong>
+              <br />
+              ReVision helps you spot it, fix it, and track your improvement over time.
+            </Text>
+          </Flex>
 
-            <Box borderRadius="20px" boxShadow="0 0 80px rgba(0, 0, 0, 0.2)" overflow="hidden" minWidth="300px">
-              <RecoilRoot>
-                <StrictMode>
-                  <DynamicEditor mode="embedded" content={content} />
-                </StrictMode>
-              </RecoilRoot>
-            </Box>
-          </Stack>
-        </Container>
-      </Box>
+          <Box borderRadius="20px" boxShadow="0 0 80px rgba(0, 0, 0, 0.2)" overflow="hidden" minWidth="300px">
+            <RecoilRoot>
+              <StrictMode>
+                <DynamicEditor mode="embedded" content={content} />
+              </StrictMode>
+            </RecoilRoot>
+          </Box>
+        </Stack>
+      </HeroCapped>
 
       <Container>
         <Stack alignItems="center" flexFlow="row wrap" py={{ base: '80px', lg: '140px' }} spacing={20}>
@@ -150,25 +148,23 @@ export default function Home() {
         </Stack>
       </Container>
 
-      <Box mx={{ md: 'auto' }} py={{ base: '80px', lg: '140px' }} bgGradient={gradientColor}>
-        <Container justifyContent="center">
-          <Stack alignItems="center" direction={{ base: 'column', lg: 'row' }} spacing={20}>
-            <YouTubePlayer videoId="PVyWSSYedhk" />
-            <Box>
-              <Heading as="h2" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
-                Be the change you want to see
-              </Heading>
-              <Text fontSize="2xl" paddingTop="4">
-                <strong>We are in this together.</strong> Correcting bias isn't about policing conversations. It's all about awareness and
-                gentle nudges to improve the way we communicate and understand ourselves.
-              </Text>
-              <Button size="lg" fontSize={25} minW="300px" px={10} py={8} mt={8}>
-                Get the App
-              </Button>
-            </Box>
-          </Stack>
-        </Container>
-      </Box>
+      <HeroCapped>
+        <Stack alignItems="center" direction={{ base: 'column', lg: 'row' }} spacing={20}>
+          <YouTubePlayer videoId="PVyWSSYedhk" />
+          <Box>
+            <Heading as="h2" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
+              Be the change you want to see
+            </Heading>
+            <Text fontSize="2xl" paddingTop="4">
+              <strong>We are in this together.</strong> Correcting bias isn't about policing conversations. It's all about awareness and
+              gentle nudges to improve the way we communicate and understand ourselves.
+            </Text>
+            <Button size="lg" fontSize={25} minW="300px" px={10} py={8} mt={8}>
+              Get the App
+            </Button>
+          </Box>
+        </Stack>
+      </HeroCapped>
 
       <Container py={{ base: '80px', lg: '140px' }}>
         <Heading as="h2">What our partners think:</Heading>

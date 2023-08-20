@@ -45,7 +45,7 @@ export default function PublicNav() {
               onClick={() =>
                 (window.location.href = 'https://chrome.google.com/webstore/detail/revision-fighting-bias/jgflbioihdojhldekghdbelfgickocnp')
               }
-              background={{ sm: 'transparent', md: 'brandYellow.500' }}
+              background={{ sm: 'transparent', md: 'brandYellow.0' }}
               color="neutral.900"
               px={{ sm: 0, md: '8' }}
             >

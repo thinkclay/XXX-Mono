@@ -6,6 +6,7 @@ import { SidebarContext } from 'contexts/SidebarContext'
 import { isWindowAvailable } from 'utils/navigation'
 import AppWrappers from './AppWrappers'
 import PublicNav from 'components/navigation/PublicNav'
+import Footer from 'components/footer/FooterAuthCentered'
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 
 interface Props {
@@ -47,6 +48,8 @@ export default function RootLayout({ children }: Props) {
             </Box>
 
             <FixedPlugin />
+
+            <Footer />
           </SidebarContext.Provider>
         </AppWrappers>
       </body>

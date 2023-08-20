@@ -7,6 +7,7 @@ export const globalStyles = {
   },
   colors: {
     brandOrange: {
+      0: '#E05845',
       50: '#f9e1db',
       100: '#f2c2b8',
       200: '#eca494',
@@ -19,6 +20,7 @@ export const globalStyles = {
       900: '#160a08',
     },
     brandYellow: {
+      0: '#FCF052',
       50: '#fefcdc',
       100: '#fef9ba',
       200: '#fdf697',
@@ -171,7 +173,6 @@ export const globalStyles = {
       100: '#FAFCFE',
     },
     neutral: {
-      0: '#fff',
       100: '#fdfdfd',
       200: '#eaeaea',
       300: '#dcdcdc',
