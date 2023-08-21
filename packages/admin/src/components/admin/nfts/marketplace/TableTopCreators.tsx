@@ -1,59 +1,33 @@
-'use client';
+'use client'
 /* eslint-disable */
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Progress,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table';
+import { Avatar, Box, Button, Flex, Progress, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react'
+import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table'
 // Custom components
-import * as React from 'react';
+import * as React from 'react'
 // Assets
 
 type RowObj = {
-  name: string[];
-  artworks: number;
-  rating: number;
-};
+  name: string[]
+  artworks: number
+  rating: number
+}
 
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper<RowObj>()
 
 // const columns = columnsDataCheck;
 export default function TopCreatorTable(props: { tableData: RowObj[] }) {
-  const { tableData } = props;
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = useColorModeValue('secondaryGray.600', 'white');
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  let defaultData = tableData;
+  const { tableData } = props
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const textColorSecondary = useColorModeValue('secondaryGray.600', 'white')
+  const borderColor = useColorModeValue('neutral.200', 'whiteAlpha.100')
+  let defaultData = tableData
   const columns = [
     columnHelper.accessor('name', {
       id: 'name',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           NAME
         </Text>
       ),
@@ -69,16 +43,11 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
     columnHelper.accessor('artworks', {
       id: 'artworks',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           ARTWORKS
         </Text>
       ),
-      cell: (info) => (
+      cell: info => (
         <Text color={textColorSecondary} fontSize="sm" fontWeight="500">
           {info.getValue()}
         </Text>
@@ -87,29 +56,18 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
     columnHelper.accessor('rating', {
       id: 'rating',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           RATING
         </Text>
       ),
-      cell: (info) => (
+      cell: info => (
         <Flex align="center">
-          <Progress
-            variant="table"
-            colorScheme="brand"
-            h="8px"
-            w="108px"
-            value={info.getValue()}
-          />
+          <Progress variant="table" colorScheme="brand" h="8px" w="108px" value={info.getValue()} />
         </Flex>
       ),
     }),
-  ];
-  const [data, setData] = React.useState(() => [...defaultData]);
+  ]
+  const [data, setData] = React.useState(() => [...defaultData])
   const table = useReactTable({
     data,
     columns,
@@ -120,13 +78,9 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
-  });
+  })
   return (
-    <Flex
-      direction="column"
-      w="100%"
-      overflowX={{ sm: 'scroll', lg: 'hidden' }}
-    >
+    <Flex direction="column" w="100%" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
       <Flex
         align={{ sm: 'flex-start', lg: 'center' }}
         justify="space-between"
@@ -142,11 +96,11 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
         <Button variant="action">See all</Button>
       </Flex>
       <Box>
-        <Table variant="simple" color="gray.500" mt="12px">
+        <Table variant="simple" color="neutral.500" mt="12px">
           <Thead>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <Th
                       key={header.id}
@@ -156,23 +110,15 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
                       cursor="pointer"
                       onClick={header.column.getToggleSortingHandler()}
                     >
-                      <Flex
-                        justifyContent="space-between"
-                        align="center"
-                        fontSize={{ sm: '10px', lg: '12px' }}
-                        color="gray.400"
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      <Flex justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
                           asc: '',
                           desc: '',
                         }[header.column.getIsSorted() as string] ?? null}
                       </Flex>
                     </Th>
-                  );
+                  )
                 })}
               </Tr>
             ))}
@@ -181,10 +127,10 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
             {table
               .getRowModel()
               .rows.slice(0, 11)
-              .map((row) => {
+              .map(row => {
                 return (
                   <Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
+                    {row.getVisibleCells().map(cell => {
                       return (
                         <Td
                           key={cell.id}
@@ -192,19 +138,16 @@ export default function TopCreatorTable(props: { tableData: RowObj[] }) {
                           minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                           borderColor="transparent"
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </Td>
-                      );
+                      )
                     })}
                   </Tr>
-                );
+                )
               })}
           </Tbody>
         </Table>
       </Box>
     </Flex>
-  );
+  )
 }

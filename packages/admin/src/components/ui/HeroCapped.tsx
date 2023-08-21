@@ -9,10 +9,10 @@ export default function HeroCapped({ children, gradientHeight, bgGradient, ...re
   const gradient =
     !bgGradient && gradientHeight
       ? useColorModeValue(
-          `linear(to-b, brandOrange.0 0%, brandOrange.500 ${gradientHeight}, neutral.100 ${gradientHeight}, neutral.100 100%)`,
-          `linear(to-b, neutral.900 0%, black ${gradientHeight}, neutral.800 ${gradientHeight}, neutral.800 100%)`
+          `linear(to-b, brand.400 0%, brand.500 ${gradientHeight}, neutral.100 ${gradientHeight}, neutral.100 100%)`,
+          `linear(to-b, gray.800 0%, gray.900 ${gradientHeight}, gray.800 ${gradientHeight}, gray.800 100%)`
         )
-      : useColorModeValue('linear(to-b, brandOrange.0, brandOrange.500)', 'linear(to-b, neutral.900, black)')
+      : useColorModeValue('linear(to-b, brand.400, brand.500)', 'linear(to-b, neutral.900, black)')
 
   return (
     <Box {...rest} py={{ base: '80px', lg: '140px' }} bgGradient={bgGradient || gradient}>

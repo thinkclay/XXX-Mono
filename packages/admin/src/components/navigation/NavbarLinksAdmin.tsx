@@ -33,11 +33,11 @@ export default function HeaderLinks(props: { secondary: boolean }) {
   const { secondary } = props
   const { colorMode, toggleColorMode } = useColorMode()
   // Chakra Color Mode
-  const navbarIcon = useColorModeValue('gray.400', 'white')
+  const navbarIcon = useColorModeValue('neutral.400', 'white')
   let menuBg = useColorModeValue('white', 'navy.800')
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const textColorBrand = useColorModeValue('brand.700', 'brand.400')
-  const ethColor = useColorModeValue('gray.700', 'white')
+  const ethColor = useColorModeValue('neutral.700', 'white')
   const borderColor = useColorModeValue('#E6ECFA', 'rgba(135, 140, 189, 0.3)')
   const ethBg = useColorModeValue('secondaryGray.300', 'navy.900')
   const ethBox = useColorModeValue('white', 'navy.800')

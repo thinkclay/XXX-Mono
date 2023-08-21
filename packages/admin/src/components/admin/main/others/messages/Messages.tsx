@@ -48,12 +48,12 @@ export default function Messages(props: { status: string; name: string; [x: stri
   const textColor = useColorModeValue('secondaryGray.900', 'white')
 
   const inputColor = useColorModeValue('secondaryGray.700', 'secondaryGray.700')
-  const inputText = useColorModeValue('gray.700', 'gray.100')
+  const inputText = useColorModeValue('neutral.700', 'neutral.100')
   const blockBg = useColorModeValue('secondaryGray.300', 'navy.700')
   const brandButton = useColorModeValue('brand.500', 'brand.400')
   const bgInput = useColorModeValue(
     'linear-gradient(1.02deg, #FFFFFF 49.52%, rgba(255, 255, 255, 0) 99.07%)',
-    'linear-gradient(1.02deg, #111C44 49.52%, rgba(17, 28, 68, 0) 99.07%)',
+    'linear-gradient(1.02deg, #111C44 49.52%, rgba(17, 28, 68, 0) 99.07%)'
   )
   // Ellipsis modals
   const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure()
@@ -352,7 +352,7 @@ export default function Messages(props: { status: string; name: string; [x: stri
               bg={blockBg}
               color={inputText}
               fontWeight="500"
-              _placeholder={{ color: 'gray.400', fontSize: '16px' }}
+              _placeholder={{ color: 'neutral.400', fontSize: '16px' }}
               borderRadius={'50px'}
               placeholder={'Write your message...'}
             />

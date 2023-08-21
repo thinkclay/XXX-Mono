@@ -1,4 +1,4 @@
-'use client';
+'use client'
 // Chakra imports
 import {
   Box,
@@ -16,53 +16,37 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-} from '@chakra-ui/react';
-import ChatHeader from 'components/chat/ChatHeader';
-import React from 'react';
+} from '@chakra-ui/react'
+import ChatHeader from 'components/chat/ChatHeader'
+import React from 'react'
 // Assets
-import { FiSearch } from 'react-icons/fi';
-import {
-  MdOutlineCardTravel,
-  MdOutlineLightbulb,
-  MdOutlineMoreVert,
-  MdOutlinePerson,
-  MdOutlineSettings,
-} from 'react-icons/md';
-import { FaRegEdit } from 'react-icons/fa';
+import { FiSearch } from 'react-icons/fi'
+import { MdOutlineCardTravel, MdOutlineLightbulb, MdOutlineMoreVert, MdOutlinePerson, MdOutlineSettings } from 'react-icons/md'
+import { FaRegEdit } from 'react-icons/fa'
 // Assets
-import avatar1 from '/public/img/avatars/avatar1.png';
-import avatar2 from '/public/img/avatars/avatar2.png';
-import avatar4 from '/public/img/avatars/avatar4.png';
-import avatar5 from '/public/img/avatars/avatar5.png';
-import avatar6 from '/public/img/avatars/avatar6.png';
-import avatar7 from '/public/img/avatars/avatar7.png';
-import avatar8 from '/public/img/avatars/avatar8.png';
-import avatar9 from '/public/img/avatars/avatar9.png';
+import avatar1 from '/public/img/avatars/avatar1.png'
+import avatar2 from '/public/img/avatars/avatar2.png'
+import avatar4 from '/public/img/avatars/avatar4.png'
+import avatar5 from '/public/img/avatars/avatar5.png'
+import avatar6 from '/public/img/avatars/avatar6.png'
+import avatar7 from '/public/img/avatars/avatar7.png'
+import avatar8 from '/public/img/avatars/avatar8.png'
+import avatar9 from '/public/img/avatars/avatar9.png'
 
 export default function Conversations() {
   // Chakra Color Mode
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const searchIconColor = useColorModeValue('gray.700', 'white');
-  const inputText = useColorModeValue('gray.700', 'gray.100');
-  const blockBg = useColorModeValue('secondaryGray.300', 'navy.700');
-  const brandButton = useColorModeValue('brand.500', 'brand.400');
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const searchIconColor = useColorModeValue('neutral.700', 'white')
+  const inputText = useColorModeValue('neutral.700', 'neutral.100')
+  const blockBg = useColorModeValue('secondaryGray.300', 'navy.700')
+  const brandButton = useColorModeValue('brand.500', 'brand.400')
   // Ellipsis modals
-  const {
-    isOpen: isOpen1,
-    onOpen: onOpen1,
-    onClose: onClose1,
-  } = useDisclosure();
+  const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure()
 
   // Chakra Color Mode
-  const textHover = useColorModeValue(
-    { color: 'secondaryGray.900', bg: 'unset' },
-    { color: 'secondaryGray.500', bg: 'unset' },
-  );
-  const bgList = useColorModeValue('white', 'whiteAlpha.100');
-  const bgShadow = useColorModeValue(
-    '14px 17px 40px 4px rgba(112, 144, 176, 0.08)',
-    'unset',
-  );
+  const textHover = useColorModeValue({ color: 'secondaryGray.900', bg: 'unset' }, { color: 'secondaryGray.500', bg: 'unset' })
+  const bgList = useColorModeValue('white', 'whiteAlpha.100')
+  const bgShadow = useColorModeValue('14px 17px 40px 4px rgba(112, 144, 176, 0.08)', 'unset')
   return (
     <Box>
       <Box>
@@ -196,14 +180,7 @@ export default function Conversations() {
                 _focus={{
                   boxShadow: 'none',
                 }}
-                icon={
-                  <Icon
-                    as={FiSearch}
-                    color={searchIconColor}
-                    w="15px"
-                    h="15px"
-                  />
-                }
+                icon={<Icon as={FiSearch} color={searchIconColor} w="15px" h="15px" />}
               />
             </InputLeftElement>
             <Input
@@ -214,7 +191,7 @@ export default function Conversations() {
               bg={blockBg}
               color={inputText}
               fontWeight="500"
-              _placeholder={{ color: 'gray.400', fontSize: '14px' }}
+              _placeholder={{ color: 'neutral.400', fontSize: '14px' }}
               borderRadius={'50px'}
               placeholder={'Search'}
             />
@@ -229,12 +206,7 @@ export default function Conversations() {
             minH={{ base: '35px', md: '40px' }}
             variant="no-hover"
           >
-            <Icon
-              as={FaRegEdit}
-              color="white"
-              w={{ base: '16px', md: '16px' }}
-              h={{ base: '16px', md: '16px' }}
-            />
+            <Icon as={FaRegEdit} color="white" w={{ base: '16px', md: '16px' }} h={{ base: '16px', md: '16px' }} />
           </Button>
         </Flex>
       </Box>
@@ -266,13 +238,7 @@ export default function Conversations() {
         avatar={avatar4.src}
         hour="06:32 PM"
       />
-      <ChatHeader
-        name="Lawrence Peter"
-        lastMessage="You look so amazing today!"
-        sum="-$15.50"
-        avatar={avatar8.src}
-        hour="06:30 PM"
-      />
+      <ChatHeader name="Lawrence Peter" lastMessage="You look so amazing today!" sum="-$15.50" avatar={avatar8.src} hour="06:30 PM" />
       <ChatHeader
         name="Iaon Dint"
         lastMessage="I’m back from Belgium, do you want to meet?"
@@ -296,5 +262,5 @@ export default function Conversations() {
         hour="01:08 PM"
       />
     </Box>
-  );
+  )
 }

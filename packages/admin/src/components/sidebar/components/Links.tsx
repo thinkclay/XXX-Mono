@@ -1,4 +1,4 @@
-'use client';
+'use client'
 /* eslint-disable */
 
 // chakra imports
@@ -16,33 +16,30 @@ import {
   Icon,
   ListItem,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 // Assets
-import { FaCircle } from 'react-icons/fa';
-import NavLink from 'components/link/NavLink';
-import { IRoute } from 'types/navigation';
-import { PropsWithChildren, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
+import { FaCircle } from 'react-icons/fa'
+import NavLink from 'components/link/NavLink'
+import { IRoute } from 'types/navigation'
+import { PropsWithChildren, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 
 export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
   //   Chakra color mode
-  let activeColor = useColorModeValue('gray.700', 'white');
-  let inactiveColor = useColorModeValue(
-    'secondaryGray.600',
-    'secondaryGray.600',
-  );
-  let activeIcon = useColorModeValue('brand.500', 'white');
+  let activeColor = useColorModeValue('neutral.700', 'white')
+  let inactiveColor = useColorModeValue('secondaryGray.600', 'secondaryGray.600')
+  let activeIcon = useColorModeValue('brand.500', 'white')
 
-  const { routes, hovered, mini } = props;
+  const { routes, hovered, mini } = props
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
     (routeName: string) => {
-      return pathname?.includes(routeName);
+      return pathname?.includes(routeName)
     },
-    [pathname],
-  );
+    [pathname]
+  )
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = (routes: IRoute[]) => {
@@ -75,57 +72,22 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
                 {route.icon ? (
                   <Flex
                     align="center"
-                    justifyContent={
-                      mini === false
-                        ? 'space-between'
-                        : mini === true && hovered === true
-                        ? 'space-between'
-                        : 'center'
-                    }
+                    justifyContent={mini === false ? 'space-between' : mini === true && hovered === true ? 'space-between' : 'center'}
                     w="100%"
                   >
-                    <HStack
-                      mb="6px"
-                      spacing={
-                        activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
-                      }
-                    >
-                      <Flex
-                        w="100%"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
+                    <HStack mb="6px" spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'}>
+                      <Flex w="100%" alignItems="center" justifyContent="center">
                         <Box
-                          color={
-                            activeRoute(route.path.toLowerCase())
-                              ? activeIcon
-                              : inactiveColor
-                          }
-                          me={
-                            mini === false
-                              ? '12px'
-                              : mini === true && hovered === true
-                              ? '12px'
-                              : '0px'
-                          }
+                          color={activeRoute(route.path.toLowerCase()) ? activeIcon : inactiveColor}
+                          me={mini === false ? '12px' : mini === true && hovered === true ? '12px' : '0px'}
                           mt="6px"
                         >
                           {route.icon}
                         </Box>
                         <Text
-                          display={
-                            mini === false
-                              ? 'block'
-                              : mini === true && hovered === true
-                              ? 'block'
-                              : 'none'
-                          }
+                          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
                           me="auto"
-                          color={
-                            activeRoute(route.path.toLowerCase())
-                              ? activeColor
-                              : 'secondaryGray.600'
-                          }
+                          color={activeRoute(route.path.toLowerCase()) ? activeColor : 'secondaryGray.600'}
                           fontWeight="500"
                           fontSize="md"
                         >
@@ -134,63 +96,29 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
                       </Flex>
                     </HStack>
                     <AccordionIcon
-                      display={
-                        mini === false
-                          ? 'block'
-                          : mini === true && hovered === true
-                          ? 'block'
-                          : 'none'
-                      }
+                      display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
                       ms="auto"
                       color={'secondaryGray.600'}
                       transform={route.icon ? null : 'translateX(-70%)'}
                     />
                   </Flex>
                 ) : (
-                  <Flex
-                    pt="0px"
-                    pb="10px"
-                    justify={'center'}
-                    alignItems="center"
-                    w="100%"
-                  >
+                  <Flex pt="0px" pb="10px" justify={'center'} alignItems="center" w="100%">
                     <HStack
-                      spacing={
-                        activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
-                      }
-                      ps={
-                        mini === false
-                          ? '34px'
-                          : mini === true && hovered === true
-                          ? '34px'
-                          : '0px'
-                      }
+                      spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'}
+                      ps={mini === false ? '34px' : mini === true && hovered === true ? '34px' : '0px'}
                     >
                       <Text
                         me="auto"
-                        color={
-                          activeRoute(route.path.toLowerCase())
-                            ? activeColor
-                            : inactiveColor
-                        }
+                        color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
                         fontWeight="500"
                         fontSize="sm"
                       >
-                        {mini === false
-                          ? route.name
-                          : mini === true && hovered === true
-                          ? route.name
-                          : route.name[0]}
+                        {mini === false ? route.name : mini === true && hovered === true ? route.name : route.name[0]}
                       </Text>
                     </HStack>
                     <AccordionIcon
-                      display={
-                        mini === false
-                          ? 'block'
-                          : mini === true && hovered === true
-                          ? 'block'
-                          : 'none'
-                      }
+                      display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
                       ms="auto"
                       color={'secondaryGray.600'}
                       transform={null}
@@ -199,13 +127,7 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
                 )}
               </AccordionButton>
               <AccordionPanel
-                display={
-                  mini === false
-                    ? 'block'
-                    : mini === true && hovered === true
-                    ? 'block'
-                    : 'flex'
-                }
+                display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'flex'}
                 justifyContent="center"
                 alignItems="center"
                 flexDirection={'column'}
@@ -224,103 +146,44 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
-        );
+        )
       } else {
         return (
           <NavLink href={route.layout + route.path} key={key}>
             {route.icon ? (
-              <Flex
-                align="center"
-                justifyContent="space-between"
-                w="100%"
-                ps="17px"
-                mb="0px"
-              >
-                <HStack
-                  mb="6px"
-                  spacing={
-                    activeRoute(route.path.toLowerCase()) ? '22px' : '26px'
-                  }
-                >
+              <Flex align="center" justifyContent="space-between" w="100%" ps="17px" mb="0px">
+                <HStack mb="6px" spacing={activeRoute(route.path.toLowerCase()) ? '22px' : '26px'}>
                   <Flex w="100%" alignItems="center" justifyContent="center">
-                    <Box
-                      color={
-                        activeRoute(route.path.toLowerCase())
-                          ? activeIcon
-                          : inactiveColor
-                      }
-                      me="12px"
-                      mt="6px"
-                    >
+                    <Box color={activeRoute(route.path.toLowerCase()) ? activeIcon : inactiveColor} me="12px" mt="6px">
                       {route.icon}
                     </Box>
-                    <Text
-                      me="auto"
-                      color={
-                        activeRoute(route.path.toLowerCase())
-                          ? activeColor
-                          : 'secondaryGray.600'
-                      }
-                      fontWeight="500"
-                    >
-                      {mini === false
-                        ? route.name
-                        : mini === true && hovered === true
-                        ? route.name
-                        : route.name[0]}
+                    <Text me="auto" color={activeRoute(route.path.toLowerCase()) ? activeColor : 'secondaryGray.600'} fontWeight="500">
+                      {mini === false ? route.name : mini === true && hovered === true ? route.name : route.name[0]}
                     </Text>
                   </Flex>
                 </HStack>
               </Flex>
             ) : (
               <ListItem ms={null}>
-                <Flex
-                  ps={
-                    mini === false
-                      ? '34px'
-                      : mini === true && hovered === true
-                      ? '34px'
-                      : '0px'
-                  }
-                  alignItems="center"
-                  mb="8px"
-                >
-                  <Text
-                    color={
-                      activeRoute(route.path.toLowerCase())
-                        ? activeColor
-                        : inactiveColor
-                    }
-                    fontWeight="500"
-                    fontSize="sm"
-                  >
-                    {mini === false
-                      ? route.name
-                      : mini === true && hovered === true
-                      ? route.name
-                      : route.name[0]}
+                <Flex ps={mini === false ? '34px' : mini === true && hovered === true ? '34px' : '0px'} alignItems="center" mb="8px">
+                  <Text color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor} fontWeight="500" fontSize="sm">
+                    {mini === false ? route.name : mini === true && hovered === true ? route.name : route.name[0]}
                   </Text>
                 </Flex>
               </ListItem>
             )}
           </NavLink>
-        );
+        )
       }
-    });
-  };
+    })
+  }
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
   const createAccordionLinks = (routes: IRoute[]) => {
     return routes.map((route: IRoute, key: number) => {
       return (
         <NavLink href={route.layout + route.path} key={key}>
           <ListItem
-            ms={
-              mini === false
-                ? '28px'
-                : mini === true && hovered === true
-                ? '28px'
-                : '0px'
-            }
+            ms={mini === false ? '28px' : mini === true && hovered === true ? '28px' : '0px'}
             display="flex"
             alignItems="center"
             mb="10px"
@@ -335,29 +198,19 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
               //     ? 'block'
               //     : 'none'
               // }
-              color={
-                activeRoute(route.path.toLowerCase())
-                  ? activeColor
-                  : inactiveColor
-              }
-              fontWeight={
-                activeRoute(route.path.toLowerCase()) ? 'bold' : 'normal'
-              }
+              color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor}
+              fontWeight={activeRoute(route.path.toLowerCase()) ? 'bold' : 'normal'}
               fontSize="sm"
             >
-              {mini === false
-                ? route.name
-                : mini === true && hovered === true
-                ? route.name
-                : route.name[0]}
+              {mini === false ? route.name : mini === true && hovered === true ? route.name : route.name[0]}
             </Text>
           </ListItem>
         </NavLink>
-      );
-    });
-  };
+      )
+    })
+  }
   //  BRAND
-  return <>{createLinks(routes)}</>;
+  return <>{createLinks(routes)}</>
 }
 
-export default SidebarLinks;
+export default SidebarLinks

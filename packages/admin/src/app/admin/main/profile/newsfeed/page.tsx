@@ -18,7 +18,7 @@ import Filter from 'components/admin/main/profile/newsfeed/Filter'
 
 export default function Newsfeed() {
   // Chakra color mode
-  const textColor = useColorModeValue('gray.700', 'white')
+  const textColor = useColorModeValue('neutral.700', 'white')
   const paleGray = useColorModeValue('secondaryGray.400', 'whiteAlpha.100')
 
   return (

@@ -24,8 +24,8 @@ import { MdDashboard, MdApps } from 'react-icons/md'
 export default function Collection() {
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const buttonBg = useColorModeValue('transparent', 'navy.800')
-  const hoverButton = useColorModeValue({ bg: 'gray.100' }, { bg: 'whiteAlpha.100' })
-  const activeButton = useColorModeValue({ bg: 'gray.200' }, { bg: 'whiteAlpha.200' })
+  const hoverButton = useColorModeValue({ bg: 'neutral.100' }, { bg: 'whiteAlpha.100' })
+  const activeButton = useColorModeValue({ bg: 'neutral.200' }, { bg: 'whiteAlpha.200' })
   // Chakra Color Mode
   return (
     <Box pt={{ base: '180px', md: '80px', xl: '80px' }}>

@@ -49,8 +49,8 @@ import ChatHeader from 'components/chat/ChatHeader'
 export default function Default() {
   // Chakra Color Mode
   const textColor = useColorModeValue('secondaryGray.900', 'white')
-  const searchIconColor = useColorModeValue('gray.700', 'white')
-  const inputText = useColorModeValue('gray.700', 'gray.100')
+  const searchIconColor = useColorModeValue('neutral.700', 'white')
+  const inputText = useColorModeValue('neutral.700', 'neutral.100')
   const blockBg = useColorModeValue('secondaryGray.300', 'navy.700')
   const brandButton = useColorModeValue('brand.500', 'brand.400')
   // Ellipsis modals
@@ -215,7 +215,7 @@ export default function Default() {
                   bg={blockBg}
                   color={inputText}
                   fontWeight="500"
-                  _placeholder={{ color: 'gray.400', fontSize: '14px' }}
+                  _placeholder={{ color: 'neutral.400', fontSize: '14px' }}
                   borderRadius={'50px'}
                   placeholder={'Search'}
                 />

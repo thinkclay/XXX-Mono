@@ -1,34 +1,20 @@
-'use client';
-
+'use client'
 
 // Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  PinInput,
-  PinInputField,
-  Heading,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import CenteredAuth from '../../../../components/auth/variants/CenteredAuthLayout/page';
-import React from 'react';
+import { Box, Button, Flex, FormControl, PinInput, PinInputField, Heading, Text, useColorModeValue } from '@chakra-ui/react'
+import CenteredAuth from '../../../../components/auth/variants/CenteredAuthLayout/page'
+import React from 'react'
 
 function ForgotPassword() {
   // Chakra color mode
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const textColorSecondary = 'gray.400';
-  const borderColor = useColorModeValue('secondaryGray.400', 'whiteAlpha.100');
-  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600');
-  const textColorBrand = useColorModeValue('brand.500', 'white');
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const textColorSecondary = 'neutral.400'
+  const borderColor = useColorModeValue('secondaryGray.400', 'whiteAlpha.100')
+  const textColorDetails = useColorModeValue('navy.700', 'secondaryGray.600')
+  const textColorBrand = useColorModeValue('brand.500', 'white')
 
   return (
-    <CenteredAuth
-      cardTop={{ base: '140px', md: '24vh' }}
-      cardBottom={{ base: '50px', lg: 'auto' }}
-    >
+    <CenteredAuth cardTop={{ base: '140px', md: '24vh' }} cardBottom={{ base: '50px', lg: 'auto' }}>
       <Flex
         w="100%"
         maxW="max-content"
@@ -111,26 +97,11 @@ function ForgotPassword() {
               </PinInput>
             </Flex>
 
-            <Button
-              fontSize="14px"
-              variant="brand"
-              borderRadius="16px"
-              fontWeight="500"
-              w="100%"
-              h="50"
-              mb="24px"
-              mt="12px"
-            >
+            <Button fontSize="14px" variant="brand" borderRadius="16px" fontWeight="500" w="100%" h="50" mb="24px" mt="12px">
               Unlock
             </Button>
           </FormControl>
-          <Flex
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="start"
-            maxW="100%"
-            mt="0px"
-          >
+          <Flex flexDirection="column" justifyContent="center" alignItems="start" maxW="100%" mt="0px">
             <Text
               color={textColorDetails}
               fontWeight="400"
@@ -147,7 +118,7 @@ function ForgotPassword() {
         </Flex>
       </Flex>
     </CenteredAuth>
-  );
+  )
 }
 
-export default ForgotPassword;
+export default ForgotPassword

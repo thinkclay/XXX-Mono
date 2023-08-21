@@ -5,8 +5,8 @@ import { Flex, List, ListItem, Text, useColorModeValue } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 
 export default function Footer() {
-  let textColor = useColorModeValue('gray.400', 'white')
-  let linkColor = useColorModeValue({ base: 'gray.400', lg: 'white' }, 'white')
+  let textColor = useColorModeValue('neutral.400', 'white')
+  let linkColor = useColorModeValue({ base: 'neutral.400', lg: 'white' }, 'white')
   return (
     <Flex
       zIndex="3"

@@ -44,8 +44,8 @@ export default function Collection() {
 
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const buttonBg = useColorModeValue('transparent', 'navy.800')
-  const hoverButton = useColorModeValue({ bg: 'gray.100' }, { bg: 'whiteAlpha.100' })
-  const activeButton = useColorModeValue({ bg: 'gray.200' }, { bg: 'whiteAlpha.200' })
+  const hoverButton = useColorModeValue({ bg: 'neutral.100' }, { bg: 'whiteAlpha.100' })
+  const activeButton = useColorModeValue({ bg: 'neutral.200' }, { bg: 'whiteAlpha.200' })
   const paleGray = useColorModeValue('secondaryGray.400', 'whiteAlpha.100')
   let panelExample = (
     <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px">

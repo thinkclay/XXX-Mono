@@ -403,7 +403,7 @@ export default function HeaderLinks() {
   const ContrastImage = useColorModeValue(Contrast, ContrastDark)
   const MiniSidebarImage = useColorModeValue(MiniSidebar, MiniSidebarDark)
   const DefaultSidebarImage = useColorModeValue(DefaultSidebar, DefaultSidebarDark)
-  const navbarIcon = useColorModeValue('gray.400', 'white')
+  const navbarIcon = useColorModeValue('neutral.400', 'white')
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const brandColor = useColorModeValue('brand.500', 'white')
   const bgBadge = useColorModeValue('brand.50', 'whiteAlpha.100')
@@ -415,12 +415,12 @@ export default function HeaderLinks() {
   const Bg = useColorModeValue('white', 'navy.700')
   const drawerBg = useColorModeValue('white', 'navy.800')
 
-  const circlePurple = useColorModeValue('horizonPurple.500', 'horizonPurple.400')
+  const circlePurple = useColorModeValue('brand.500', 'brand.400')
   const circleGreen = useColorModeValue('horizonGreen.500', 'horizonGreen.400')
-  const circleOrange = useColorModeValue('brandOrange.500', 'brandOrange.400')
+  const circleOrange = useColorModeValue('brand.500', 'brand.400')
   const circleRed = useColorModeValue('horizonRed.500', 'horizonRed.400')
-  const circleBlue = useColorModeValue('horizonBlue.500', 'horizonBlue.400')
-  const circleTeal = useColorModeValue('horizonTeal.500', 'horizonTeal.400')
+  const circleBlue = useColorModeValue('blue.500', 'blue.400')
+  const circleTeal = useColorModeValue('blue.500', 'blue.400')
   // document.body.exitFullscreen();
 
   const shadowBlock = useColorModeValue('0px 6px 14px rgba(200, 207, 215, 0.6)', 'none')
@@ -437,21 +437,14 @@ export default function HeaderLinks() {
       setActive('Orange')
     } else if (theme.colors.brand[500] === theme.colors.horizonRed[500]) {
       setActive('Red')
-    } else if (theme.colors.brand[500] === theme.colors.horizonBlue[500]) {
+    } else if (theme.colors.brand[500] === theme.colors.blue[500]) {
       setActive('Blue')
-    } else if (theme.colors.brand[500] === theme.colors.horizonTeal[500]) {
+    } else if (theme.colors.brand[500] === theme.colors.blue[500]) {
       setActive('Teal')
     } else {
       setActive('Purple')
     }
-  }, [
-    theme.colors.brand,
-    theme.colors.horizonGreen,
-    theme.colors.brandOrange,
-    theme.colors.horizonRed,
-    theme.colors.horizonBlue,
-    theme.colors.horizonTeal,
-  ])
+  }, [theme.colors.brand, theme.colors.horizonGreen, theme.colors.brandOrange, theme.colors.horizonRed, theme.colors.blue])
   const fullscreenBorder = useColorModeValue('secondaryGray.100', 'whiteAlpha.200')
   const fullscreenBg = useColorModeValue('rgba(11,11,11,0)', 'rgba(11,11,11,0)')
   const configuratorShadow = useColorModeValue('-20px 17px 40px 4px rgba(112, 144, 176, 0.18)', '-22px 32px 51px 4px #0B1437')
@@ -528,7 +521,7 @@ export default function HeaderLinks() {
                   Unicorn x ReVision
                   <Badge
                     display="flex"
-                    colorScheme="horizonPurple"
+                    colorScheme="brandOrange"
                     borderRadius="25px"
                     bg={bgBadge}
                     color={brandColor}

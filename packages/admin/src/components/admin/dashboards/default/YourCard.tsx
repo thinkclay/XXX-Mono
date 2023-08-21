@@ -1,5 +1,5 @@
-'use client';
-import React, { PropsWithChildren, useState } from 'react';
+'use client'
+import React, { PropsWithChildren, useState } from 'react'
 
 // Chakra imports
 import {
@@ -17,12 +17,12 @@ import {
   useColorModeValue,
   ComponentWithAs,
   ChakraProps,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 // Custom components
-import Card from 'components/card/Card';
-import Mastercard from 'components/card/Mastercard';
-import Transaction from 'components/dataDisplay/Transaction';
+import Card from 'components/card/Card'
+import Mastercard from 'components/card/Mastercard'
+import Transaction from 'components/dataDisplay/Transaction'
 
 // Assets
 import {
@@ -36,56 +36,36 @@ import {
   MdAdd,
   MdAttachMoney,
   MdMoreHoriz,
-} from 'react-icons/md';
-import { RiNetflixFill } from 'react-icons/ri';
+} from 'react-icons/md'
+import { RiNetflixFill } from 'react-icons/ri'
 
 interface YourCardProps extends PropsWithChildren, ChakraProps {}
 
 export default function YourCard(props: YourCardProps) {
-  const { ...rest } = props;
+  const { ...rest } = props
 
-  const [tabState, setTabState] = useState('card1');
+  const [tabState, setTabState] = useState('card1')
 
   // Chakra Color Mode
-  const iconColor = useColorModeValue('brand.500', 'white');
-  const greenIcon = useColorModeValue('green.500', 'white');
-  const redIcon = useColorModeValue('red.500', 'white');
-  const blueIcon = useColorModeValue('blue.500', 'white');
-  const yellowIcon = useColorModeValue('yellow.500', 'white');
-  const bgIconButton = useColorModeValue('white', 'whiteAlpha.100');
-  const bgIconHover = useColorModeValue(
-    { bg: 'gray.100' },
-    { bg: 'whiteAlpha.50' },
-  );
-  const bgIconFocus = useColorModeValue(
-    { bg: 'grey.100' },
-    { bg: 'whiteAlpha.100' },
-  );
-  const bgButton = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  const bgHover = useColorModeValue(
-    { bg: 'secondaryGray.400' },
-    { bg: 'whiteAlpha.50' },
-  );
-  const bgFocus = useColorModeValue(
-    { bg: 'secondaryGray.400' },
-    { bg: 'whiteAlpha.100' },
-  );
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
-  const shadow = useColorModeValue(
-    '18px 17px 40px 4px rgba(112, 144, 176, 0.1)',
-    'unset',
-  );
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const iconColor = useColorModeValue('brand.500', 'white')
+  const greenIcon = useColorModeValue('green.500', 'white')
+  const redIcon = useColorModeValue('red.500', 'white')
+  const blueIcon = useColorModeValue('blue.500', 'white')
+  const yellowIcon = useColorModeValue('yellow.500', 'white')
+  const bgIconButton = useColorModeValue('white', 'whiteAlpha.100')
+  const bgIconHover = useColorModeValue({ bg: 'neutral.100' }, { bg: 'whiteAlpha.50' })
+  const bgIconFocus = useColorModeValue({ bg: 'grey.100' }, { bg: 'whiteAlpha.100' })
+  const bgButton = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
+  const bgHover = useColorModeValue({ bg: 'secondaryGray.400' }, { bg: 'whiteAlpha.50' })
+  const bgFocus = useColorModeValue({ bg: 'secondaryGray.400' }, { bg: 'whiteAlpha.100' })
+  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
+  const shadow = useColorModeValue('18px 17px 40px 4px rgba(112, 144, 176, 0.1)', 'unset')
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
 
   return (
     <Card {...rest}>
       <Flex justify="space-between" px="10px" pt="5px" mb="25px" align="center">
-        <Text
-          color={textColor}
-          fontSize="lg"
-          fontWeight="700"
-          lineHeight="100%"
-        >
+        <Text color={textColor} fontSize="lg" fontWeight="700" lineHeight="100%">
           Your Card
         </Text>
         <Button
@@ -116,18 +96,13 @@ export default function YourCard(props: YourCardProps) {
             <Mastercard number="2371 XXXX XXXX XXXX" cvv="73X" exp="01/27" />
           </TabPanel>
         </TabPanels>
-        <TabList
-          mb="20px"
-          mx={{ base: '10px', lg: '30px' }}
-          overflowX={{ sm: 'unset', lg: 'unset' }}
-          border="0px solid transparent"
-        >
+        <TabList mb="20px" mx={{ base: '10px', lg: '30px' }} overflowX={{ sm: 'unset', lg: 'unset' }} border="0px solid transparent">
           <Flex justify="center" w="100%">
             <Tab
               p="0px"
               flexDirection="column"
               onClick={function () {
-                setTabState('card1');
+                setTabState('card1')
               }}
               me="18px"
               bg="unset"
@@ -151,7 +126,7 @@ export default function YourCard(props: YourCardProps) {
               p="0px"
               flexDirection="column"
               onClick={function () {
-                setTabState('card2');
+                setTabState('card2')
               }}
               me="18px"
               bg="unset"
@@ -175,7 +150,7 @@ export default function YourCard(props: YourCardProps) {
               p="0px"
               flexDirection="column"
               onClick={function () {
-                setTabState('card3');
+                setTabState('card3')
               }}
               bg="unset"
               _selected={{
@@ -198,33 +173,16 @@ export default function YourCard(props: YourCardProps) {
           </Flex>
         </TabList>
       </Tabs>
-      <Flex
-        direction="column"
-        bg={boxBg}
-        p="16px 20px"
-        borderRadius="14px"
-        mb="38px"
-      >
+      <Flex direction="column" bg={boxBg} p="16px 20px" borderRadius="14px" mb="38px">
         <Text fontSize="sm" fontWeight="700" color={textColor}>
           Use for added security online
         </Text>
         <Text fontSize="sm" fontWeight="500" color="secondaryGray.600">
-          The card number is refreshed automatically after each use. Each number
-          cand be used only once.
+          The card number is refreshed automatically after each use. Each number cand be used only once.
         </Text>
       </Flex>
-      <Flex
-        mx="auto"
-        mb="40px"
-        w="100%"
-        maxW="100%"
-        justifyContent={'space-between'}
-      >
-        <Flex
-          direction="column"
-          align="center"
-          me={{ base: '22px', md: '40px', '2xl': '0px' }}
-        >
+      <Flex mx="auto" mb="40px" w="100%" maxW="100%" justifyContent={'space-between'}>
+        <Flex direction="column" align="center" me={{ base: '22px', md: '40px', '2xl': '0px' }}>
           <IconButton
             aria-label="Transfer"
             borderRadius="50%"
@@ -242,11 +200,7 @@ export default function YourCard(props: YourCardProps) {
             Transfer
           </Text>
         </Flex>
-        <Flex
-          direction="column"
-          align="center"
-          me={{ base: '22px', md: '40px', '2xl': '0px' }}
-        >
+        <Flex direction="column" align="center" me={{ base: '22px', md: '40px', '2xl': '0px' }}>
           <IconButton
             aria-label="Top"
             borderRadius="50%"
@@ -264,11 +218,7 @@ export default function YourCard(props: YourCardProps) {
             Top Up
           </Text>
         </Flex>
-        <Flex
-          direction="column"
-          align="center"
-          me={{ base: '22px', md: '40px', '2xl': '0px' }}
-        >
+        <Flex direction="column" align="center" me={{ base: '22px', md: '40px', '2xl': '0px' }}>
           <IconButton
             aria-label="Bills"
             borderRadius="50%"
@@ -280,9 +230,7 @@ export default function YourCard(props: YourCardProps) {
             h="56px"
             mb="5px"
             boxShadow={shadow}
-            icon={
-              <Icon as={MdAttachMoney} color={greenIcon} w="24px" h="24px" />
-            }
+            icon={<Icon as={MdAttachMoney} color={greenIcon} w="24px" h="24px" />}
           />
           <Text fontSize="sm" fontWeight="500" color={textColor}>
             Pay Bills
@@ -315,42 +263,21 @@ export default function YourCard(props: YourCardProps) {
         name="Public Transport"
         date="22 September 2022"
         sum="-$15.50"
-        icon={
-          <Icon
-            as={MdOutlineDirectionsBus}
-            color={iconColor}
-            w="20px"
-            h="18px"
-          />
-        }
+        icon={<Icon as={MdOutlineDirectionsBus} color={iconColor} w="20px" h="18px" />}
       />
       <Transaction
         mb="26px"
         name="Grocery Store"
         date="18 September 2022"
         sum="-$42.28"
-        icon={
-          <Icon
-            as={MdOutlineShoppingBasket}
-            color={greenIcon}
-            w="20px"
-            h="18px"
-          />
-        }
+        icon={<Icon as={MdOutlineShoppingBasket} color={greenIcon} w="20px" h="18px" />}
       />
       <Transaction
         mb="26px"
         name="Public Transport"
         date="15 September 2022"
         sum="-$11.37"
-        icon={
-          <Icon
-            as={MdOutlineSubscriptions}
-            color={yellowIcon}
-            w="20px"
-            h="18px"
-          />
-        }
+        icon={<Icon as={MdOutlineSubscriptions} color={yellowIcon} w="20px" h="18px" />}
       />
       <Transaction
         mb="26px"
@@ -377,10 +304,8 @@ export default function YourCard(props: YourCardProps) {
         name="Apartment Debt"
         date="05 September 2022"
         sum="-$314.90"
-        icon={
-          <Icon as={MdOutlineWeekend} color={greenIcon} w="20px" h="18px" />
-        }
+        icon={<Icon as={MdOutlineWeekend} color={greenIcon} w="20px" h="18px" />}
       />
     </Card>
-  );
+  )
 }

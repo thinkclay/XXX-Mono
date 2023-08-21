@@ -8,7 +8,7 @@ import { NextAvatar } from 'components/image/Avatar'
 export default function Profile(props: { [x: string]: any }) {
   const { ...rest } = props
   const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
-  const textColorSecondary = 'gray.400'
+  const textColorSecondary = 'neutral.400'
   // Chakra Color Mode
   return (
     <Card mb="20px" {...rest}>

@@ -69,7 +69,7 @@ export default function NewUser() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.user ? 'white' : 'gray.300'}
+                color={activeBullets.user ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.user ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >
@@ -118,7 +118,7 @@ export default function NewUser() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.address ? 'white' : 'gray.300'}
+                color={activeBullets.address ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.address ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >
@@ -150,7 +150,7 @@ export default function NewUser() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.profile ? 'white' : 'gray.300'}
+                color={activeBullets.profile ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.profile ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >

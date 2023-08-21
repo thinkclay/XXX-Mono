@@ -23,7 +23,7 @@ const content = `
 `
 
 export default function Home() {
-  const ctaHeadingColor = useColorModeValue('whiteAlpha.900', 'brandOrange.400')
+  const ctaHeadingColor = useColorModeValue('whiteAlpha.900', 'brand.400')
   const textColor = useColorModeValue('neutral.900', 'neutral.50')
   const backgroundColor = useColorModeValue('neutral.50', 'neutral.800')
 
@@ -32,7 +32,7 @@ export default function Home() {
       <HeroCapped>
         <Stack direction={{ base: 'column', lg: 'row' }} spacing={10}>
           <Flex flexDirection="column" justifyContent="center" minWidth="300px">
-            <Heading as="h1" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
+            <Heading as="h1" color={ctaHeadingColor} fontWeight="500" size={{ base: 'lg', lg: 'xl' }}>
               Interrupting Bias
               <br />
               Reimagining Communication
@@ -76,7 +76,7 @@ export default function Home() {
               ReVision, we can make sure that the language we use supports us to make connections, and protects us from unintended harm.
             </Text>
 
-            <Heading as="h3" fontWeight="400" pb={4} pt={8} size={{ base: 'md', lg: 'lg' }}>
+            <Heading as="h3" fontWeight="600" pb={4} pt={8} size="md">
               For educators, parents, and pioneers
             </Heading>
             <Text fontSize="xl">
@@ -89,7 +89,7 @@ export default function Home() {
 
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} py={20}>
           <Box background="neutral.200" borderRadius={20} padding={8}>
-            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={2}>
+            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
               Effective Communication
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
@@ -97,7 +97,7 @@ export default function Home() {
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
-            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={2}>
+            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
               Protect &amp; Support
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
@@ -105,7 +105,7 @@ export default function Home() {
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
-            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={2}>
+            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
               Actionable Data
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
@@ -114,7 +114,7 @@ export default function Home() {
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
-            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={2}>
+            <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
               Evidential Growth
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
@@ -152,8 +152,8 @@ export default function Home() {
         <Stack alignItems="center" direction={{ base: 'column', lg: 'row' }} spacing={20}>
           <YouTubePlayer videoId="PVyWSSYedhk" />
           <Box>
-            <Heading as="h2" color={ctaHeadingColor} fontWeight="100" size={{ base: 'lg', lg: 'xl' }}>
-              Be the change you want to see
+            <Heading as="h2" color={ctaHeadingColor} fontWeight="600" size={{ base: 'lg', lg: 'xl' }}>
+              Be the change
             </Heading>
             <Text fontSize="2xl" paddingTop="4">
               <strong>We are in this together.</strong> Correcting bias isn't about policing conversations. It's all about awareness and

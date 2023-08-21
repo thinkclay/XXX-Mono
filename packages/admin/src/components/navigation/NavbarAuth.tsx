@@ -117,7 +117,7 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
       } else {
         return (
           <Link key={key} href={link.layout + link.path}>
-            <Text color="gray.400" fontSize="sm" fontWeight="normal">
+            <Text color="neutral.400" fontSize="sm" fontWeight="normal">
               {link.name}
             </Text>
           </Link>
@@ -144,7 +144,7 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
       } else {
         return (
           <Link key={key} href={link.layout + link.path}>
-            <Text color="gray.400" fontSize="sm" fontWeight="normal">
+            <Text color="neutral.400" fontSize="sm" fontWeight="normal">
               {link.name}
             </Text>
           </Link>
@@ -189,7 +189,7 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
       <Flex
         background="white"
         borderTopWidth="16px"
-        borderTopColor="brandOrange.400"
+        borderTopColor="brand.400"
         flexDirection="row"
         py={{ base: 4, lg: 8 }}
         justifyContent="center"

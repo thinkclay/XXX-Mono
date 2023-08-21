@@ -35,7 +35,7 @@ type RowObj = {
 export default function SearchTableOrders(props: { tableData: RowObj[] }) {
   const { tableData } = props
   const textColor = useColorModeValue('navy.700', 'white')
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100')
+  const borderColor = useColorModeValue('neutral.200', 'whiteAlpha.100')
   const brandColor = useColorModeValue('brand.500', 'brand.400')
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -46,7 +46,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('name', {
       id: 'name',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           PRODUCT NAME
         </Text>
       ),
@@ -59,7 +59,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('email', {
       id: 'email',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           EMAIL
         </Text>
       ),
@@ -72,7 +72,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('date', {
       id: 'date',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           DATE
         </Text>
       ),
@@ -85,7 +85,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('status', {
       id: 'status',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           STATUS ORDER
         </Text>
       ),
@@ -103,7 +103,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('price', {
       id: 'price',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           Total Price
         </Text>
       ),
@@ -116,7 +116,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('actions', {
       id: 'actions',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           ORDER ACTIONS
         </Text>
       ),
@@ -190,7 +190,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
           placeholder="Search..."
         />
       </Flex>
-      <Table variant="simple" color="gray.500" mb="24px">
+      <Table variant="simple" color="neutral.500" mb="24px">
         <Thead>
           {table.getHeaderGroups().map(headerGroup => (
             <Tr key={headerGroup.id}>
@@ -209,7 +209,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
                           sm: '10px',
                           lg: '12px',
                         }}
-                        color="gray.400"
+                        color="neutral.400"
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
@@ -251,7 +251,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
       </Table>
       <Flex w="100%" justify="space-between" px="20px" pt="10px" pb="5px">
         {/* SET ROW NUMBER */}
-        <Text fontSize="sm" color="gray.500" fontWeight="normal" mb={{ sm: '24px', md: '0px' }}>
+        <Text fontSize="sm" color="neutral.500" fontWeight="normal" mb={{ sm: '24px', md: '0px' }}>
           Showing {pageSize * pageIndex + 1} to{' '}
           {pageSize * (pageIndex + 1) <= tableData.length ? pageSize * (pageIndex + 1) : tableData.length} of {tableData.length} entries
         </Text>
@@ -268,7 +268,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
               borderRadius="50%"
               bg="transparent"
               border="1px solid"
-              borderColor={useColorModeValue('gray.200', 'white')}
+              borderColor={useColorModeValue('neutral.200', 'white')}
               display={pageSize === 5 ? 'none' : table.getCanPreviousPage() ? 'flex' : 'none'}
               _hover={{
                 bg: 'whiteAlpha.100',
@@ -315,7 +315,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
               borderRadius="50%"
               bg="transparent"
               border="1px solid"
-              borderColor={useColorModeValue('gray.200', 'white')}
+              borderColor={useColorModeValue('neutral.200', 'white')}
               display={pageSize === 5 ? 'none' : table.getCanNextPage() ? 'flex' : 'none'}
               _hover={{
                 bg: 'whiteAlpha.100',

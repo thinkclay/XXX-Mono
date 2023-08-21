@@ -1,25 +1,24 @@
 'use client'
 
-
 // Chakra imports
-import {Box, Grid, useColorModeValue} from '@chakra-ui/react';
-import React, {useRef} from 'react';
-import {useReactToPrint} from 'react-to-print';
-import OrderStatus from 'components/admin/main/ecommerce/order-details/OrderStatus';
-import Receipt from 'components/admin/main/ecommerce/order-details/Receipt';
-import Details from 'components/admin/main/ecommerce/order-details/Details';
+import { Box, Grid, useColorModeValue } from '@chakra-ui/react'
+import React, { useRef } from 'react'
+import { useReactToPrint } from 'react-to-print'
+import OrderStatus from 'components/admin/main/ecommerce/order-details/OrderStatus'
+import Receipt from 'components/admin/main/ecommerce/order-details/Receipt'
+import Details from 'components/admin/main/ecommerce/order-details/Details'
 
 export default function Invoice() {
-  const textColor = useColorModeValue('gray.700', 'white');
-  const bgButton = 'rgba(255,255,255,0.12)';
-  const bgHover = { bg: 'whiteAlpha.50' };
-  const bgFocus = { bg: 'rgba(255,255,255,0.12)' };
+  const textColor = useColorModeValue('neutral.700', 'white')
+  const bgButton = 'rgba(255,255,255,0.12)'
+  const bgHover = { bg: 'whiteAlpha.50' }
+  const bgFocus = { bg: 'rgba(255,255,255,0.12)' }
 
-  const componentRef = useRef();
+  const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-  });
+  })
 
   return (
     <Box>
@@ -48,5 +47,5 @@ export default function Invoice() {
       </Grid>
       <Details />
     </Box>
-  );
+  )
 }

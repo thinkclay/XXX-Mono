@@ -1,26 +1,19 @@
 'use client'
 // Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, Text, useColorModeValue } from '@chakra-ui/react'
 // Custom components
-import Card from 'components/card/Card';
+import Card from 'components/card/Card'
 
 // Assets
-import { MdUpload } from 'react-icons/md';
-import Dropzone from 'components/admin/main/profile/overview/Dropzone';
+import { MdUpload } from 'react-icons/md'
+import Dropzone from 'components/admin/main/profile/overview/Dropzone'
 
 export default function Upload(props: { [x: string]: any }) {
-  const { ...rest } = props;
+  const { ...rest } = props
   // Chakra Color Mode
-  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white');
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const textColorSecondary = 'gray.400';
+  const textColorPrimary = useColorModeValue('secondaryGray.900', 'white')
+  const brandColor = useColorModeValue('brand.500', 'white')
+  const textColorSecondary = 'neutral.400'
   return (
     <Card {...rest} mb="20px" alignItems="center" p="20px">
       <Flex h="100%" direction={{ base: 'column', '2xl': 'row' }}>
@@ -44,24 +37,11 @@ export default function Upload(props: { [x: string]: any }) {
           }
         />
         <Flex direction="column" pe="34px">
-          <Text
-            color={textColorPrimary}
-            fontWeight="bold"
-            textAlign="start"
-            fontSize="2xl"
-            mt={{ base: '20px', '2xl': '50px' }}
-          >
+          <Text color={textColorPrimary} fontWeight="bold" textAlign="start" fontSize="2xl" mt={{ base: '20px', '2xl': '50px' }}>
             Complete your profile
           </Text>
-          <Text
-            color={textColorSecondary}
-            fontSize="md"
-            my={{ base: 'auto', '2xl': '10px' }}
-            mx="auto"
-            textAlign="start"
-          >
-            Stay on the pulse of distributed projects with an anline whiteboard
-            to plan, coordinate and discuss
+          <Text color={textColorSecondary} fontSize="md" my={{ base: 'auto', '2xl': '10px' }} mx="auto" textAlign="start">
+            Stay on the pulse of distributed projects with an anline whiteboard to plan, coordinate and discuss
           </Text>
           <Flex w="100%" mb="50px" mt={{ base: '20px', '2xl': 'auto' }}>
             <Button me="auto" w="140px" variant="brand" fontWeight="500">
@@ -71,5 +51,5 @@ export default function Upload(props: { [x: string]: any }) {
         </Flex>
       </Flex>
     </Card>
-  );
+  )
 }

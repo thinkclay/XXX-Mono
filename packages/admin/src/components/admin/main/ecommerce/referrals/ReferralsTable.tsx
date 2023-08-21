@@ -33,7 +33,7 @@ type RowObj = {
 export default function SearchTableOrders(props: { tableData: RowObj[] }) {
   const { tableData } = props
   const textColor = useColorModeValue('navy.700', 'white')
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100')
+  const borderColor = useColorModeValue('neutral.200', 'whiteAlpha.100')
   const brandColor = useColorModeValue('brand.500', 'brand.400')
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -44,7 +44,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('name', {
       id: 'name',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           USER NAME
         </Text>
       ),
@@ -60,7 +60,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('value', {
       id: 'email',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           EMAIL
         </Text>
       ),
@@ -73,7 +73,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('value', {
       id: 'value',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           VALUE
         </Text>
       ),
@@ -86,7 +86,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     columnHelper.accessor('orders', {
       id: 'orders',
       header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="gray.400">
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           ORDERS
         </Text>
       ),
@@ -152,7 +152,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
 
   return (
     <Flex direction="column" w="100%" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-      <Table variant="simple" color="gray.500" mb="24px">
+      <Table variant="simple" color="neutral.500" mb="24px">
         <Thead>
           {table.getHeaderGroups().map(headerGroup => (
             <Tr key={headerGroup.id}>
@@ -171,7 +171,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
                           sm: '10px',
                           lg: '12px',
                         }}
-                        color="gray.400"
+                        color="neutral.400"
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
@@ -215,7 +215,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
         {/* SET ROW NUMBER */}
 
         <Flex align="center">
-          <Text me="10px" minW="max-content" fontSize="sm" color="gray.500" fontWeight="normal">
+          <Text me="10px" minW="max-content" fontSize="sm" color="neutral.500" fontWeight="normal">
             Show rows per page
           </Text>
           <Select fontSize="sm" variant="main" value={pageSize} onChange={e => table.setPageSize(Number(e.target.value))}>
@@ -239,7 +239,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
               borderRadius="50%"
               bg="transparent"
               border="1px solid"
-              borderColor={useColorModeValue('gray.200', 'white')}
+              borderColor={useColorModeValue('neutral.200', 'white')}
               display={pageSize === 5 ? 'none' : table.getCanPreviousPage() ? 'flex' : 'none'}
               _hover={{
                 bg: 'whiteAlpha.100',
@@ -286,7 +286,7 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
               borderRadius="50%"
               bg="transparent"
               border="1px solid"
-              borderColor={useColorModeValue('gray.200', 'white')}
+              borderColor={useColorModeValue('neutral.200', 'white')}
               display={pageSize === 5 ? 'none' : table.getCanNextPage() ? 'flex' : 'none'}
               _hover={{
                 bg: 'whiteAlpha.100',

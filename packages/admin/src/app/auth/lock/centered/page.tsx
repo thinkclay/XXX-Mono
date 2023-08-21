@@ -1,31 +1,17 @@
-'use client';
-
+'use client'
 
 // Chakra imports
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Text, useColorModeValue } from '@chakra-ui/react'
 
 // Custom components
-import CenteredAuth from '../../../../components/auth/variants/CenteredAuthLayout/page';
+import CenteredAuth from '../../../../components/auth/variants/CenteredAuthLayout/page'
 
 function ForgotPassword() {
   // Chakra color mode
-  const textColor = useColorModeValue('navy.700', 'white');
-  const brandStars = useColorModeValue('brand.500', 'brand.400');
+  const textColor = useColorModeValue('navy.700', 'white')
+  const brandStars = useColorModeValue('brand.500', 'brand.400')
   return (
-    <CenteredAuth
-      cardTop={{ base: '40px', md: '24vh' }}
-      cardBottom={{ base: '30px', md: 'auto' }}
-    >
+    <CenteredAuth cardTop={{ base: '40px', md: '24vh' }} cardBottom={{ base: '30px', md: 'auto' }}>
       <Flex
         w="100%"
         maxW="max-content"
@@ -41,7 +27,7 @@ function ForgotPassword() {
           <Heading color={textColor} fontSize="36px" mb="16px">
             Esthera Parkson
           </Heading>
-          <Text color="gray.400" fontSize="md" w="476px" maxW="100%">
+          <Text color="neutral.400" fontSize="md" w="476px" maxW="100%">
             Enter your password to unlock your account!
           </Text>
         </Box>
@@ -57,41 +43,18 @@ function ForgotPassword() {
           mb={{ base: '20px', md: 'auto' }}
         >
           <FormControl>
-            <FormLabel
-              display="flex"
-              ms="4px"
-              fontSize="sm"
-              fontWeight="500"
-              color={textColor}
-              mb="8px"
-            >
+            <FormLabel display="flex" ms="4px" fontSize="sm" fontWeight="500" color={textColor} mb="8px">
               Password<Text color={brandStars}>*</Text>
             </FormLabel>
-            <Input
-              isRequired={true}
-              variant="auth"
-              fontSize="sm"
-              type="password"
-              placeholder="Your account password"
-              mb="24px"
-              size="lg"
-            />
-            <Button
-              fontSize="14px"
-              variant="brand"
-              borderRadius="16px"
-              fontWeight="500"
-              w="100%"
-              h="50"
-              mb="24px"
-            >
+            <Input isRequired={true} variant="auth" fontSize="sm" type="password" placeholder="Your account password" mb="24px" size="lg" />
+            <Button fontSize="14px" variant="brand" borderRadius="16px" fontWeight="500" w="100%" h="50" mb="24px">
               Unlock
             </Button>
           </FormControl>
         </Flex>
       </Flex>
     </CenteredAuth>
-  );
+  )
 }
 
-export default ForgotPassword;
+export default ForgotPassword

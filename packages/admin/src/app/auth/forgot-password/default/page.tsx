@@ -12,7 +12,7 @@ import illustration from '/public/img/auth/auth.png'
 function ForgotPassword() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white')
-  const textColorSecondary = 'gray.400'
+  const textColorSecondary = 'neutral.400'
   const brandStars = useColorModeValue('brand.500', 'brand.400')
   return (
     <DefaultAuth illustrationBackground={illustration?.src}>

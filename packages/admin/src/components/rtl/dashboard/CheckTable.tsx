@@ -1,71 +1,43 @@
-'use client';
+'use client'
 /* eslint-disable */
 
-import {
-  Flex,
-  Box,
-  Table,
-  Checkbox,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import * as React from 'react';
+import { Flex, Box, Table, Checkbox, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue } from '@chakra-ui/react'
+import * as React from 'react'
 
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from '@tanstack/react-table';
+import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table'
 
 // Custom components
-import Card from 'components/card/Card';
-import Menu from 'components/menu/MainMenu';
+import Card from 'components/card/Card'
+import Menu from 'components/menu/MainMenu'
 
 type RowObj = {
-  name: [string, boolean];
-  progress: string;
-  quantity: number;
-  date: string;
-  info: boolean;
-};
+  name: [string, boolean]
+  progress: string
+  quantity: number
+  date: string
+  info: boolean
+}
 
-const columnHelper = createColumnHelper<RowObj>();
+const columnHelper = createColumnHelper<RowObj>()
 
 // const columns = columnsDataCheck;
 export default function CheckTable(props: { tableData: RowObj[] }) {
-  const { tableData } = props;
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-  let defaultData = tableData;
+  const { tableData } = props
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const borderColor = useColorModeValue('neutral.200', 'whiteAlpha.100')
+  let defaultData = tableData
   const columns = [
     columnHelper.accessor('name', {
       id: 'name',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           NAME
         </Text>
       ),
       cell: (info: any) => (
         <Flex align="center">
-          <Checkbox
-            defaultChecked={info.getValue()[1]}
-            colorScheme="brand"
-            me="10px"
-          />
+          <Checkbox defaultChecked={info.getValue()[1]} colorScheme="brand" me="10px" />
           <Text color={textColor} fontSize="sm" fontWeight="700">
             {info.getValue()[0]}
           </Text>
@@ -75,16 +47,11 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
     columnHelper.accessor('progress', {
       id: 'progress',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           PROGRESS
         </Text>
       ),
-      cell: (info) => (
+      cell: info => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
           {info.getValue()}
         </Text>
@@ -93,16 +60,11 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
     columnHelper.accessor('quantity', {
       id: 'quantity',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           QUANTITY
         </Text>
       ),
-      cell: (info) => (
+      cell: info => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
           {info.getValue()}
         </Text>
@@ -111,23 +73,18 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
     columnHelper.accessor('date', {
       id: 'date',
       header: () => (
-        <Text
-          justifyContent="space-between"
-          align="center"
-          fontSize={{ sm: '10px', lg: '12px' }}
-          color="gray.400"
-        >
+        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
           DATE
         </Text>
       ),
-      cell: (info) => (
+      cell: info => (
         <Text color={textColor} fontSize="sm" fontWeight="700">
           {info.getValue()}
         </Text>
       ),
     }),
-  ];
-  const [data, setData] = React.useState(() => [...defaultData]);
+  ]
+  const [data, setData] = React.useState(() => [...defaultData])
   const table = useReactTable({
     data,
     columns,
@@ -138,31 +95,21 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     debugTable: true,
-  });
+  })
   return (
-    <Card
-      flexDirection="column"
-      w="100%"
-      px="0px"
-      overflowX={{ sm: 'scroll', lg: 'hidden' }}
-    >
+    <Card flexDirection="column" w="100%" px="0px" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
       <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-        <Text
-          color={textColor}
-          fontSize="22px"
-          fontWeight="700"
-          lineHeight="100%"
-        >
+        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
           Check Table
         </Text>
         <Menu />
       </Flex>
       <Box>
-        <Table variant="simple" color="gray.500" mb="24px" mt="12px">
+        <Table variant="simple" color="neutral.500" mb="24px" mt="12px">
           <Thead>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <Th
                       key={header.id}
@@ -172,23 +119,15 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
                       cursor="pointer"
                       onClick={header.column.getToggleSortingHandler()}
                     >
-                      <Flex
-                        justifyContent="space-between"
-                        align="center"
-                        fontSize={{ sm: '10px', lg: '12px' }}
-                        color="gray.400"
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                      <Flex justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
                           asc: '',
                           desc: '',
                         }[header.column.getIsSorted() as string] ?? null}
                       </Flex>
                     </Th>
-                  );
+                  )
                 })}
               </Tr>
             ))}
@@ -197,10 +136,10 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
             {table
               .getRowModel()
               .rows.slice(0, 5)
-              .map((row) => {
+              .map(row => {
                 return (
                   <Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
+                    {row.getVisibleCells().map(cell => {
                       return (
                         <Td
                           key={cell.id}
@@ -208,19 +147,16 @@ export default function CheckTable(props: { tableData: RowObj[] }) {
                           minW={{ sm: '150px', md: '200px', lg: 'auto' }}
                           borderColor="transparent"
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </Td>
-                      );
+                      )
                     })}
                   </Tr>
-                );
+                )
               })}
           </Tbody>
         </Table>
       </Box>
     </Card>
-  );
+  )
 }

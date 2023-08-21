@@ -9,7 +9,7 @@ import CenteredAuth from '../../../../components/auth/variants/CenteredAuthLayou
 function ForgotPassword() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white')
-  const textColorSecondary = 'gray.400'
+  const textColorSecondary = 'neutral.400'
   const brandStars = useColorModeValue('brand.500', 'brand.400')
   return (
     <CenteredAuth cardTop={{ base: '140px', md: '24vh' }} cardBottom={{ base: '50px', lg: 'auto' }}>

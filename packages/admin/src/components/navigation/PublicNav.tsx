@@ -4,19 +4,19 @@ import { Button, Flex, HStack, useColorMode, useColorModeValue } from '@chakra-u
 import Link from 'components/link/Link'
 
 // Custom components
-import { RevisionLogo } from 'components/icons/Icons'
 import Container from 'components/ui/Container'
 import LogoFull from 'components/icons/LogoFull'
 
 export default function PublicNav() {
-  const backgroundColor = useColorModeValue('neutral.50', 'neutral.900')
+  const backgroundColor = useColorModeValue('neutral.50', 'gray.800')
+  const borderColor = useColorModeValue('brand.400', 'gray.700')
   const { colorMode } = useColorMode()
 
   return (
     <Flex
       background={backgroundColor}
       borderTopWidth="16px"
-      borderTopColor="brandOrange.400"
+      borderTopColor={borderColor}
       flexDirection="row"
       py={{ base: 4, lg: 8 }}
       justifyContent="center"

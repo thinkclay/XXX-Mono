@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 
 // Chakra imports
 import {
@@ -18,61 +17,38 @@ import {
   Tabs,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from '@chakra-ui/react'
 
 // Custom components
-import Card from 'components/card/Card';
-import InputField from 'components/fields/InputField';
-import TextField from 'components/fields/TextField';
-import TagsField from 'components/fields/TagsField';
-import Dropzone from 'components/admin/main/ecommerce/new-product/Dropzone';
-import { useState, useRef } from 'react';
+import Card from 'components/card/Card'
+import InputField from 'components/fields/InputField'
+import TextField from 'components/fields/TextField'
+import TagsField from 'components/fields/TagsField'
+import Dropzone from 'components/admin/main/ecommerce/new-product/Dropzone'
+import { useState, useRef } from 'react'
 
 // Assets
-import { MdOutlineCloudUpload } from 'react-icons/md';
+import { MdOutlineCloudUpload } from 'react-icons/md'
 
 export default function NewProduct() {
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
   const [activeBullets, setActiveBullets] = useState({
     product: true,
     media: false,
     pricing: false,
-  });
+  })
 
-  const productTab = useRef(null);
-  const mediaTab = useRef(null);
-  const pricingTab = useRef(null);
-  const brand = useColorModeValue('brand.500', 'brand.400');
+  const productTab = useRef(null)
+  const mediaTab = useRef(null)
+  const pricingTab = useRef(null)
+  const brand = useColorModeValue('brand.500', 'brand.400')
 
   return (
-    <Flex
-      direction="column"
-      minH="100vh"
-      align="center"
-      pt={{ sm: '125px', lg: '75px' }}
-      position="relative"
-    >
-      <Box
-        h="45vh"
-        bgGradient="linear(to-b, brand.400, brand.600)"
-        position="absolute"
-        w="100%"
-        borderRadius="30px"
-      />
+    <Flex direction="column" minH="100vh" align="center" pt={{ sm: '125px', lg: '75px' }} position="relative">
+      <Box h="45vh" bgGradient="linear(to-b, brand.400, brand.600)" position="absolute" w="100%" borderRadius="30px" />
 
-      <Tabs
-        variant="unstyled"
-        mt={{ base: '60px', md: '165px' }}
-        zIndex="0"
-        display="flex"
-        flexDirection="column"
-      >
-        <TabList
-          display="flex"
-          alignItems="center"
-          alignSelf="center"
-          justifySelf="center"
-        >
+      <Tabs variant="unstyled" mt={{ base: '60px', md: '165px' }} zIndex="0" display="flex" flexDirection="column">
+        <TabList display="flex" alignItems="center" alignSelf="center" justifySelf="center">
           <Tab
             _focus={{ border: '0px', boxShadow: 'unset' }}
             ref={productTab}
@@ -117,7 +93,7 @@ export default function NewProduct() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.product ? 'white' : 'gray.300'}
+                color={activeBullets.product ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.product ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >
@@ -166,7 +142,7 @@ export default function NewProduct() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.media ? 'white' : 'gray.300'}
+                color={activeBullets.media ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.media ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >
@@ -186,12 +162,7 @@ export default function NewProduct() {
               })
             }
           >
-            <Flex
-              direction="column"
-              justify="center"
-              align="center"
-              position="relative"
-            >
+            <Flex direction="column" justify="center" align="center" position="relative">
               <Box
                 zIndex="1"
                 border="2px solid"
@@ -203,7 +174,7 @@ export default function NewProduct() {
                 borderRadius="50%"
               />
               <Text
-                color={activeBullets.pricing ? 'white' : 'gray.300'}
+                color={activeBullets.pricing ? 'white' : 'neutral.300'}
                 fontWeight={activeBullets.pricing ? 'bold' : 'normal'}
                 display={{ sm: 'none', md: 'block' }}
               >
@@ -213,11 +184,7 @@ export default function NewProduct() {
           </Tab>
         </TabList>
         <TabPanels mt="24px" maxW={{ md: '90%', lg: '100%' }} mx="auto">
-          <TabPanel
-            w={{ sm: '330px', md: '700px', lg: '850px' }}
-            p="0px"
-            mx="auto"
-          >
+          <TabPanel w={{ sm: '330px', md: '700px', lg: '850px' }} p="0px" mx="auto">
             <Card p="30px">
               <Text color={textColor} fontSize="2xl" fontWeight="700" mb="20px">
                 Product Info
@@ -225,39 +192,13 @@ export default function NewProduct() {
               <Flex direction="column" w="100%">
                 <SimpleGrid columns={{ base: 1, md: 2 }} gap="20px">
                   <Stack direction="column" gap="20px">
-                    <InputField
-                      mb="0px"
-                      id="name"
-                      placeholder="eg. Elegant Chair"
-                      label="Product Name"
-                    />
-                    <InputField
-                      mb="0px"
-                      id="weight"
-                      placeholder="eg. 20kg"
-                      label="Weight"
-                    />
-                    <InputField
-                      mb="0px"
-                      id="Color"
-                      placeholder="eg. Purple"
-                      label="Color"
-                    />
+                    <InputField mb="0px" id="name" placeholder="eg. Elegant Chair" label="Product Name" />
+                    <InputField mb="0px" id="weight" placeholder="eg. 20kg" label="Weight" />
+                    <InputField mb="0px" id="Color" placeholder="eg. Purple" label="Color" />
                   </Stack>
                   <Stack direction="column" gap="20px">
-                    <InputField
-                      mb="0px"
-                      id="Collection"
-                      placeholder="eg. Classics"
-                      label="Collection"
-                    />
-                    <TextField
-                      h="146px"
-                      mb="0px"
-                      id="Description"
-                      placeholder="Short description about the product"
-                      label="Description"
-                    />
+                    <InputField mb="0px" id="Collection" placeholder="eg. Classics" label="Collection" />
+                    <TextField h="146px" mb="0px" id="Description" placeholder="Short description about the product" label="Description" />
                   </Stack>
                 </SimpleGrid>
                 <Flex justify="space-between" mt="24px">
@@ -276,11 +217,7 @@ export default function NewProduct() {
               </Flex>
             </Card>
           </TabPanel>
-          <TabPanel
-            w={{ sm: '330px', md: '700px', lg: '850px' }}
-            p="0px"
-            mx="auto"
-          >
+          <TabPanel w={{ sm: '330px', md: '700px', lg: '850px' }} p="0px" mx="auto">
             <Card p="30px">
               <Text color={textColor} fontSize="2xl" fontWeight="700" mb="20px">
                 Media
@@ -288,35 +225,14 @@ export default function NewProduct() {
               <Dropzone
                 content={
                   <Box>
-                    <Icon
-                      as={MdOutlineCloudUpload}
-                      w="80px"
-                      h="80px"
-                      color={textColor}
-                    />
-                    <Text
-                      mx="auto"
-                      mb="12px"
-                      fontSize="lg"
-                      fontWeight="700"
-                      whiteSpace="pre-wrap"
-                      color={textColor}
-                    >
+                    <Icon as={MdOutlineCloudUpload} w="80px" h="80px" color={textColor} />
+                    <Text mx="auto" mb="12px" fontSize="lg" fontWeight="700" whiteSpace="pre-wrap" color={textColor}>
                       Drop your files here, or{' '}
-                      <Text
-                        as="span"
-                        fontSize="lg"
-                        fontWeight="700"
-                        color={brand}
-                      >
+                      <Text as="span" fontSize="lg" fontWeight="700" color={brand}>
                         browse
                       </Text>
                     </Text>
-                    <Text
-                      fontSize="sm"
-                      fontWeight="500"
-                      color="secondaryGray.500"
-                    >
+                    <Text fontSize="sm" fontWeight="500" color="secondaryGray.500">
                       PNG, JPG and GIF files are allowed
                     </Text>
                   </Box>
@@ -346,31 +262,16 @@ export default function NewProduct() {
               </Flex>
             </Card>
           </TabPanel>
-          <TabPanel
-            w={{ sm: '330px', md: '700px', lg: '850px' }}
-            p="0px"
-            mx="auto"
-          >
+          <TabPanel w={{ sm: '330px', md: '700px', lg: '850px' }} p="0px" mx="auto">
             <Card p="30px">
               <Text color={textColor} fontSize="2xl" fontWeight="700" mb="20px">
                 Pricing
               </Text>
               <Flex direction="column" w="100%">
                 <Stack direction="column" spacing="20px">
-                  <SimpleGrid
-                    columns={{ base: 1, md: 3 }}
-                    gap={{ base: '0px', md: '20px' }}
-                  >
-                    <InputField
-                      id="price"
-                      placeholder="eg. $99"
-                      label="Price"
-                    />
-                    <InputField
-                      id="code"
-                      placeholder="eg. 4030120241"
-                      label="Unique Code"
-                    />
+                  <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: '0px', md: '20px' }}>
+                    <InputField id="price" placeholder="eg. $99" label="Price" />
+                    <InputField id="code" placeholder="eg. 4030120241" label="Unique Code" />
                     <Flex direction="column" mb="34px">
                       <FormLabel
                         ms="10px"
@@ -382,14 +283,7 @@ export default function NewProduct() {
                       >
                         Currency
                       </FormLabel>
-                      <Select
-                        fontSize="sm"
-                        id="currency"
-                        variant="main"
-                        h="44px"
-                        maxH="44px"
-                        defaultValue="usd"
-                      >
+                      <Select fontSize="sm" id="currency" variant="main" h="44px" maxH="44px" defaultValue="usd">
                         <option value="usd">USD</option>
                         <option value="eur">EUR</option>
                         <option value="gbp">GBP</option>
@@ -409,13 +303,7 @@ export default function NewProduct() {
                   >
                     Prev
                   </Button>
-                  <Button
-                    variant="darkBrand"
-                    fontSize="sm"
-                    borderRadius="16px"
-                    w={{ base: '128px', md: '148px' }}
-                    h="46px"
-                  >
+                  <Button variant="darkBrand" fontSize="sm" borderRadius="16px" w={{ base: '128px', md: '148px' }} h="46px">
                     Submit
                   </Button>
                 </Flex>
@@ -425,5 +313,5 @@ export default function NewProduct() {
         </TabPanels>
       </Tabs>
     </Flex>
-  );
+  )
 }
