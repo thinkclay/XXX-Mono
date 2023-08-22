@@ -1,14 +1,14 @@
 'use client'
-// Chakra imports
+
 import { Portal, Box, useDisclosure } from '@chakra-ui/react'
-import Footer from 'components/footer/FooterAdmin'
-// Layout components
+import { useContext, useState } from 'react'
+import { usePathname } from 'next/navigation'
+
+import routes from 'routes'
+import Footer from 'components/navigation/PublicFooter'
 import Navbar from 'components/navigation/NavbarAdmin'
 import Sidebar from 'components/sidebar/Sidebar'
-import { usePathname } from 'next/navigation'
-import { useContext, useState } from 'react'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
-import routes from 'routes'
 import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
 
 // Custom Chakra thems

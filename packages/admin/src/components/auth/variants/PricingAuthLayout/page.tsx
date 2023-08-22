@@ -1,11 +1,10 @@
 'use client'
-// Chakra imports
+
 import { Box, Flex, Text } from '@chakra-ui/react'
-import Footer from 'components/footer/FooterAuthCentered'
-// Custom components
+
+import Footer from 'components/navigation/PublicFooter'
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 import Navbar from 'components/navigation/NavbarAuth'
-import { PropsWithChildren } from 'react'
 
 interface PricingAuthLayoutProps {
   children: JSX.Element

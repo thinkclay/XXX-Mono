@@ -433,7 +433,7 @@ export default function HeaderLinks() {
   useEffect(() => {
     if (theme.colors.brand[500] === theme.colors.horizonGreen[500]) {
       setActive('Green')
-    } else if (theme.colors.brand[500] === theme.colors.brandOrange[500]) {
+    } else if (theme.colors.brand[500] === theme.colors.brand[500]) {
       setActive('Orange')
     } else if (theme.colors.brand[500] === theme.colors.horizonRed[500]) {
       setActive('Red')
@@ -444,17 +444,17 @@ export default function HeaderLinks() {
     } else {
       setActive('Purple')
     }
-  }, [theme.colors.brand, theme.colors.horizonGreen, theme.colors.brandOrange, theme.colors.horizonRed, theme.colors.blue])
+  }, [theme.colors.brand, theme.colors.horizonGreen, theme.colors.brand, theme.colors.horizonRed, theme.colors.blue])
   const fullscreenBorder = useColorModeValue('secondaryGray.100', 'whiteAlpha.200')
   const fullscreenBg = useColorModeValue('rgba(11,11,11,0)', 'rgba(11,11,11,0)')
   const configuratorShadow = useColorModeValue('-20px 17px 40px 4px rgba(112, 144, 176, 0.18)', '-22px 32px 51px 4px #0B1437')
   useEffect(() => {
-    if (theme.colors.background[100] === '#FFFFFF') {
+    if (theme.colors.brand[100] === '#FFFFFF') {
       setContrast(false)
     } else {
       setContrast(true)
     }
-  }, [theme.colors.background, setContrast])
+  }, [theme.colors.brand, setContrast])
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   // Watch for fullscreenchange
@@ -521,7 +521,7 @@ export default function HeaderLinks() {
                   Unicorn x ReVision
                   <Badge
                     display="flex"
-                    colorScheme="brandOrange"
+                    colorScheme="brand"
                     borderRadius="25px"
                     bg={bgBadge}
                     color={brandColor}

@@ -6,7 +6,7 @@ import { SidebarContext } from 'contexts/SidebarContext'
 import { isWindowAvailable } from 'utils/navigation'
 import AppWrappers from './AppWrappers'
 import PublicNav from 'components/navigation/PublicNav'
-import Footer from 'components/footer/FooterAuthCentered'
+import Footer from 'components/navigation/PublicFooter'
 import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 
 interface Props {

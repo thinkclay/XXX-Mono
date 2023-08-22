@@ -1,5 +1,9 @@
 'use client'
 
+import { useState } from 'react'
+import { FcGoogle } from 'react-icons/fc'
+import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { RiEyeCloseLine } from 'react-icons/ri'
 import {
   Button,
   Card,
@@ -13,18 +17,12 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react'
-// Custom components
+
 import { HSeparator } from 'components/separator/Separator'
-import { FcGoogle } from 'react-icons/fc'
-import { MdOutlineRemoveRedEye } from 'react-icons/md'
-import { RiEyeCloseLine } from 'react-icons/ri'
 import NavLink from 'components/link/NavLink'
 import FcClever from 'components/icons/FcClever'
-
 import HeroCapped from 'components/ui/HeroCapped'
-import { useState } from 'react'
 
 function SignIn() {
   const [show, setShow] = useState(false)
