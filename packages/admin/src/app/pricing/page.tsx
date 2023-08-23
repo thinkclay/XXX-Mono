@@ -1,21 +1,17 @@
 'use client'
 
-// Chakra imports
+import { useState } from 'react'
 import { Badge, Box, Button, Flex, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react'
-import { Image } from 'components/image/Image'
 
-// Assets
+import { Image } from 'components/image/Image'
 import deloitteLogo from '/public/svg/deloitte-logo.svg'
 import georgiaLogo from '/public/svg/georgia-logo.svg'
 import googleLogo from '/public/svg/google-logo.svg'
 import microsoftLogo from '/public/svg/microsoft-logo.svg'
 import msnLogo from '/public/svg/msn-logo.svg'
 import zohoLogo from '/public/svg/zoho-logo.svg'
-// Custom components
-import PricingLayout from '../../../../../components/auth/variants/PricingAuthLayout/page'
-import { useState } from 'react'
+import PricingLayout from 'components/auth/variants/PricingAuthLayout/page'
 import Pack from 'components/admin/main/others/pricing/Pack'
-import Layout from 'app/auth/layout'
 
 function Pricing() {
   const [activeButton, setActiveButton] = useState({
@@ -25,7 +21,7 @@ function Pricing() {
 
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   return (
-    <Layout>
+    <>
       <PricingLayout contentTop={{ base: '140px', md: '14vh' }} contentBottom={{ base: '50px', lg: 'auto' }}>
         <Flex direction="column" alignSelf="center" justifySelf="center" overflow="hidden">
           <Flex direction="column" textAlign="center" justifyContent="center" align="center" mb="38px">
@@ -224,7 +220,7 @@ function Pricing() {
           </Flex>
         </Flex>
       </PricingLayout>
-    </Layout>
+    </>
   )
 }
 

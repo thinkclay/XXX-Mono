@@ -62,7 +62,7 @@ export default function ComplexTable(props: { tableData: any }) {
                 ? 'red.500'
                 : info.getValue() === 'Error'
                 ? 'orange.500'
-                : null
+                : 'black'
             }
             as={
               info.getValue() === 'Approved'
@@ -71,7 +71,7 @@ export default function ComplexTable(props: { tableData: any }) {
                 ? MdCancel
                 : info.getValue() === 'Error'
                 ? MdOutlineError
-                : null
+                : MdOutlineError
             }
           />
           <Text color={textColor} fontSize="sm" fontWeight="700">

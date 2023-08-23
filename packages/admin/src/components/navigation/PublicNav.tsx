@@ -3,7 +3,6 @@
 import { Button, Flex, HStack, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 
-// Custom components
 import Container from 'components/ui/Container'
 import LogoFull from 'components/icons/LogoFull'
 
@@ -41,6 +40,7 @@ export default function PublicNav() {
           <HStack spacing={8} margin={{ sm: '0 auto', md: '0' }}>
             <Link href="/about">About</Link>
             <Link href="/auth/login">Login</Link>
+            <Link href="/pricing">Pricing</Link>
             <Button
               onClick={() =>
                 (window.location.href = 'https://chrome.google.com/webstore/detail/revision-fighting-bias/jgflbioihdojhldekghdbelfgickocnp')

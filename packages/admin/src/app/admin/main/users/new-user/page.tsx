@@ -1,12 +1,12 @@
 'use client'
 
-// Chakra imports
+import { useState, useRef } from 'react'
 import { Box, Button, Flex, SimpleGrid, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue } from '@chakra-ui/react'
-// Custom components
+
 import Card from 'components/card/Card'
 import InputField from 'components/fields/InputField'
 import TextField from 'components/fields/TextField'
-import React, { useState } from 'react'
+
 export default function NewUser() {
   const textColor = useColorModeValue('secondaryGray.900', 'white')
   const [activeBullets, setActiveBullets] = useState({
@@ -15,9 +15,9 @@ export default function NewUser() {
     profile: false,
   })
 
-  const userTab = React.useRef(null)
-  const addressTab = React.useRef(null)
-  const profileTab = React.useRef(null)
+  const userTab = useRef(null)
+  const addressTab = useRef(null)
+  const profileTab = useRef(null)
 
   return (
     <Flex direction="column" minH="100vh" align="center" pt={{ sm: '125px', lg: '75px' }} position="relative">
@@ -50,7 +50,7 @@ export default function NewUser() {
                 left: { sm: '12px', md: '30px' },
                 top: {
                   sm: activeBullets.user ? '6px' : '4px',
-                  md: null,
+                  md: 0,
                 },
                 position: 'absolute',
                 bottom: activeBullets.user ? '40px' : '38px',
@@ -184,7 +184,7 @@ export default function NewUser() {
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
                     ms="auto"
-                    onClick={() => addressTab.current.click()}
+                    // onClick={() => addressTab.current.click()}
                   >
                     Next
                   </Button>
@@ -216,7 +216,7 @@ export default function NewUser() {
                     borderRadius="16px"
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
-                    onClick={() => userTab.current.click()}
+                    // onClick={() => userTab.current.click()}
                   >
                     Prev
                   </Button>
@@ -227,7 +227,7 @@ export default function NewUser() {
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
                     ms="auto"
-                    onClick={() => profileTab.current.click()}
+                    // onClick={() => profileTab.current.click()}
                   >
                     Next
                   </Button>
@@ -252,7 +252,7 @@ export default function NewUser() {
                     borderRadius="16px"
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
-                    onClick={() => addressTab.current.click()}
+                    // onClick={() => addressTab.current.click()}
                   >
                     Prev
                   </Button>

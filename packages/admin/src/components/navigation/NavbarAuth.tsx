@@ -99,8 +99,8 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
     )
   }
 
-  const createMainLinks = (routes: IRoute[]) => {
-    return routes.map((link, key) => {
+  const createMainLinks = (routes?: IRoute[]) => {
+    return routes?.map((link, key) => {
       if (link.collapse === true) {
         return (
           <Stack key={key} direction="column" maxW="max-content">

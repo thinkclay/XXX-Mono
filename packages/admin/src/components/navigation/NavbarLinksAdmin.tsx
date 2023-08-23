@@ -29,7 +29,8 @@ import { MdInfoOutline, MdNotificationsNone } from 'react-icons/md'
 import { useEffect, useState, useContext } from 'react'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import routes from 'routes'
-export default function HeaderLinks(props: { secondary: boolean }) {
+
+export default function HeaderLinks(props: { secondary?: boolean }) {
   const { secondary } = props
   const { colorMode, toggleColorMode } = useColorMode()
   // Chakra Color Mode

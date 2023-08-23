@@ -18,6 +18,8 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react'
 import { useEffect, useState, useContext } from 'react'
+import { MdSettings, MdFullscreen, MdOutlineFullscreenExit, MdRefresh } from 'react-icons/md'
+
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import Light from '/public/img/layout/Light.png'
 import Dark from '/public/img/layout/Dark.png'
@@ -30,10 +32,9 @@ import DefaultSidebarDark from '/public/img/layout/DefaultSidebarDark.png'
 import MiniSidebar from '/public/img/layout/MiniSidebar.png'
 import MiniSidebarDark from '/public/img/layout/MiniSidebarDark.png'
 import ConfiguratorLogo from '/public/img/layout/ConfiguratorLogo.png'
-// Assets
-import { MdSettings, MdFullscreen, MdOutlineFullscreenExit, MdRefresh } from 'react-icons/md'
 import ConfiguratorRadio from './ConfiguratorRadio'
 import { HSeparator } from 'components/separator/Separator'
+
 export default function HeaderLinks() {
   const context = useContext(ConfiguratorContext)
   const { theme, setTheme, mini, setMini, contrast, setContrast } = context
@@ -46,7 +47,7 @@ export default function HeaderLinks() {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#EFEBFF',
           100: '#E9E3FF',
@@ -89,13 +90,14 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+
+    setTheme && setTheme(newTheme)
   }
   const changeThemeGreen = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#E1FFF4',
           100: '#BDFFE7',
@@ -134,13 +136,14 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+
+    setTheme && setTheme(newTheme)
   }
   const changeThemeOrange = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#FFF7EB',
           100: '#FFF1DB',
@@ -182,13 +185,14 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+
+    setTheme && setTheme(newTheme)
   }
   const changeThemeRed = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#FCE8E8',
           100: '#FAD1D1',
@@ -230,13 +234,14 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+
+    setTheme && setTheme(newTheme)
   }
   const changeThemeBlue = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#EBEFFF',
           100: '#D6DFFF',
@@ -278,13 +283,14 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+
+    setTheme && setTheme(newTheme)
   }
   const changeThemeTeal = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#EBFAF8',
           100: '#D7F4F2',
@@ -326,13 +332,13 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+    setTheme && setTheme(newTheme)
   }
   const changeThemeBrand = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         brand: {
           50: '#EFEBFF',
           100: '#E9E3FF',
@@ -371,33 +377,33 @@ export default function HeaderLinks() {
         },
       },
     }
-    setTheme(newTheme)
+    setTheme && setTheme(newTheme)
   }
   const changeBgDefault = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         background: {
           100: '#FFFFFF',
           900: '#0b1437',
         },
       },
     }
-    setTheme(newTheme)
+    setTheme && setTheme(newTheme)
   }
   const changeBgContrast = () => {
     const newTheme = {
       ...theme,
       colors: {
-        ...theme.colors,
+        ...theme?.colors,
         background: {
           100: '#F4F7FE',
           900: '#070f2e',
         },
       },
     }
-    setTheme(newTheme)
+    setTheme && setTheme(newTheme)
   }
   const ContrastBlockImage = useColorModeValue(ContrastBlock, ContrastBlockDark)
   const ContrastImage = useColorModeValue(Contrast, ContrastDark)
@@ -431,30 +437,30 @@ export default function HeaderLinks() {
   const shadowBlue = useColorModeValue('0px 6px 18px rgba(57, 101, 255, 0.5)', '0px 6px 18px rgba(106, 142, 255, 0.5)')
   const shadowTeal = useColorModeValue('0px 6px 18px rgba(51, 195, 183, 0.5)', '0px 6px 18px rgba(51, 195, 183, 0.5)')
   useEffect(() => {
-    if (theme.colors.brand[500] === theme.colors.horizonGreen[500]) {
+    if (theme?.colors.brand[500] === theme?.colors.horizonGreen[500]) {
       setActive('Green')
-    } else if (theme.colors.brand[500] === theme.colors.brand[500]) {
+    } else if (theme?.colors.brand[500] === theme?.colors.brand[500]) {
       setActive('Orange')
-    } else if (theme.colors.brand[500] === theme.colors.horizonRed[500]) {
+    } else if (theme?.colors.brand[500] === theme?.colors.horizonRed[500]) {
       setActive('Red')
-    } else if (theme.colors.brand[500] === theme.colors.blue[500]) {
+    } else if (theme?.colors.brand[500] === theme?.colors.blue[500]) {
       setActive('Blue')
-    } else if (theme.colors.brand[500] === theme.colors.blue[500]) {
+    } else if (theme?.colors.brand[500] === theme?.colors.blue[500]) {
       setActive('Teal')
     } else {
       setActive('Purple')
     }
-  }, [theme.colors.brand, theme.colors.horizonGreen, theme.colors.brand, theme.colors.horizonRed, theme.colors.blue])
+  }, [theme?.colors.brand, theme?.colors.horizonGreen, theme?.colors.brand, theme?.colors.horizonRed, theme?.colors.blue])
   const fullscreenBorder = useColorModeValue('secondaryGray.100', 'whiteAlpha.200')
   const fullscreenBg = useColorModeValue('rgba(11,11,11,0)', 'rgba(11,11,11,0)')
   const configuratorShadow = useColorModeValue('-20px 17px 40px 4px rgba(112, 144, 176, 0.18)', '-22px 32px 51px 4px #0B1437')
   useEffect(() => {
-    if (theme.colors.brand[100] === '#FFFFFF') {
-      setContrast(false)
+    if (theme?.colors.brand[100] === '#FFFFFF') {
+      setContrast && setContrast(false)
     } else {
-      setContrast(true)
+      setContrast && setContrast(true)
     }
-  }, [theme.colors.brand, setContrast])
+  }, [theme?.colors.brand, setContrast])
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   // Watch for fullscreenchange
@@ -503,7 +509,7 @@ export default function HeaderLinks() {
               right="50px"
               onClick={() => {
                 resetTheme()
-                setMini(false)
+                setMini && setMini(false)
               }}
             >
               <Icon h="22px" w="22px" color={textColor} as={MdRefresh} />
@@ -602,7 +608,11 @@ export default function HeaderLinks() {
                 Sidebar
               </Text>
               <SimpleGrid columns={2} gap="20px" mb="30px">
-                <ConfiguratorRadio onClick={() => setMini(false)} active={mini === true ? false : true} label={<Text>Default</Text>}>
+                <ConfiguratorRadio
+                  onClick={() => setMini && setMini(false)}
+                  active={mini === true ? false : true}
+                  label={<Text>Default</Text>}
+                >
                   <Flex
                     // w="130px"
                     // h="120px"
@@ -618,7 +628,11 @@ export default function HeaderLinks() {
                     <Image alt="" src={DefaultSidebarImage.src} maxW={{ base: '100%', md: '96px' }} boxShadow={shadowBlock} />
                   </Flex>
                 </ConfiguratorRadio>
-                <ConfiguratorRadio onClick={() => setMini(true)} active={mini === false ? false : true} label={<Text>Minimized</Text>}>
+                <ConfiguratorRadio
+                  onClick={() => setMini && setMini(true)}
+                  active={mini === false ? false : true}
+                  label={<Text>Minimized</Text>}
+                >
                   <Flex
                     // w="130px"
                     // h="120px"
