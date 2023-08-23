@@ -20,6 +20,12 @@ export const FIREBASE = {
       ERROR: 'FIREBASE/ANALYTICS/BIAS/ERROR',
     },
   },
+
+  AUTH: {
+    CLEVER: {
+      LOGIN_POPUP: 'FIREBASE/CLEVER/LOGIN_POPUP',
+    },
+  },
 }
 
 export function logger(type: string, data?: any) {

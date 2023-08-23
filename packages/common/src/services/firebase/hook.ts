@@ -13,11 +13,15 @@ import {
   sendPasswordResetEmail,
 } from 'firebase/auth'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, createContext, useEffect, useMemo, useState } from 'react'
 
-import { app, auth, CustomUserModel, db, googleProvider } from './index'
+import { app, auth, cleverProvider, CustomUserModel, db, googleProvider } from './index'
+import { FIREBASE, logger } from '@common/helpers/logger'
 
 setPersistence(auth, browserLocalPersistence)
+
+export const AuthContext = createContext<{ user: User | null }>({ user: null })
+export const useAuthContext = () => useContext<{ user: User | null }>(AuthContext)
 
 export const useFirebase = () => {
   const [authLoading, setAuthLoading] = useState(false)
@@ -26,19 +30,25 @@ export const useFirebase = () => {
   const firestore = useMemo(() => (authUser ? getFirestore(app) : null), [authUser])
 
   useEffect(() => {
-    onAuthStateChanged(auth, async user => {
+    fetchAuthState()
+  }, [])
+
+  const fetchAuthState = () => {
+    const unsubscribe = onAuthStateChanged(auth, async user => {
       setAuthLoading(false)
       setAuthUser(user)
       if (user) {
-        const u = await getUser(user);
+        const u = await getUser(user)
         if (u.spellCheck !== undefined) {
-          localStorage.setItem('spellCheck', u.spellCheck.toString());
+          localStorage.setItem('spellCheck', u.spellCheck.toString())
         } else {
-          localStorage.setItem('spellCheck', 'true');
+          localStorage.setItem('spellCheck', 'true')
         }
       }
     })
-  }, [])
+
+    return () => unsubscribe()
+  }
 
   const getUser = async (user: User): Promise<CustomUserModel> => {
     setAuthLoading(true)
@@ -82,26 +92,46 @@ export const useFirebase = () => {
   }
 
   const logout = async () => {
-    setAuthLoading(true);
-    localStorage.clear();
+    setAuthLoading(true)
+    localStorage.clear()
     if (authUser) {
       await auth.signOut()
+    }
+  }
+
+  const cleverPopupLogin = async () => {
+    setAuthLoading(true)
+
+    try {
+      const res = await signInWithPopup(auth, cleverProvider)
+      const user = res.user
+
+      logger(FIREBASE.AUTH.CLEVER.LOGIN_POPUP, user)
+
+      if (user) {
+        const u = await getUser(user)
+        await updateUser(user, {
+          authProvider: 'clever',
+        })
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 
   const googlePopupLogin = async () => {
     setAuthLoading(true)
 
-
     try {
       const res = await signInWithPopup(auth, googleProvider)
       const user = res.user
+
       if (user) {
-        const u = await getUser(user);
+        const u = await getUser(user)
         await updateUser(user, {
           authProvider: 'google',
           displayName: user.displayName,
-          spellCheck: u.spellCheck
+          spellCheck: u.spellCheck,
         })
       }
     } catch (err) {
@@ -175,10 +205,12 @@ export const useFirebase = () => {
     authLoading,
     authUser,
     firestore,
+    fetchAuthState,
     getUser,
     updateUser,
     googleTokenLogin,
     googlePopupLogin,
+    cleverPopupLogin,
     loginClassic,
     registerClassic,
     passwordReset,

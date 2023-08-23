@@ -7,9 +7,6 @@ import { RecoilRoot } from 'recoil'
 import App from '@common/views/App'
 import reportWebVitals from '@common/reportWebVitals'
 
-import '@common/assets/styles/reset.scss'
-import '@common/assets/styles/index.scss'
-
 const rootElement = document.createElement('div')
 rootElement.id = 'root'
 document.body.appendChild(rootElement)

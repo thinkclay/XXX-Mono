@@ -1,43 +1,27 @@
 'use client'
 
 import { useState } from 'react'
-// import { OAuthProvider, getAuth, signInWithRedirect } from 'firebase/auth'
 import { FcGoogle } from 'react-icons/fc'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { RiEyeCloseLine } from 'react-icons/ri'
 import { Button, Checkbox, Flex, FormControl, FormLabel, Icon, Input, InputGroup, InputRightElement, Text } from '@chakra-ui/react'
-// import { app } from '@common/services/firebase'
+import { useRouter } from 'next/navigation'
 
+import { useFirebase } from '@common/services/firebase/hook'
 import { HSeparator } from 'components/separator/Separator'
 import NavLink from 'components/link/NavLink'
 import FcClever from 'components/icons/FcClever'
 import HeroCapped from 'components/ui/HeroCapped'
 import AuthForm from 'components/forms/AuthForm'
 
-// const provider = new OAuthProvider('oidc.clever')
-
-// // provider.setCustomParameters({
-// //   login_hint: 'user@example.com',
-// // })
-// // provider.addScope('mail.read')
-
-// const auth = getAuth()
-// signInWithRedirect(auth, provider)
-
-function SignIn() {
+export default function Login() {
+  const router = useRouter()
+  const { authLoading, authUser, googlePopupLogin, cleverPopupLogin } = useFirebase()
   const [show, setShow] = useState(false)
 
   const handleClick = () => setShow(!show)
 
-  function cleverHandler() {
-    const url =
-      'https://clever.com/oauth/authorize?response_type=code&redirect_uri=' +
-      window.location.href +
-      '&client_id=' +
-      process.env.NEXT_PUBLIC_CLEVER_ID
-
-    window.location.href = url
-  }
+  if (authUser) router.push('/admin')
 
   return (
     <>
@@ -53,11 +37,11 @@ function SignIn() {
             }
           >
             <Flex justifyContent="space-between">
-              <Button fontSize="sm" me="0px" mb="26px" py="15px" h="50px" borderRadius="16px" fontWeight="500">
+              <Button fontSize="sm" me="0px" mb="26px" py="15px" h="50px" borderRadius="16px" fontWeight="500" onClick={googlePopupLogin}>
                 <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
                 Sign in with Google
               </Button>
-              <Button fontSize="sm" me="0px" mb="26px" py="15px" h="50px" borderRadius="16px" fontWeight="500" onClick={cleverHandler}>
+              <Button fontSize="sm" me="0px" mb="26px" py="15px" h="50px" borderRadius="16px" fontWeight="500" onClick={cleverPopupLogin}>
                 <Icon as={FcClever} w="20px" h="20px" me="10px" />
                 Sign in with Clever
               </Button>
@@ -125,5 +109,3 @@ function SignIn() {
     </>
   )
 }
-
-export default SignIn

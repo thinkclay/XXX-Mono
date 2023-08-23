@@ -1,4 +1,4 @@
-'use client';
+'use client'
 // Chakra imports
 import {
   Box,
@@ -16,30 +16,27 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-} from '@chakra-ui/react';
-import storyImage from '/public/img/profile/storyImage.png';
-import { NextAvatar } from 'components/image/Avatar';
-import { IoPaperPlaneOutline } from 'react-icons/io5';
-import { MdOutlineFavoriteBorder } from 'react-icons/md';
-import { Image } from 'components/image/Image';
+} from '@chakra-ui/react'
+import storyImage from '/public/img/profile/storyImage.png'
+import { NextAvatar } from 'components/images/Avatar'
+import { IoPaperPlaneOutline } from 'react-icons/io5'
+import { MdOutlineFavoriteBorder } from 'react-icons/md'
+import { Image } from 'components/images/Image'
 
 export default function SeeStory(props: {
-  username?: string;
-  sum?: string | number;
-  avatar?: string;
-  name?: string;
-  action: () => any;
-  image?: any;
-  [x: string]: any;
+  username?: string
+  sum?: string | number
+  avatar?: string
+  name?: string
+  action: () => any
+  image?: any
+  [x: string]: any
 }) {
-  const { username, sum, avatar, name, action, image, ...rest } = props;
+  const { username, sum, avatar, name, action, image, ...rest } = props
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const borderColor = useColorModeValue(
-    'white !important',
-    '#111c44 !important',
-  );
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const borderColor = useColorModeValue('white !important', '#111c44 !important')
   return (
     <Button
       bg="transparent"
@@ -58,12 +55,7 @@ export default function SeeStory(props: {
         <ModalContent mx="8px" bg="transparent" boxShadow="unset">
           <ModalBody p="0px" bg="transparent">
             <Box position="relative" minH="100%" borderRadius="16px">
-              <Image
-                zIndex="98"
-                borderRadius="16px"
-                src={image ? image.src : storyImage.src}
-                alt=""
-              />
+              <Image zIndex="98" borderRadius="16px" src={image ? image.src : storyImage.src} alt="" />
               <Box
                 position="absolute"
                 top="0px"
@@ -75,39 +67,12 @@ export default function SeeStory(props: {
               />
             </Box>
           </ModalBody>
-          <Flex
-            position="absolute"
-            left="50%"
-            transform="translate(-50%,0px)"
-            bottom="20px"
-            zIndex="100"
-            w="96%"
-          >
-            <Input
-              variant="story"
-              placeholder="Write your comment..."
-              _focus={{ borderColor: 'white !important' }}
-            />
-            <IconButton
-              aria-label="1"
-              me="2px"
-              px="0px"
-              variant="no-hover"
-              bg="transparent"
-            >
-              <Icon
-                as={MdOutlineFavoriteBorder}
-                h="24px"
-                w="24px"
-                color="white"
-              />
+          <Flex position="absolute" left="50%" transform="translate(-50%,0px)" bottom="20px" zIndex="100" w="96%">
+            <Input variant="story" placeholder="Write your comment..." _focus={{ borderColor: 'white !important' }} />
+            <IconButton aria-label="1" me="2px" px="0px" variant="no-hover" bg="transparent">
+              <Icon as={MdOutlineFavoriteBorder} h="24px" w="24px" color="white" />
             </IconButton>
-            <IconButton
-              aria-label="2"
-              px="0px"
-              variant="no-hover"
-              bg="transparent"
-            >
+            <IconButton aria-label="2" px="0px" variant="no-hover" bg="transparent">
               <Icon as={IoPaperPlaneOutline} h="24px" w="24px" color="white" />
             </IconButton>
           </Flex>
@@ -119,12 +84,7 @@ export default function SeeStory(props: {
           </DarkMode>
         </ModalContent>
       </Modal>
-      <Flex
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        w="100%"
-      >
+      <Flex direction="column" justifyContent="center" alignItems="center" w="100%">
         <Flex
           mx="auto"
           h="max-content"
@@ -133,26 +93,14 @@ export default function SeeStory(props: {
           borderRadius="50%"
           bg="linear-gradient(109.6deg, #FF9966 17.44%, #FF5E62 78.63%)"
         >
-          <NextAvatar
-            border="3px solid"
-            borderColor={borderColor}
-            h="50px"
-            w="50px"
-            src={avatar}
-          />
+          <NextAvatar border="3px solid" borderColor={borderColor} h="50px" w="50px" src={avatar} />
         </Flex>
         {name ? (
-          <Text
-            mt="10px"
-            textAlign="center"
-            color={textColor}
-            fontSize="sm"
-            fontWeight="500"
-          >
+          <Text mt="10px" textAlign="center" color={textColor} fontSize="sm" fontWeight="500">
             {name}
           </Text>
         ) : null}
       </Flex>
     </Button>
-  );
+  )
 }

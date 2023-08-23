@@ -4,7 +4,7 @@ import { Button, Flex, HStack, useColorMode, useColorModeValue } from '@chakra-u
 import Link from 'components/link/Link'
 
 import Container from 'components/ui/Container'
-import LogoFull from 'components/icons/LogoFull'
+import LogoFull from 'components/images/LogoFull'
 
 export default function PublicNav() {
   const backgroundColor = useColorModeValue('neutral.50', 'gray.800')

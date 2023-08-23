@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Badge, Box, Button, Flex, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 import deloitteLogo from '/public/svg/deloitte-logo.svg'
 import georgiaLogo from '/public/svg/georgia-logo.svg'
 import googleLogo from '/public/svg/google-logo.svg'

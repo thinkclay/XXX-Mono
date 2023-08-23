@@ -1,8 +1,8 @@
 'use client'
 
 import { Portal, Box, useDisclosure } from '@chakra-ui/react'
-import { useContext, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useContext, useState, ReactNode, useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 
 import routes from 'routes'
 import Footer from 'components/navigation/PublicFooter'
@@ -10,16 +10,28 @@ import Navbar from 'components/navigation/NavbarAdmin'
 import Sidebar from 'components/sidebar/Sidebar'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
+import { useAuthContext, useFirebase } from '@common/services/firebase/hook'
 
-// Custom Chakra thems
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  // states and functions
+interface Props {
+  children: ReactNode
+}
+
+export default function AdminLayout({ children }: Props) {
+  if (isWindowAvailable()) document.documentElement.dir = 'ltr'
+
+  const { user } = useAuthContext()
+  const router = useRouter()
   const [fixed] = useState(false)
   const pathname = usePathname()
-  if (isWindowAvailable()) document.documentElement.dir = 'ltr'
   const { onOpen } = useDisclosure()
   const context = useContext(ConfiguratorContext)
+
   const { mini, hovered, setHovered } = context
+
+  useEffect(() => {
+    if (user == null) router.push('/')
+  }, [user])
+
   return (
     <Box>
       <Sidebar mini={mini} routes={routes} hovered={hovered} setHovered={setHovered} />

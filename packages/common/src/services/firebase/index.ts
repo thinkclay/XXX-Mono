@@ -2,14 +2,14 @@
 
 import { getAnalytics, isSupported } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, User } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, OAuthProvider, User } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 export interface CustomUserModel extends Partial<User> {
   firstName?: string
   lastName?: string
   acceptedTerms?: boolean
-  authProvider?: 'local' | 'google'
+  authProvider?: 'local' | 'google' | 'clever'
   spellCheck?: boolean
 }
 
@@ -27,5 +27,6 @@ export const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 export const googleProvider = new GoogleAuthProvider()
+export const cleverProvider = new OAuthProvider('oidc.clever')
 
 isSupported().then(supported => supported && getAnalytics(app))

@@ -1,224 +1,222 @@
 /**
- * Recommendations
- */
+* Recommendations
+*/
 
 $action-height: 27px;
 
-#RevisionApp {
-  // Editor content formatting
-  .ProseMirror {
-    ul, ol {
-      padding: 15px;
+// Editor content formatting
+.ProseMirror {
+  ul, ol {
+    padding: 15px;
+  }
+
+  ul li {
+    list-style-type: disc;
+  }
+
+  li { line-height: 1; }
+
+  li + li {
+    padding-top: 15px;
+  }
+
+  p + p {
+    padding-top: 15px;
+  }
+}
+
+.formatting {
+  background: $color-n700;
+  height: $action-height;
+  line-height: 1;
+  padding: 0 10px;
+
+  .action {
+    display: inline-flex;
+    justify-content: center;
+    transition: background-color .2s;
+
+    span {
+      display: none;
     }
 
-    ul li {
-      list-style-type: disc;
+    svg {
+      height: $action-height;
+      width: $action-height;
     }
 
-    li { line-height: 1; }
-
-    li + li {
-      padding-top: 15px;
+    .path {
+      fill: $color-n100;
     }
 
-    p + p {
-      padding-top: 15px;
+    + .action {
+      margin-left: 10px;
+    }
+
+    &:hover {
+      background-color: $color-n700;
+    }
+
+    &.active {
+      .path { fill: $color-brand-3; }
+    }
+  }
+}
+
+.tippy-box {
+  background: #fff;
+  border: 1px solid $color-n300;
+  border-radius: 18px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: $color-n100;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow: hidden;
+
+  .header {
+    background: $color-n800;
+    padding: 2px;
+  }
+
+  .footer {
+    background: lighten($color-n200, 3%);
+  }
+
+  .header, .footer {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 12px;
+    line-height: 1.4;
+
+    .message {
+      padding: 10px 15px;
     }
   }
 
-  .formatting {
-    background: $color-n700;
-    height: $action-height;
-    line-height: 1;
-    padding: 0 10px;
-
-    .action {
-      display: inline-flex;
-      justify-content: center;
-      transition: background-color .2s;
-
-      span {
-        display: none;
-      }
-
-      svg {
-        height: $action-height;
-        width: $action-height;
-      }
-
-      .path {
-        fill: $color-n100;
-      }
-
-      + .action {
-        margin-left: 10px;
-      }
-
-      &:hover {
-        background-color: $color-n700;
-      }
-
-      &.active {
-        .path { fill: $color-brand-3; }
-      }
-    }
+  .action {
+    cursor: pointer;
   }
 
-  .tippy-box {
-    background: #fff;
-    border: 1px solid $color-n300;
-    border-radius: 18px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    color: $color-n100;
-    font-size: 15px;
-    line-height: 1.65;
-    overflow: hidden;
+  .close {
+    margin: 0 10px;
 
-    .header {
-      background: $color-n800;
-      padding: 2px;
+    svg {
+      height: 16px;
+      width: 16px;
     }
 
-    .footer {
-      background: lighten($color-n200, 3%);
+    .path {
+      fill: $color-n400;
     }
 
-    .header, .footer {
-      align-items: center;
-      display: flex;
-      flex-flow: row nowrap;
-      font-size: 12px;
-      line-height: 1.4;
-
-      .message {
-        padding: 10px 15px;
-      }
+    span {
+      display: none;
     }
 
-    .action {
-      cursor: pointer;
-    }
-
-    .close {
-      margin: 0 10px;
-
-      svg {
-        height: 16px;
-        width: 16px;
-      }
-
-      .path {
-        fill: $color-n400;
-      }
-
-      span {
-        display: none;
-      }
-
-      &:hover {
-        background-color: transparent;
-
-        .path {
-          fill: $color-brand-1;
-        }
-      }
-    }
-
-    .dictionary {
-      align-items: center;
-      display: flex;
-      font-style: italic;
-      margin: 10px;
-
-      svg {
-        height: 22px;
-        margin-right: 5px;
-        width: 22px;
-      }
+    &:hover {
+      background-color: transparent;
 
       .path {
         fill: $color-brand-1;
       }
-
-      &:hover {
-        background-color: transparent;
-
-        .path {
-          fill: $color-brand-3;
-        }
-      }
-    }
-
-    .suggestions {
-      font-style: italic;
-      margin: 0;
-      padding: 0;
-
-      li {
-        background-color: $color-n100;
-        color: $color-n900;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 1.4;
-        margin: 0;
-        padding: 8px 15px;
-        transition: background-color 0.2s, color 0.2s;
-
-        +li {
-          border-top: 1px solid $color-n300;
-        }
-
-        &:hover {
-          background-color: $color-g400;
-          color: $color-n900;
-        }
-      }
     }
   }
 
-  .bias {
-    background-color: lighten($color-brand-2, 25%);
+  .dictionary {
+    align-items: center;
+    display: flex;
+    font-style: italic;
+    margin: 10px;
+
+    svg {
+      height: 22px;
+      margin-right: 5px;
+      width: 22px;
+    }
+
+    .path {
+      fill: $color-brand-1;
+    }
 
     &:hover {
-      background-color: $color-brand-2;
+      background-color: transparent;
+
+      .path {
+        fill: $color-brand-3;
+      }
     }
   }
 
-  .language {
-    background: transparent;
-    border-bottom: 2px solid $color-brand-2;
-    transition: background 0.25s ease-in-out;
+  .suggestions {
+    font-style: italic;
+    margin: 0;
+    padding: 0;
 
-    // &::selection {
-    //   background-color: $color-brand-2;
-    // }
+    li {
+      background-color: $color-n100;
+      color: $color-n900;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0;
+      padding: 8px 15px;
+      transition: background-color 0.2s, color 0.2s;
 
-    &.style {
-      border-color: #9d8eff;
+      +li {
+        border-top: 1px solid $color-n300;
+      }
 
-      &:hover, &::selection {
-        background: lighten(#9d8eff, 12%);
+      &:hover {
+        background-color: $color-g400;
+        color: $color-n900;
       }
     }
+  }
+}
 
-    &.typographical,
-    &.non-conformance,
-    &.grammar {
-      border-color: #ffb61a;
+.bias {
+  background-color: lighten($color-brand-2, 25%);
 
-      &:hover, &::selection {
-        background: lighten(#e4b868, 15%);
-      }
+  &:hover {
+    background-color: $color-brand-2;
+  }
+}
+
+.language {
+  background: transparent;
+  border-bottom: 2px solid $color-brand-2;
+  transition: background 0.25s ease-in-out;
+
+  // &::selection {
+  //   background-color: $color-brand-2;
+  // }
+
+  &.style {
+    border-color: #9d8eff;
+
+    &:hover, &::selection {
+      background: lighten(#9d8eff, 12%);
     }
+  }
 
-    &.misspelling,
-    &.whitespace {
-      border-color: $color-brand-1;
+  &.typographical,
+  &.non-conformance,
+  &.grammar {
+    border-color: #ffb61a;
 
-      &:hover, &::selection {
-        background: lighten($color-brand-1, 30%);
-      }
+    &:hover, &::selection {
+      background: lighten(#e4b868, 15%);
+    }
+  }
+
+  &.misspelling,
+  &.whitespace {
+    border-color: $color-brand-1;
+
+    &:hover, &::selection {
+      background: lighten($color-brand-1, 30%);
     }
   }
 }

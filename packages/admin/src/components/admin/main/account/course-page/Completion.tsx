@@ -3,7 +3,7 @@
 import { Box, Flex, Text, Icon, useColorModeValue, SimpleGrid } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 // Custom components
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 import Card from 'components/card/Card'
 import { CircProgressMini } from 'components/charts/CircularProgress'
 // Assets

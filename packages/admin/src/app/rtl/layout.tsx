@@ -71,9 +71,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </Portal>
 
           {children}
-          <Box>
-            <Footer />
-          </Box>
         </Box>
       </SidebarContext.Provider>
     </RtlProvider>

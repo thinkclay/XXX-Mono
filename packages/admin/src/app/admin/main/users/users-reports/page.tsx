@@ -1,53 +1,33 @@
 'use client'
 
-
 // Chakra imports
-import {
-  Box,
-  Flex,
-  FormLabel,
-  Grid,
-  Icon,
-  Select,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { Image } from 'components/image/Image';
+import { Box, Flex, FormLabel, Grid, Icon, Select, SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react'
+import { Image } from 'components/images/Image'
 // Custom components
-import Card from 'components/card/Card';
-import MiniStatistics from 'components/card/MiniStatistics';
-import IconBox from 'components/icons/IconBox';
-import Conversion from 'components/admin/main/users/users-reports/Conversion';
-import UserActivity from 'components/admin/main/users/users-reports/UserActivity';
-import UserReportsTable from 'components/admin/main/users/users-reports/UserReportsTable';
+import Card from 'components/card/Card'
+import MiniStatistics from 'components/card/MiniStatistics'
+import IconBox from 'components/icons/IconBox'
+import Conversion from 'components/admin/main/users/users-reports/Conversion'
+import UserActivity from 'components/admin/main/users/users-reports/UserActivity'
+import UserReportsTable from 'components/admin/main/users/users-reports/UserReportsTable'
 
 // Assets
-import FakeLineGraph from '/public/img/users/FakeLineGraph.png';
-import Usa from '/public/img/users/usa.png';
-import { NextAvatar } from 'components/image/Avatar';
-import { MdPerson, MdThumbUp } from 'react-icons/md';
-import tableDataUserReports from 'variables/users/users-reports/tableDataUserReports';
+import FakeLineGraph from '/public/img/users/FakeLineGraph.png'
+import Usa from '/public/img/users/usa.png'
+import { NextAvatar } from 'components/images/Avatar'
+import { MdPerson, MdThumbUp } from 'react-icons/md'
+import tableDataUserReports from 'variables/users/users-reports/tableDataUserReports'
 
 export default function UserReports() {
   // Chakra Color Mode
-  const textColorSecondary = 'secondaryGray.600';
-  const brandColor = useColorModeValue('brand.500', 'white');
-  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100');
+  const textColorSecondary = 'secondaryGray.600'
+  const brandColor = useColorModeValue('brand.500', 'white')
+  const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
         <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg={boxBg}
-              icon={
-                <Icon w="32px" h="32px" as={MdPerson} color={brandColor} />
-              }
-            />
-          }
+          startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdPerson} color={brandColor} />} />}
           name="Users Active"
           value="9420"
         />
@@ -74,13 +54,7 @@ export default function UserReports() {
               <FormLabel htmlFor="location">
                 <NextAvatar src={Usa} />
               </FormLabel>
-              <Select
-                id="location"
-                variant="mini"
-                mt="5px"
-                me="0px"
-                defaultValue="usa"
-              >
+              <Select id="location" variant="mini" mt="5px" me="0px" defaultValue="usa">
                 <option value="usa">USA</option>
                 <option value="uk">UK</option>
                 <option value="fra">FRA</option>
@@ -111,21 +85,14 @@ export default function UserReports() {
         templateColumns={{ md: '1fr 2.6fr' }}
         templateRows={{ base: 'repeat(2, 1fr)', md: '1fr' }}
       >
-        <Box
-          me={{ base: '0px', md: '20px' }}
-          mb={{ base: '20px', md: '0px' }}
-          gridArea="1 / 1 / 2 / 2"
-        >
+        <Box me={{ base: '0px', md: '20px' }} mb={{ base: '20px', md: '0px' }} gridArea="1 / 1 / 2 / 2">
           <Conversion mb="20px" />
           <UserActivity />
         </Box>
-        <Card
-          gridArea={{ base: '2 / 1 / 3 / 2', md: '1 / 2 / 2 / 3' }}
-          mb={{ base: '20px', md: '0px' }}
-        >
+        <Card gridArea={{ base: '2 / 1 / 3 / 2', md: '1 / 2 / 2 / 3' }} mb={{ base: '20px', md: '0px' }}>
           <UserReportsTable tableData={tableDataUserReports} />
         </Card>
       </Grid>
     </Box>
-  );
+  )
 }

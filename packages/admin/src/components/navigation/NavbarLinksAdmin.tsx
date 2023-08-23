@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 // Custom Components
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 import { ItemContent } from 'components/menu/ItemContent'
 import { SearchBar } from 'components/navigation/searchBar/SearchBar'
 import { SidebarResponsive } from 'components/sidebar/Sidebar'

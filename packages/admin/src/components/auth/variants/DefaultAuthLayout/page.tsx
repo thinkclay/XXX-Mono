@@ -4,8 +4,6 @@ import { PropsWithChildren } from 'react'
 import { Box, Flex, Icon, Text } from '@chakra-ui/react'
 import { FaChevronLeft } from 'react-icons/fa'
 
-import Footer from 'components/navigation/PublicFooter'
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
 import NavLink from 'components/link/NavLink'
 
 interface DefaultAuthLayoutProps extends PropsWithChildren {
@@ -70,9 +68,7 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
             position="absolute"
           />
         </Box>
-        <Footer />
       </Flex>
-      <FixedPlugin />
     </Flex>
   )
 }

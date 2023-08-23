@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 
 // Custom components
 import { RevisionLogo } from 'components/icons/Icons'
