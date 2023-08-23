@@ -6,12 +6,11 @@ import { User, onAuthStateChanged } from 'firebase/auth'
 import { SidebarContext } from 'contexts/SidebarContext'
 import { isWindowAvailable } from 'utils/navigation'
 import AppWrappers from './AppWrappers'
-import PublicNav from 'components/navigation/PublicNav'
-import Footer from 'components/navigation/PublicFooter'
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
+import Header from 'components/navigation/Header'
 import { auth } from '@common/services/firebase'
 import { AuthContext } from '@common/services/firebase/hook'
 import LoadingOverlay from 'components/ui/LoadingOverlay'
+import Footer from 'components/navigation/Footer'
 
 interface Props {
   children: ReactNode
@@ -49,7 +48,7 @@ export default function RootLayout({ children }: Props) {
             setToggleSidebar,
           }}
         >
-          <PublicNav />
+          <Header />
 
           <Box
             bg={authBg}
@@ -67,7 +66,7 @@ export default function RootLayout({ children }: Props) {
             </Box>
           </Box>
 
-          <FixedPlugin />
+          <Footer />
         </SidebarContext.Provider>
       </AppWrappers>
     )

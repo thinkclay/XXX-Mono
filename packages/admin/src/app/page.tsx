@@ -25,7 +25,7 @@ const content = `
 export default function Home() {
   const ctaHeadingColor = useColorModeValue('whiteAlpha.900', 'brand.400')
   const textColor = useColorModeValue('neutral.900', 'neutral.50')
-  const backgroundColor = useColorModeValue('neutral.50', 'neutral.800')
+  const backgroundColor = useColorModeValue('neutral.50', 'gray.700')
 
   return (
     <Box background={backgroundColor}>

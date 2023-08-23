@@ -1,12 +1,11 @@
 'use client'
 
-import { Portal, Box, useDisclosure } from '@chakra-ui/react'
-import { useContext, useState, ReactNode, useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { Box } from '@chakra-ui/react'
+import { useContext, ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 import routes from 'routes'
-import Footer from 'components/navigation/PublicFooter'
-import Navbar from 'components/navigation/NavbarAdmin'
+
 import Sidebar from 'components/sidebar/Sidebar'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
@@ -21,9 +20,6 @@ export default function AdminLayout({ children }: Props) {
 
   const { user } = useAuthContext()
   const router = useRouter()
-  const [fixed] = useState(false)
-  const pathname = usePathname()
-  const { onOpen } = useDisclosure()
   const context = useContext(ConfiguratorContext)
 
   const { mini, hovered, setHovered } = context
@@ -61,23 +57,8 @@ export default function AdminLayout({ children }: Props) {
         transitionProperty="top, bottom, width"
         transitionTimingFunction="linear, linear, ease"
       >
-        <Portal>
-          <Box>
-            <Navbar
-              onOpen={onOpen}
-              logoText={'ReVision'}
-              brandText={getActiveRoute(routes, pathname)}
-              secondary={getActiveNavbar(routes, pathname)}
-              fixed={fixed}
-            />
-          </Box>
-        </Portal>
-
         <Box mx="auto" p={{ base: '20px', md: '30px' }} pe="20px" minH="100vh" pt="50px">
           {children}
-        </Box>
-        <Box>
-          <Footer />
         </Box>
       </Box>
     </Box>

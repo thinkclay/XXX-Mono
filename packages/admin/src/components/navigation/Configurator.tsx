@@ -475,8 +475,8 @@ export default function HeaderLinks() {
   }, [])
   return (
     <>
-      <Button variant="no-hover" bg="transparent" p="0px" minW="unset" minH="unset" h="18px" w="max-content" onClick={onOpen}>
-        <Icon me="10px" h="18px" w="18px" color={navbarIcon} as={MdSettings} />
+      <Button variant="no-hover" bg="transparent" p="0px" minW="unset" minH="unset" h="24px" w="max-content" onClick={onOpen}>
+        <Icon h="24px" w="24px" as={MdSettings} />
       </Button>
       <Drawer
         isOpen={isOpen}
