@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { Menu, MenuButton, Icon, MenuList, Flex, MenuItem, Text, useColorModeValue } from '@chakra-ui/react'
-import { MdOutlineSpaceDashboard } from 'react-icons/md'
+import { Menu, MenuButton, MenuList, Flex, MenuItem, Text, useColorModeValue } from '@chakra-ui/react'
+import { uniqueId } from 'lodash'
 
 import NavLink from 'components/link/NavLink'
 import { Route } from 'config/routes'
@@ -28,7 +28,7 @@ export default function AdminMenu({ icon, route, title, custom }: Props) {
         </Flex>
         <Flex flexDirection="column">
           {route.pages?.map(p => (
-            <MenuItem key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }}>
+            <MenuItem key={uniqueId()} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }}>
               <NavLink href={p.path}>{p.title}</NavLink>
             </MenuItem>
           ))}

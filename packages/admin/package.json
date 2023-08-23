@@ -28,6 +28,7 @@
     "@tanstack/react-table": "^8.9.3",
     "@vercel/analytics": "^1.0.2",
     "apexcharts": "3.41.1",
+    "api": "^6.1.1",
     "firebase": "^10.3.0",
     "framer-motion": "^10.16.0",
     "ieee754": "^1.2.1",
