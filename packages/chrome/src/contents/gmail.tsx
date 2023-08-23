@@ -3,6 +3,7 @@
 import type { PlasmoCSConfig } from 'plasmo'
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import 'gmail-js'
 import { RecoilRoot } from 'recoil'
 
 import MainScreen from '@common/views/screens/MainScreen'
@@ -10,6 +11,23 @@ import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
 import ModalPopup from '../components/demographicModal/demographic-modal'
+
+// This isn't working. Tried raw loaders and different webpack configs
+// import styles1 from '@common/assets/styles/index.scss'
+
+declare global {
+  interface Window {
+    gmail: Gmail
+    dataLayer: Array<any>
+    gtag: (a: string, b: any, c?: any) => void
+  }
+}
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    PLASMO_PUBLIC_GTAG_ID?: string
+  }
+}
 
 export const config: PlasmoCSConfig = {
   matches: ['*://mail.google.com/*'],
@@ -80,9 +98,13 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   const root = createRoot(rootElement)
   const composeElement = document.querySelector('[g_editable="true"]')
 
-  if (!composeElement) return // Return if the compose element is not found
+  if (!composeElement) return
 
   const shadowRoot = composeElement.attachShadow({ mode: 'open' })
+
+  // This would be ideal if loaders would work
+  // shadowRoot.adoptedStyleSheets = [styles]
+
   shadowRoot.innerHTML = `
   <style>
   .formatting {
