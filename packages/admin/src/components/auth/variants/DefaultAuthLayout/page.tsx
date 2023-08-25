@@ -1,21 +1,18 @@
-'use client';
-// Chakra imports
-import { Box, Flex, Icon, Text } from '@chakra-ui/react';
-import Footer from 'components/footer/FooterAuthDefault';
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin';
-// Custom components
-// Assets
-import { FaChevronLeft } from 'react-icons/fa';
-import NavLink from 'components/link/NavLink';
-import { PropsWithChildren } from 'react';
+'use client'
+
+import { PropsWithChildren } from 'react'
+import { Box, Flex, Icon, Text } from '@chakra-ui/react'
+import { FaChevronLeft } from 'react-icons/fa'
+
+import NavLink from 'components/link/NavLink'
 
 interface DefaultAuthLayoutProps extends PropsWithChildren {
-  children: JSX.Element;
-  illustrationBackground: string;
+  children: JSX.Element
+  illustrationBackground: string
 }
 
 export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
-  const { children, illustrationBackground } = props;
+  const { children, illustrationBackground } = props
   // Chakra color mode
   return (
     <Flex position="relative" h="max-content">
@@ -42,19 +39,8 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
             marginTop: '40px',
           }}
         >
-          <Flex
-            align="center"
-            ps={{ base: '25px', lg: '0px' }}
-            pt={{ lg: '0px', xl: '0px' }}
-            w="fit-content"
-          >
-            <Icon
-              as={FaChevronLeft}
-              me="12px"
-              h="13px"
-              w="8px"
-              color="secondaryGray.600"
-            />
+          <Flex align="center" ps={{ base: '25px', lg: '0px' }} pt={{ lg: '0px', xl: '0px' }} w="fit-content">
+            <Icon as={FaChevronLeft} me="12px" h="13px" w="8px" color="secondaryGray.600" />
             <Text ms="0px" fontSize="sm" color="secondaryGray.600">
               Back to Dashboard
             </Text>
@@ -82,9 +68,7 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
             position="absolute"
           />
         </Box>
-        <Footer />
       </Flex>
-      <FixedPlugin />
     </Flex>
-  );
+  )
 }

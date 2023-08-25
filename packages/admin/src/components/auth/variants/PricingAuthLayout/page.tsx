@@ -1,11 +1,6 @@
 'use client'
-// Chakra imports
+
 import { Box, Flex, Text } from '@chakra-ui/react'
-import Footer from 'components/footer/FooterAuthCentered'
-// Custom components
-import FixedPlugin from 'components/fixedPlugin/FixedPlugin'
-import Navbar from 'components/navigation/NavbarAuth'
-import { PropsWithChildren } from 'react'
 
 interface PricingAuthLayoutProps {
   children: JSX.Element
@@ -35,7 +30,6 @@ function PricingAuthLayout(props: PricingAuthLayoutProps) {
         bgGradient="linear(to-b, brand.400, brand.600)"
         mx={{ md: 'auto' }}
       />
-      <Navbar />
       <Flex
         w={{ base: '100%', md: 'max-content' }}
         p={{ base: '10px', md: '50px' }}
@@ -64,8 +58,6 @@ function PricingAuthLayout(props: PricingAuthLayoutProps) {
         ) : null}
         {children}
       </Flex>
-      <Footer />
-      <FixedPlugin />
     </Flex>
   )
 }

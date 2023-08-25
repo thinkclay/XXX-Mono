@@ -1,77 +1,75 @@
 /** @format */
 @import './_variables';
 
-#RevisionApp {
-  .auth {
-    @extend %Main;
-    margin: 0 auto;
-    min-width: 400px;
+.auth {
+  @extend %Main;
+  margin: 0 auto;
+  min-width: fit-content;
 
-    input[type='text'],
-    input[type='password'] {
-      background: #fff;
-      border: none;
-      border-bottom: 2px solid var(--color-n300);
-      border-radius: 10px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-      color: var(--color-n500);
-      display: block;
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1;
-      margin: 10px 0;
-      padding: 15px;
-      transition: border 0.3s;
+  input[type='text'],
+  input[type='password'] {
+    background: #fff;
+    border: none;
+    border-bottom: 2px solid var(--color-n300);
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    color: var(--color-n500);
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    margin: 10px 0;
+    padding: 15px;
+    transition: border 0.3s;
 
-      &:focus {
-        border-color: var(--color-n800);
-        outline: none;
-      }
+    &:focus {
+      border-color: var(--color-n800);
+      outline: none;
     }
   }
+}
 
-  .Form {
-    display: flex;
-    flex-direction: column;
-  }
+.Form {
+  display: flex;
+  flex-direction: column;
+}
 
-  .LinkRow {
+.LinkRow {
+  font-size: 16px;
+  margin: 0 25px 0 0;
+  padding: 20px 0 0 0;
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+
+  a {
+    border-bottom: 1px solid;
+    color: var(--color-n500);
+    display: inline-block;
     font-size: 16px;
-    margin: 0 25px 0 0;
-    padding: 20px 0 0 0;
+    font-weight: 600;
+    padding: 0 0 4px 0;
     text-decoration: none;
     transition: color 0.3s, border-color 0.3s;
 
-    a {
-      border-bottom: 1px solid;
-      color: var(--color-n500);
-      display: inline-block;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 0 0 4px 0;
-      text-decoration: none;
-      transition: color 0.3s, border-color 0.3s;
+    + a {
+      margin-left: 25px;
+    }
 
-      + a {
-        margin-left: 25px;
-      }
-
-      &:hover {
-        color: var(--color-brand-3);
-      }
+    &:hover {
+      color: var(--color-brand-3);
     }
   }
+}
 
-  .Account {
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      padding: 5px 0 10px 0;
-    }
+.Account {
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    padding: 5px 0 10px 0;
+  }
 
-    p {
-      font-size: 16px;
-      padding: 10px 0;
-    }
+  p {
+    font-size: 16px;
+    padding: 10px 0;
   }
 }

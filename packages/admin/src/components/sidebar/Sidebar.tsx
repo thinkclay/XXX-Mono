@@ -1,7 +1,6 @@
 'use client'
-import React, { PropsWithChildren } from 'react'
 
-// chakra imports
+import { PropsWithChildren, useRef } from 'react'
 import {
   Box,
   Flex,
@@ -48,11 +47,11 @@ function Sidebar(props: { routes: IRoute[]; [x: string]: any }) {
       position="fixed"
       minH="100%"
       onMouseEnter={() => {
-        setHovered(true)
+        setHovered && setHovered(true)
         console.log(mini)
       }}
       onMouseLeave={() => {
-        setHovered(false)
+        setHovered && setHovered(false)
         console.log(mini)
       }}
     >
@@ -92,7 +91,7 @@ export function SidebarResponsive(props: { routes: IRoute[]; [x: string]: any })
   let menuColor = useColorModeValue('neutral.400', 'white')
   // // SIDEBAR
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = React.useRef()
+  const btnRef = useRef(null)
 
   const { routes } = props
   // let isWindows = navigator.platform.startsWith("Win");

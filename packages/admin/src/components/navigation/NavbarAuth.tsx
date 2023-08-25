@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'components/link/Link'
 
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 
 // Custom components
 import { RevisionLogo } from 'components/icons/Icons'
@@ -99,8 +99,8 @@ export default function AuthNavbar(props: { logo?: JSX.Element | string; logoTex
     )
   }
 
-  const createMainLinks = (routes: IRoute[]) => {
-    return routes.map((link, key) => {
+  const createMainLinks = (routes?: IRoute[]) => {
+    return routes?.map((link, key) => {
       if (link.collapse === true) {
         return (
           <Stack key={key} direction="column" maxW="max-content">

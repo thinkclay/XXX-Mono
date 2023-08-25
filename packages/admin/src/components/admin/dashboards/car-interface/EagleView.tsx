@@ -1,15 +1,15 @@
 'use client'
 // Chakra imports
-import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 // Assets
-import { Image } from 'components/image/Image';
-import Car from '/public/img/dashboards/Tesla.png';
+import { Image } from 'components/images/Image'
+import Car from '/public/img/dashboards/Tesla.png'
 // Custom components
-import Card from 'components/card/Card';
+import Card from 'components/card/Card'
 
 export default function AddDevice(props: { [x: string]: any }) {
-  const { mb, ...rest } = props;
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const { mb, ...rest } = props
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
   return (
     <Card
       p={{
@@ -22,13 +22,7 @@ export default function AddDevice(props: { [x: string]: any }) {
       {...rest}
     >
       <Box>
-        <Text
-          textAlign="center"
-          fontSize="lg"
-          fontWeight="700"
-          mb="50px"
-          color={textColor}
-        >
+        <Text textAlign="center" fontSize="lg" fontWeight="700" mb="50px" color={textColor}>
           Welcome back, sir.
         </Text>
         <Image
@@ -42,82 +36,34 @@ export default function AddDevice(props: { [x: string]: any }) {
             objectFit: 'contain',
           }}
         />
-        <Text
-          textAlign="center"
-          fontSize="lg"
-          fontWeight="400"
-          mb={{ base: '20px', md: '50px' }}
-          me="5px"
-          color="secondaryGray.600"
-        >
+        <Text textAlign="center" fontSize="lg" fontWeight="400" mb={{ base: '20px', md: '50px' }} me="5px" color="secondaryGray.600">
           Your Model S is now in{' '}
-          <Text
-            as="span"
-            textAlign="center"
-            fontSize="lg"
-            fontWeight="700"
-            mb={{ base: '20px', md: '50px' }}
-            color={textColor}
-          >
+          <Text as="span" textAlign="center" fontSize="lg" fontWeight="700" mb={{ base: '20px', md: '50px' }} color={textColor}>
             Parking Mode
           </Text>
         </Text>
-        <Button
-          fontSize="sm"
-          mb={{ base: '20px', md: '50px' }}
-          w="100%"
-          variant="darkBrand"
-        >
+        <Button fontSize="sm" mb={{ base: '20px', md: '50px' }} w="100%" variant="darkBrand">
           Turn on Engine
         </Button>
 
         <Flex align="center" justify="center">
-          <Text
-            textAlign="center"
-            fontSize="xl"
-            fontWeight="400"
-            me="34px"
-            color="secondaryGray.600"
-          >
+          <Text textAlign="center" fontSize="xl" fontWeight="400" me="34px" color="secondaryGray.600">
             N
           </Text>
-          <Text
-            textAlign="center"
-            fontSize="xl"
-            fontWeight="400"
-            me="34px"
-            color="secondaryGray.600"
-          >
+          <Text textAlign="center" fontSize="xl" fontWeight="400" me="34px" color="secondaryGray.600">
             R
           </Text>
-          <Text
-            textAlign="center"
-            fontSize="50px"
-            fontWeight="700"
-            me="34px"
-            color={textColor}
-          >
+          <Text textAlign="center" fontSize="50px" fontWeight="700" me="34px" color={textColor}>
             P
           </Text>
-          <Text
-            textAlign="center"
-            fontSize="xl"
-            fontWeight="400"
-            me="34px"
-            color="secondaryGray.600"
-          >
+          <Text textAlign="center" fontSize="xl" fontWeight="400" me="34px" color="secondaryGray.600">
             D
           </Text>
-          <Text
-            textAlign="center"
-            fontSize="xl"
-            fontWeight="400"
-            color="secondaryGray.600"
-          >
+          <Text textAlign="center" fontSize="xl" fontWeight="400" color="secondaryGray.600">
             M
           </Text>
         </Flex>
       </Box>
     </Card>
-  );
+  )
 }

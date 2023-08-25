@@ -6,7 +6,7 @@ import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import AdminNavbarLinks from 'components/navigation/NavbarLinksAdmin'
 
 export default function AdminNavbar(props: {
-  secondary: boolean
+  secondary?: boolean
   brandText: string
   logoText: string
   fixed: boolean

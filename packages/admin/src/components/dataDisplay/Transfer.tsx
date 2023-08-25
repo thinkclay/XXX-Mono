@@ -1,18 +1,12 @@
 'use client'
 // Chakra imports
-import { Flex, Text, useColorModeValue, Badge } from '@chakra-ui/react';
-import { NextAvatar } from 'components/image/Avatar';
+import { Flex, Text, useColorModeValue, Badge } from '@chakra-ui/react'
+import { NextAvatar } from 'components/images/Avatar'
 
-export default function Transfer(props: {
-  date: string;
-  sum: string;
-  avatar: string;
-  name: string;
-  [x: string]: any;
-}) {
-  const { date, sum, avatar, name, ...rest } = props;
+export default function Transfer(props: { date: string; sum: string; avatar: string; name: string; [x: string]: any }) {
+  const { date, sum, avatar, name, ...rest } = props
 
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
   return (
     <Flex justifyContent="center" alignItems="center" w="100%" {...rest}>
       <NextAvatar h="34px" w="34px" src={avatar} me="14px" />
@@ -24,14 +18,9 @@ export default function Transfer(props: {
           {date}
         </Text>
       </Flex>
-      <Badge
-        ms="auto"
-        colorScheme={sum[0] === '-' ? 'red' : 'green'}
-        color={sum[0] === '-' ? 'red.500' : 'green.500'}
-        fontSize="sm"
-      >
+      <Badge ms="auto" colorScheme={sum[0] === '-' ? 'red' : 'green'} color={sum[0] === '-' ? 'red.500' : 'green.500'} fontSize="sm">
         {sum}
       </Badge>
     </Flex>
-  );
+  )
 }

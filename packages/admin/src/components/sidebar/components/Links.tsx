@@ -42,8 +42,8 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
   )
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
-  const createLinks = (routes: IRoute[]) => {
-    return routes.map((route, key) => {
+  const createLinks = (routes?: IRoute[]) => {
+    return routes?.map((route, key) => {
       if (route.collapse) {
         return (
           <Accordion allowToggle key={key}>
@@ -64,7 +64,6 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
                   xl: '100%',
                   '2xl': '95%',
                 }}
-                px={route.icon ? null : '0px'}
                 py="0px"
                 bg={'transparent'}
                 ms={0}
@@ -164,7 +163,7 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
                 </HStack>
               </Flex>
             ) : (
-              <ListItem ms={null}>
+              <ListItem>
                 <Flex ps={mini === false ? '34px' : mini === true && hovered === true ? '34px' : '0px'} alignItems="center" mb="8px">
                   <Text color={activeRoute(route.path.toLowerCase()) ? activeColor : inactiveColor} fontWeight="500" fontSize="sm">
                     {mini === false ? route.name : mini === true && hovered === true ? route.name : route.name[0]}
@@ -178,8 +177,8 @@ export function SidebarLinks(props: { routes: IRoute[]; [x: string]: any }) {
     })
   }
   // this function creates the links from the secondary accordions (for example auth -> sign-in -> default)
-  const createAccordionLinks = (routes: IRoute[]) => {
-    return routes.map((route: IRoute, key: number) => {
+  const createAccordionLinks = (routes?: IRoute[]) => {
+    return routes?.map((route: IRoute, key: number) => {
       return (
         <NavLink href={route.layout + route.path} key={key}>
           <ListItem

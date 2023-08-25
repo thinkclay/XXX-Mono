@@ -12,6 +12,9 @@ import AnalyticsScreen from '@common/views/Screens/AnalyticsScreen'
 import Settings from './Screens/SettingsScreen'
 import FeedbackScreen from '@common/views/Screens/FeedbackScreen'
 
+import '@common/assets/styles/reset.scss'
+import '@common/assets/styles/index.scss'
+
 interface AppProps {
   mode: RenderMode
 }

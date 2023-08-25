@@ -5,7 +5,69 @@ import { MdDashboard, MdHome, MdLock, MdOutlineShoppingCart } from 'react-icons/
 import { IRoute } from 'types/navigation'
 
 const routes: IRoute[] = [
-  // --- Dashboards ---
+  {
+    name: 'Admin',
+    path: '/admin',
+    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+    collapse: true,
+    items: [
+      {
+        name: 'Main Dashboard',
+        layout: '/admin',
+        path: '/',
+      },
+      {
+        name: 'Users',
+        path: '/users',
+        collapse: true,
+        items: [
+          {
+            name: 'Users Overview',
+            layout: '/admin',
+            path: '/users',
+            secondary: true,
+          },
+          {
+            name: 'Users List',
+            layout: '/admin',
+            path: '/users/list',
+            secondary: true,
+          },
+          {
+            name: 'Users Add',
+            layout: '/admin',
+            path: '/users/new',
+            secondary: true,
+          },
+        ],
+      },
+      {
+        name: 'Profile',
+        path: '/profile',
+        collapse: true,
+        items: [
+          {
+            name: 'Profile Overview',
+            layout: '/admin',
+            path: '/profile',
+            secondary: true,
+          },
+          {
+            name: 'Profile Settings',
+            layout: '/admin',
+            path: '/profile/settings',
+            secondary: true,
+          },
+          {
+            name: 'News Feed',
+            layout: '/admin',
+            path: '/profile/newsfeed',
+            secondary: true,
+          },
+        ],
+      },
+    ],
+  },
   {
     name: 'Dashboards',
     path: '/',
@@ -149,37 +211,10 @@ const routes: IRoute[] = [
         ],
       },
       {
-        name: 'Users',
-        path: '/main/users',
-        collapse: true,
-        items: [
-          {
-            name: 'New User',
-            layout: '/admin',
-            path: '/main/users/new-user',
-          },
-          {
-            name: 'Users Overview',
-            layout: '/admin',
-            path: '/main/users/users-overview',
-          },
-          {
-            name: 'Users Reports',
-            layout: '/admin',
-            path: '/main/users/users-reports',
-          },
-        ],
-      },
-      {
         name: 'Applications',
         path: '/main/applications',
         collapse: true,
         items: [
-          {
-            name: 'Kanban',
-            layout: '/admin',
-            path: '/main/applications/kanban',
-          },
           {
             name: 'Data Tables',
             layout: '/admin',
@@ -192,28 +227,7 @@ const routes: IRoute[] = [
           },
         ],
       },
-      {
-        name: 'Profile',
-        path: '/main/profile',
-        collapse: true,
-        items: [
-          {
-            name: 'Profile Overview',
-            layout: '/admin',
-            path: '/main/profile/overview',
-          },
-          {
-            name: 'Profile Settings',
-            layout: '/admin',
-            path: '/main/profile/settings',
-          },
-          {
-            name: 'News Feed',
-            layout: '/admin',
-            path: '/main/profile/newsfeed',
-          },
-        ],
-      },
+
       {
         name: 'Others',
         path: '/main/others',
@@ -225,11 +239,6 @@ const routes: IRoute[] = [
             path: '/main/others/notifications',
           },
           {
-            name: 'Pricing',
-            layout: '/auth',
-            path: '/main/others/pricing',
-          },
-          {
             name: '404',
             layout: '/admin',
             path: '/main/others/404',
@@ -238,105 +247,6 @@ const routes: IRoute[] = [
             name: 'Messages',
             layout: '/admin',
             path: '/main/others/messages',
-          },
-        ],
-      },
-    ],
-  },
-  // --- Authentication ---
-  {
-    name: 'Authentication',
-    path: '/auth',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-    collapse: true,
-    items: [
-      // --- Sign In ---
-      {
-        name: 'Sign In',
-        path: '/sign-in',
-        collapse: true,
-        items: [
-          {
-            name: 'Default',
-            layout: '/auth',
-            path: '/sign-in/default',
-          },
-          {
-            name: 'Centered',
-            layout: '/auth',
-            path: '/sign-in/centered',
-          },
-        ],
-      },
-      // --- Sign Up ---
-      {
-        name: 'Sign Up',
-        path: '/sign-up',
-        collapse: true,
-        items: [
-          {
-            name: 'Default',
-            layout: '/auth',
-            path: '/sign-up/default',
-          },
-          {
-            name: 'Centered',
-            layout: '/auth',
-            path: '/sign-up/centered',
-          },
-        ],
-      },
-      // --- Verification ---
-      {
-        name: 'Verification',
-        path: '/verification',
-        collapse: true,
-        items: [
-          {
-            name: 'Default',
-            layout: '/auth',
-            path: '/verification/default',
-          },
-          {
-            name: 'Centered',
-            layout: '/auth',
-            path: '/verification/centered',
-          },
-        ],
-      },
-      // --- Lock ---
-      {
-        name: 'Lock',
-        path: '/lock',
-        collapse: true,
-        items: [
-          {
-            name: 'Default',
-            layout: '/auth',
-            path: '/lock/default',
-          },
-          {
-            name: 'Centered',
-            layout: '/auth',
-            path: '/lock/centered',
-          },
-        ],
-      },
-      // --- Forgot Password ---
-      {
-        name: 'Forgot Password',
-        path: '/forgot-password',
-        collapse: true,
-        items: [
-          {
-            name: 'Default',
-            layout: '/auth',
-            path: '/forgot-password/default',
-          },
-          {
-            name: 'Centered',
-            layout: '/auth',
-            path: '/forgot-password/centered',
           },
         ],
       },

@@ -1,20 +1,17 @@
 'use client'
 // Chakra imports
-import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 // Assets
 // Custom components
-import Card from 'components/card/Card';
-import { NextAvatar } from 'components/image/Avatar';
+import Card from 'components/card/Card'
+import { NextAvatar } from 'components/images/Avatar'
 
 export default function CourseInfo(props: { [x: string]: any }) {
   // Chakra Color Mode
-  const textColor = useColorModeValue('secondaryGray.900', 'white');
-  const bg = useColorModeValue('secondaryGray.300', 'navy.700');
-  const textColorSecondary = useColorModeValue(
-    'secondaryGray.900',
-    'secondaryGray.600'
-  );
-  const { ...rest } = props;
+  const textColor = useColorModeValue('secondaryGray.900', 'white')
+  const bg = useColorModeValue('secondaryGray.300', 'navy.700')
+  const textColorSecondary = useColorModeValue('secondaryGray.900', 'secondaryGray.600')
+  const { ...rest } = props
   return (
     <Card h="maxContent" {...rest} mt="50px" bg={bg}>
       <Text color={textColor} fontSize="xl" fontWeight="700" mb="16px">
@@ -37,11 +34,10 @@ export default function CourseInfo(props: { [x: string]: any }) {
         </Box>
       </Flex>
       <Text color={textColorSecondary} fontSize="md" mb="20px">
-        Michael is an entrepreneur at heart, he builds businesses. Currently, he
-        helps Fortune 100 brands leverage consumer attention through his full
-        service advertising agency, Kaizoo.
+        Michael is an entrepreneur at heart, he builds businesses. Currently, he helps Fortune 100 brands leverage consumer attention
+        through his full service advertising agency, Kaizoo.
       </Text>
       <Button variant="brand">See all courses</Button>
     </Card>
-  );
+  )
 }

@@ -74,7 +74,7 @@ export default function NewProduct() {
                 left: { sm: '12px', md: '40px' },
                 top: {
                   sm: activeBullets.product ? '6px' : '4px',
-                  md: null,
+                  md: 0,
                 },
                 position: 'absolute',
                 bottom: activeBullets.product ? '40px' : '38px',
@@ -209,7 +209,7 @@ export default function NewProduct() {
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
                     ms="auto"
-                    onClick={() => mediaTab.current.click()}
+                    // onClick={() => mediaTab?.current?.click()}
                   >
                     Next
                   </Button>
@@ -245,7 +245,7 @@ export default function NewProduct() {
                   borderRadius="16px"
                   w={{ base: '128px', md: '148px' }}
                   h="46px"
-                  onClick={() => productTab.current.click()}
+                  // onClick={() => productTab.current.click()}
                 >
                   Prev
                 </Button>
@@ -255,7 +255,7 @@ export default function NewProduct() {
                   borderRadius="16px"
                   w={{ base: '128px', md: '148px' }}
                   h="46px"
-                  onClick={() => pricingTab.current.click()}
+                  // onClick={() => pricingTab.current.click()}
                 >
                   Next
                 </Button>
@@ -299,7 +299,7 @@ export default function NewProduct() {
                     borderRadius="16px"
                     w={{ base: '128px', md: '148px' }}
                     h="46px"
-                    onClick={() => mediaTab.current.click()}
+                    // onClick={() => mediaTab.current.click()}
                   >
                     Prev
                   </Button>

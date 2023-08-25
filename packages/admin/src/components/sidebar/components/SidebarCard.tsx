@@ -1,17 +1,13 @@
 // Chakra imports
-import { Box, Flex, Text, Badge, Icon, LightMode } from '@chakra-ui/react';
-import LineChart from 'components/charts/LineChart';
-import { BsArrowsAngleExpand } from 'react-icons/bs';
-// Custom components
-import {
-  lineChartDataSidebar,
-  lineChartOptionsSidebar,
-} from 'variables/charts';
-export default function SidebarDocs(props: {
-  mini: boolean;
-  hovered: boolean;
-}) {
-  const { mini, hovered } = props;
+import { Box, Flex, Text, Badge, Icon } from '@chakra-ui/react'
+import LineChart from 'components/charts/LineChart'
+import { BsArrowsAngleExpand } from 'react-icons/bs'
+
+import { lineChartDataSidebar, lineChartOptionsSidebar } from 'variables/charts'
+
+export default function SidebarDocs(props: { mini?: boolean; hovered?: boolean }) {
+  const { mini, hovered } = props
+
   return (
     <Flex
       justify="center"
@@ -38,22 +34,10 @@ export default function SidebarDocs(props: {
         justify="center"
         px="15px"
         pt="30px"
-        display={
-          mini === false
-            ? 'block'
-            : mini === true && hovered === true
-            ? 'block'
-            : 'none'
-        }
+        display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
       >
         <Text
-          display={
-            mini === false
-              ? 'block'
-              : mini === true && hovered === true
-              ? 'block'
-              : 'none'
-          }
+          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
           fontSize={{ base: 'lg', xl: '2xl' }}
           color="white"
           fontWeight="bold"
@@ -64,13 +48,7 @@ export default function SidebarDocs(props: {
           $3942.58
         </Text>
         <Text
-          display={
-            mini === false
-              ? 'block'
-              : mini === true && hovered === true
-              ? 'block'
-              : 'none'
-          }
+          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
           fontSize="sm"
           color="white"
           px="10px"
@@ -80,13 +58,7 @@ export default function SidebarDocs(props: {
           Total balance
         </Text>
         <Badge
-          display={
-            mini === false
-              ? 'block'
-              : mini === true && hovered === true
-              ? 'block'
-              : 'none'
-          }
+          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
           colorScheme="green"
           color="green.500"
           size="lg"
@@ -96,22 +68,10 @@ export default function SidebarDocs(props: {
         >
           +2.45%
         </Badge>
-        <Box
-          h="160px"
-          display={
-            mini === false
-              ? 'block'
-              : mini === true && hovered === true
-              ? 'block'
-              : 'none'
-          }
-        >
-          <LineChart
-            chartData={lineChartDataSidebar}
-            chartOptions={lineChartOptionsSidebar}
-          />
+        <Box h="160px" display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}>
+          <LineChart chartData={lineChartDataSidebar} chartOptions={lineChartOptionsSidebar} />
         </Box>
       </Flex>
     </Flex>
-  );
+  )
 }

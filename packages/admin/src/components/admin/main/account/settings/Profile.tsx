@@ -3,7 +3,7 @@
 import { Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import profileAvatar from '/public/img/avatars/avatar4.png'
 import Card from 'components/card/Card'
-import { NextAvatar } from 'components/image/Avatar'
+import { NextAvatar } from 'components/images/Avatar'
 
 export default function Profile(props: { [x: string]: any }) {
   const { ...rest } = props
