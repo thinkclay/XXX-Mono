@@ -10,7 +10,8 @@ import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
-import ModalPopup from '../components/demographicModal/demographic-modal'
+import ModalPopup from '../../../common/src/views/components/demographicModal'
+
 
 // This isn't working. Tried raw loaders and different webpack configs
 // import styles1 from '@common/assets/styles/index.scss'
@@ -49,12 +50,9 @@ window.addEventListener('load', () => {
   }
 
   function clickHandler(event: any) {
-    console.log('calling clickhandkler')
     const target = event.target
     if (target.closest('[aria-label="Message Body"]')) {
       openPopup()
-    } else {
-      console.log('hello')
     }
   }
   function openPopup() {
