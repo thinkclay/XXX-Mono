@@ -1,16 +1,16 @@
 'use client'
-// Chakra imports
+
 import { Portal, Box, useDisclosure } from '@chakra-ui/react'
-import Footer from 'components/footer/FooterAdmin'
-// Layout components
+import { useContext, useState } from 'react'
+import { usePathname } from 'next/navigation'
+
 import Navbar from 'components/navigation/NavbarRTL'
+import Footer from 'components/navigation/PublicFooter'
 import Sidebar from 'components/sidebar/Sidebar'
 import { RtlProvider } from 'components/rtlProvider/RtlProvider'
 import { SidebarContext } from 'contexts/SidebarContext'
-import { useContext, useState } from 'react'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
 import routes from 'routes'
-import { usePathname } from 'next/navigation'
 import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
 
 // Custom Chakra theme
@@ -71,9 +71,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </Portal>
 
           {children}
-          <Box>
-            <Footer />
-          </Box>
         </Box>
       </SidebarContext.Provider>
     </RtlProvider>

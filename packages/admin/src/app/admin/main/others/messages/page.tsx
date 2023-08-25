@@ -234,7 +234,7 @@ export default function Default() {
               </Button>
             </Flex>
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="Roberto Michael"
               lastMessage="Hi there, How are you? All good?"
@@ -243,7 +243,7 @@ export default function Default() {
               hour="09:00 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="Emily James"
               lastMessage="Be careful, it’s raining outside! :)"
@@ -252,7 +252,7 @@ export default function Default() {
               hour="08:45 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="Alexander Parker"
               lastMessage="It contains a lot of good lessons about effective..."
@@ -261,7 +261,7 @@ export default function Default() {
               hour="08:42 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="Esthera William"
               lastMessage="Wow! This picture is amazing! Send me more!"
@@ -270,10 +270,10 @@ export default function Default() {
               hour="06:32 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader name="Lawrence Peter" lastMessage="You look so amazing today!" sum="-$15.50" avatar={avatar8.src} hour="06:30 PM" />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="Iaon Dint"
               lastMessage="I’m back from Belgium, do you want to meet?"
@@ -282,7 +282,7 @@ export default function Default() {
               hour="05:57 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               name="William Jackson"
               lastMessage="That’s awesome!!! What technology do you used..."
@@ -291,7 +291,7 @@ export default function Default() {
               hour="04:32 PM"
             />
           </Box>
-          <Box onClick={window.innerWidth < 450 ? onOpen : null}>
+          <Box>
             <ChatHeader
               last
               name="Markus Aurelius"

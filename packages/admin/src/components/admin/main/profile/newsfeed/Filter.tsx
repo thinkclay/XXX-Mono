@@ -44,7 +44,7 @@ export default function Filter() {
           py="10px"
           border="1px solid"
           borderColor={state.latest ? (colorMode === 'dark' ? 'transparent' : 'secondaryGray.400') : 'transparent'}
-          bg={state.latest ? (colorMode === 'dark' ? 'navy.800' : '#fff') : null}
+          bg={state.latest ? (colorMode === 'dark' ? 'navy.800' : '#fff') : 'black'}
           cursor="pointer"
           transition="all .22s ease"
           onClick={() => dispatch({ type: 'SWITCH_ACTIVE', payload: 'latest' })}
@@ -65,7 +65,7 @@ export default function Filter() {
           cursor="pointer"
           border="1px solid"
           borderColor={state.popular ? (colorMode === 'dark' ? 'transparent' : 'secondaryGray.400') : 'transparent'}
-          bg={state.popular ? (colorMode === 'dark' ? 'navy.800' : '#fff') : null}
+          bg={state.popular ? (colorMode === 'dark' ? 'navy.800' : '#fff') : 'black'}
           transition="all .22s ease"
           onClick={() => dispatch({ type: 'SWITCH_ACTIVE', payload: 'popular' })}
         >

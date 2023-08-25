@@ -1,7 +1,7 @@
 /** @format */
 
 import { useRecoilState } from 'recoil'
-import { rootState, rootDefault } from '@common/helpers/root'
+import { rootState } from '@common/helpers/root'
 
 function Toggle() {
   const [root, setRoot] = useRecoilState(rootState)

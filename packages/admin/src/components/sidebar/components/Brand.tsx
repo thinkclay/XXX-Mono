@@ -5,7 +5,7 @@ import { Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { RevisionLogo } from 'components/icons/Icons'
 import { HSeparator } from 'components/separator/Separator'
 
-export function SidebarBrand(props: { mini: boolean; hovered: boolean }) {
+export function SidebarBrand(props: { mini?: boolean; hovered?: boolean }) {
   const { mini, hovered } = props
   //   Chakra color mode
   let logoColor = useColorModeValue('navy.700', 'white')

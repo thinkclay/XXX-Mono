@@ -1,107 +1,105 @@
 /** @format */
 @import '_variables';
 
-#RevisionApp {
-  button {
-    background: transparent;
-    border: none;
-    margin: 0;
-    padding: 0;
+button {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  align-items: center;
+  background-color: $color-n900;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  color: $color-n100;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  justify-content: center;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
+  white-space: nowrap;
+
+  &.primary {
+    background-color: $color-brand-1;
   }
 
-  .button {
-    align-items: center;
-    background-color: $color-n900;
-    border-radius: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    color: $color-n100;
-    cursor: pointer;
-    display: flex;
-    font-size: 16px;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-    justify-content: center;
-    padding: 12px 20px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
-    transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s;
+  &.accept {
+    background-color: $color-brand-3;
+    border-color: $color-brand-3;
+  }
+
+  &.cancel {
+    background-color: $color-n500;
+  }
+
+  &.bordered {
+    background: transparent;
+    border: 2px solid $color-brand-1;
+    color: $color-brand-1;
+    display: block;
+    font-size: 14px;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    text-shadow: none;
     white-space: nowrap;
 
-    &.primary {
-      background-color: $color-brand-1;
-    }
+    &[disabled] {
+      border-color: $color-n400;
+      color: $color-n400;
 
-    &.accept {
-      background-color: $color-brand-3;
-      border-color: $color-brand-3;
-    }
-
-    &.cancel {
-      background-color: $color-n500;
-    }
-
-    &.bordered {
-      background: transparent;
-      border: 2px solid $color-brand-1;
-      color: $color-brand-1;
-      display: block;
-      font-size: 14px;
-      margin: 20px auto 0;
-      padding: 10px 20px;
-      text-shadow: none;
-      white-space: nowrap;
-
-      &[disabled] {
-        border-color: $color-n400;
-        color: $color-n400;
-
-        &:hover {
-          box-shadow: none;
-          transform: none;
-        }
+      &:hover {
+        box-shadow: none;
+        transform: none;
       }
-    }
-
-    &.icon {
-      svg {
-        height: 20px;
-        margin-right: 15px;
-      }
-    }
-
-    &.icon-only {
-      border-radius: 50%;
-
-      span {
-        display: none;
-      }
-    }
-
-    &:hover {
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-      transform: scale(1.05);
     }
   }
 
-  .ButtonRow {
-    display: flex;
-    justify-content: space-between;
-    justify-items: space-between;
-    padding: 15px 0;
-
-    &.centered {
-      justify-content: space-around;
-      margin: 0 auto;
+  &.icon {
+    svg {
+      height: 20px;
+      margin-right: 15px;
     }
+  }
 
-    &.shrink {
-      width: fit-content;
-    }
+  &.icon-only {
+    border-radius: 50%;
 
-    button + button {
-      margin-left: 15px;
+    span {
+      display: none;
     }
+  }
+
+  &:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+  }
+}
+
+.ButtonRow {
+  display: flex;
+  justify-content: space-between;
+  justify-items: space-between;
+  padding: 15px 0;
+
+  &.centered {
+    justify-content: space-around;
+    margin: 0 auto;
+  }
+
+  &.shrink {
+    width: fit-content;
+  }
+
+  button + button {
+    margin-left: 15px;
   }
 }

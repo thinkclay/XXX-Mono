@@ -1,6 +1,6 @@
 'use client'
 import { AspectRatio, Box, Flex, Icon, IconButton, Input, Text, useColorModeValue } from '@chakra-ui/react'
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 // Assets
 import { FaRegCommentDots } from 'react-icons/fa'
 import {} from 'react-icons/io'
@@ -12,7 +12,7 @@ import Card from 'components/card/Card'
 import { HSeparator } from 'components/separator/Separator'
 
 import SeeStory from 'components/actions/SeeStory'
-import { NextAvatar } from 'components/image/Avatar'
+import { NextAvatar } from 'components/images/Avatar'
 import TransparentMenu from 'components/menu/TransparentMenu'
 
 export default function Post(props: {

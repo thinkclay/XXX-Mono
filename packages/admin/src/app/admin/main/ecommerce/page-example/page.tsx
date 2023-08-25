@@ -19,7 +19,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { Image } from 'components/image/Image'
+import { Image } from 'components/images/Image'
 // Custom components
 import Card from 'components/card/Card'
 import React, { useState } from 'react'

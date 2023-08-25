@@ -1,11 +1,13 @@
 /** @format */
+@import '_variables.scss';
+@import 'global';
 
-@import './_variables.scss';
-@import './global';
-@import './editor';
-@import './button';
-@import './toolbar';
-@import './logo';
-@import './welcome';
-@import './loading';
-@import './auth';
+#RevisionApp {
+  @import 'editor';
+  @import 'button';
+  @import 'toolbar';
+  @import 'logo';
+  @import 'welcome';
+  @import 'loading';
+  @import 'auth';
+}

@@ -1,25 +1,33 @@
 'use client'
-// Chakra imports
-import { Portal, Box, useDisclosure } from '@chakra-ui/react'
-import Footer from 'components/footer/FooterAdmin'
-// Layout components
-import Navbar from 'components/navigation/NavbarAdmin'
-import Sidebar from 'components/sidebar/Sidebar'
-import { usePathname } from 'next/navigation'
-import { useContext, useState } from 'react'
-import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
-import routes from 'routes'
-import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
 
-// Custom Chakra thems
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  // states and functions
-  const [fixed] = useState(false)
-  const pathname = usePathname()
+import { Box } from '@chakra-ui/react'
+import { useContext, ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+import routes from 'routes'
+
+import Sidebar from 'components/sidebar/Sidebar'
+import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
+import { getActiveNavbar, getActiveRoute, isWindowAvailable } from 'utils/navigation'
+import { useAuthContext, useFirebase } from '@common/services/firebase/hook'
+
+interface Props {
+  children: ReactNode
+}
+
+export default function AdminLayout({ children }: Props) {
   if (isWindowAvailable()) document.documentElement.dir = 'ltr'
-  const { onOpen } = useDisclosure()
+
+  const { user } = useAuthContext()
+  const router = useRouter()
   const context = useContext(ConfiguratorContext)
+
   const { mini, hovered, setHovered } = context
+
+  useEffect(() => {
+    if (user == null) router.push('/')
+  }, [user])
+
   return (
     <Box>
       <Sidebar mini={mini} routes={routes} hovered={hovered} setHovered={setHovered} />
@@ -49,23 +57,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         transitionProperty="top, bottom, width"
         transitionTimingFunction="linear, linear, ease"
       >
-        <Portal>
-          <Box>
-            <Navbar
-              onOpen={onOpen}
-              logoText={'ReVision'}
-              brandText={getActiveRoute(routes, pathname)}
-              secondary={getActiveNavbar(routes, pathname)}
-              fixed={fixed}
-            />
-          </Box>
-        </Portal>
-
         <Box mx="auto" p={{ base: '20px', md: '30px' }} pe="20px" minH="100vh" pt="50px">
           {children}
-        </Box>
-        <Box>
-          <Footer />
         </Box>
       </Box>
     </Box>

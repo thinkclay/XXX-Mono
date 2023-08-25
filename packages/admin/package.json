@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@asseinfo/react-kanban": "^2.2.0",
     "@babel/preset-react": "^7.22.5",
     "@chakra-ui/icons": "^2.1.0",
     "@chakra-ui/react": "^2.8.0",
@@ -29,6 +28,7 @@
     "@tanstack/react-table": "^8.9.3",
     "@vercel/analytics": "^1.0.2",
     "apexcharts": "3.41.1",
+    "firebase": "^10.3.0",
     "framer-motion": "^10.16.0",
     "ieee754": "^1.2.1",
     "js-cookie": "^3.0.5",
@@ -76,5 +76,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-next": "13.4.19"
   }
 }

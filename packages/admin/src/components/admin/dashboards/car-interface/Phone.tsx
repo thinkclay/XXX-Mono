@@ -1,38 +1,21 @@
-'use client';
+'use client'
 // Chakra imports
-import {
-  Box,
-  Flex,
-  Icon,
-  Switch,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { Image } from 'components/image/Image';
+import { Box, Flex, Icon, Switch, Text, useColorModeValue } from '@chakra-ui/react'
+import { Image } from 'components/images/Image'
 // Custom components
-import Card from 'components/card/Card';
-import LineAreaChart from 'components/charts/LineAreaChart';
+import Card from 'components/card/Card'
+import LineAreaChart from 'components/charts/LineAreaChart'
 // Assets
-import battery from '/public/img/dashboards/Battery.png';
-import {
-  MdOutlineBrightness2,
-  MdOutlineWbSunny,
-  MdBluetooth,
-} from 'react-icons/md';
-import {
-  lineChartDataAreaCarInterface,
-  lineChartOptionsAreaCarInterface,
-} from 'variables/charts';
+import battery from '/public/img/dashboards/Battery.png'
+import { MdOutlineBrightness2, MdOutlineWbSunny, MdBluetooth } from 'react-icons/md'
+import { lineChartDataAreaCarInterface, lineChartOptionsAreaCarInterface } from 'variables/charts'
 
 export default function Consumption(props: { [x: string]: any }) {
-  const { ...rest } = props;
+  const { ...rest } = props
 
   // Chakra Color Mode
-  const textColorSecondary = useColorModeValue('secondaryGray.600', 'white');
-  const elipseMode = useColorModeValue(
-    'https://i.ibb.co/Y3nrFfd/elipse-light.png',
-    'https://i.ibb.co/g66yJnm/Ellipse-94.png',
-  );
+  const textColorSecondary = useColorModeValue('secondaryGray.600', 'white')
+  const elipseMode = useColorModeValue('https://i.ibb.co/Y3nrFfd/elipse-light.png', 'https://i.ibb.co/g66yJnm/Ellipse-94.png')
   return (
     <Card alignItems="center" flexDirection="column" w="100%" {...rest}>
       <Flex align="center" w="100%" px="15px" py="10px">
@@ -48,13 +31,7 @@ export default function Consumption(props: { [x: string]: any }) {
             }}
           />
         </Box>
-        <Text
-          ms="auto"
-          color={textColorSecondary}
-          fontSize="md"
-          fontWeight="500"
-          lineHeight="100%"
-        >
+        <Text ms="auto" color={textColorSecondary} fontSize="md" fontWeight="500" lineHeight="100%">
           657 Miles
         </Text>
       </Flex>
@@ -63,21 +40,11 @@ export default function Consumption(props: { [x: string]: any }) {
         <Box me={{ base: '20px', md: '50px', '2xl': '20px', '3xl': '50px' }}>
           <Flex mb="6px">
             <Switch colorScheme="brand" />
-            <Icon
-              h="20px"
-              w="20px"
-              as={MdOutlineWbSunny}
-              color={textColorSecondary}
-            />
+            <Icon h="20px" w="20px" as={MdOutlineWbSunny} color={textColorSecondary} />
           </Flex>
           <Flex>
             <Switch colorScheme="brand" />
-            <Icon
-              h="20px"
-              w="20px"
-              as={MdOutlineBrightness2}
-              color={textColorSecondary}
-            />
+            <Icon h="20px" w="20px" as={MdOutlineBrightness2} color={textColorSecondary} />
           </Flex>
         </Box>
         <Box
@@ -88,41 +55,19 @@ export default function Consumption(props: { [x: string]: any }) {
           bgPosition="center"
           bgRepeat="no-repeat"
         >
-          <LineAreaChart
-            chartData={lineChartDataAreaCarInterface}
-            chartOptions={lineChartOptionsAreaCarInterface}
-          />
+          <LineAreaChart chartData={lineChartDataAreaCarInterface} chartOptions={lineChartOptionsAreaCarInterface} />
         </Box>
         <Flex>
-          <Icon
-            me="6px"
-            h="20px"
-            w="20px"
-            as={MdBluetooth}
-            color={textColorSecondary}
-          />
-          <Text
-            color={textColorSecondary}
-            fontSize="md"
-            textAlign="start"
-            fontWeight="500"
-            lineHeight="100%"
-          >
+          <Icon me="6px" h="20px" w="20px" as={MdBluetooth} color={textColorSecondary} />
+          <Text color={textColorSecondary} fontSize="md" textAlign="start" fontWeight="500" lineHeight="100%">
             Esthera’s
             <br /> Iphone
           </Text>
         </Flex>
       </Flex>
-      <Text
-        mt="-40px"
-        mx="auto"
-        color={textColorSecondary}
-        fontSize="lg"
-        fontWeight="500"
-        lineHeight="100%"
-      >
+      <Text mt="-40px" mx="auto" color={textColorSecondary} fontSize="lg" fontWeight="500" lineHeight="100%">
         Hello, how can I help?
       </Text>
     </Card>
-  );
+  )
 }
