@@ -36,7 +36,6 @@ const SuggestionsPie: React.FC = () => {
     try {
       const suggestions: any = await DB.suggestion.toArray()
       setSubFlagValue(suggestions)
-      console.log(suggestions)
       const countByCategoryAndType = (category: string, type: string) =>
         subFlagValue.filter((flag: any) => flag.category === category && flag.type === type).length
       setPotentialFlag(countByCategoryAndType('bias', 'potential'))
@@ -51,7 +50,7 @@ const SuggestionsPie: React.FC = () => {
 
   useEffect(() => {
     getAllSuggestions()
-  }, [flags,subFlagValue])
+  }, [flags])
 
   useEffect(() => {
     onAuthStateChanged(auth, async user => {
