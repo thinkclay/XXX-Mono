@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { CustomUserModel } from '@common/services/firebase'
 import { useFirebase } from '@common/services/firebase/hook'
-import MainScreen from './MainScreen'
+import MainScreen from '@common/views/Screens/MainScreen';
 import WelcomeScreen from './WelcomeScreen'
 import LoadingScreen from './LoadingScreen'
 import AuthScreen from './AuthScreen'
