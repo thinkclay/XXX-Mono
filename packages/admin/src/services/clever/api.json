@@ -1,0 +1,4106 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Data API",
+    "description": "Serves the Clever Data API",
+    "version": "3.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.clever.com/"
+    }
+  ],
+  "security": [
+    {
+      "oauth": []
+    }
+  ],
+  "paths": {
+    "/courses": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns a list of courses",
+        "operationId": "getCourses",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoursesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns a specific course",
+        "operationId": "getCourse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}/district": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns the district for a course",
+        "operationId": "getDistrictForCourse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}/resources": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns the resources for a course",
+        "operationId": "getResourcesForCourse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}/schools": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns the schools for a course",
+        "operationId": "getSchoolsForCourse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{id}/sections": {
+      "get": {
+        "tags": [
+          "Courses"
+        ],
+        "description": "Returns the sections for a course",
+        "operationId": "getSectionsForCourse",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/districts": {
+      "get": {
+        "tags": [
+          "Districts"
+        ],
+        "description": "Returns a list of districts. In practice this will only return the one district associated with the bearer token",
+        "operationId": "getDistricts",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/districts/{id}": {
+      "get": {
+        "tags": [
+          "Districts"
+        ],
+        "description": "Returns a specific district",
+        "operationId": "getDistrict",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "description": "Returns a list of resources",
+        "operationId": "getResources",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "description": "Returns a specific resource",
+        "operationId": "getResource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}/courses": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "description": "Returns the courses for a resource",
+        "operationId": "getCoursesForResource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoursesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}/sections": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "description": "Returns the sections for a resource",
+        "operationId": "getSectionsForResource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/resources/{id}/users": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "description": "Returns the student and/or teacher users for a resource",
+        "operationId": "getUsersForResource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "student",
+                "teacher"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns a list of schools",
+        "operationId": "getSchools",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns a specific school",
+        "operationId": "getSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}/courses": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns the courses for a school",
+        "operationId": "getCoursesForSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoursesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}/district": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns the district for a school",
+        "operationId": "getDistrictForSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}/sections": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns the sections for a school",
+        "operationId": "getSectionsForSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}/terms": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns the terms for a school",
+        "operationId": "getTermsForSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}/users": {
+      "get": {
+        "tags": [
+          "Schools"
+        ],
+        "description": "Returns the staff, student, and/or teacher users for a school",
+        "operationId": "getUsersForSchool",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "staff",
+                "student",
+                "teacher"
+              ]
+            }
+          },
+          {
+            "name": "primary",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns a list of sections",
+        "operationId": "getSections",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns a specific section",
+        "operationId": "getSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/course": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the course for a section",
+        "operationId": "getCourseForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/district": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the district for a section",
+        "operationId": "getDistrictForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/resources": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the resources for a section",
+        "operationId": "getResourcesForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/school": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the school for a section",
+        "operationId": "getSchoolForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/term": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the term for a section",
+        "operationId": "getTermForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sections/{id}/users": {
+      "get": {
+        "tags": [
+          "Sections"
+        ],
+        "description": "Returns the student and/or teacher users for a section",
+        "operationId": "getUsersForSection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "student",
+                "teacher"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/terms": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "description": "Returns a list of terms",
+        "operationId": "getTerms",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/terms/{id}": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "description": "Returns a specific term",
+        "operationId": "getTerm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/terms/{id}/district": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "description": "Returns the district for a term",
+        "operationId": "getDistrictForTerm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/terms/{id}/sections": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "description": "Returns the sections for a term",
+        "operationId": "getSectionsForTerm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/terms/{id}/schools": {
+      "get": {
+        "tags": [
+          "Terms"
+        ],
+        "description": "Returns the schools for a term",
+        "operationId": "getSchoolsForTerm",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns a list of contact, district admin, staff, student, and/or teacher users",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "district_admin",
+                "staff",
+                "student",
+                "teacher"
+              ]
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true",
+                "false",
+                "undefined"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns a specific user",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/district": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the district for a user",
+        "operationId": "getDistrictForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DistrictResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/mycontacts": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the contact users for a student user",
+        "operationId": "getContactsForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/mystudents": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the student users for a teacher or contact user",
+        "operationId": "getStudentsForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/myteachers": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the teacher users for a student user",
+        "operationId": "getTeachersForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/resources": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the resources for a user",
+        "operationId": "getResourcesForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/schools": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the schools for a user",
+        "operationId": "getSchoolsForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "primary",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "",
+                "true"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchoolsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/sections": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the sections for a user",
+        "operationId": "getSectionsForUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Returns a list of events",
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "starting_after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ending_before",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "school",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "record_type",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "Returns the specific event",
+        "operationId": "getEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "InternalError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "rel": {
+            "type": "string",
+            "enum": [
+              "next",
+              "prev",
+              "self"
+            ]
+          },
+          "uri": {
+            "type": "string"
+          }
+        }
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "CoursesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CourseResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "CourseResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Course"
+          }
+        }
+      },
+      "DistrictsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistrictResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "DistrictResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/District"
+          }
+        }
+      },
+      "ResourcesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "ResourceResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Resource"
+          }
+        }
+      },
+      "SectionsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SectionResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "SectionResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Section"
+          }
+        }
+      },
+      "SchoolsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SchoolResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "SchoolResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/School"
+          }
+        }
+      },
+      "TermsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TermResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "TermResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Term"
+          }
+        }
+      },
+      "UsersResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          }
+        }
+      },
+      "Credentials": {
+        "type": "object",
+        "properties": {
+          "district_username": {
+            "type": "string"
+          }
+        }
+      },
+      "District": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "mdr_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "nces_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "sis_type": {
+            "type": "string",
+            "x-validation": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "running",
+              "pending",
+              "error",
+              "paused",
+              "",
+              "success"
+            ],
+            "x-validation": true
+          },
+          "last_sync": {
+            "type": "string",
+            "format": "datetime",
+            "nullable": true,
+            "x-validation": true
+          },
+          "error": {
+            "type": "string"
+          },
+          "pause_start": {
+            "type": "string",
+            "format": "datetime",
+            "nullable": true,
+            "x-validation": true
+          },
+          "pause_end": {
+            "type": "string",
+            "format": "datetime",
+            "nullable": true,
+            "x-validation": true
+          },
+          "launch_date": {
+            "type": "string",
+            "format": "date",
+            "x-validation": true
+          },
+          "portal_url": {
+            "type": "string"
+          },
+          "login_methods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "district_contact": {
+            "$ref": "#/components/schemas/DistrictContact"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "lat": {
+            "type": "string",
+            "nullable": true
+          },
+          "lon": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Name": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "type": "string",
+            "nullable": true
+          },
+          "middle": {
+            "type": "string",
+            "nullable": true
+          },
+          "last": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Principal": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "district": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "teacher",
+                "student"
+              ]
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resource_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Roles": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "$ref": "#/components/schemas/Contact"
+          },
+          "district_admin": {
+            "$ref": "#/components/schemas/DistrictAdmin"
+          },
+          "staff": {
+            "$ref": "#/components/schemas/Staff"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
+          }
+        }
+      },
+      "School": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          },
+          "high_grade": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "InfantToddler",
+              "Preschool",
+              "PreKindergarten",
+              "TransitionalKindergarten",
+              "Kindergarten",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "PostGraduate",
+              "Ungraded",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "low_grade": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "InfantToddler",
+              "Preschool",
+              "PreKindergarten",
+              "TransitionalKindergarten",
+              "Kindergarten",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "PostGraduate",
+              "Ungraded",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "nces_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "principal": {
+            "$ref": "#/components/schemas/Principal"
+          },
+          "school_number": {
+            "type": "string"
+          },
+          "sis_id": {
+            "type": "string"
+          },
+          "state_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "mdr_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "ext": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "SchoolEnrollment": {
+        "type": "object",
+        "properties": {
+          "school": {
+            "type": "string",
+            "x-validation": true
+          },
+          "start_date": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "end_date": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          }
+        }
+      },
+      "Section": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "course": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          },
+          "grade": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "InfantToddler",
+              "Preschool",
+              "PreKindergarten",
+              "TransitionalKindergarten",
+              "Kindergarten",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "PostGraduate",
+              "Ungraded",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "period": {
+            "type": "string",
+            "nullable": true
+          },
+          "school": {
+            "type": "string",
+            "x-validation": true
+          },
+          "section_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "sis_id": {
+            "type": "string"
+          },
+          "students": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "english/language arts",
+              "math",
+              "science",
+              "social studies",
+              "language",
+              "homeroom/advisory",
+              "interventions/online learning",
+              "technology and engineering",
+              "PE and health",
+              "arts and music",
+              "other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "teacher": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "teachers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "term_id": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "ext": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "StudentRelationship": {
+        "type": "object",
+        "properties": {
+          "student": {
+            "type": "string",
+            "x-validation": true
+          },
+          "relationship": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Parent",
+              "Grandparent",
+              "Self",
+              "Aunt/Uncle",
+              "Sibling",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Parent/Guardian",
+              "Emergency",
+              "Primary",
+              "Secondary",
+              "Family",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          }
+        }
+      },
+      "Term": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_date": {
+            "type": "string",
+            "format": "datetime",
+            "nullable": true,
+            "x-validation": true
+          },
+          "end_date": {
+            "type": "string",
+            "format": "datetime",
+            "nullable": true,
+            "x-validation": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "legacy_id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone_type": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Cell",
+              "Home",
+              "Work",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "sis_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "student_relationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentRelationship"
+            },
+            "x-validation": true
+          }
+        }
+      },
+      "DistrictAdmin": {
+        "type": "object",
+        "properties": {
+          "legacy_id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Staff": {
+        "type": "object",
+        "properties": {
+          "legacy_id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/Credentials"
+          },
+          "department": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "schools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "staff_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "ext": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "Student": {
+        "type": "object",
+        "properties": {
+          "legacy_id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/Credentials"
+          },
+          "dob": {
+            "pattern": "(?:[0-9]{1,2})/([0-9]{1,2})/([0-9]{4})",
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "ell_status": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Y",
+              "N",
+              ""
+            ],
+            "x-validation": true
+          },
+          "enrollments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SchoolEnrollment"
+            },
+            "x-validation": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "M",
+              "F",
+              "X",
+              ""
+            ],
+            "x-validation": true
+          },
+          "graduation_year": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "grade": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "InfantToddler",
+              "Preschool",
+              "PreKindergarten",
+              "TransitionalKindergarten",
+              "Kindergarten",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "PostGraduate",
+              "Ungraded",
+              "Other",
+              ""
+            ],
+            "x-validation": true
+          },
+          "hispanic_ethnicity": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Y",
+              "N",
+              ""
+            ],
+            "x-validation": true
+          },
+          "home_language_name": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "home_language_code": {
+            "type": "string",
+            "nullable": true,
+            "x-validation": true
+          },
+          "home_language": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "English",
+              "Albanian",
+              "Amharic",
+              "Arabic",
+              "Bengali",
+              "Bosnian",
+              "Burmese",
+              "Cantonese",
+              "Chinese",
+              "Dutch",
+              "Farsi",
+              "French",
+              "German",
+              "Hebrew",
+              "Hindi",
+              "Hmong",
+              "Ilocano",
+              "Japanese",
+              "Javanese",
+              "Karen",
+              "Khmer",
+              "Korean",
+              "Laotian",
+              "Latvian",
+              "Malay",
+              "Mandarin",
+              "Nepali",
+              "Oromo",
+              "Polish",
+              "Portuguese",
+              "Punjabi",
+              "Romanian",
+              "Russian",
+              "Samoan",
+              "Serbian",
+              "Somali",
+              "Spanish",
+              "Swahili",
+              "Tagalog",
+              "Tamil",
+              "Telugu",
+              "Thai",
+              "Tigrinya",
+              "Turkish",
+              "Ukrainian",
+              "Urdu",
+              "Vietnamese",
+              ""
+            ],
+            "x-validation": true
+          },
+          "iep_status": {
+            "type": "string",
+            "nullable": true
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "race": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "Caucasian",
+              "Asian",
+              "Black or African American",
+              "American Indian",
+              "Hawaiian or Other Pacific Islander",
+              "Two or More Races",
+              "Unknown",
+              ""
+            ],
+            "x-validation": true
+          },
+          "school": {
+            "type": "string",
+            "x-validation": true
+          },
+          "schools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "sis_id": {
+            "type": "string"
+          },
+          "state_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "student_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "unweighted_gpa": {
+            "type": "string",
+            "nullable": true
+          },
+          "weighted_gpa": {
+            "type": "string",
+            "nullable": true
+          },
+          "ext": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "Teacher": {
+        "type": "object",
+        "properties": {
+          "legacy_id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/Credentials"
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "school": {
+            "type": "string",
+            "x-validation": true
+          },
+          "schools": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-validation": true
+          },
+          "sis_id": {
+            "type": "string"
+          },
+          "state_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "teacher_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "ext": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "roles": {
+            "$ref": "#/components/schemas/Roles"
+          }
+        }
+      },
+      "DistrictContact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "title": {
+            "type": "string",
+            "x-validation": true
+          },
+          "district": {
+            "type": "string",
+            "x-validation": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          }
+        }
+      },
+      "CourseObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/Course"
+          }
+        }
+      },
+      "DistrictObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/District"
+          }
+        }
+      },
+      "ResourceObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/Resource"
+          }
+        }
+      },
+      "SchoolObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/School"
+          }
+        }
+      },
+      "SectionObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/Section"
+          }
+        }
+      },
+      "TermObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/Term"
+          }
+        }
+      },
+      "UserObject": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "EventsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventResponse"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "EventResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Event"
+          }
+        }
+      },
+      "Event": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "x-validation": true
+          },
+          "id": {
+            "type": "string",
+            "x-validation": true
+          },
+          "created": {
+            "type": "string",
+            "format": "datetime",
+            "x-validation": true
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "courses.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/CourseObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "courses.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/CourseObject"
+              }
+            }
+          }
+        ]
+      },
+      "courses.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/CourseObject"
+              }
+            }
+          }
+        ]
+      },
+      "districts.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/DistrictObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "districts.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/DistrictObject"
+              }
+            }
+          }
+        ]
+      },
+      "districts.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/DistrictObject"
+              }
+            }
+          }
+        ]
+      },
+      "resources.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ResourceObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "resources.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ResourceObject"
+              }
+            }
+          }
+        ]
+      },
+      "resources.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ResourceObject"
+              }
+            }
+          }
+        ]
+      },
+      "schools.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SchoolObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "schools.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SchoolObject"
+              }
+            }
+          }
+        ]
+      },
+      "schools.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SchoolObject"
+              }
+            }
+          }
+        ]
+      },
+      "sections.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SectionObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "sections.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SectionObject"
+              }
+            }
+          }
+        ]
+      },
+      "sections.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SectionObject"
+              }
+            }
+          }
+        ]
+      },
+      "terms.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TermObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "terms.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TermObject"
+              }
+            }
+          }
+        ]
+      },
+      "terms.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/TermObject"
+              }
+            }
+          }
+        ]
+      },
+      "users.updated": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/UserObject"
+              },
+              "previous_attributes": {
+                "type": "object"
+              }
+            }
+          }
+        ]
+      },
+      "users.created": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/UserObject"
+              }
+            }
+          }
+        ]
+      },
+      "users.deleted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/UserObject"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BadRequest"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Internal Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InternalError"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Entity Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://clever.com/oauth/authorize",
+            "tokenUrl": "https://clever.com/oauth/tokens",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "x-samples-languages": [
+    "curl",
+    "node",
+    "ruby",
+    "python",
+    "php",
+    "java",
+    "go"
+  ]
+}

@@ -4,7 +4,6 @@ import { Box, useColorModeValue } from '@chakra-ui/react'
 import { User, onAuthStateChanged } from 'firebase/auth'
 
 import { SidebarContext } from 'contexts/SidebarContext'
-import { isWindowAvailable } from 'utils/navigation'
 import AppWrappers from './AppWrappers'
 import Header from 'components/navigation/Header'
 import { auth } from '@common/services/firebase'
@@ -22,8 +21,6 @@ export default function RootLayout({ children }: Props) {
   const [loading, setLoading] = useState(true)
   const authBg = useColorModeValue('white', 'neutral.900')
 
-  if (isWindowAvailable()) document.documentElement.dir = 'ltr'
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
@@ -38,7 +35,7 @@ export default function RootLayout({ children }: Props) {
   }, [])
 
   function renderContent() {
-    if (loading) return <LoadingOverlay />
+    // if (loading) return <LoadingOverlay />
 
     return (
       <AppWrappers>

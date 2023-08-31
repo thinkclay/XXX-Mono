@@ -28,7 +28,6 @@
     "@tanstack/react-table": "^8.9.3",
     "@vercel/analytics": "^1.0.2",
     "apexcharts": "3.41.1",
-    "api": "^6.1.1",
     "firebase": "^10.3.0",
     "framer-motion": "^10.16.0",
     "ieee754": "^1.2.1",
@@ -39,6 +38,7 @@
     "next": "^13.4.19",
     "next-auth": "^4.23.1",
     "next-transpile-modules": "^10.0.1",
+    "openapi-fetch": "^0.7.4",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-calendar": "^4.6.0",
@@ -79,6 +79,8 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-next": "13.4.19"
+    "eslint-config-next": "13.4.19",
+    "firebase": "^10.3.0",
+    "openapi-typescript": "^6.5.3"
   }
 }

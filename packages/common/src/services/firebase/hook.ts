@@ -17,11 +17,14 @@ import { useContext, createContext, useEffect, useMemo, useState } from 'react'
 
 import { app, auth, cleverProvider, CustomUserModel, db, googleProvider } from './index'
 import { FIREBASE, logger } from '@common/helpers/logger'
+import { RenderMode } from '@common/types/UI'
 
 setPersistence(auth, browserLocalPersistence)
 
 export const AuthContext = createContext<{ user: User | null }>({ user: null })
 export const useAuthContext = () => useContext<{ user: User | null }>(AuthContext)
+
+declare var chrome: any
 
 export const useFirebase = () => {
   const [authLoading, setAuthLoading] = useState(false)
@@ -139,7 +142,7 @@ export const useFirebase = () => {
     }
   }
 
-  const googleTokenLogin = () => {
+  const googleTokenLogin = (mode?: RenderMode) => {
     setAuthLoading(true)
 
     if (!chrome || !chrome.identity) {
@@ -147,7 +150,7 @@ export const useFirebase = () => {
       return
     }
 
-    chrome.identity.getAuthToken({ interactive: true }, async function (token) {
+    chrome.identity.getAuthToken({ interactive: true }, async function (token: string) {
       if (chrome.runtime.lastError || !token) {
         console.error(chrome.runtime.lastError)
         setAuthLoading(false)
