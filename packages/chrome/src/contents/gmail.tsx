@@ -1,7 +1,7 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import 'gmail-js'
 import { RecoilRoot } from 'recoil'
@@ -10,8 +10,7 @@ import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
-import ModalPopup from '../../../common/src/views/components/demographicModal'
-
+import ModalPopup from '@common/views/components/demographicModal'
 
 // This isn't working. Tried raw loaders and different webpack configs
 // import styles1 from '@common/assets/styles/index.scss'
@@ -55,17 +54,19 @@ window.addEventListener('load', () => {
       openPopup()
     }
   }
+
   function openPopup() {
-    const modalContainer = document.createElement('div');
-    modalContainer.id = 'custom-modal-container';
-    document.body.appendChild(modalContainer);
+    const modalContainer = document.createElement('div')
+    modalContainer.id = 'custom-modal-container'
+    document.body.appendChild(modalContainer)
     const root = createRoot(modalContainer)
-    root.render(<ModalPopup />);
+    root.render(<ModalPopup />)
   }
 
   function loadHandler() {
     console.log('Email', window.gmail.get.user_email())
   }
+
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
     const $el = compose.$el
     let signatureHTML = ''

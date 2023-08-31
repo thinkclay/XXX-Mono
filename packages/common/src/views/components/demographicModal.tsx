@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import styles from './demographic.module.scss'
 
-const ModalPopup = () => {
+function ModalPopup() {
   const [isModalVisible, setModalVisibility] = useState(true)
   const [isDemographicSelected, setDemographicSelected] = useState(false)
   const [selectedOptions, setSelectedOptions] = useState({})
   const [isAddOptionPopupVisible, setAddOptionPopupVisibility] = useState(false)
   const [newOptionValue, setNewOptionValue] = useState('')
-  const [currentKey, setCurrentKey] = useState('');
+  const [currentKey, setCurrentKey] = useState('')
 
   const closeModal = () => {
     setModalVisibility(false)
