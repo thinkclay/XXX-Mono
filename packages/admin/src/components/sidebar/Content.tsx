@@ -1,8 +1,7 @@
-// chakra imports
 import { Avatar, Box, Flex, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 
-import Links from 'components/sidebar/components/Links'
-import SidebarCard from 'components/sidebar/components/SidebarCard'
+import Links from 'components/sidebar/Links'
+import SidebarCard from 'components/sidebar/SidebarCard'
 import avatar4 from '/public/img/avatars/avatar4.png'
 import { IRoute } from 'types/navigation'
 
