@@ -1,8 +1,8 @@
 'use client'
 
-// Chakra imports
+import React from 'react'
 import { Flex, Grid, useColorModeValue } from '@chakra-ui/react'
-// Custom components
+
 import Balance from 'components/admin/dashboards/default/Balance'
 import DailyTraffic from 'components/admin/dashboards/default/DailyTraffic'
 import MostVisitedTable from 'components/admin/dashboards/default/MostVisitedTable'
@@ -13,7 +13,6 @@ import { VSeparator } from 'components/separator/Separator'
 import YourTransfers from 'components/admin/dashboards/default/YourTransfers'
 import tableDataMostVisited from 'variables/dashboards/default/tableDataMostVisited'
 import ProfitEstimation from 'components/admin/dashboards/default/ProfitEstimation'
-import React from 'react'
 
 export default function Page() {
   // Chakra Color Mode

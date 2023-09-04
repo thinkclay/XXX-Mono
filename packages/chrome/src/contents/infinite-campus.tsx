@@ -1,7 +1,7 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 import MainScreen from '@common/views/screens/MainScreen'
@@ -15,25 +15,31 @@ export const config: PlasmoCSConfig = {
   matches: ['*://nycloud1.infinitecampus.org/*'],
   run_at: 'document_start',
 }
+
 let closed = false
-const BehaviorPopUp = () => {
+
+const workspace: HTMLIFrameElement = document.getElementById('frameWorkspace') as HTMLIFrameElement
+const wrapper = workspace.contentWindow?.document.getElementById('frameWorkspaceWrapper') as HTMLIFrameElement
+const detail = workspace.contentWindow?.document.getElementById('frameWorkspaceDetail') as HTMLIFrameElement
+const detail2 = detail?.contentWindow?.document.getElementById('frameWorkspaceDetail') as HTMLIFrameElement
+const detail3 = detail.contentWindow?.document.getElementById('detailFrame') as HTMLIFrameElement
+const instructionWrapper = detail2?.contentWindow?.document.getElementById('instruction-wrapper-iframe') as HTMLIFrameElement
+const header = wrapper.contentWindow?.document.getElementById('frameWorkspaceHeader') as HTMLIFrameElement
+const sidebar = document.getElementById('frameSidebar') as HTMLIFrameElement
+
+function BehaviorPopUp() {
   const intervalId = setInterval(() => {
-    const workspaceDocumentHeader = document
-      .getElementById('frameWorkspace')
-      ?.contentWindow.document.getElementById('frameWorkspaceWrapper')
-      ?.contentWindow.document.getElementById('frameWorkspaceHeader')?.contentDocument
+    const workspaceDocumentHeader = header?.contentDocument
     const newButton = workspaceDocumentHeader?.getElementById('newDiv')
+
     if (workspaceDocumentHeader && newButton) {
       clearInterval(intervalId)
       newButton?.addEventListener('click', () => {
         closed = false
         const intervalId2 = setInterval(() => {
-          const workspaceDocumentFooter = document
-            .getElementById('frameWorkspace')
-            ?.contentWindow.document.getElementById('frameWorkspaceWrapper')
-            ?.contentWindow.document.getElementById('frameWorkspaceDetail')
-            ?.contentWindow.document.getElementById('detailFrame')?.contentDocument
-          const descriptionField = workspaceDocumentFooter?.getElementById('description')
+          const workspaceDocumentFooter = detail3?.contentDocument
+          const descriptionField = workspaceDocumentFooter?.getElementById('description') as HTMLInputElement
+
           if (workspaceDocumentFooter && descriptionField) {
             clearInterval(intervalId2)
             const intervalId3 = setInterval(() => {
@@ -62,19 +68,16 @@ const BehaviorPopUp = () => {
 window.addEventListener('load', () => {
   console.log('infinitecampus')
   const intervalId2 = setInterval(() => {
-    const selector = document
-      .getElementById('frameWorkspace')
-      ?.contentWindow.document.getElementById('frameWorkspaceWrapper')
-      ?.contentWindow.document.getElementById('frameWorkspaceDetail')
-      ?.contentWindow.document.getElementById('frameWorkspaceDetail')
-      ?.contentWindow.document.getElementById('instruction-wrapper-iframe')?.contentDocument
+    const selector = instructionWrapper?.contentDocument
+
     if (selector) {
       let allComment = selector.querySelectorAll('.cannedComment')
       for (let itm of allComment) {
         itm.addEventListener('click', function () {
           closed = false
           setTimeout(function () {
-            let textBox = selector.querySelector('[name="cannedForm"] .cannedComment')
+            let textBox = selector.querySelector('[name="cannedForm"] .cannedComment') as HTMLInputElement
+
             if (textBox) {
               textBox?.addEventListener('click', function () {
                 if (!closed) {
@@ -93,7 +96,7 @@ window.addEventListener('load', () => {
     }
   }, 500)
 
-  const iframeDocument = document.getElementById('frameSidebar')?.contentDocument
+  const iframeDocument = sidebar?.contentDocument
   if (iframeDocument) {
     const interval = setInterval(() => {
       const BehaviorManagement = iframeDocument.querySelector('[title="behavior.BehaviorManagement"]')

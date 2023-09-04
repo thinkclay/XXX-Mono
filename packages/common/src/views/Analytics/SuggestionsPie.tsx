@@ -31,14 +31,11 @@ const SuggestionsPie: React.FC = () => {
   const [cultural, setCultural] = useState(0)
   const [household, setHousehold] = useState(0)
   const [disability, setDisability] = useState(0)
-
   const [selectedBar, setSelectedBar] = useState<number | null>(null)
-
   const getAllSuggestions = async () => {
     try {
       const suggestions: any = await DB.suggestion.toArray()
       setSubFlagValue(suggestions)
-
       const countByCategoryAndType = (category: string, type: string) =>
         subFlagValue.filter((flag: any) => flag.category === category && flag.type === type).length
       setPotentialFlag(countByCategoryAndType('bias', 'potential'))
@@ -122,10 +119,10 @@ const SuggestionsPie: React.FC = () => {
   }, [])
 
   const data: DataItem[] = [
-    { label: 'TOTAL NUMBER OF FLAGS', value: flags },
-    { label: 'NUMBER OF CORRECTION ACCEPTED', value: acceptedFlag },
+    { label: 'TOTAL FLAGS', value: flags },
+    { label: 'CORRECTION ACCEPTED', value: acceptedFlag },
     { label: 'IGNORE LIST', value: ignoreList },
-    { label: 'NUMBER OF REWRITES AFTER FLAGS', value: rewriteFlag },
+    { label: 'REWRITES AFTER FLAGS', value: rewriteFlag },
   ]
   const detailedDatasets: DetailedDataset[] = [
     {
@@ -136,16 +133,17 @@ const SuggestionsPie: React.FC = () => {
   const DetailedChart: React.FC<DetailedChartProps> = ({ selectedBar }) => {
     if (selectedBar === 0) {
       const selectedData = detailedDatasets[selectedBar]
+      const labels = [
+        'TOTAL FLAGS',
+        'POTENTIAL BIAS FLAGS',
+        'RACIAL BIAS FLAGS',
+        'CULTURAL BIAS FLAGS',
+        'HOUSEHOLD FLAGS',
+        'DISABILITY FLAGS',
+      ];
       const detailedData: Plotly.Data[] = [
         {
-          x: [
-            'TOTAL NUMBERS OF FLAGS',
-            'POTENTIAL BIAS FLAGS',
-            'RACIAL BIAS FLAGS',
-            'CULTURAL BIAS FLAGS',
-            'HOUSEHOLD FLAGS',
-            'DISABILITY FLAGS',
-          ],
+          x: labels,
           y: selectedData.data,
           type: 'bar',
           marker: { color: selectedData.colors },
@@ -153,8 +151,15 @@ const SuggestionsPie: React.FC = () => {
       ]
       const layout: Partial<Plotly.Layout> = {
         title: `SUB DATA OF ${data[selectedBar].label}`,
+        xaxis: {
+          tickangle: 0,
+        },
+        width: 1050
       }
-      return <Plot data={detailedData} layout={layout} config={{ displayModeBar: false }} />
+      return (
+        <Plot data={detailedData} layout={layout} useResizeHandler config={{ displayModeBar: false }} />
+
+      )
     }
     return null
   }
@@ -167,14 +172,14 @@ const SuggestionsPie: React.FC = () => {
           {totalImprovements >= 90
             ? '😎'
             : totalImprovements >= 80
-            ? '😊'
-            : totalImprovements >= 50
-            ? '😃'
-            : totalImprovements >= 30
-            ? '🙂'
-            : isNaN(totalImprovements)
-            ? '😐'
-            : '😢'}
+              ? '😊'
+              : totalImprovements >= 50
+                ? '😃'
+                : totalImprovements >= 30
+                  ? '🙂'
+                  : isNaN(totalImprovements)
+                    ? '😐'
+                    : '😢'}
         </div>
         <div className="improvement-text">Improvements</div>
         <p className="percentage">{isNaN(totalImprovements) ? '-' : `${totalImprovements.toFixed(2)}%`}</p>
@@ -185,11 +190,12 @@ const SuggestionsPie: React.FC = () => {
             x: data.map(item => item.label),
             y: data.map(item => item.value),
             type: 'bar',
+            mode: 'lines+markers',
             marker: { color: ['#e98e8c', '#f6d45a', '#8cbb4b', '#ffa500'] },
           },
         ]}
         onClick={event => setSelectedBar(event.points[0]?.pointIndex)}
-        layout={{ title: 'Analytics' }}
+        layout={{ title: 'Analytics', width: 1050 }}
         config={{ displayModeBar: false }}
       />
       {selectedBar !== null && <DetailedChart selectedBar={selectedBar} />}

@@ -16,30 +16,30 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useSigninCheck, useUser } from 'reactfire'
 
 import Link from 'components/link/Link'
-import { Image } from 'components/images/Image'
 import { ItemContent } from 'components/menu/ItemContent'
 import Configurator from 'components/navigation/Configurator'
-import { MdInfoOutline, MdNotificationsNone, MdOutlineSpaceDashboard } from 'react-icons/md'
+import { MdNotificationsNone, MdOutlineSpaceDashboard } from 'react-icons/md'
 import { useAuthContext, useFirebase } from '@common/services/firebase/hook'
 import { IoMdMoon, IoMdSunny } from 'react-icons/io'
-import NavLink from 'components/link/NavLink'
-import routes from 'routes'
 import AdminMenu from './AdminMenu'
 import { profileRoutes, userRoutes } from 'config/routes'
 
 export default function Header() {
+  const { status, data: signInCheckResult } = useSigninCheck()
+  const { data: user } = useUser()
   const { logout } = useFirebase()
   const backgroundColor = useColorModeValue('neutral.50', 'gray.800')
   const { colorMode, toggleColorMode } = useColorMode()
-  const { user } = useAuthContext()
-  const textColor = useColorModeValue('secondaryGray.900', 'white')
   const textColorBrand = useColorModeValue('brand.700', 'brand.400')
   const shadow = useColorModeValue('14px 17px 40px 4px rgba(112, 144, 176, 0.18)', '14px 17px 40px 4px rgba(112, 144, 176, 0.06)')
   const contrast = useColorModeValue('blue.500', 'yellow.400')
 
   const { onOpen } = useDisclosure()
+
+  if (status === 'loading') return null
 
   function renderPublicNav() {
     return (
@@ -140,7 +140,7 @@ export default function Header() {
         </Link>
 
         <HStack align="center" spacing={5} pt={2}>
-          {user ? renderDashboardNav() : renderPublicNav()}
+          {signInCheckResult && signInCheckResult.signedIn ? renderDashboardNav() : renderPublicNav()}
 
           <Icon onClick={toggleColorMode} color={contrast} h="24px" w="24px" as={colorMode === 'light' ? IoMdMoon : IoMdSunny} />
         </HStack>
