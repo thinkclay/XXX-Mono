@@ -41,7 +41,7 @@ window.addEventListener('load', () => {
     clearInterval(loaderId)
     startExtension()
   }, 100)
-
+  let isPopupOpen = false;
   function startExtension() {
     window.gmail.observe.on('compose', composeHandler)
     window.gmail.observe.on('load', loadHandler)
@@ -51,7 +51,10 @@ window.addEventListener('load', () => {
   function clickHandler(event: any) {
     const target = event.target
     if (target.closest('[aria-label="Message Body"]')) {
-      openPopup()
+      if (!isPopupOpen) {
+        openPopup();
+        isPopupOpen = true;
+      }
     }
   }
 
@@ -68,6 +71,7 @@ window.addEventListener('load', () => {
   }
 
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
+    isPopupOpen = false;
     const $el = compose.$el
     let signatureHTML = ''
     const bodyId = setInterval(() => {
