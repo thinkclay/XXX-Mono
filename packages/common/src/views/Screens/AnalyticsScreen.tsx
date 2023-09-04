@@ -1,9 +1,8 @@
 //  @format
 
-import { PageProps } from '@common/types/UI'
 import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 
-function Settings({ mode }: PageProps) {
+function Settings() {
   return (
     <div className="WelcomeScreen">
       <h1>Analytics</h1>

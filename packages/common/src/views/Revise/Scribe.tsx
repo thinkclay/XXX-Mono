@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { Editor, EditorContent } from '@tiptap/react'
-import { onAuthStateChanged } from 'firebase/auth'
 import { doc, collection, getDocs, query, Query } from 'firebase/firestore'
 import OpenAI from 'openai'
 
 import { DB } from '@common/helpers/db'
-import { auth, db } from '@common/services/firebase'
+import { db } from '@common/services/firebase'
 import { getRevisedCopy, getToneEmoji } from '@common/services/openai'
 import { rootState } from '@common/helpers/root'
 import { toneState } from '@common/helpers/tone'
@@ -18,6 +17,7 @@ import { RenderMode } from '@common/types/UI'
 import Revision from './Revision'
 import Toolbar from './Toolbar'
 import Format from '@common/tiptap/format'
+import { useFirebase } from '@common/services/firebase/hook'
 
 interface ScribeProps {
   editor: Editor
@@ -27,6 +27,7 @@ interface ScribeProps {
 }
 
 function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
+  const { authUser } = useFirebase()
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
   const [timeoutId, setTimeoutId] = useState<any>(null)
@@ -91,12 +92,9 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         console.error(`Error getting ${dbKey}: `, error)
       }
     }
-
-    onAuthStateChanged(auth, async user => {
-      if (user) {
+      if (authUser) {
         const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, user.uid)
-
+        const userDocRef = doc(userCollection, authUser.uid)
         const ignoreCollection = collection(userDocRef, 'ignorelist')
         const ignorequeryDocs = query(ignoreCollection)
         getDocs(ignorequeryDocs)
@@ -127,8 +125,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         const languageCollection = collection(userDocRef, 'language')
         fetchAndProcessData(languageCollection, 'language')
       }
-    })
-  }, [match])
+  }, [match,authUser])
 
   useEffect(() => {
     const text = editor.getText()

@@ -1,122 +1,103 @@
 import React, { useState, useEffect } from 'react'
 import Plot from 'react-plotly.js'
-import { onAuthStateChanged } from 'firebase/auth'
 import { auth, db } from '@common/services/firebase'
-import { doc, collection, getDocs, query } from 'firebase/firestore'
+import { doc, collection, getDocs } from 'firebase/firestore'
 import { DB } from '@common/helpers/db'
-
+import { useFirebase } from '@common/services/firebase/hook'
 interface DataItem {
   label: string
   value: number
 }
-
 interface DetailedDataset {
   data: number[]
   colors: string[]
 }
-
 interface DetailedChartProps {
   selectedBar: number | null
 }
+interface FlagState {
+  subFlagValue: any[]
+  potentialFlag: number
+  racial: number
+  cultural: number
+  household: number
+  disability: number
+}
 
 const SuggestionsPie: React.FC = () => {
+  const {authUser} = useFirebase()
   const [flags, setFlags] = useState(0)
   const [acceptedFlag, setAcceptedFlag] = useState(0)
   const [ignoreList, setIgnoreList] = useState(0)
   const [rewriteFlag, setRewriteFlag] = useState(0)
-
-  const [subFlagValue, setSubFlagValue] = useState([])
-  const [potentialFlag, setPotentialFlag] = useState(0)
-  const [racial, setRacial] = useState(0)
-  const [cultural, setCultural] = useState(0)
-  const [household, setHousehold] = useState(0)
-  const [disability, setDisability] = useState(0)
   const [selectedBar, setSelectedBar] = useState<number | null>(null)
+
+  const initialState: FlagState = {
+    subFlagValue: [],
+    potentialFlag: 0,
+    racial: 0,
+    cultural: 0,
+    household: 0,
+    disability: 0,
+  }
+  const [state, setState] = useState<FlagState>(initialState)
+
+  const countByCategoryAndType = (category: string, type: string, suggestions: any[]) => {
+    return suggestions.filter(flag => flag.category === category && flag.type === type).length
+  }
+
   const getAllSuggestions = async () => {
     try {
-      const suggestions: any = await DB.suggestion.toArray()
-      setSubFlagValue(suggestions)
-      const countByCategoryAndType = (category: string, type: string) =>
-        subFlagValue.filter((flag: any) => flag.category === category && flag.type === type).length
-      setPotentialFlag(countByCategoryAndType('bias', 'potential'))
-      setCultural(countByCategoryAndType('bias', 'cultural'))
-      setRacial(countByCategoryAndType('bias', 'racial'))
-      setHousehold(countByCategoryAndType('bias', 'household'))
-      setDisability(countByCategoryAndType('bias', 'disability'))
+      const suggestions: any[] = await DB.suggestion.toArray()
+      setState(prevState => ({
+        ...prevState,
+        subFlagValue: suggestions,
+        potentialFlag: countByCategoryAndType('bias', 'potential', suggestions),
+        cultural: countByCategoryAndType('bias', 'cultural', suggestions),
+        racial: countByCategoryAndType('bias', 'racial', suggestions),
+        household: countByCategoryAndType('bias', 'household', suggestions),
+        disability: countByCategoryAndType('bias', 'disability', suggestions),
+      }))
     } catch (error) {
       console.error('Error fetching suggestions:', error)
     }
   }
 
+  const getAnalyticsData = async () => {
+    try {
+      if (!authUser) return
+      const userCollection = collection(db, 'users')
+      const userDocRef = doc(userCollection, authUser.uid)
+      const [flagCollection, acceptedFlagsCollection, ignoreListCollection, rewriteflags] = await Promise.all([
+        collection(userDocRef, 'flags'),
+        collection(userDocRef, 'acceptedflags'),
+        collection(userDocRef, 'ignorelist'),
+        collection(userDocRef, 'rewriteflags'),
+      ])
+      const [flagSnapshot, acceptedFlagSnapshot, ignoreListSnapshot, rewriteFlagSnapshot] = await Promise.all([
+        getDocs(flagCollection),
+        getDocs(acceptedFlagsCollection),
+        getDocs(ignoreListCollection),
+        getDocs(rewriteflags),
+      ])
+      const flagSum = flagSnapshot.docs.reduce((total, doc) => total + doc.data().data.length, 0)
+      const acceptedFlagSum = acceptedFlagSnapshot.docs.reduce((total, doc) => {
+        return total + doc.data().data.reduce((itemTotal, item) => itemTotal + item.value, 0)
+      }, 0)
+      const ignoreListCount = ignoreListSnapshot.docs.reduce((total, doc) => total + doc.data().data.length, 0)
+      const rewriteFlagCount = rewriteFlagSnapshot.docs.reduce((total, doc) => total + doc.data().data.length, 0)
+      setFlags(flagSum)
+      setAcceptedFlag(acceptedFlagSum)
+      setIgnoreList(ignoreListCount)
+      setRewriteFlag(rewriteFlagCount)
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
   useEffect(() => {
     getAllSuggestions()
-  }, [flags])
-
-  useEffect(() => {
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, user.uid)
-        const flagCollection = collection(userDocRef, 'flags')
-        const acceptedFlagsCollection = collection(userDocRef, 'acceptedflags')
-        const ignoreListCollection = collection(userDocRef, 'ignorelist')
-        const rewriteflags = collection(userDocRef, 'rewriteflags')
-        const queryDocs = query(flagCollection)
-
-        getDocs(queryDocs)
-          .then(checkQuery => {
-            if (checkQuery.size > 0) {
-              getDocs(flagCollection)
-                .then(querySnapshot => {
-                  querySnapshot.forEach((data: any) => {
-                    const newData = data.data().data
-                    const sum = newData.length
-                    setFlags(sum)
-                  })
-                })
-                .catch(error => {
-                  console.error('Error getting documents: ', error)
-                })
-              getDocs(acceptedFlagsCollection)
-                .then(querySnapshot => {
-                  querySnapshot.forEach((data: any) => {
-                    const newData = data.data().data
-                    const sum = newData.reduce((total: any, item: any) => total + item.value, 0);
-
-                    setAcceptedFlag(sum)
-                  })
-                })
-                .catch(error => {
-                  console.error('Error getting documents: ', error)
-                })
-              getDocs(ignoreListCollection)
-                .then(querySnapshot => {
-                  querySnapshot.forEach((data: any) => {
-                    const newData = data.data().data
-                    setIgnoreList(newData.length + 1)
-                  })
-                })
-                .catch(error => {
-                  console.error('Error getting documents: ', error)
-                })
-              getDocs(rewriteflags)
-                .then(querySnapshot => {
-                  querySnapshot.forEach((data: any) => {
-                    const newData = data.data().data
-                    setRewriteFlag(newData.length)
-                  })
-                })
-                .catch(error => {
-                  console.error('Error getting documents: ', error)
-                })
-            }
-          })
-          .catch(error => {
-            console.error('Error getting ignoreCollection:', error)
-          })
-      }
-    })
-  }, [])
+    getAnalyticsData()
+  }, [authUser])
 
   const data: DataItem[] = [
     { label: 'TOTAL FLAGS', value: flags },
@@ -124,6 +105,7 @@ const SuggestionsPie: React.FC = () => {
     { label: 'IGNORE LIST', value: ignoreList },
     { label: 'REWRITES AFTER FLAGS', value: rewriteFlag },
   ]
+  const { potentialFlag, racial, cultural, household, disability } = state
   const detailedDatasets: DetailedDataset[] = [
     {
       data: [flags, potentialFlag, racial, cultural, household, disability],
@@ -140,7 +122,7 @@ const SuggestionsPie: React.FC = () => {
         'CULTURAL BIAS FLAGS',
         'HOUSEHOLD FLAGS',
         'DISABILITY FLAGS',
-      ];
+      ]
       const detailedData: Plotly.Data[] = [
         {
           x: labels,
@@ -154,12 +136,9 @@ const SuggestionsPie: React.FC = () => {
         xaxis: {
           tickangle: 0,
         },
-        width: 1050
+        width: 1050,
       }
-      return (
-        <Plot data={detailedData} layout={layout} useResizeHandler config={{ displayModeBar: false }} />
-
-      )
+      return <Plot data={detailedData} layout={layout} useResizeHandler config={{ displayModeBar: false }} />
     }
     return null
   }
@@ -172,14 +151,14 @@ const SuggestionsPie: React.FC = () => {
           {totalImprovements >= 90
             ? '😎'
             : totalImprovements >= 80
-              ? '😊'
-              : totalImprovements >= 50
-                ? '😃'
-                : totalImprovements >= 30
-                  ? '🙂'
-                  : isNaN(totalImprovements)
-                    ? '😐'
-                    : '😢'}
+            ? '😊'
+            : totalImprovements >= 50
+            ? '😃'
+            : totalImprovements >= 30
+            ? '🙂'
+            : isNaN(totalImprovements)
+            ? '😐'
+            : '😢'}
         </div>
         <div className="improvement-text">Improvements</div>
         <p className="percentage">{isNaN(totalImprovements) ? '-' : `${totalImprovements.toFixed(2)}%`}</p>
