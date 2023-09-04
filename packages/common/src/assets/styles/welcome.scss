@@ -44,6 +44,7 @@
       position: relative;
       transition: color 0.3s;
       vertical-align: top;
+      font-size: 14px;
 
       &::before {
         border: 2px solid $color-brand-1;
