@@ -1,6 +1,6 @@
 /** @format */
 
-import { StrictMode, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { RecoilRoot, useRecoilState } from 'recoil'
 import { Editor, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -31,6 +31,18 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
 
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
+  const [isOpen, setIsOpen] = useState(true);
+  useEffect(() => {
+    const hasPopupBeenShown = localStorage.getItem('anonymizedPopup');
+    if (hasPopupBeenShown) {
+      setIsOpen(false); 
+    }
+  }, []);
+
+  const handleAccept = () => {
+    setIsOpen(false);
+    localStorage.setItem('anonymizedPopup', 'true');
+  };
 
   const editor = useEditor({
     autofocus: 'start',
@@ -65,14 +77,31 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
     ],
   })
 
-  const rendered = editor ? <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} /> : <LoadingScreen />
+  const rendered = editor ? <>
+    {isOpen && (
+      <div className={`popup-container ${isOpen ? 'open' : 'closed'}`}>
+        <div className="popup">
+          <h1>Profile Setup Confirmation</h1>
+          <p>
+            We want to assure you that no identifying data will be shared. Your registration is solely for your own use, and all data related to your use of Revision will be anonymized.
+          </p>
+          <div className="button-container">
+            <button onClick={handleAccept}>Ok</button>
+          </div>
+        </div>
+      </div>
+    )}
+    <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
+  </> : <LoadingScreen />
 
   return mode === 'embedded' ? (
-    <RecoilRoot>
-      <StrictMode>
-        <div id="RevisionApp">{rendered}</div>
-      </StrictMode>
-    </RecoilRoot>
+    <>
+      <RecoilRoot>
+        <StrictMode>
+          <div id="RevisionApp">{rendered}</div>
+        </StrictMode>
+      </RecoilRoot>
+    </>
   ) : (
     rendered
   )
