@@ -1,6 +1,6 @@
 /** @format */
 
-import { fetchingLanguageState, spellingCountState } from '@common/helpers/root'
+import { biasCountState, fetchingLanguageState, fetchingRevisionState, spellingCountState } from '@common/helpers/root'
 import { useRecoilValue } from 'recoil'
 import { ToolbarActionProps } from './Toolbar'
 import { doc, collection, getDocs, query, addDoc, setDoc, Timestamp } from 'firebase/firestore'
@@ -9,8 +9,10 @@ import { auth, db } from '@common/services/firebase'
 import { useEffect, useState } from 'react'
 
 function Reload({ handler }: ToolbarActionProps) {
-  const fetching = useRecoilValue(fetchingLanguageState)
+  const fetchingLanguage = useRecoilValue(fetchingLanguageState)
+  const fetchingBias = useRecoilValue(fetchingRevisionState)
   const spellingCount = useRecoilValue(spellingCountState)
+  const biasCount = useRecoilValue(biasCountState)
   const [addCount, setAddCount] = useState(0)
 
   const rewriteData = (item: any) => {
@@ -71,7 +73,7 @@ function Reload({ handler }: ToolbarActionProps) {
               const newData = data.data().data
               const commonValues = textContents.map((flag: any) => {
                 const data = newData.find((d: { key: number; value: string }) => d.value === flag)
-                if(data){
+                if (data) {
                   return data.value
                 }
               })
@@ -100,9 +102,11 @@ function Reload({ handler }: ToolbarActionProps) {
     setAddCount(spellingCount)
   }, [spellingCount])
   return (
-    <button className={`reload ${fetching ? 'active fetching' : ''}`} onClick={handler}>
+    <button className={`reload ${fetchingLanguage || fetchingBias ? 'active fetching' : ''}`} onClick={handler}>
       {spellingCount ? (
         <div className="counter">{spellingCount}</div>
+      ) : biasCount ? (
+        <div className="counter bias">{biasCount}</div>
       ) : (
         <svg viewBox="0 0 100 100">
           <path

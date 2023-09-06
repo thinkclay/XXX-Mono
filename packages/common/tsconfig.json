@@ -4,6 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "@common/*": ["./src/*"]
-    }
-  }
+    },
+  },
+  "exclude": [
+    './node_modules'
+  ]
 }
