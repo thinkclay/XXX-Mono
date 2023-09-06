@@ -9,7 +9,7 @@ import Image from '@tiptap/extension-image'
 import TextStyle from '@tiptap/extension-text-style'
 import Typography from '@tiptap/extension-typography'
 import Highlight from '@tiptap/extension-highlight'
-
+import { Modal } from 'antd';
 import { PageProps } from '@common/types/UI'
 import { Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
@@ -31,16 +31,17 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
 
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
-  const [isOpen, setIsOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  
   useEffect(() => {
     const hasPopupBeenShown = localStorage.getItem('anonymizedPopup');
     if (hasPopupBeenShown) {
-      setIsOpen(false); 
+      setIsModalOpen(false);
     }
   }, []);
 
   const handleAccept = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
     localStorage.setItem('anonymizedPopup', 'true');
   };
 
@@ -78,18 +79,10 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
   })
 
   const rendered = editor ? <>
-    {isOpen && (
-      <div className={`popup-container ${isOpen ? 'open' : 'closed'}`}>
-        <div className="popup">
-          <h1>Profile Setup Confirmation</h1>
-          <p>
-            We want to assure you that no identifying data will be shared. Your registration is solely for your own use, and all data related to your use of Revision will be anonymized.
-          </p>
-          <div className="button-container">
-            <button onClick={handleAccept}>Ok</button>
-          </div>
-        </div>
-      </div>
+    {isModalOpen && (
+      <Modal title="Profile Setup Confirmation" open={isModalOpen} onOk={handleAccept} onCancel={handleAccept} cancelButtonProps={{ style: { display: 'none' } }} okButtonProps={{ style: { display: 'block', margin: '0 auto', background: "#ff5c38" } }}>
+        <p>Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to your use of ReVision is anonymized.</p>
+      </Modal>
     )}
     <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
   </> : <LoadingScreen />
