@@ -1,6 +1,6 @@
 /** @format */
 
-import { StrictMode, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { RecoilRoot, useRecoilState } from 'recoil'
 import { Editor, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -9,7 +9,7 @@ import Image from '@tiptap/extension-image'
 import TextStyle from '@tiptap/extension-text-style'
 import Typography from '@tiptap/extension-typography'
 import Highlight from '@tiptap/extension-highlight'
-
+import { Modal } from 'antd';
 import { PageProps } from '@common/types/UI'
 import { Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
@@ -31,6 +31,18 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
 
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  useEffect(() => {
+    const hasPopupBeenShown = localStorage.getItem('anonymizedPopup');
+    if (hasPopupBeenShown) {
+      setIsModalOpen(false);
+    }
+  }, []);
+
+  const handleAccept = () => {
+    setIsModalOpen(false);
+    localStorage.setItem('anonymizedPopup', 'true');
+  };
 
   const editor = useEditor({
     autofocus: 'start',
@@ -65,14 +77,23 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
     ],
   })
 
-  const rendered = editor ? <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} /> : <LoadingScreen />
+  const rendered = editor ? <>
+    {isModalOpen && (
+      <Modal title="Profile Setup Confirmation" open={isModalOpen} onOk={handleAccept} onCancel={handleAccept} cancelButtonProps={{ style: { display: 'none' } }} okButtonProps={{ style: { display: 'block', margin: '0 auto', background: "#ff5c38" } }}>
+        <p>Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to your use of ReVision is anonymized.</p>
+      </Modal>
+    )}
+    <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
+  </> : <LoadingScreen />
 
   return mode === 'embedded' ? (
-    <RecoilRoot>
-      <StrictMode>
-        <div id="RevisionApp">{rendered}</div>
-      </StrictMode>
-    </RecoilRoot>
+    <>
+      <RecoilRoot>
+        <StrictMode>
+          <div id="RevisionApp">{rendered}</div>
+        </StrictMode>
+      </RecoilRoot>
+    </>
   ) : (
     rendered
   )
