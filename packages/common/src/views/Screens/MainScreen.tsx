@@ -32,6 +32,7 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(true);
+  
   useEffect(() => {
     const hasPopupBeenShown = localStorage.getItem('anonymizedPopup');
     if (hasPopupBeenShown) {
