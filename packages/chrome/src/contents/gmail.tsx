@@ -10,7 +10,7 @@ import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
 import '@common/assets/styles/index.scss'
-import ModalPopup from '@common/views/components/demographicModal'
+import ModalPopup from '@common/views/components/demographicSelection.tsx'
 
 // This isn't working. Tried raw loaders and different webpack configs
 // import styles1 from '@common/assets/styles/index.scss'
