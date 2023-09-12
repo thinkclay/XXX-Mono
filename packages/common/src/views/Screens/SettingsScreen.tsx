@@ -18,7 +18,7 @@ function SettingsScreen({ mode }: PageProps) {
     setSpellcheck(check)
   }
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (authUser) {
         const user = await getUser(authUser)
         user.spellCheck !== undefined && setSpellcheck(user.spellCheck)
@@ -28,7 +28,7 @@ function SettingsScreen({ mode }: PageProps) {
 
   return (
     <div className="WelcomeScreen">
-      <h1>Settings</h1>
+      <h1 className='settings-text'>Settings</h1>
       <ul className="terms">
         <li onClick={() => _handlerSpellCheck(!spellcheck)}>
           <Fill checked={spellcheck} />
