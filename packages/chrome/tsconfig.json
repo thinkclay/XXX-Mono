@@ -9,5 +9,5 @@
   "exclude": [
     "node_modules"
   ],
-  "include": [".plasmo/index.d.ts"]
+  "include": [".plasmo/index.d.ts","."]
 }
