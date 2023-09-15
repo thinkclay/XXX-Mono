@@ -19,17 +19,16 @@ window.addEventListener('load', () => {
     if (element) {
       element.addEventListener('click', () => {
         const bodyId = setInterval(() => {
-          const body = document.querySelector('[aria-label="Message body, press Alt+F10 to exit"]');
-          if (body) {
+          let elementsWithPrefix = document.querySelector('[id^="editorParent_"]');
+          if (elementsWithPrefix) {
+            runApp(elementsWithPrefix);
             clearInterval(bodyId)
-            runApp(body);
           }
         }, 100)
       })
     }
-  }, 100);
+  }, 300);
 });
-
 
 function runApp(rootMount: Element) {
   const App = () => (
@@ -45,7 +44,8 @@ function runApp(rootMount: Element) {
   rootElement.id = 'gmailRoot';
   rootMount.appendChild(rootElement);
   const root = createRoot(rootElement);
-  const composeElement = document.querySelector('[aria-label="Message body, press Alt+F10 to exit"]');
+  const composeElement = document.querySelector('[id^="editorParent_"]');
+
   if (!composeElement) return
   const shadowRoot = composeElement.attachShadow({ mode: 'open' })
   shadowRoot.innerHTML = `
