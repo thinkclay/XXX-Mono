@@ -4,50 +4,49 @@ import { biasCountState, fetchingLanguageState, fetchingRevisionState, spellingC
 import { useRecoilValue } from 'recoil'
 import { ToolbarActionProps } from './Toolbar'
 import { doc, collection, getDocs, query, addDoc, setDoc, Timestamp } from 'firebase/firestore'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from '@common/services/firebase'
+import { db } from '@common/services/firebase'
 import { useEffect, useState } from 'react'
+import { useFirebase } from '@common/services/firebase/hook'
 
 function Reload({ handler }: ToolbarActionProps) {
+  const { authUser } = useFirebase()
   const fetchingLanguage = useRecoilValue(fetchingLanguageState)
   const fetchingBias = useRecoilValue(fetchingRevisionState)
   const spellingCount = useRecoilValue(spellingCountState)
   const biasCount = useRecoilValue(biasCountState)
   const [addCount, setAddCount] = useState(0)
 
-  const rewriteData = (item: any) => {
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, user.uid)
-        const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
-        const queryDocs = query(rewriteFlagCollection)
-        try {
-          const checkQuery = await getDocs(queryDocs)
-          if (checkQuery.size > 0) {
-            const querySnapshot = await getDocs(rewriteFlagCollection)
-            querySnapshot.forEach(data => {
-              const rewriteListDocument = doc(rewriteFlagCollection, data.id)
-              const filterData = data.data().data
-              item.forEach((element: any) => {
-                filterData.push({ timestamp: Timestamp.now(), value: element })
-              })
-              setDoc(rewriteListDocument, { data: filterData })
-                .then(() => console.log('UPDATED rewriteList Firebase'))
-                .catch(e => console.log('Error', e))
-            })
-          } else {
-            const filterData: any = []
+  const rewriteData = async (item: any) => {
+    if (authUser) {
+      const userCollection = collection(db, 'users')
+      const userDocRef = doc(userCollection, authUser.uid)
+      const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
+      const queryDocs = query(rewriteFlagCollection)
+      try {
+        const checkQuery = await getDocs(queryDocs)
+        if (checkQuery.size > 0) {
+          const querySnapshot = await getDocs(rewriteFlagCollection)
+          querySnapshot.forEach(data => {
+            const rewriteListDocument = doc(rewriteFlagCollection, data.id)
+            const filterData = data.data().data
             item.forEach((element: any) => {
               filterData.push({ timestamp: Timestamp.now(), value: element })
             })
-            await addDoc(rewriteFlagCollection, { data: filterData })
-          }
-        } catch (error) {
-          console.log(error)
+            setDoc(rewriteListDocument, { data: filterData })
+              .then(() => console.log('UPDATED rewriteList Firebase'))
+              .catch(e => console.log('Error', e))
+          })
+        } else {
+          const filterData: any = []
+          item.forEach((element: any) => {
+            filterData.push({ timestamp: Timestamp.now(), value: element })
+          })
+          await addDoc(rewriteFlagCollection, { data: filterData })
         }
+      } catch (error) {
+        console.log(error)
       }
-    })
+    }
   }
 
   useEffect(() => {
@@ -58,10 +57,10 @@ function Reload({ handler }: ToolbarActionProps) {
       setAddCount(spellingCount)
       return
     }
-    onAuthStateChanged(auth, async user => {
-      if (user) {
+    const fetchData = async () => {
+      if (authUser) {
         const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, user.uid)
+        const userDocRef = doc(userCollection, authUser.uid)
         const flagsCollection = collection(userDocRef, 'flags')
         const queryDocs = query(flagsCollection)
         try {
@@ -98,9 +97,10 @@ function Reload({ handler }: ToolbarActionProps) {
           console.error('Error:', error)
         }
       }
-    })
-    setAddCount(spellingCount)
-  }, [spellingCount])
+      setAddCount(spellingCount)
+    }
+    fetchData()
+  }, [spellingCount, authUser])
   return (
     <button className={`reload ${fetchingLanguage || fetchingBias ? 'active fetching' : ''}`} onClick={handler}>
       {spellingCount ? (

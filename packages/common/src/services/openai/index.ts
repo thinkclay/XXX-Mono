@@ -16,6 +16,7 @@ interface Revision {
 const OAI_KEY = atob('c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5')
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY || OAI_KEY,
+  organization: 'org-jPyM8UpbzbxetZLm0oDVNUd1',
   dangerouslyAllowBrowser: true,
 })
 

@@ -13,6 +13,7 @@ import { VSeparator } from 'components/separator/Separator'
 import YourTransfers from 'components/admin/dashboards/default/YourTransfers'
 import tableDataMostVisited from 'variables/dashboards/default/tableDataMostVisited'
 import ProfitEstimation from 'components/admin/dashboards/default/ProfitEstimation'
+import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 
 export default function Page() {
   // Chakra Color Mode
@@ -27,6 +28,7 @@ export default function Page() {
           display={{ base: 'block', lg: 'grid' }}
         >
           <Flex gridArea={{ base: '1 / 1 / 2 / 3', '2xl': '1 / 1 / 2 / 2' }}>
+            <SuggestionsPie />
             <OverallRevenue />
           </Flex>
           <Flex gridArea={{ base: '2 / 1 / 3 / 3', '2xl': '1 / 2 / 2 / 3' }}>
@@ -63,9 +65,8 @@ export default function Page() {
             <MostVisitedTable tableData={tableDataMostVisited} />
           </Flex>
         </Grid>
+        <YourCard maxW={{ base: '100%', xl: '400px' }} maxH={{ base: '100%', xl: '1170px', '2xl': '100%' }} />
       </Flex>
-      <VSeparator mx="20px" bg={paleGray} display={{ base: 'none', xl: 'flex' }} />
-      <YourCard maxW={{ base: '100%', xl: '400px' }} maxH={{ base: '100%', xl: '1170px', '2xl': '100%' }} />
     </Flex>
   )
 }

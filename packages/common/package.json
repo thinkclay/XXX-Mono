@@ -46,6 +46,7 @@
     "@types/jquery": "^3.5.18",
     "@types/node": "^20.5.9",
     "@visx/visx": "^3.3.0",
+    "antd": "^5.8.6",
     "dexie": "^3.2.4",
     "firebase": "^10.2.0",
     "lodash": "^4.17.21",
