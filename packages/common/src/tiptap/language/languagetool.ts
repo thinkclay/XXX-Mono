@@ -17,6 +17,7 @@ import { changedDescendants, moreThan500Words, selectElementText } from './langu
 import { DB } from '@common/helpers/db'
 import { auth, db } from '@common/services/firebase'
 import { TIPTAP } from '@common/helpers/logger'
+import { Timestamp } from 'firebase-admin/firestore'
 
 let editorView: EditorView
 let decorationSet: DecorationSet
@@ -310,7 +311,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                           const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
                           const newDocRef = doc(ignoreListCollection, data.id)
                           const newData = data.data().data
-                          newData.push({ Key: newData.length + 1, Value: content })
+                          newData.push({ Key: newData.length + 1, Value: content,timestamp: Timestamp.now() })
                           updateDoc(newDocRef, { data: newData })
                             .then(data => console.log('UPDATED Firebase', data))
                             .catch(e => console.log('Error', e))
@@ -320,7 +321,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                         console.error('Error getting documents: ', error)
                       })
                   } else {
-                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content }] })
+                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content,timestamp: Timestamp.now() }] })
                       .then(data => console.log('NEW_ADDED Firebase', data))
                       .catch(e => console.log('Error', e))
                   }

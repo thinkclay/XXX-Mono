@@ -105,8 +105,8 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
                   DB.dictionary.clear()
                   querySnapshot.forEach(async (data: any) => {
                     const newData = data.data().data
-                    newData.forEach((data: { Value: any }) => {
-                      DB.dictionary.add({ value: data.Value })
+                    newData.forEach((data: { Value: any,timestamp: Date }) => {
+                      DB.dictionary.add({ value: data.Value,timestamp: data.timestamp })
                     })
                   })
                 })

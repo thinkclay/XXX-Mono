@@ -105,53 +105,79 @@
     display: flex;
     flex-direction: column;
     gap: 60px;
-    align-items: center;
     height: fit-content;
     margin-bottom: 50px;
     overflow: hidden;
-
-    .improvements-circle {
-      height: 140px;
-      width: 140px;
-      border-radius: 80px;
-      position: absolute;
-      z-index: 1;
-      background: linear-gradient(110.1deg, rgb(34, 126, 34) 2.9%, rgb(168, 251, 60) 90.3%);
-      animation: fadeIn 1.5s ease-in-out forwards;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      right: 120px;
-      flex-direction: column;
-      font-weight: 600;
-      font-size: 17px;
-
-      .percentage {
-        font-size: 28px;
-        margin-bottom: 20px;
-        color: $color-n0;
-      }
-
-      .improvement-text {
-        font-size: 15px;
-        color: $color-n0;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
+    .filter-view{
+      min-height: 150px;
+      border: 1px solid #ccc;
+      padding: 5px 20px; 
+      border-radius: 8px;
+      margin-top: 10px;
+      flex-direction: row;
+   
+      .filter-main{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+      .filter{
+        width: 60%;
+        .filter-title{
+          padding: 14px 0;
+          font-size: 18px;
+          font-weight: 600;
         }
-
-        to {
-          opacity: 1;
-        }
+      .filter-screen{
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      .weekly-filter{
+        flex-direction: column;
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
       }
-
-      .reaction-emoji {
-        font-size: 30px;
+     }
+    }
+  }
+  .improvements-circle {
+    height: 140px;
+    width: 140px;
+    border-radius: 80px;
+    z-index: 1;
+    background: linear-gradient(110.1deg, #FF5C38 2.9%, #bf533b 90.3%);
+    animation: fadeIn 1.5s ease-in-out forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 600;
+    .percentage {
+      font-size: 23px;
+      margin-bottom: 20px;
+      color: $color-n0;
+    }
+    .improvement-text {
+      font-size: 15px;
+      color: $color-n0;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
       }
     }
-
+    .reaction-emoji {
+      font-size: 30px;
+    }
+   }
+  }
     .js-plotly-plot .plotly .main-svg {
       height: 506px;
       width: fit-content;
