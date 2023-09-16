@@ -5,8 +5,8 @@ import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 function Settings() {
   return (
     <div className="WelcomeScreen">
-      <h1>Analytics</h1>
-      <SuggestionsPie/>
+      <h1 className='analytics-text'>Analytics</h1>
+      <SuggestionsPie />
     </div>
   )
 }

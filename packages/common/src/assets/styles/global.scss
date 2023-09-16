@@ -126,6 +126,10 @@
       }
     }
 
+    .welcome-text {
+      font-family: 'Fraunces', serif;
+    }
+
     h1 {
       font-size: 32px;
       font-weight: 700;
@@ -139,5 +143,63 @@
     p+p {
       padding-top: 15px;
     }
+  }
+}
+
+/**
+ * Antd common style
+ */
+ .ant-checkbox-inner {
+  border: 1px solid #262626 !important;
+ }
+ .ant-checkbox-checked:after {
+  border: 1px solid #262626 !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner { 
+  background-color: #262626!important;
+  border: 1px solid #262626!important;
+}
+.ant-picker-active-bar {
+  background: #262626 !important;
+}
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner {
+  background-color: #262626!important;
+}
+:where(.css-dev-only-do-not-override-i0102m).ant-picker-focused {
+  box-shadow: none !important;
+}
+:where(.css-dev-only-do-not-override-i0102m).ant-picker-dropdown .ant-picker-week-panel-row-selected td.ant-picker-cell:before {
+  background: #262626 !important;
+}
+:where(.css-dev-only-do-not-override-i0102m).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: #262626 !important;
+
+//antd global style
+
+.ant-modal-title {
+  font-family: 'Fraunces', serif !important;
+  font-size: 20px !important;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  background-color: $color-brand-1 !important;
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1) !important;
+
+  &:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    background-color: $color-brand-1 !important;
+  }
+}
+
+.reminder-text {
+  font-size: 15px !important;
+}
+
+.ant-btn-default {
+  &:hover {
+    border-color: $color-brand-1 !important;
+    color: $color-brand-1 !important;
   }
 }

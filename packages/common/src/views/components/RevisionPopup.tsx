@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import './RevisionPopup.scss';
+import '../../assets/styles/components.scss';
 const Popup: React.FC = () => {
   const [showPopup, setShowPopup] = useState(true);
 

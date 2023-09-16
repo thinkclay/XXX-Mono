@@ -14,7 +14,7 @@ function AccountScreen({ mode }: PageProps) {
 
   return (
     <div className="Account auth centered copy">
-      <h1>Account</h1>
+      <h1 className='Account-text'>Account</h1>
       <p>Logged in as: {authUser?.email}</p>
       <div className="ButtonRow centered shrink">
         <button className="button primary" onClick={logout}>
