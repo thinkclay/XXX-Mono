@@ -146,11 +146,11 @@ const DemographicSelection: React.FC = () => {
           <p style={{ fontSize: 16 }}>Would you like to select the demographic categories for the subject/recipient of this email/document?</p>
         </Modal>
         <Modal
+          title="Select demographic characteristics"
           open={modal2Visible}
           onOk={handleModal2Ok}
           onCancel={() => setModal2Visible(false)}
         >
-          <Divider style={{ fontSize: 18 }}>Select demographic characteristics</Divider>
           <Space style={{ width: '100%' }} direction="vertical">
             <Title style={{ margin: 0, fontWeight: 400 }} level={5}> Race/ethnicity</Title>
             <Select

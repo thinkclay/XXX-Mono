@@ -32,7 +32,7 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(true);
-  
+
   useEffect(() => {
     const hasPopupBeenShown = localStorage.getItem('anonymizedPopup');
     if (hasPopupBeenShown) {
@@ -80,8 +80,8 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
 
   const rendered = editor ? <>
     {isModalOpen && (
-      <Modal title="Profile Setup Confirmation" open={isModalOpen} onOk={handleAccept} onCancel={handleAccept} cancelButtonProps={{ style: { display: 'none' } }} okButtonProps={{ style: { display: 'block', margin: '0 auto', background: "#ff5c38" } }}>
-        <p>Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to your use of ReVision is anonymized.</p>
+      <Modal title="Profile Setup Confirmation" open={isModalOpen} onOk={handleAccept} onCancel={handleAccept} cancelButtonProps={{ style: { display: 'none' } }} okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}>
+        <p className='reminder-text'>Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to your use of ReVision is anonymized.</p>
       </Modal>
     )}
     <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
