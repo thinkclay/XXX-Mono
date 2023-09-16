@@ -385,7 +385,7 @@ const SuggestionsPie: React.FC = () => {
                 />
               </div>
               <div className="weekly-filter">
-                <label>Select Spesific Date:</label>
+                <label>Select Specific Date:</label>
                 <RangePicker
                   onChange={value => onChange(value, 'range')}
                   format="DD-MM-YYYY"

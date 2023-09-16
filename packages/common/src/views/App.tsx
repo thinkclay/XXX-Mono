@@ -1,8 +1,10 @@
 /** @format */
 
+import { ReactNode, useState, useEffect } from 'react'
 import { getFirestore } from 'firebase/firestore'
 import { FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire'
 import { useRecoilValue } from 'recoil'
+import { Modal } from 'antd'
 
 import { menuState, routeState } from '@common/helpers/root'
 import { RenderMode } from '@common/types/UI'
@@ -17,7 +19,6 @@ import { firebaseConfig } from '@common/services/firebase'
 
 import '@common/assets/styles/reset.scss'
 import '@common/assets/styles/index.scss'
-import { ReactNode } from 'react'
 
 interface AppProps {
   mode: RenderMode
@@ -32,6 +33,19 @@ export function AppWrapper({ children }: { children: ReactNode }) {
 export default function App(screen: AppProps) {
   const route = useRecoilValue(routeState)
   const menuOpen = useRecoilValue(menuState)
+  const [isModalOpen, setIsModalOpen] = useState(true)
+
+  useEffect(() => {
+    const hasPopupBeenShown = localStorage.getItem('anonymizedPopup')
+    if (hasPopupBeenShown) {
+      setIsModalOpen(false)
+    }
+  }, [])
+
+  const handleAccept = () => {
+    setIsModalOpen(false)
+    localStorage.setItem('anonymizedPopup', 'true')
+  }
 
   const _renderView = (route: string) => {
     switch (route) {
@@ -61,6 +75,21 @@ export default function App(screen: AppProps) {
         <div id="RevisionApp">
           <PrimaryNav open={menuOpen} />
           <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
+          {isModalOpen && (
+            <Modal
+              title="Profile Setup Confirmation"
+              open={isModalOpen}
+              onOk={handleAccept}
+              onCancel={handleAccept}
+              cancelButtonProps={{ style: { display: 'none' } }}
+              okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}
+            >
+              <p className="reminder-text">
+                Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to
+                your use of ReVision is anonymized.
+              </p>
+            </Modal>
+          )}
           {_renderView(route)}
         </div>
       </AppWrapper>

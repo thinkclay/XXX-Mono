@@ -142,7 +142,7 @@ export const useFirebase = () => {
     }
   }
 
-  const googleTokenLogin = (mode?: RenderMode) => {
+  const googleTokenLogin = () => {
     setAuthLoading(true)
 
     if (!chrome || !chrome.identity) {

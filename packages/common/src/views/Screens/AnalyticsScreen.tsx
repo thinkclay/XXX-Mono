@@ -1,11 +1,12 @@
 //  @format
 
+import { PageProps } from '@common/types/UI'
 import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 
-function Settings() {
+function Settings({ mode }: PageProps) {
   return (
     <div className="WelcomeScreen">
-      <h1 className='analytics-text'>Analytics</h1>
+      <h1 className="analytics-text">Analytics</h1>
       <SuggestionsPie />
     </div>
   )

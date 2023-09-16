@@ -13,6 +13,10 @@ function AuthScreen({ mode }: PageProps) {
 
   if (authUser) return <AccountScreen mode={mode} />
 
+  const loginHandler = () => {
+    mode === 'extension' ? googleTokenLogin() : googlePopupLogin()
+  }
+
   return (
     <div className={`Login auth centered ${mode}`}>
       <div className="copy centered large">
@@ -22,7 +26,7 @@ function AuthScreen({ mode }: PageProps) {
       </div>
 
       <div className="ButtonRow centered">
-        <button className="button icon" onClick={mode === 'extension' ? googleTokenLogin : googlePopupLogin}>
+        <button className="button icon" onClick={loginHandler}>
           <GoogleIcon />
           <span>Login with Google</span>
         </button>
