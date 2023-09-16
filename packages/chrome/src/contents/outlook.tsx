@@ -3,118 +3,58 @@
 import type { PlasmoCSConfig } from 'plasmo'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import 'gmail-js'
 import React, { RecoilRoot } from 'recoil'
-
 import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
-
 import '@common/assets/styles/index.scss'
-import ModalPopup from '@common/views/components/demographicSelection'
-
-// This isn't working. Tried raw loaders and different webpack configs
-// import styles1 from '@common/assets/styles/index.scss'
-
-declare global {
-  interface Window {
-    gmail: Gmail
-    dataLayer: Array<any>
-    gtag: (a: string, b: any, c?: any) => void
-  }
-}
-
-declare namespace NodeJS {
-  interface ProcessEnv {
-    PLASMO_PUBLIC_GTAG_ID?: string
-  }
-}
 
 export const config: PlasmoCSConfig = {
-  matches: ['*://mail.google.com/*'],
+  matches: ['*://outlook.office.com/*'],
   run_at: 'document_start',
 }
 
 window.addEventListener('load', () => {
   const loaderId = setInterval(() => {
-    if (!window.gmail) return
-
-    clearInterval(loaderId)
-    startExtension()
-  }, 100)
-  let isPopupOpen = false;
-  function startExtension() {
-    window.gmail.observe.on('compose', composeHandler)
-    window.gmail.observe.on('load', loadHandler)
-    document.addEventListener('click', clickHandler)
-  }
-
-  function clickHandler(event: any) {
-    const target = event.target
-    if (target.closest('[aria-label="Message Body"]')) {
-      if (!isPopupOpen) {
-        openPopup();
-        isPopupOpen = true;
-      }
+    const element = document.querySelector('[data-unique-id="Ribbon-588"]');
+    if (element) {
+      element.addEventListener('click', () => {
+        const bodyId = setInterval(() => {
+          let elementsWithPrefix = document.querySelector('[id^="editorParent_"]');
+          if (elementsWithPrefix) {
+            runApp(elementsWithPrefix);
+            clearInterval(bodyId)
+          }
+        }, 100)
+      })
     }
-  }
+  }, 300);
+});
 
-  function openPopup() {
-    const modalContainer = document.createElement('div')
-    modalContainer.id = 'custom-modal-container'
-    document.body.appendChild(modalContainer)
-    const root = createRoot(modalContainer)
-    root.render(<ModalPopup />)
-  }
-
-  function loadHandler() {
-    console.log('Email', window.gmail.get.user_email())
-  }
-
-  function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
-    isPopupOpen = false;
-    const $el = compose.$el
-    let signatureHTML = ''
-    const bodyId = setInterval(() => {
-      if (!compose.body()) return
-      clearInterval(bodyId)
-      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML)
-      runApp(document.body, updateHandler)
-    }, 100)
-  }
-})
-
-function runApp(rootMount: Element, updateHandler: (text: string) => void) {
+function runApp(rootMount: Element) {
   const App = () => (
     <RecoilRoot>
       <StrictMode>
         <div id="RevisionApp">
-          <MainScreen mode="embedded" onUpdate={updateHandler} />
+          <MainScreen mode="embedded" />
         </div>
       </StrictMode>
     </RecoilRoot>
-  )
-
-  const rootElement = document.createElement('div')
-  rootElement.id = 'gmailRoot'
-  rootMount.appendChild(rootElement)
-
-  const root = createRoot(rootElement)
-  const composeElement = document.querySelector('[g_editable="true"]')
+  );
+  const rootElement = document.createElement('div');
+  rootElement.id = 'gmailRoot';
+  rootMount.appendChild(rootElement);
+  const root = createRoot(rootElement);
+  const composeElement = document.querySelector('[id^="editorParent_"]');
 
   if (!composeElement) return
-
   const shadowRoot = composeElement.attachShadow({ mode: 'open' })
-
-  // This would be ideal if loaders would work
-  // shadowRoot.adoptedStyleSheets = [styles]
-
   shadowRoot.innerHTML = `
   <style>
   .formatting {
     background: #636363;
     height: 27px;
     line-height: 1;
-    padding: 0 10px;
+    padding: 0 10px;    
     display: flex;
     gap:10px;
     margin-top: 30px;
@@ -467,8 +407,6 @@ p + p {
   </style>
   `
   shadowRoot.appendChild(rootElement)
-
-  root.render(<App />)
-
-  reportWebVitals()
+  root.render(<App />);
+  reportWebVitals();
 }

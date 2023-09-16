@@ -16,7 +16,7 @@ function AuthScreen({ mode }: PageProps) {
   return (
     <div className={`Login auth centered ${mode}`}>
       <div className="copy centered large">
-        <h1>Welcome to ReVision</h1>
+        <h1 className="welcome-text">Welcome to ReVision</h1>
         <p>Interrupting bias and re-imagining communication.</p>
         <p>Implicit bias is a part of being human. ReVision helps you spot it, fix it, and track your improvement over time.</p>
       </div>
