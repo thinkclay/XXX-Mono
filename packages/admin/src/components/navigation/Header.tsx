@@ -19,7 +19,7 @@ import {
 import { useSigninCheck, useUser } from 'reactfire'
 
 import Link from 'components/link/Link'
-import { ItemContent } from 'components/menu/ItemContent'
+import Notification from 'components/navigation/Notification'
 import Configurator from 'components/navigation/Configurator'
 import { MdNotificationsNone, MdOutlineSpaceDashboard } from 'react-icons/md'
 import { useFirebase } from '@common/services/firebase/hook'
@@ -33,7 +33,6 @@ export default function Header() {
   const { logout } = useFirebase()
   const backgroundColor = useColorModeValue('neutral.50', 'gray.800')
   const { colorMode, toggleColorMode } = useColorMode()
-  const textColorBrand = useColorModeValue('brand.700', 'brand.400')
   const shadow = useColorModeValue('14px 17px 40px 4px rgba(112, 144, 176, 0.18)', '14px 17px 40px 4px rgba(112, 144, 176, 0.06)')
   const contrast = useColorModeValue('blue.500', 'yellow.400')
 
@@ -68,9 +67,14 @@ export default function Header() {
           route={profileRoutes}
           title={`👋 Hey ${user?.displayName?.split(' ')[0]}`}
           custom={
-            <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
-              Logout
-            </MenuItem>
+            <>
+              <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
+                UID: ({user?.uid})
+              </MenuItem>
+              <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
+                Logout
+              </MenuItem>
+            </>
           }
         />
 
@@ -94,16 +98,14 @@ export default function Header() {
           >
             <Flex w="100%" mb="20px">
               <Text fontWeight="600">Notifications</Text>
-              <Text fontWeight="500" color={textColorBrand} ms="auto" cursor="pointer">
-                Mark all read
-              </Text>
             </Flex>
             <Flex flexDirection="column">
               <MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} px="0" borderRadius="8px" mb="10px">
-                <ItemContent info="Horizon UI Dashboard PRO" />
-              </MenuItem>
-              <MenuItem _hover={{ bg: 'none' }} _focus={{ bg: 'none' }} px="0" borderRadius="8px" mb="10px">
-                <ItemContent info="Horizon Design System Free" />
+                <Notification
+                  icon="app"
+                  title="Version 1.0.0!"
+                  description="We are excited to announce that ReVision is officially out of beta and available to everyone!"
+                />
               </MenuItem>
             </Flex>
           </MenuList>
@@ -126,7 +128,7 @@ export default function Header() {
       position="relative"
       zIndex={800}
     >
-      <HStack flexFlow="row wrap" w="100%" justifyContent="space-between" alignItems="center">
+      <HStack flexFlow="row wrap" w="100%" justifyContent="space-between" alignItems="center" maxW="container.xl">
         <Link
           href="/"
           alignItems="center"

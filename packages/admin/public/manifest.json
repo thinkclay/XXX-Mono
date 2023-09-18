@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ReVision",
+  "name": "ReVision Bias and Sentiment Detection",
   "icons": [
     {
       "src": "favicon.ico",

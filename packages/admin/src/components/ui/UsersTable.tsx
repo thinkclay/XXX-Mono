@@ -1,13 +1,26 @@
 'use client'
-/* eslint-disable */
 
-import { Avatar, Badge, Button, Flex, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Icon, Stack } from '@chakra-ui/react'
-// Custom components
+import { useState, useEffect, useMemo } from 'react'
+import {
+  Avatar,
+  Button,
+  Card,
+  Flex,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  Icon,
+  Stack,
+  HStack,
+  Link,
+  Box,
+} from '@chakra-ui/react'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
-import * as React from 'react'
-// Assets
-import { SearchBar } from 'components/ui/SearchBar'
-
 import {
   PaginationState,
   createColumnHelper,
@@ -22,116 +35,84 @@ import {
   getSortedRowModel,
   flexRender,
 } from '@tanstack/react-table'
+import { collection, doc, orderBy, query } from 'firebase/firestore'
+import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
-type RowObj = {
-  name: string[]
-  email: string
-  username: string
-  date: string
-  type: string
-  actions: string
-}
+import Search from './Search'
+import LoadingOverlay from 'components/ui/LoadingOverlay'
+import { User, deleteUser, updateUser } from '@common/models/user'
+import { recordUrl } from '@common/helpers/firestore'
 
-export default function SearchTableOrders(props: { tableData: RowObj[] }) {
-  const { tableData } = props
+export default function UsersTable() {
+  const firestore = useFirestore()
+  const usersCollection = collection(firestore, 'users')
+  const usersQuery = query(usersCollection, orderBy('email', 'asc'))
+
+  const { data: users, status } = useFirestoreCollectionData(usersQuery)
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState('')
+
   const textColor = useColorModeValue('navy.700', 'white')
   const borderColor = useColorModeValue('neutral.200', 'whiteAlpha.100')
   const brandColor = useColorModeValue('brand.500', 'brand.400')
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  let defaultData = tableData
-  const [globalFilter, setGlobalFilter] = React.useState('')
-  const columnHelper = createColumnHelper<RowObj>()
+  const renderActions = (uid: string) => {
+    const user = users.filter(u => u.uid === uid)[0]
+
+    if (!user) return null
+
+    return (
+      <HStack>
+        {user.admin ? (
+          <Button size="sm" bg="red.300" onClick={() => updateUser(firestore, user.uid, { admin: false })}>
+            Revoke
+          </Button>
+        ) : (
+          <Button size="sm" bg="green.300" onClick={() => updateUser(firestore, user.uid, { admin: true })}>
+            Promote
+          </Button>
+        )}
+        <Button size="sm" onClick={() => window.open(recordUrl('users', info.getValue()))}>
+          Firestore
+        </Button>
+        <Button size="sm" onClick={() => deleteUser(firestore, user.uid)}>
+          Delete
+        </Button>
+      </HStack>
+    )
+  }
+
+  const columnHelper = createColumnHelper<User>()
   const columns = [
-    columnHelper.accessor('name', {
-      id: 'name',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          USER NAME
-        </Text>
-      ),
-      cell: (info: any) => (
-        <Flex align="center">
-          <Avatar src={info.getValue()[1]} h="60px" w="60px" me="10px" />
-          <Text color={textColor} fontSize="md" fontWeight="500">
-            {info.getValue()[0]}
-          </Text>
-        </Flex>
-      ),
+    columnHelper.accessor('photoUrl', {
+      id: 'photoUrl',
+      header: () => <Text>Avatar</Text>,
+      cell: info => <Avatar src={info.getValue()} h="30px" w="30px" me="10px" />,
+    }),
+    columnHelper.accessor('displayName', {
+      id: 'displayName',
+      header: () => <Text>NAME</Text>,
+      cell: info => <Text>{info.getValue()}</Text>,
     }),
     columnHelper.accessor('email', {
       id: 'email',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          EMAIL
-        </Text>
-      ),
-      cell: info => (
-        <Text color={textColor} fontSize="md" fontWeight="500">
-          {info.getValue()}
-        </Text>
-      ),
+      header: () => <Text>EMAIL</Text>,
+      cell: info => <Link href={`mailto:${info.getValue()}`}>{info.getValue()}</Link>,
     }),
-    columnHelper.accessor('username', {
-      id: 'username',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          USERNAME
-        </Text>
-      ),
-      cell: info => (
-        <Text color={textColor} fontSize="md" fontWeight="500">
-          {info.getValue()}
-        </Text>
-      ),
-    }),
-    columnHelper.accessor('date', {
-      id: 'date',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          JOIN DATE
-        </Text>
-      ),
-      cell: info => (
-        <Text color={textColor} fontSize="md" fontWeight="500">
-          {info.getValue()}
-        </Text>
-      ),
-    }),
-    columnHelper.accessor('type', {
-      id: 'type',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          USER TYPE
-        </Text>
-      ),
-      cell: info => (
-        <Text color={textColor} fontSize="md" fontWeight="500">
-          {info.getValue()}
-        </Text>
-      ),
-    }),
-    columnHelper.accessor('actions', {
-      id: 'actions',
-      header: () => (
-        <Text justifyContent="space-between" align="center" fontSize={{ sm: '10px', lg: '12px' }} color="neutral.400">
-          ORDER ACTIONS
-        </Text>
-      ),
-      cell: info => (
-        <Text cursor="pointer" color={brandColor} textDecoration="underline" fontSize="md" fontWeight="500" id={info.getValue()}>
-          Edit user
-        </Text>
-      ),
+    columnHelper.accessor('uid', {
+      id: 'uid',
+      header: () => <Text>Actions</Text>,
+      cell: info => renderActions(info.getValue()),
     }),
   ]
-  const [data, setData] = React.useState(() => [...defaultData])
-  const [{ pageIndex, pageSize }, setPagination] = React.useState<PaginationState>({
+
+  const [data, setData] = useState<User[]>([])
+  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 6,
+    pageSize: 20,
   })
 
-  const pagination = React.useMemo(
+  const pagination = useMemo(
     () => ({
       pageIndex,
       pageSize,
@@ -170,7 +151,11 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     return arrPageCount
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (status === 'success') setData(users as User[])
+  }, [users, status])
+
+  useEffect(() => {
     if (table.getState().columnFilters[0]?.id === 'fullName') {
       if (table.getState().sorting[0]?.id !== 'fullName') {
         table.setSorting([{ id: 'fullName', desc: false }])
@@ -178,16 +163,11 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
     }
   }, [table.getState().columnFilters[0]?.id])
 
-  return (
-    <Flex direction="column" w="100%" overflowX={{ sm: 'scroll', lg: 'hidden' }}>
-      <Flex align={{ sm: 'flex-start', lg: 'flex-start' }} justify={{ sm: 'flex-start', lg: 'flex-start' }} w="100%" px="22px" mb="36px">
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search..."
-        />
-      </Flex>
+  const renderContent = () => (
+    <>
+      <Box w="100%" m="22px" position="sticky">
+        <Search value={globalFilter ?? ''} onChange={setGlobalFilter} />
+      </Box>
       <Table variant="simple" color="neutral.500" mb="24px">
         <Thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -248,12 +228,11 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
         </Tbody>
       </Table>
       <Flex w="100%" justify="space-between" px="20px" pt="10px" pb="5px">
-        {/* SET ROW NUMBER */}
         <Text fontSize="sm" color="neutral.500" fontWeight="normal" mb={{ sm: '24px', md: '0px' }}>
-          Showing {pageSize * pageIndex + 1} to{' '}
-          {pageSize * (pageIndex + 1) <= tableData.length ? pageSize * (pageIndex + 1) : tableData.length} of {tableData.length} entries
+          Showing {pageSize * pageIndex + 1} to {pageSize * (pageIndex + 1) <= users.length ? pageSize * (pageIndex + 1) : users.length} of{' '}
+          {users.length} entries
         </Text>
-        {/* PAGINATION BUTTONS */}
+
         <div className="flex items-center gap-2">
           <Stack direction="row" alignSelf="flex-end" spacing="4px" ms="auto">
             <Button
@@ -325,33 +304,8 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
           </Stack>
         </div>
       </Flex>
-    </Flex>
+    </>
   )
-}
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
 
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return <SearchBar value={value} onChange={(e: any) => setValue(e.target.value)} h="44px" w={{ lg: '390px' }} borderRadius="16px" />
+  return <Card position="relative">{status === 'loading' ? <LoadingOverlay /> : renderContent()}</Card>
 }

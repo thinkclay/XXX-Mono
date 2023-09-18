@@ -2,7 +2,7 @@
 import { Box, Button, Icon, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 // Custom components
 import Card from 'components/card/Card'
-import { SearchBar } from 'components/navigation/searchBar/SearchBar'
+import { SearchBar } from 'components/ui/SearchBar'
 import Map from 'react-map-gl'
 
 // Assets

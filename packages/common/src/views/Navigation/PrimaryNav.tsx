@@ -1,6 +1,7 @@
 /** @format */
 
 import { useFirebase } from '@common/services/firebase/hook'
+
 import Toggle from './Toggle'
 import NavLink from './NavLink'
 

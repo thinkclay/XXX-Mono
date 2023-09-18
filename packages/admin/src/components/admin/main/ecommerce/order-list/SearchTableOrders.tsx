@@ -6,7 +6,7 @@ import { Badge, Button, Flex, Table, Tbody, Td, Text, Th, Thead, Tr, useColorMod
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 import * as React from 'react'
 // Assets
-import { SearchBar } from 'components/navigation/searchBar/SearchBar'
+import { SearchBar } from 'components/ui/SearchBar'
 
 import {
   PaginationState,

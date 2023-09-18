@@ -1,12 +1,9 @@
 'use client'
-/* eslint-disable */
 
+import * as React from 'react'
 import { Avatar, Button, Flex, Table, Tbody, Td, Text, Th, Thead, Tr, useColorModeValue, Icon, Stack, Select } from '@chakra-ui/react'
 // Custom components
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
-import * as React from 'react'
-// Assets
-import { SearchBar } from 'components/navigation/searchBar/SearchBar'
 
 import {
   PaginationState,
@@ -300,31 +297,4 @@ export default function SearchTableOrders(props: { tableData: RowObj[] }) {
       </Flex>
     </Flex>
   )
-}
-// A debounced input react component
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
-
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return <SearchBar value={value} onChange={(e: any) => setValue(e.target.value)} h="44px" w={{ lg: '390px' }} borderRadius="16px" />
 }
