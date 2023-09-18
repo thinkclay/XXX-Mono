@@ -67,14 +67,9 @@ export default function Header() {
           route={profileRoutes}
           title={`👋 Hey ${user?.displayName?.split(' ')[0]}`}
           custom={
-            <>
-              <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
-                UID: ({user?.uid})
-              </MenuItem>
-              <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
-                Logout
-              </MenuItem>
-            </>
+            <MenuItem color="brand.400" key={`p`} px={5} py={3} _hover={{ bg: 'yellow.400', color: 'black' }} onClick={logout}>
+              Logout
+            </MenuItem>
           }
         />
 
@@ -128,7 +123,7 @@ export default function Header() {
       position="relative"
       zIndex={800}
     >
-      <HStack flexFlow="row wrap" w="100%" justifyContent="space-between" alignItems="center" maxW="container.xl">
+      <HStack flexFlow="row wrap" w="100%" justifyContent="space-between" alignItems="center">
         <Link
           href="/"
           alignItems="center"

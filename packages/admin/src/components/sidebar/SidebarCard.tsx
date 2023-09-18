@@ -36,27 +36,6 @@ export default function SidebarDocs(props: { mini?: boolean; hovered?: boolean }
         pt="30px"
         display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
       >
-        <Text
-          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
-          fontSize={{ base: 'lg', xl: '2xl' }}
-          color="white"
-          fontWeight="bold"
-          lineHeight="150%"
-          textAlign="center"
-          px="10px"
-        >
-          $3942.58
-        </Text>
-        <Text
-          display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
-          fontSize="sm"
-          color="white"
-          px="10px"
-          mb="14px"
-          textAlign="center"
-        >
-          Total balance
-        </Text>
         <Badge
           display={mini === false ? 'block' : mini === true && hovered === true ? 'block' : 'none'}
           colorScheme="green"

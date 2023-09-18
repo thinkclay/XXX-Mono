@@ -19,6 +19,7 @@ import {
   HStack,
   Link,
   Box,
+  Heading,
 } from '@chakra-ui/react'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 import {
@@ -64,18 +65,18 @@ export default function UsersTable() {
     return (
       <HStack>
         {user.admin ? (
-          <Button size="sm" bg="red.300" onClick={() => updateUser(firestore, user.uid, { admin: false })}>
-            Revoke
+          <Button size="sm" bg="red.300" w="80px" onClick={() => updateUser(firestore, user.uid, { admin: false })}>
+            Demote
           </Button>
         ) : (
-          <Button size="sm" bg="green.300" onClick={() => updateUser(firestore, user.uid, { admin: true })}>
+          <Button size="sm" bg="green.300" w="80px" onClick={() => updateUser(firestore, user.uid, { admin: true })}>
             Promote
           </Button>
         )}
         <Button size="sm" onClick={() => window.open(recordUrl('users', info.getValue()))}>
           Firestore
         </Button>
-        <Button size="sm" onClick={() => deleteUser(firestore, user.uid)}>
+        <Button size="sm" bg="red.300" onClick={() => deleteUser(firestore, user.uid)}>
           Delete
         </Button>
       </HStack>
@@ -109,7 +110,7 @@ export default function UsersTable() {
   const [data, setData] = useState<User[]>([])
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 20,
+    pageSize: 10,
   })
 
   const pagination = useMemo(
@@ -165,9 +166,10 @@ export default function UsersTable() {
 
   const renderContent = () => (
     <>
-      <Box w="100%" m="22px" position="sticky">
+      <HStack p="22px" justifyContent="space-between">
+        <Heading as="h2">Users</Heading>
         <Search value={globalFilter ?? ''} onChange={setGlobalFilter} />
-      </Box>
+      </HStack>
       <Table variant="simple" color="neutral.500" mb="24px">
         <Thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -227,7 +229,7 @@ export default function UsersTable() {
           })}
         </Tbody>
       </Table>
-      <Flex w="100%" justify="space-between" px="20px" pt="10px" pb="5px">
+      <Flex w="100%" alignItems="center" justify="space-between" px="20px" pb="20px">
         <Text fontSize="sm" color="neutral.500" fontWeight="normal" mb={{ sm: '24px', md: '0px' }}>
           Showing {pageSize * pageIndex + 1} to {pageSize * (pageIndex + 1) <= users.length ? pageSize * (pageIndex + 1) : users.length} of{' '}
           {users.length} entries
@@ -307,5 +309,9 @@ export default function UsersTable() {
     </>
   )
 
-  return <Card position="relative">{status === 'loading' ? <LoadingOverlay /> : renderContent()}</Card>
+  return (
+    <Card minW="50%" mx="20px" position="relative">
+      {status === 'loading' ? <LoadingOverlay /> : renderContent()}
+    </Card>
+  )
 }
