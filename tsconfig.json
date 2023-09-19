@@ -25,5 +25,6 @@
       "@electron/*": ["./packages/electron/src/*"]
     }
   },
-  "include": ["./packages/common/src/**/*","."]
+  "include": ["./packages/common/src/**/*","."],
+  "exclude": ["./node_modules"]
 }

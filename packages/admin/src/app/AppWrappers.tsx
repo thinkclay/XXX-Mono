@@ -4,15 +4,14 @@ import { useState, ReactNode } from 'react'
 import dynamic from 'next/dynamic'
 import { ChakraProvider } from '@chakra-ui/react'
 
+import initialTheme from 'theme/theme'
+import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
+import FirebaseContext from 'contexts/FirebaseContext'
+
 import 'styles/App.css'
 import 'styles/Contact.css'
 import 'styles/Plugins.css'
 import 'styles/MiniCalendar.css'
-
-import initialTheme from 'theme/theme'
-import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
-
-import FirebaseContext from 'contexts/FirebaseContext'
 
 interface Props {
   children: ReactNode
