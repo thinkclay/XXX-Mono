@@ -464,6 +464,12 @@ p + p {
     stroke-dashoffset: 300;
   }
 }
+.bias {
+  background-color: #fdf4ba;
+}
+  .bias:hover {
+    background-color:#fcf051;
+  }
   </style>
   `
   shadowRoot.appendChild(rootElement)
