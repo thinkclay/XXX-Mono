@@ -23,6 +23,7 @@ window.addEventListener('load', () => {
           if (elementsWithPrefix) {
             runApp(elementsWithPrefix);
             clearInterval(bodyId)
+            clearInterval(loaderId)
           }
         }, 100)
       })
@@ -44,10 +45,7 @@ function runApp(rootMount: Element) {
   rootElement.id = 'gmailRoot';
   rootMount.appendChild(rootElement);
   const root = createRoot(rootElement);
-  const composeElement = document.querySelector('[id^="editorParent_"]');
-
-  if (!composeElement) return
-  const shadowRoot = composeElement.attachShadow({ mode: 'open' })
+  const shadowRoot = rootMount.attachShadow({ mode: 'open' })
   shadowRoot.innerHTML = `
   <style>
   .formatting {
