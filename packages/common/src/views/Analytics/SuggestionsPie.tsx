@@ -10,6 +10,9 @@ import { useFirebase } from '@common/services/firebase/hook'
 import { DataItem, DetailedChartProps, FlagState } from '@common/types/UI'
 import { FlagsColor, getFiltterOutData, subFlagsColor, subLabels } from '@common/helpers/common'
 import OverlayLoader from '../../../src/views/components/overlayLoader'
+import Smile from '../../../src/assets/icons/smile.png'
+import SpeechLess from '../../../src/assets/icons/speechless.png'
+import Cool from '../../../src/assets/icons/cool.png'
 
 const SuggestionsPie: React.FC = () => {
   const { RangePicker } = DatePicker
@@ -77,7 +80,7 @@ const SuggestionsPie: React.FC = () => {
   }, [authUser])
   useEffect(() => {
     setAllSuggetion()
-  }, [authUser, flags])
+  }, [suggestion])
 
   // filter data by selected week and selected specific date
   const totalImprovements = flags !== 0 ? ((acceptedFlag + rewriteFlag) / flags) * 100 : 0
@@ -89,16 +92,16 @@ const SuggestionsPie: React.FC = () => {
       const userDocRef = doc(userCollection, authUser.uid)
       const flagsCollection = collection(userDocRef, 'flags')
       const flagsData = await getFiltterOutData(flagsCollection, startDate, endDate)
-      setFlags(flagsData[0].length)
+      setFlags(flagsData[0]?.length)
       const acceptedFlagCollection = collection(userDocRef, 'acceptedflags')
       const acceptedFlagData = await getFiltterOutData(acceptedFlagCollection, startDate, endDate)
-      setAcceptedFlag(acceptedFlagData[0].length)
+      setAcceptedFlag(acceptedFlagData[0]?.length)
       const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
       const rewriteFlagData = await getFiltterOutData(rewriteFlagCollection, startDate, endDate)
-      setRewriteFlag(rewriteFlagData[0].length)
+      setRewriteFlag(rewriteFlagData[0]?.length)
       const ignorelistCollection = collection(userDocRef, 'ignorelist')
       const ignorelistFlagData = await getFiltterOutData(ignorelistCollection, startDate, endDate)
-      setIgnoreList(ignorelistFlagData[0].length)
+      setIgnoreList(ignorelistFlagData[0]?.length)
       setLoading(false)
     }
   }
@@ -188,25 +191,25 @@ const SuggestionsPie: React.FC = () => {
       const flagsData = await getFiltterOutData(flagsCollection, startDate, endDate)
       setCurrentWeekFilter(prevState => ({
         ...prevState,
-        currentWeekFlag: flagsData[0].length,
+        currentWeekFlag: flagsData[0]?.length,
       }))
       const acceptedFlagCollection = collection(userDocRef, 'acceptedflags')
       const acceptedFlagData = await getFiltterOutData(acceptedFlagCollection, startDate, endDate)
       setCurrentWeekFilter(prevState => ({
         ...prevState,
-        currentWeekAcceptedFlag: acceptedFlagData[0].length,
+        currentWeekAcceptedFlag: acceptedFlagData[0]?.length,
       }))
       const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
       const rewriteFlagData = await getFiltterOutData(rewriteFlagCollection, startDate, endDate)
       setCurrentWeekFilter(prevState => ({
         ...prevState,
-        currentWeekRewriteFlag: rewriteFlagData[0].length,
+        currentWeekRewriteFlag: rewriteFlagData[0]?.length,
       }))
       const ignorelistCollection = collection(userDocRef, 'ignorelist')
       const ignorelistFlagData = await getFiltterOutData(ignorelistCollection, startDate, endDate)
       setCurrentWeekFilter(prevState => ({
         ...prevState,
-        currentWeekIgnoreList: ignorelistFlagData[0].length,
+        currentWeekIgnoreList: ignorelistFlagData[0]?.length,
       }))
     }
   }
@@ -241,18 +244,18 @@ const SuggestionsPie: React.FC = () => {
 
   const { currentWeekFlag, currentWeekAcceptedFlag, currentWeekRewriteFlag, currentWeekIgnoreList } = currentWeekFilter
   const data: DataItem[] = [
-    { label: 'TOTAL FLAGS', value: flags },
-    { label: 'CORRECTION ACCEPTED', value: acceptedFlag },
-    { label: 'IGNORE LIST', value: ignoreList },
-    { label: 'REWRITES AFTER FLAGS', value: rewriteFlag },
+    { label: 'Total Nudges', value: flags },
+    { label: 'Suggestions Accepted', value: acceptedFlag },
+    { label: 'Rewrites after Nudges', value: rewriteFlag },
+    { label: 'Nudges Ignored', value: ignoreList },
   ]
   const CompareData = [
     data,
     [
-      { label: 'TOTAL FLAGS', value: currentWeekFlag },
-      { label: 'CORRECTION ACCEPTED', value: currentWeekAcceptedFlag },
-      { label: 'IGNORE LIST', value: currentWeekIgnoreList },
-      { label: 'REWRITES AFTER FLAGS', value: currentWeekRewriteFlag },
+      { label: 'Total Nudges', value: currentWeekFlag },
+      { label: 'Suggestions Accepted', value: currentWeekAcceptedFlag },
+      { label: 'Rewrites after Nudges', value: currentWeekRewriteFlag },
+      { label: 'Nudges Ignored', value: currentWeekIgnoreList },
     ],
   ]
 
@@ -276,8 +279,8 @@ const SuggestionsPie: React.FC = () => {
         x: subLabels,
         y: AllData,
         type: 'bar',
-        name: weekFIlter ? 'AllData' : 'Dataset 1',
-        marker: { color: subFlagsColor },
+        name: 'All Data',
+        marker: { color: weekFIlter ? '#FF5C38' : subFlagsColor },
       },
     ]
     if (weekFIlter) {
@@ -285,22 +288,35 @@ const SuggestionsPie: React.FC = () => {
         x: subLabels,
         y: CurrentWeekData,
         type: 'bar',
-        name: 'Current Week Data',
-        marker: { color: subFlagsColor },
+        name: 'This Week',
+        marker: { color: weekFIlter ? '#FCF051' : subFlagsColor },
       })
     }
 
     const layout: Partial<Plotly.Layout> = {
       title: weekFIlter ? `This Week vs All Data` : 'Individual Analytics',
       xaxis: {
-        tickangle: 0,
+        tickangle: 22,
       },
-      width: 1050,
+      width: 950,
       barmode: 'group',
       bargroupgap: weekFIlter ? 0.1 : 0,
+      legend: {
+        orientation: 'h',
+        y: 1.1,
+      },
     }
 
-    return <Plot data={detailedData} layout={layout} config={{ displayModeBar: false }} />
+    return (
+      <>
+        <Plot data={detailedData} layout={layout} config={{ displayModeBar: false }} />
+        <p></p>
+      </>
+    )
+  }
+  const disabledDate = (current: any, type: string) => {
+    const weekly = type === 'weekly'
+    return current && current > moment().endOf(weekly ? 'week' : 'day')
   }
 
   return (
@@ -310,7 +326,7 @@ const SuggestionsPie: React.FC = () => {
         <div className="filter-view">
           <div className="filter-main">
             <div className="filter">
-              <div className="filter-title">Anlalytics Filter</div>
+              <div className="filter-title">Analytics Filter</div>
               <div className="filter-screen">
                 <div className="weekly-filter">
                   <label>Select A Week:</label>
@@ -319,42 +335,44 @@ const SuggestionsPie: React.FC = () => {
                     picker="week"
                     style={{ width: 200, height: 40, borderWidth: 1, borderColor: '#999999' }}
                     disabled={weeklyDisable}
+                    disabledDate={current => disabledDate(current, 'weekly')}
                   />
                 </div>
                 <div className="weekly-filter">
-                  <label>Select Specific Date:</label>
+                  <label>Select specific Date:</label>
                   <RangePicker
                     onChange={value => onChange(value, 'range')}
                     format="DD-MM-YYYY"
                     style={{ height: 39, borderWidth: 1, borderColor: '#999999' }}
                     disabled={rangeDisable}
+                    disabledDate={current => disabledDate(current, 'range')}
                   />
                 </div>
                 <div className="weekly-filter">
                   <Checkbox onChange={onChangeCheckBox} disabled={checkboxDisabled}>
-                    Current Week vs All Week
+                    This Week v All Data
                   </Checkbox>
                 </div>
               </div>
             </div>
             <div className="improvements-circle">
               <div className="reaction-emoji">
-                {loading
-                  ? '🤔'
-                  : totalImprovements >= 90
-                  ? '😎'
-                  : totalImprovements >= 80
-                  ? '😊'
-                  : totalImprovements >= 50
-                  ? '😃'
-                  : totalImprovements >= 30
-                  ? '🙂'
-                  : isNaN(totalImprovements)
-                  ? '😐'
-                  : '😢'}
+                {loading ? (
+                 <img src={SpeechLess} alt="SpeechLess" style={{ height: 45, width: 45 }} />
+                ) : totalImprovements >= 90 ? (
+                  <img src={Cool} alt="cool" style={{ height: 35, width: 35 }} />
+                ) : totalImprovements >= 50 ? (
+                  <img src={Smile} alt="Smile" style={{ height: 35, width: 35 }} />
+                ) : totalImprovements >= 30 ? (
+                  <img src={SpeechLess} alt="SpeechLess" style={{ height: 40, width: 40 }} />
+                ) : isNaN(totalImprovements) ? (
+                  <img src={SpeechLess} alt="SpeechLess" style={{ height: 40, width: 40 }} />
+                ) : (
+                  <img src={SpeechLess} alt="SpeechLess" style={{ height: 40, width: 40 }} />
+                )}
               </div>
               <div className="improvement-text">Improvements</div>
-              <p className="percentage">{loading ? 'Laoding..' : isNaN(totalImprovements) ? '-' : `${totalImprovements.toFixed(2)}%`}</p>
+              <p className="percentage">{loading ? 'loading..' : isNaN(totalImprovements) ? '-' : `${totalImprovements.toFixed(2)}%`}</p>
             </div>
           </div>
         </div>
@@ -367,16 +385,16 @@ const SuggestionsPie: React.FC = () => {
                     y: CompareData[0].map(item => item.value),
                     type: 'bar',
                     mode: 'lines+markers',
-                    marker: { color: FlagsColor },
-                    name: 'AllData',
+                    marker: { color: weekFIlter ? '#FF5C38' : FlagsColor },
+                    name: 'All Data',
                   },
                   {
                     x: CompareData[1].map(item => item.label),
                     y: CompareData[1].map(item => item.value),
                     type: 'bar',
                     mode: 'lines+markers',
-                    marker: { color: FlagsColor },
-                    name: 'Current Week Data',
+                    marker: { color: weekFIlter ? '#FCF051' : FlagsColor },
+                    name: 'This Week',
                   },
                 ]
               : [
@@ -392,9 +410,16 @@ const SuggestionsPie: React.FC = () => {
           onClick={event => setSelectedBar(event.points[0]?.pointIndex)}
           layout={{
             title: weekFIlter ? `This Week vs All Data` : 'Individual Analytics',
-            width: 1050,
+            xaxis: {
+              tickangle: 15,
+            },
+            width: 950,
             barmode: 'group',
             bargroupgap: weekFIlter ? 0.1 : 0.3,
+            legend: {
+              orientation: 'h',
+              y: 1.1,
+            },
           }}
           config={{ displayModeBar: false }}
         />

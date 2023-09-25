@@ -28,6 +28,13 @@ export const getFiltterOutData = async (collectionRef: CollectionReference, star
     return []
   }
 }
-export const subLabels = ['TOTAL FLAGS', 'POTENTIAL FLAGS', 'RACIAL FLAGS', 'CULTURAL FLAGS', 'HOUSEHOLD FLAGS', 'DISABILITY FLAGS']
-export const FlagsColor = ['#FF5C38', '#FCF051', '#262626', '#EFA291']
+export const subLabels = [
+  'Total Nudges',
+  'Nudges related to subjective language',
+  'Nudges related to race/ethnicity',
+  'Nudges related to cultural identity',
+  'Nudges related to household status',
+  'Nudges related to disability status',
+]
+export const FlagsColor = ['#FF5C38', '#FCF051', '#EFA291', '#262626']
 export const subFlagsColor = ['#FF5C38', '#FCF051', '#262626', '#EFA291', '#FFFFA7', '#999999']
