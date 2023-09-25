@@ -27,7 +27,7 @@ function WelcomeScreen({ handler }: WelcomeScreenProps) {
       <LogoFull />
       <div className="text">
         <p>
-          Welcome to ReVision, an AI and human powered bias-flagging tool! Before we get started, please read our{' '}
+          Welcome to ReVision, a tool to help you write better, more accurate reports and evaluations, faster! Before we get started, please read our{' '}
           <a href="https://revisioned.org/terms" target="_blank">
             Terms and Conditions
           </a>{' '}
