@@ -18,7 +18,6 @@ export interface DetailedChartProps {
   selectedBar: number | null
 }
 export interface FlagState {
-  subFlagValue: any[]
   potentialFlag: number
   racial: number
   cultural: number
