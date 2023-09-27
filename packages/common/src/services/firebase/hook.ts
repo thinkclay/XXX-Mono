@@ -14,7 +14,6 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import { useContext, createContext, useEffect, useMemo, useState } from 'react'
-
 import { app, auth, cleverProvider, CustomUserModel, db, googleProvider } from './index'
 import { FIREBASE, logger } from '@common/helpers/logger'
 import { RenderMode } from '@common/types/UI'

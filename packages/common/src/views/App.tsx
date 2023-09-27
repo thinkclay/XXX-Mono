@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase/firestore'
 import { FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire'
 import { useRecoilValue } from 'recoil'
 import { Modal } from 'antd'
+import { useFirebase } from '@common/services/firebase/hook'
 
 import { menuState, routeState } from '@common/helpers/root'
 import { RenderMode } from '@common/types/UI'
@@ -31,6 +32,7 @@ export function AppWrapper({ children }: { children: ReactNode }) {
 }
 
 export default function App(screen: AppProps) {
+  const { authUser } = useFirebase()
   const route = useRecoilValue(routeState)
   const menuOpen = useRecoilValue(menuState)
   const [isModalOpen, setIsModalOpen] = useState(true)
@@ -46,6 +48,7 @@ export default function App(screen: AppProps) {
     setIsModalOpen(false)
     localStorage.setItem('anonymizedPopup', 'true')
   }
+  console.log(isModalOpen && authUser)
 
   const _renderView = (route: string) => {
     switch (route) {
@@ -75,7 +78,7 @@ export default function App(screen: AppProps) {
         <div id="RevisionApp">
           <PrimaryNav open={menuOpen} />
           <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-          {isModalOpen && (
+          {isModalOpen && authUser && (
             <Modal
               title="Profile Setup Confirmation"
               open={isModalOpen}
