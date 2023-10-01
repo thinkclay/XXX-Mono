@@ -1,3 +1,3 @@
-export * from './FirebaseUser'
+export * from './user'
 
 export type CollectionTypes = 'users'

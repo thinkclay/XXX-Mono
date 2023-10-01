@@ -82,6 +82,37 @@ export async function getToneEmoji(prompt: string): Promise<{ icon?: string; mes
   console.log(`TONE/REQUEST`)
 
   const promptScaffold = `
+    Considering the following emojis mapped to sentiment:
+    Positive: 👍
+    Accusatory: 👎
+    Happy: smiley face 😃
+    Sad: 😢
+    Enthusiastic: 🙌
+    Neutral: 🤷‍♀️
+    Surprised: 😮
+    Collaborative: 👏
+    Discouraging: 😰
+    Insulting: 😤
+    Angry: 😡
+    Concerned: 😟
+    Condescending: 🙄
+    Confident: 😎
+    Defensive: 🗣️
+    Joyful: 😍
+    Optimistic: 🙏
+    Confused: 🤨
+    Amused: 😄
+    Frustrated: 😤
+    Calm: 😌
+    Anxious: 😅
+    Hopeful: 😊
+    Excited: 🎉
+    Proud: 😊
+    Impatient: ⌛
+    Bored: 😑
+    Relieved: 😅
+    Loving: ❤️
+    Crying: 😭
     Please analyze the tone and sentiment of the following text and respond with a format of <emoji> <reason>:
 
     ${prompt}.

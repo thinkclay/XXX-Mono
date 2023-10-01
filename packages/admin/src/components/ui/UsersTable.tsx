@@ -73,7 +73,7 @@ export default function UsersTable() {
             Promote
           </Button>
         )}
-        <Button size="sm" onClick={() => window.open(recordUrl('users', info.getValue()))}>
+        <Button size="sm" onClick={() => window.open(recordUrl('users', uid))}>
           Firestore
         </Button>
         <Button size="sm" bg="red.300" onClick={() => deleteUser(firestore, user.uid)}>
