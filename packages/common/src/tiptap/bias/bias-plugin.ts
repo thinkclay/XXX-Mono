@@ -1,10 +1,9 @@
-import { AnyExtension, Extension } from '@tiptap/core'
+import { AnyExtension, Extension, escapeForRegEx } from '@tiptap/core'
 import { Plugin, PluginKey, TextSelection, Transaction } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor } from '@tiptap/react'
 
 import { fetchBiases } from './bias-service'
-import { Match } from '@common/tiptap/language/language-types'
 import { DB, Suggestion } from '@common/helpers/db'
 import { onAuthStateChanged } from 'firebase/auth'
 import { addDoc, collection, doc, getDocs, query, updateDoc } from 'firebase/firestore'
@@ -64,9 +63,12 @@ async function checkBias(editor: Editor, storage: BiasStorage) {
   storage.fetching = true
 
   const response = await fetchBiases(originalText)
+
+  if (!response || !response.results) return
+
   const data = response.results.map(({ input, biases, replacements }) => {
     const type = biases[0].name
-    const m = new RegExp(input, 'gid').exec(originalText)
+    const m = new RegExp(escapeForRegEx(input), 'gid').exec(originalText)
 
     if (type === 'none' || !m || !m[0]) return
 

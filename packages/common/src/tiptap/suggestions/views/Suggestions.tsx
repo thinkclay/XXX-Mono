@@ -7,7 +7,6 @@ import { Match, Replacement } from '@common/tiptap/language/language-types'
 import { SuggestionsPluginProps, SuggestionsPlugin } from '../suggestions-plugin'
 import { db } from '@common/services/firebase'
 import Ignore from './Ignore'
-import Close from './Close'
 import { Timestamp, addDoc, collection, doc, getDocs, query, setDoc } from 'firebase/firestore'
 import { useRecoilValue } from 'recoil'
 import { biasCountState } from '@common/helpers/root'
@@ -67,14 +66,13 @@ export function SuggestionsModal({ editor, match }: SuggestionProps) {
       setAcceptCount(prevCount => prevCount + 1)
       editor.chain().toggleBiasMark().insertContent(replacement.value).run()
     },
-    close: () => null,
   }
 
   useEffect(() => {
     if (acceptCount <= 0) {
       return
     }
-    const acceptedFlag = async() => {
+    const acceptedFlag = async () => {
       if (authUser) {
         const userCollection = collection(db, 'users')
         const userDocRef = doc(userCollection, authUser.uid)
@@ -108,7 +106,6 @@ export function SuggestionsModal({ editor, match }: SuggestionProps) {
     <Suggestions editor={editor}>
       <header className="header">
         <div className="message">{match?.message}</div>
-        <Close handler={handler.close} />
       </header>
 
       <ul className="suggestions">

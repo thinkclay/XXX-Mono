@@ -6,6 +6,7 @@ import Dexie, { Table } from 'dexie'
 export interface Dictionary {
   id?: number
   value: string
+  timestamp?: Date
 }
 
 export interface Suggestion {

@@ -30,7 +30,8 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const { authUser } = useFirebase()
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
-  const [timeoutId, setTimeoutId] = useState<any>(null)
+  const [toneLastChecked, setToneLastChecked] = useState(Date.now())
+
   const [_revision, _setRevision] = useState<void | OpenAI.CompletionChoice[]>()
 
   const _fetchRevision = async (text: string) => {
@@ -45,25 +46,6 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
 
     _setRevision(result)
     setRoot({ ...root, fetchingRevision: false })
-  }
-
-  useEffect(() => {
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [timeoutId])
-
-  const _fetchTone = async (text: string) => {
-    setTone({ ...tone, fetching: true })
-
-    await getToneEmoji(text)
-      .then(response => {
-        const emojiRegex = /👍|👎|😃|😢|🙌|🤷‍♀️|😮|👏|😰|😡|😟|🙄|😠|😎|🗣️|😍|🙏|🤨|😄|😤|😌|😅|😊|🎉|😊|⌛|😑|😅|❤️|😭/
-        const message = response.choices[0].text
-
-        setTone({ ...tone, fetching: false, icon: message?.match(emojiRegex)?.[0], message })
-      })
-      .catch(() => setTone({ ...tone, fetching: false }))
   }
 
   if (!editor) {
@@ -92,48 +74,58 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
         console.error(`Error getting ${dbKey}: `, error)
       }
     }
-      if (authUser) {
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authUser.uid)
-        const ignoreCollection = collection(userDocRef, 'ignorelist')
-        const ignorequeryDocs = query(ignoreCollection)
-        getDocs(ignorequeryDocs)
-          .then(checkQuery => {
-            if (checkQuery.size > 0) {
-              getDocs(ignoreCollection)
-                .then(querySnapshot => {
-                  DB.dictionary.clear()
-                  querySnapshot.forEach(async (data: any) => {
-                    const newData = data.data().data
-                    newData.forEach((data: { Value: any,timestamp: Date }) => {
-                      DB.dictionary.add({ value: data.Value,timestamp: data.timestamp })
-                    })
+    if (authUser) {
+      const userCollection = collection(db, 'users')
+      const userDocRef = doc(userCollection, authUser.uid)
+      const ignoreCollection = collection(userDocRef, 'ignorelist')
+      const ignorequeryDocs = query(ignoreCollection)
+      getDocs(ignorequeryDocs)
+        .then(checkQuery => {
+          if (checkQuery.size > 0) {
+            getDocs(ignoreCollection)
+              .then(querySnapshot => {
+                DB.dictionary.clear()
+                querySnapshot.forEach(async (data: any) => {
+                  const newData = data.data().data
+                  newData.forEach((data: { Value: any; timestamp: Date }) => {
+                    DB.dictionary.add({ value: data.Value, timestamp: data.timestamp })
                   })
                 })
-                .catch(error => {
-                  console.error('Error getting documents: ', error)
-                })
-            }
-          })
-          .catch(error => {
-            console.error('Error getting ignore:', error)
-          })
+              })
+              .catch(error => {
+                console.error('Error getting documents: ', error)
+              })
+          }
+        })
+        .catch(error => {
+          console.error('Error getting ignore:', error)
+        })
 
-        const biasCollection = collection(userDocRef, 'bias')
-        fetchAndProcessData(biasCollection, 'bias')
+      const biasCollection = collection(userDocRef, 'bias')
+      fetchAndProcessData(biasCollection, 'bias')
 
-        const languageCollection = collection(userDocRef, 'language')
-        fetchAndProcessData(languageCollection, 'language')
-      }
-  }, [match,authUser])
+      const languageCollection = collection(userDocRef, 'language')
+      fetchAndProcessData(languageCollection, 'language')
+    }
+  }, [match, authUser])
 
   useEffect(() => {
     const text = editor.getText()
-    const newTimeoutId = setTimeout(() => {
-      if (text.length < 150) return setTone({ ...tone, fetching: false, icon: null })
-      _fetchTone(text)
-    }, 1000)
-    setTimeoutId(newTimeoutId)
+
+    // Gatekeeping based on text length and time last checked > 15s
+    if (text.length < 250 || Date.now() - toneLastChecked < 15000) {
+      return setTone({ ...tone, fetching: false, icon: null })
+    }
+
+    setTone({ ...tone, fetching: true })
+    setToneLastChecked(Date.now())
+
+    async function _f() {
+      const { icon, message } = await getToneEmoji(text)
+      setTone({ ...tone, fetching: false, icon, message })
+    }
+
+    _f()
   }, [editor.getText()])
 
   const _reload = () => editor.commands.proofread()

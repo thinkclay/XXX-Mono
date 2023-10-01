@@ -16,7 +16,7 @@ interface Revision {
 const OAI_KEY = atob('c2stamZ5UmhQZDIyRHNURUxBUU9iMFlUM0JsYmtGSjVPRThoRTR6bndtRHl5YWpHMjh5')
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY || OAI_KEY,
-  organization: 'org-jPyM8UpbzbxetZLm0oDVNUd1',
+  organization: 'org-PGtYgdSkRlmctEZXIu7nnpzW',
   dangerouslyAllowBrowser: true,
 })
 
@@ -78,53 +78,35 @@ export const parseRevision = (response: OpenAI.Completions.Completion): null | R
   return null
 }
 
-export function getToneEmoji(prompt: string): APIPromise<OpenAI.Completions.Completion> {
-  const promptScaffold = `
-    Considering the following emojis mapped to sentiment:
-    Positive - thumbs up 👍
-    Accusatory - thumbs down 👎
-    Happy - smiley face 😃
-    Sad - crying face 😢
-    Enthusiastic - hands raised 🙌
-    Neutral - shrug 🤷‍♀️
-    Surprised - shocked face 😮
-    Collaborative - clapping hands 👏
-    Discouraging - face with open mouth and sweat 😰
-    Insulting - 😤
-    Angry- 😡
-    Concerned - worried face 😟
-    Condescending - rolling eyes 🙄
-    Angry - red-faced angry 😠
-    Confident - sunglasses face 😎
-    Defensive - face shouting 🗣️
-    Joyful - smiling face with heart-eyes 😍
-    Optimistic - folded hands 🙏
-    Confused - face with raised eyebrow 🤨
-    Amused - grinning face with smiling eyes 😄
-    Frustrated - face with steam from nose 😤
-    Calm - relaxed face 😌
-    Anxious - face with raised eyebrow and sweat 😅
-    Hopeful - face with starry eyes 😊
-    Excited - face with party hat 🎉
-    Proud - face with smiling eyes and hands on hips 😊
-    Impatient - hourglass ⌛
-    Bored - expressionless face 😑
-    Relieved - smiling face with sweat 😅
-    Loving - red heart ❤️
-    Crying - loudly crying face 😭
+export async function getToneEmoji(prompt: string): Promise<{ icon?: string; message: string | null }> {
+  console.log(`TONE/REQUEST`)
 
-    Please analyze the tone of the following text and respond with a format of <emoji> <reason>:
+  const promptScaffold = `
+    Please analyze the tone and sentiment of the following text and respond with a format of <emoji> <reason>:
 
     ${prompt}.
   `
 
-  return openai.completions.create({
-    model: 'text-davinci-003',
-    prompt: promptScaffold,
-    temperature: 1.0,
-    max_tokens: 1500,
-    top_p: 1.0,
-    frequency_penalty: 0.0,
-    presence_penalty: 0.0,
-  })
+  try {
+    const response = await openai.completions.create({
+      model: 'text-davinci-003',
+      prompt: promptScaffold,
+      temperature: 1.0,
+      max_tokens: 250,
+      top_p: 1.0,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    })
+
+    const emojiRegex =
+      /((\ud83c[\udde6-\uddff]){2}|([\#\*0-9]\u20e3)|(\u00a9|\u00ae|[\u2000-\u3300]|[\ud83c-\ud83e][\ud000-\udfff])((\ud83c[\udffb-\udfff])?(\ud83e[\uddb0-\uddb3])?(\ufe0f?\u200d([\u2000-\u3300]|[\ud83c-\ud83e][\ud000-\udfff])\ufe0f?)?)*)/g
+
+    const message = response.choices[0].text
+    const icon = message?.match(emojiRegex)?.[0]
+
+    return { icon, message }
+  } catch (error) {
+    console.error(`TONE/REQUEST/ERROR`, error)
+    return { icon: undefined, message: null }
+  }
 }

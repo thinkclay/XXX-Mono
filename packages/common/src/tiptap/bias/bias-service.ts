@@ -1,4 +1,4 @@
-import { Bias, BiasCategory, BiasCompletions, BiasClassResult } from './bias-types'
+import { Bias, BiasCategory, BiasClassResult } from './bias-types'
 
 const API_BASE = 'https://revisioned.herokuapp.com'
 
@@ -24,10 +24,12 @@ function apiBody(input: string) {
 async function apiRequest<T>(path: API_PATH, body?: string): Promise<T> {
   console.log(`BIAS/REQUEST/${path.toUpperCase()}`, { body })
 
-  const response = body ? await fetch(`${API_BASE}/${path}`, apiBody(body)) : await fetch(`${API_BASE}/${path}`)
+  const reqPayload = body ? apiBody(body) : undefined
+  const response = await fetch(`${API_BASE}/${path}`, reqPayload)
 
   if (!response.ok) {
-    throw new Error(`API request failed with status: ${response.statusText}`)
+    console.error(`API request failed with status: ${response.statusText}`)
+    return null as T
   }
 
   const data: T = await response.json()

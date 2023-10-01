@@ -1,4 +1,4 @@
-import { Extension, Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
 export const BiasMark = Mark.create({
   name: 'biasMark',
