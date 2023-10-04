@@ -1,4 +1,4 @@
-import { Editor, isMarkActive, isNodeActive, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core'
+import { Editor, isMarkActive, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'

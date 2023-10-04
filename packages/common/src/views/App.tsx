@@ -19,6 +19,7 @@ import { firebaseConfig } from '@common/services/firebase'
 
 import '@common/assets/styles/reset.scss'
 import '@common/assets/styles/index.scss'
+import Providers from '@common/helpers/providers'
 
 interface AppProps {
   mode: RenderMode
@@ -72,26 +73,28 @@ export default function App(screen: AppProps) {
   return (
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
       <AppWrapper>
-        <div id="RevisionApp">
-          <PrimaryNav open={menuOpen} />
-          <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-          {isModalOpen && (
-            <Modal
-              title="Profile Setup Confirmation"
-              open={isModalOpen}
-              onOk={handleAccept}
-              onCancel={handleAccept}
-              cancelButtonProps={{ style: { display: 'none' } }}
-              okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}
-            >
-              <p className="reminder-text">
-                Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related to
-                your use of ReVision is anonymized.
-              </p>
-            </Modal>
-          )}
-          {_renderView(route)}
-        </div>
+        <Providers>
+          <div id="RevisionApp">
+            <PrimaryNav open={menuOpen} />
+            <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
+            {isModalOpen && (
+              <Modal
+                title="Profile Setup Confirmation"
+                open={isModalOpen}
+                onOk={handleAccept}
+                onCancel={handleAccept}
+                cancelButtonProps={{ style: { display: 'none' } }}
+                okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}
+              >
+                <p className="reminder-text">
+                  Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related
+                  to your use of ReVision is anonymized.
+                </p>
+              </Modal>
+            )}
+            {_renderView(route)}
+          </div>
+        </Providers>
       </AppWrapper>
     </FirebaseAppProvider>
   )

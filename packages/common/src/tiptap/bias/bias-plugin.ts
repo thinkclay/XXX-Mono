@@ -12,6 +12,8 @@ import { FIREBASE, TIPTAP, logger } from '@common/helpers/logger'
 import { BiasStorage } from './bias'
 
 const handleStoreData = (suggestions: Suggestion[]) => {
+  console.log('handleStoreData in bias plugin', suggestions)
+
   onAuthStateChanged(auth, async user => {
     if (!user) return
 

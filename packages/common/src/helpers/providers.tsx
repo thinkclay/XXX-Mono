@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode
 }
 
-export default function FirebaseContext({ children }: Props) {
+export default function Providers({ children }: Props) {
   const app = useFirebaseApp()
   const firestore = getFirestore(app)
   const auth = getAuth(app)

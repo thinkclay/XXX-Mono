@@ -1,36 +1,40 @@
 'use client'
 
-// Chakra imports
 import { Box, Flex, FormLabel, Grid, Icon, Select, SimpleGrid, Text, useColorModeValue } from '@chakra-ui/react'
+import { collection, orderBy, query } from 'firebase/firestore'
+import { useFirestore, useFirestoreCollectionData } from 'reactfire'
+
 import { Image } from 'components/images/Image'
-// Custom components
-import Card from 'components/card/Card'
 import MiniStatistics from 'components/card/MiniStatistics'
 import IconBox from 'components/icons/IconBox'
 import Conversion from 'components/admin/main/users/users-reports/Conversion'
 import UserActivity from 'components/admin/main/users/users-reports/UserActivity'
-import UserReportsTable from 'components/admin/main/users/users-reports/UserReportsTable'
 import UsersTable from 'components/ui/UsersTable'
 
-// Assets
 import FakeLineGraph from '/public/img/users/FakeLineGraph.png'
 import Usa from '/public/img/users/usa.png'
 import { NextAvatar } from 'components/images/Avatar'
 import { MdPerson, MdThumbUp } from 'react-icons/md'
-import tableDataUserReports from 'variables/users/users-reports/tableDataUserReports'
 
 export default function UserReports() {
-  // Chakra Color Mode
+  const firestore = useFirestore()
+  const usersCollection = collection(firestore, 'users')
+  const usersQuery = query(usersCollection, orderBy('email', 'asc'))
+  const { data: users, status } = useFirestoreCollectionData(usersQuery)
+
+  console.log('Users', users)
+
   const textColorSecondary = 'secondaryGray.600'
   const brandColor = useColorModeValue('brand.500', 'white')
   const boxBg = useColorModeValue('secondaryGray.300', 'whiteAlpha.100')
+
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap="20px" mb="20px">
         <MiniStatistics
           startContent={<IconBox w="56px" h="56px" bg={boxBg} icon={<Icon w="32px" h="32px" as={MdPerson} color={brandColor} />} />}
-          name="Users Active"
-          value="9420"
+          name="Total Users"
+          value={status === 'success' ? users.length : 'N/A'}
         />
         <MiniStatistics
           endContent={

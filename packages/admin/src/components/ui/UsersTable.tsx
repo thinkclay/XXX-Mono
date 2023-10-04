@@ -36,7 +36,7 @@ import {
   flexRender,
   ColumnDef,
 } from '@tanstack/react-table'
-import { collection, doc, orderBy, query } from 'firebase/firestore'
+import { collection, orderBy, query } from 'firebase/firestore'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
 import Card from 'components/card/Card'
@@ -53,8 +53,8 @@ export default function UsersTable({ showActions }: Props) {
   const firestore = useFirestore()
   const usersCollection = collection(firestore, 'users')
   const usersQuery = query(usersCollection, orderBy('email', 'asc'))
-
   const { data: users, status } = useFirestoreCollectionData(usersQuery)
+
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
 
