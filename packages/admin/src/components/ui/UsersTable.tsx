@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from 'react'
 import {
   Avatar,
   Button,
-  Card,
   Flex,
   Table,
   Tbody,
@@ -35,16 +34,22 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   flexRender,
+  ColumnDef,
 } from '@tanstack/react-table'
 import { collection, doc, orderBy, query } from 'firebase/firestore'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
+import Card from 'components/card/Card'
 import Search from './Search'
 import LoadingOverlay from 'components/ui/LoadingOverlay'
 import { User, deleteUser, updateUser } from '@common/models/user'
 import { recordUrl } from '@common/helpers/firestore'
 
-export default function UsersTable() {
+interface Props {
+  showActions?: boolean
+}
+
+export default function UsersTable({ showActions }: Props) {
   const firestore = useFirestore()
   const usersCollection = collection(firestore, 'users')
   const usersQuery = query(usersCollection, orderBy('email', 'asc'))
@@ -100,12 +105,16 @@ export default function UsersTable() {
       header: () => <Text>EMAIL</Text>,
       cell: info => <Link href={`mailto:${info.getValue()}`}>{info.getValue()}</Link>,
     }),
-    columnHelper.accessor('uid', {
-      id: 'uid',
-      header: () => <Text>Actions</Text>,
-      cell: info => renderActions(info.getValue()),
-    }),
   ]
+
+  if (showActions)
+    columns.push(
+      columnHelper.accessor('uid', {
+        id: 'uid',
+        header: () => <Text>Actions</Text>,
+        cell: info => renderActions(info.getValue()),
+      }) as ColumnDef<User, string | undefined>
+    )
 
   const [data, setData] = useState<User[]>([])
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
@@ -309,9 +318,5 @@ export default function UsersTable() {
     </>
   )
 
-  return (
-    <Card minW="50%" mx="20px" position="relative">
-      {status === 'loading' ? <LoadingOverlay /> : renderContent()}
-    </Card>
-  )
+  return <Card>{status === 'loading' ? <LoadingOverlay /> : renderContent()}</Card>
 }

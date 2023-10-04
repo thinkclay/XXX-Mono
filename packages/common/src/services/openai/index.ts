@@ -1,7 +1,6 @@
 /** @format */
 
 import OpenAI from 'openai'
-import { APIPromise } from 'openai/core'
 
 interface RevisionSuggestion {
   input: string

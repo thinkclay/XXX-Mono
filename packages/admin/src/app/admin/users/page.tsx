@@ -10,6 +10,7 @@ import IconBox from 'components/icons/IconBox'
 import Conversion from 'components/admin/main/users/users-reports/Conversion'
 import UserActivity from 'components/admin/main/users/users-reports/UserActivity'
 import UserReportsTable from 'components/admin/main/users/users-reports/UserReportsTable'
+import UsersTable from 'components/ui/UsersTable'
 
 // Assets
 import FakeLineGraph from '/public/img/users/FakeLineGraph.png'
@@ -89,9 +90,7 @@ export default function UserReports() {
           <Conversion mb="20px" />
           <UserActivity />
         </Box>
-        <Card gridArea={{ base: '2 / 1 / 3 / 2', md: '1 / 2 / 2 / 3' }} mb={{ base: '20px', md: '0px' }}>
-          <UserReportsTable tableData={tableDataUserReports} />
-        </Card>
+        <UsersTable />
       </Grid>
     </Box>
   )

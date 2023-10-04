@@ -42,7 +42,7 @@ export const useFirebase = () => {
       setAuthUser(user)
       if (user) {
         const u = await getUser(user)
-        if (u.spellCheck !== undefined) {
+        if (u && u.spellCheck !== undefined) {
           localStorage.setItem('spellCheck', u.spellCheck.toString())
         } else {
           localStorage.setItem('spellCheck', 'true')
