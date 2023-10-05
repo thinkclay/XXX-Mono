@@ -1,6 +1,6 @@
 /** @format */
 
-import { useFirestore, useUser } from 'reactfire'
+import { useUser } from 'reactfire'
 
 import MainScreen from '@common/views/Screens/MainScreen'
 import WelcomeScreen from './WelcomeScreen'
@@ -11,7 +11,6 @@ import { MUser, upsertUser } from '@common/models'
 import { useUserData } from '../Contexts/FirebaseContext'
 
 function HomeScreen(screen: PageProps) {
-  const firestore = useFirestore()
   const { status, data: session } = useUser<MUser>()
   const user = useUserData()
 

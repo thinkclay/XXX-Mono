@@ -1,4 +1,4 @@
-import { Editor, FloatingMenu } from '@tiptap/react'
+import { Editor } from '@tiptap/react'
 
 import Heading from './icons/Heading'
 import List from './icons/List'
@@ -18,7 +18,7 @@ function Format({ editor }: Props) {
       <Heading level={2} editor={editor} />
       <Heading level={3} editor={editor} />
       <List editor={editor} />
-      <Image editor={editor} />
+      {/* <Image editor={editor} /> */}
       <Link editor={editor} />
       <Bold editor={editor} />
       <Italic editor={editor} />

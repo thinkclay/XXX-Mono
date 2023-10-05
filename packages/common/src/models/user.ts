@@ -1,7 +1,7 @@
-import { User as FBUser, User, onAuthStateChanged } from 'firebase/auth'
-import { Firestore, deleteDoc, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore'
+import { User as FBUser } from 'firebase/auth'
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 
-import { auth, firestore } from '@common/services/firebase'
+import { firestore } from '@common/services/firebase'
 
 export interface MUser extends FBUser {
   acceptedTerms: boolean
@@ -27,18 +27,6 @@ export const userDefault: Partial<MUser> = {
   tenantId: null,
   photoURL: null,
   providerId: '',
-}
-
-export function getCurrentUser(callback: (user: User | null) => void) {
-  return onAuthStateChanged(auth, user => {
-    if (user) {
-      // User is signed in.
-      callback(user)
-    } else {
-      // No user is signed in.
-      callback(null)
-    }
-  })
 }
 
 export async function getUser(uid: string): Promise<MUser | null> {

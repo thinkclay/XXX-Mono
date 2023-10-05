@@ -1,7 +1,7 @@
 {
   "name": "@revision/common",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
