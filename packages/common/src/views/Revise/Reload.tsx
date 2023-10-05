@@ -1,108 +1,18 @@
 /** @format */
 
-import { biasCountState, fetchingLanguageState, fetchingRevisionState, spellingCountState } from '@common/helpers/root'
+import { biasCountState, fetchingBiasState, fetchingLanguageState, fetchingRevisionState, spellingCountState } from '@common/helpers/root'
 import { useRecoilValue } from 'recoil'
 import { ToolbarActionProps } from './Toolbar'
-import { doc, collection, getDocs, query, addDoc, setDoc, Timestamp } from 'firebase/firestore'
-import { db } from '@common/services/firebase'
-import { useEffect, useState } from 'react'
-import { useFirebase } from '@common/services/firebase/hook'
 
 function Reload({ handler }: ToolbarActionProps) {
-  const { authUser } = useFirebase()
   const fetchingLanguage = useRecoilValue(fetchingLanguageState)
-  const fetchingBias = useRecoilValue(fetchingRevisionState)
+  const fetchingBias = useRecoilValue(fetchingBiasState)
+  const fetchingRevision = useRecoilValue(fetchingRevisionState)
   const spellingCount = useRecoilValue(spellingCountState)
   const biasCount = useRecoilValue(biasCountState)
-  const [addCount, setAddCount] = useState(0)
 
-  const rewriteData = async (item: any) => {
-    if (authUser) {
-      const userCollection = collection(db, 'users')
-      const userDocRef = doc(userCollection, authUser.uid)
-      const rewriteFlagCollection = collection(userDocRef, 'rewriteflags')
-      const queryDocs = query(rewriteFlagCollection)
-      try {
-        const checkQuery = await getDocs(queryDocs)
-        if (checkQuery.size > 0) {
-          const querySnapshot = await getDocs(rewriteFlagCollection)
-          querySnapshot.forEach(data => {
-            const rewriteListDocument = doc(rewriteFlagCollection, data.id)
-            const filterData = data.data().data
-            item.forEach((element: any) => {
-              filterData.push({ timestamp: Timestamp.now(), value: element })
-            })
-            setDoc(rewriteListDocument, { data: filterData })
-              .then(() => console.log('UPDATED rewriteList Firebase'))
-              .catch(e => console.log('Error', e))
-          })
-        } else {
-          const filterData: any = []
-          item.forEach((element: any) => {
-            filterData.push({ timestamp: Timestamp.now(), value: element })
-          })
-          await addDoc(rewriteFlagCollection, { data: filterData })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  useEffect(() => {
-    const spelling = document.querySelectorAll('span.language')
-    const textContents: any = Array.from(spelling).map(span => span.textContent)
-    const result = spellingCount - addCount
-    if (result <= 0) {
-      setAddCount(spellingCount)
-      return
-    }
-    const fetchData = async () => {
-      if (authUser) {
-        const userCollection = collection(db, 'users')
-        const userDocRef = doc(userCollection, authUser.uid)
-        const flagsCollection = collection(userDocRef, 'flags')
-        const queryDocs = query(flagsCollection)
-        try {
-          const checkQuery = await getDocs(queryDocs)
-          if (checkQuery.size > 0) {
-            const querySnapshot = await getDocs(flagsCollection)
-            querySnapshot.forEach(data => {
-              const rewriteListDocument = doc(flagsCollection, data.id)
-              const newData = data.data().data
-              const commonValues = textContents.map((flag: any) => {
-                const data = newData.find((d: { key: number; value: string }) => d.value === flag)
-                if (data) {
-                  return data.value
-                }
-              })
-              rewriteData(commonValues)
-              textContents.forEach((element: any) => {
-                if (element.trim()) {
-                  newData.push({ timestamp: Timestamp.now(), value: element })
-                }
-              })
-              setDoc(rewriteListDocument, { data: newData })
-                .then(() => console.log('UPDATED flags Firebase'))
-                .catch(e => console.log('Error', e))
-            })
-          } else {
-            const filterData: any = []
-            textContents.forEach((element: any) => {
-              filterData.push({ timestamp: Timestamp.now(), value: element })
-            })
-            await addDoc(flagsCollection, { data: filterData })
-          }
-        } catch (error) {
-          console.error('Error:', error)
-        }
-      }
-      setAddCount(spellingCount)
-    }
-    fetchData()
-  }, [spellingCount, authUser])
   return (
-    <button className={`reload ${fetchingLanguage || fetchingBias ? 'active fetching' : ''}`} onClick={handler}>
+    <button className={`reload ${(fetchingLanguage || fetchingBias || fetchingRevision) && 'active fetching'}`} onClick={handler}>
       {spellingCount ? (
         <div className="counter">{spellingCount}</div>
       ) : biasCount ? (

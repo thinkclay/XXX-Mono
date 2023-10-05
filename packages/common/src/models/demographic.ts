@@ -1,4 +1,6 @@
-import { Firestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+
+import { firestore } from '@common/services/firebase'
 
 export type Ethnicity = 'black' | 'white' | 'asian' | 'indian' | 'hispanic' | 'indigenous' | 'multi'
 export type Gender = 'multi' | 'male' | 'female' | 'transgender'
@@ -25,13 +27,13 @@ export const defaultDemographic: MDemographic = {
   housing: [],
 }
 
-export async function upsertUserDemo(firestore: Firestore, uid: string, data: MDemographic) {
+export async function upsertUserDemo(uid: string, data: MDemographic) {
   try {
-    const ref = doc(firestore, 'demo', uid)
+    const ref = doc(firestore, 'demographics', uid)
     const nextState = { ...getDoc(ref), ...data }
     await setDoc(ref, nextState)
-    console.log(`Updated UserDemo: ${uid}`, nextState)
+    console.log(`Updated Demographics: ${uid}`, nextState)
   } catch (error) {
-    console.error(`Error Updating UserDemo: ${uid}`, error)
+    console.error(`Error Updating Demographics: ${uid}`, error)
   }
 }

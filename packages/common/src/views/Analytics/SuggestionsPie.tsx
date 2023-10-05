@@ -4,7 +4,7 @@ import { doc, collection, getDocs } from 'firebase/firestore'
 import { DatePicker, Checkbox } from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import moment from 'moment'
-import { db } from '@common/services/firebase'
+import { firestore } from '@common/services/firebase'
 import { DB } from '@common/helpers/db'
 import { useFirebase } from '@common/services/firebase/hook'
 import { DataItem, DetailedChartProps, FlagState } from '@common/types/UI'
@@ -63,7 +63,9 @@ const SuggestionsPie: React.FC = () => {
   const getAnalyticsData = async () => {
     if (!authUser) return
     const collections = ['flags', 'acceptedflags', 'ignorelist', 'rewriteflags']
-    const snapshots = await Promise.all(collections.map(collectionName => getDocs(collection(db, 'users', authUser.uid, collectionName))))
+    const snapshots = await Promise.all(
+      collections.map(collectionName => getDocs(collection(firestore, 'users', authUser.uid, collectionName)))
+    )
     const counts = snapshots.map(snapshot => snapshot.docs.reduce((total, doc) => total + doc.data().data.length, 0))
     const [flagSum, acceptedFlagSum, ignoreListCount, rewriteFlagCount] = counts
     setFlags(flagSum)
@@ -88,7 +90,7 @@ const SuggestionsPie: React.FC = () => {
   const filterMainDataByDate = async (startDate: string, endDate: string) => {
     if (authUser && startDate !== null && endDate !== null) {
       setLoading(true)
-      const userCollection = collection(db, 'users')
+      const userCollection = collection(firestore, 'users')
       const userDocRef = doc(userCollection, authUser.uid)
       const flagsCollection = collection(userDocRef, 'flags')
       const flagsData = await getFiltterOutData(flagsCollection, startDate, endDate)
@@ -185,7 +187,7 @@ const SuggestionsPie: React.FC = () => {
   }
   const compareCurrentWeekDatta = async (startDate: string, endDate: string) => {
     if (authUser && startDate !== null && endDate !== null) {
-      const userCollection = collection(db, 'users')
+      const userCollection = collection(firestore, 'users')
       const userDocRef = doc(userCollection, authUser.uid)
       const flagsCollection = collection(userDocRef, 'flags')
       const flagsData = await getFiltterOutData(flagsCollection, startDate, endDate)
@@ -358,7 +360,7 @@ const SuggestionsPie: React.FC = () => {
             <div className="improvements-circle">
               <div className="reaction-emoji">
                 {loading ? (
-                 <img src={SpeechLess} alt="SpeechLess" style={{ height: 45, width: 45 }} />
+                  <img src={SpeechLess} alt="SpeechLess" style={{ height: 45, width: 45 }} />
                 ) : totalImprovements >= 90 ? (
                   <img src={Cool} alt="cool" style={{ height: 35, width: 35 }} />
                 ) : totalImprovements >= 50 ? (

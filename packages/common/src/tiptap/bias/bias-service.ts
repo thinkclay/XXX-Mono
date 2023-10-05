@@ -1,3 +1,4 @@
+import { firestore } from '@common/services/firebase'
 import { Bias, BiasCategory, BiasClassResult } from './bias-types'
 
 const API_BASE = 'https://revisioned.herokuapp.com'
@@ -67,5 +68,9 @@ export const fetchBiases = async (input: string): Promise<Bias> => {
     }
   }
 
-  return await apiRequest<Bias>(API_PATH.CHECK, input)
+  const results = await apiRequest<Bias>(API_PATH.CHECK, input)
+
+  console.log('fetchBiases', results, firestore)
+
+  return results
 }

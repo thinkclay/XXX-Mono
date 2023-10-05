@@ -1,7 +1,8 @@
 /** @format */
 
-import { IssueType } from '@common/tiptap/language/language-types'
 import Dexie, { Table } from 'dexie'
+
+import { MSuggestion } from '@common/models'
 
 export interface Dictionary {
   id?: number
@@ -9,22 +10,12 @@ export interface Dictionary {
   timestamp?: Date
 }
 
-export interface Suggestion {
-  id?: number
-  category: 'language' | 'bias'
-  type: IssueType
-  date: number
-  input: string
-  accepted?: boolean
-  replacement?: string
-}
-
 //
 // Declare Database
 //
 export class RevisionDB extends Dexie {
   public dictionary!: Table<Dictionary, number>
-  public suggestion!: Table<Suggestion, number>
+  public suggestion!: Table<MSuggestion, number>
 
   public constructor() {
     super('revision')

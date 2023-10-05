@@ -1,5 +1,7 @@
-import { User as FBUser } from 'firebase/auth'
+import { User as FBUser, User, onAuthStateChanged } from 'firebase/auth'
 import { Firestore, deleteDoc, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore'
+
+import { auth, firestore } from '@common/services/firebase'
 
 export interface MUser extends FBUser {
   acceptedTerms: boolean
@@ -27,9 +29,21 @@ export const userDefault: Partial<MUser> = {
   providerId: '',
 }
 
-export async function getUser(firestore: Firestore, user: MUser | FBUser): Promise<MUser | null> {
+export function getCurrentUser(callback: (user: User | null) => void) {
+  return onAuthStateChanged(auth, user => {
+    if (user) {
+      // User is signed in.
+      callback(user)
+    } else {
+      // No user is signed in.
+      callback(null)
+    }
+  })
+}
+
+export async function getUser(uid: string): Promise<MUser | null> {
   try {
-    const ref = doc(firestore, 'users', user.uid)
+    const ref = doc(firestore, 'users', uid)
     const result = await getDoc(ref)
     return result.data() as MUser
   } catch (e) {
@@ -38,7 +52,7 @@ export async function getUser(firestore: Firestore, user: MUser | FBUser): Promi
   }
 }
 
-export async function upsertUser(firestore: Firestore, uid: string, data: Partial<MUser>, user?: Partial<MUser>) {
+export async function upsertUser(uid: string, data: Partial<MUser>, user?: Partial<MUser>) {
   try {
     const ref = doc(firestore, 'users', uid)
     const nextState = { ...userDefault, ...user, ...getDoc(ref), ...data }
@@ -51,7 +65,7 @@ export async function upsertUser(firestore: Firestore, uid: string, data: Partia
 
 // TODO: deleting users should also delete any collections beloning to the user
 // @see https://firebase.google.com/docs/firestore/manage-data/delete-data#node.js_2
-export async function deleteUser(firestore: Firestore, uid: string) {
+export async function deleteUser(uid: string) {
   try {
     const ref = doc(firestore, 'users', uid)
     await deleteDoc(ref)

@@ -70,18 +70,18 @@ export default function UsersTable({ showActions }: Props) {
     return (
       <HStack>
         {user.admin ? (
-          <Button size="sm" bg="red.300" w="80px" onClick={() => upsertUser(firestore, user.uid, { admin: false })}>
+          <Button size="sm" bg="red.300" w="80px" onClick={() => upsertUser(user.uid, { admin: false })}>
             Demote
           </Button>
         ) : (
-          <Button size="sm" bg="green.300" w="80px" onClick={() => upsertUser(firestore, user.uid, { admin: true })}>
+          <Button size="sm" bg="green.300" w="80px" onClick={() => upsertUser(user.uid, { admin: true })}>
             Promote
           </Button>
         )}
         <Button size="sm" onClick={() => window.open(recordUrl('users', uid))}>
           Firestore
         </Button>
-        <Button size="sm" bg="red.300" onClick={() => deleteUser(firestore, user.uid)}>
+        <Button size="sm" bg="red.300" onClick={() => deleteUser(user.uid)}>
           Delete
         </Button>
       </HStack>

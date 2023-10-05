@@ -5,7 +5,7 @@ import { v4 } from 'uuid'
 import { Editor } from '@tiptap/react'
 import { Match, Replacement } from '@common/tiptap/language/language-types'
 import { SuggestionsPluginProps, SuggestionsPlugin } from '../suggestions-plugin'
-import { db } from '@common/services/firebase'
+import { firestore } from '@common/services/firebase'
 import Ignore from './Ignore'
 import { Timestamp, addDoc, collection, doc, getDocs, query, setDoc } from 'firebase/firestore'
 import { useRecoilValue } from 'recoil'
@@ -74,7 +74,7 @@ export function SuggestionsModal({ editor, match }: SuggestionProps) {
     }
     const acceptedFlag = async () => {
       if (authUser) {
-        const userCollection = collection(db, 'users')
+        const userCollection = collection(firestore, 'users')
         const userDocRef = doc(userCollection, authUser.uid)
         const flagsCollection = collection(userDocRef, 'acceptedflags')
         const queryDocs = query(flagsCollection)

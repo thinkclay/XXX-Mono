@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState, createContext, useContext } from 'react'
-import { FirebaseAppProvider, AuthProvider, FirestoreProvider, useFirebaseApp, useUser, useFirestore } from 'reactfire'
+import { FirebaseAppProvider, AuthProvider, FirestoreProvider, useFirebaseApp, useUser } from 'reactfire'
 
 import { firebaseConfig } from '@common/services/firebase'
 import { getFirestore } from 'firebase/firestore'
@@ -34,12 +34,11 @@ export function useUserData() {
 }
 
 export function FirebaseUserContext({ children }: Props) {
-  const firestore = useFirestore()
   const { status, data: user } = useUser<MUser>()
   const [_user, _setUser] = useState<MUser | null>(null)
 
   useEffect(() => {
-    if (status === 'success' && user) getUser(firestore, user).then(_setUser)
+    if (status === 'success' && user) getUser(user.uid).then(_setUser)
   }, [status, user])
 
   return <UserContext.Provider value={_user}>{children}</UserContext.Provider>

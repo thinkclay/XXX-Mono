@@ -17,18 +17,14 @@ export default function SettingsScreen() {
   const { status, data: session } = useUser<MUser>()
   const [demographics, setDemographics] = useState<MDemographic>(defaultDemographic)
 
-  console.log('Demo', demographics)
-
   useEffect(() => {
     if (status !== 'success' || !session) return
-    // getSetting(firestore, session.uid).then(console.log)
-    getSetting(firestore, session.uid).then(s => s && setDemographics({ ...demographics, ...s.demographics }))
+    getSetting(session.uid).then(s => s && setDemographics({ ...demographics, ...s.demographics }))
   }, [status, session])
 
-  // On update of state, save to Firebase
   useEffect(() => {
     if (status !== 'success' || !session || demographics === defaultDemographic) return
-    upsertSetting(firestore, session.uid, { demographics })
+    upsertSetting(session.uid, { demographics })
   }, [demographics])
 
   return (

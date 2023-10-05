@@ -1,4 +1,6 @@
-import { Firestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+
+import { firestore } from '@common/services/firebase'
 import { MDemographic, defaultDemographic } from './demographic'
 
 export interface MSetting {
@@ -9,7 +11,7 @@ export const defaultSettings: MSetting = {
   demographics: defaultDemographic,
 }
 
-export async function getSetting(firestore: Firestore, uid: string): Promise<MSetting | null> {
+export async function getSetting(uid: string): Promise<MSetting | null> {
   try {
     const ref = doc(firestore, 'settings', uid)
     const result = await getDoc(ref)
@@ -20,13 +22,13 @@ export async function getSetting(firestore: Firestore, uid: string): Promise<MSe
   }
 }
 
-export async function upsertSetting(firestore: Firestore, uid: string, data: MSetting) {
+export async function upsertSetting(uid: string, data: MSetting) {
   try {
     const ref = doc(firestore, 'settings', uid)
     const nextState = { ...getDoc(ref), ...data }
     await setDoc(ref, nextState)
-    console.log(`Updated UserDemo: ${uid}`, nextState)
+    console.log(`Updated Settings: ${uid}`, nextState)
   } catch (error) {
-    console.error(`Error Updating UserDemo: ${uid}`, error)
+    console.error(`Error Updating Settings: ${uid}`, error)
   }
 }

@@ -15,7 +15,7 @@ import {
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import { useContext, createContext, useEffect, useMemo, useState } from 'react'
 
-import { app, auth, cleverProvider, CustomUserModel, db, googleProvider } from './index'
+import { app, auth, cleverProvider, CustomUserModel, firestore as db, googleProvider } from './index'
 import { FIREBASE, logger } from '@common/helpers/logger'
 
 setPersistence(auth, browserLocalPersistence)

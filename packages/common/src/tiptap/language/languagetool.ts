@@ -15,7 +15,7 @@ import { LanguageToolResponse, Match, TextNodesWithPosition, LanguageToolOptions
 import { fetchProof } from './language-service'
 import { changedDescendants, moreThan500Words, selectElementText } from './language-helpers'
 import { DB } from '@common/helpers/db'
-import { auth, db } from '@common/services/firebase'
+import { auth, firestore } from '@common/services/firebase'
 import { TIPTAP } from '@common/helpers/logger'
 import { Timestamp } from 'firebase-admin/firestore'
 
@@ -77,7 +77,7 @@ const decorate = (from: number, to: number, match: Match): Decoration => {
 const handleStoreData = (newSubmisionData: Array<any>) => {
   onAuthStateChanged(auth, async user => {
     if (!user) return
-    const userCollection = collection(db, 'users')
+    const userCollection = collection(firestore, 'users')
     const userDocRef = doc(userCollection, user.uid)
     const languageCollection = collection(userDocRef, 'language')
     const queryDocs = query(languageCollection)
@@ -87,7 +87,7 @@ const handleStoreData = (newSubmisionData: Array<any>) => {
           getDocs(languageCollection)
             .then(querySnapshot => {
               querySnapshot.forEach((data: any) => {
-                const biasListCollection = collection(db, 'users', user.uid, 'language')
+                const biasListCollection = collection(firestore, 'users', user.uid, 'language')
                 const newDocRef = doc(biasListCollection, data.id)
                 const newData = data.data().language
                 newSubmisionData.forEach(data => {
@@ -127,6 +127,7 @@ async function matchesToDecorations(doc: PMModel, res: LanguageToolResponse, off
         date: Date.now(),
       }
     })
+
     handleStoreData(submitData)
   }
 
@@ -298,7 +299,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
 
           onAuthStateChanged(auth, async user => {
             if (user) {
-              const userCollection = collection(db, 'users')
+              const userCollection = collection(firestore, 'users')
               const userDocRef = doc(userCollection, user.uid)
               const ignoreCollection = collection(userDocRef, 'ignorelist')
               const queryDocs = query(ignoreCollection)
@@ -308,10 +309,10 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                     getDocs(ignoreCollection)
                       .then(querySnapshot => {
                         querySnapshot.forEach((data: any) => {
-                          const ignoreListCollection = collection(db, 'users', user.uid, 'ignorelist')
+                          const ignoreListCollection = collection(firestore, 'users', user.uid, 'ignorelist')
                           const newDocRef = doc(ignoreListCollection, data.id)
                           const newData = data.data().data
-                          newData.push({ Key: newData.length + 1, Value: content,timestamp: Timestamp.now() })
+                          newData.push({ Key: newData.length + 1, Value: content, timestamp: Timestamp.now() })
                           updateDoc(newDocRef, { data: newData })
                             .then(data => console.log('UPDATED Firebase', data))
                             .catch(e => console.log('Error', e))
@@ -321,7 +322,7 @@ export const LanguageTool = Extension.create<LanguageToolOptions, LanguageToolSt
                         console.error('Error getting documents: ', error)
                       })
                   } else {
-                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content,timestamp: Timestamp.now() }] })
+                    addDoc(ignoreCollection, { data: [{ Key: 1, Value: content, timestamp: Timestamp.now() }] })
                       .then(data => console.log('NEW_ADDED Firebase', data))
                       .catch(e => console.log('Error', e))
                   }

@@ -7,7 +7,7 @@ import { doc, collection, getDocs, query, Query } from 'firebase/firestore'
 import OpenAI from 'openai'
 
 import { DB } from '@common/helpers/db'
-import { db } from '@common/services/firebase'
+import { firestore } from '@common/services/firebase'
 import { getRevisedCopy, getToneEmoji } from '@common/services/openai'
 import { rootState } from '@common/helpers/root'
 import { toneState } from '@common/helpers/tone'
@@ -75,7 +75,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
       }
     }
     if (authUser) {
-      const userCollection = collection(db, 'users')
+      const userCollection = collection(firestore, 'users')
       const userDocRef = doc(userCollection, authUser.uid)
       const ignoreCollection = collection(userDocRef, 'ignorelist')
       const ignorequeryDocs = query(ignoreCollection)

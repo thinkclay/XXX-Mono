@@ -16,7 +16,7 @@ function HomeScreen(screen: PageProps) {
   const user = useUserData()
 
   const _handler = async () => {
-    session && upsertUser(firestore, session?.uid, { acceptedTerms: true }, session)
+    session && upsertUser(session?.uid, { acceptedTerms: true }, session)
   }
 
   if (status !== 'success') return <LoadingScreen />
