@@ -42,7 +42,7 @@ import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 import Card from 'components/card/Card'
 import Search from './Search'
 import LoadingOverlay from 'components/ui/LoadingOverlay'
-import { User, deleteUser, updateUser } from '@common/models/user'
+import { MUser, deleteUser, upsertUser } from '@common/models/user'
 import { recordUrl } from '@common/helpers/firestore'
 
 interface Props {
@@ -70,11 +70,11 @@ export default function UsersTable({ showActions }: Props) {
     return (
       <HStack>
         {user.admin ? (
-          <Button size="sm" bg="red.300" w="80px" onClick={() => updateUser(firestore, user.uid, { admin: false })}>
+          <Button size="sm" bg="red.300" w="80px" onClick={() => upsertUser(firestore, user.uid, { admin: false })}>
             Demote
           </Button>
         ) : (
-          <Button size="sm" bg="green.300" w="80px" onClick={() => updateUser(firestore, user.uid, { admin: true })}>
+          <Button size="sm" bg="green.300" w="80px" onClick={() => upsertUser(firestore, user.uid, { admin: true })}>
             Promote
           </Button>
         )}
@@ -88,7 +88,7 @@ export default function UsersTable({ showActions }: Props) {
     )
   }
 
-  const columnHelper = createColumnHelper<User>()
+  const columnHelper = createColumnHelper<MUser>()
   const columns = [
     columnHelper.accessor('photoUrl', {
       id: 'photoUrl',
@@ -113,10 +113,10 @@ export default function UsersTable({ showActions }: Props) {
         id: 'uid',
         header: () => <Text>Actions</Text>,
         cell: info => renderActions(info.getValue()),
-      }) as ColumnDef<User, string | undefined>
+      })
     )
 
-  const [data, setData] = useState<User[]>([])
+  const [data, setData] = useState<MUser[]>([])
   const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,

@@ -1,13 +1,13 @@
 'use client'
+
 import { ReactNode, useState } from 'react'
 import { Box, useColorModeValue } from '@chakra-ui/react'
-import { FirebaseAppProvider } from 'reactfire'
 
 import { SidebarContext } from 'contexts/SidebarContext'
 import AppWrappers from './AppWrappers'
 import Header from 'components/navigation/Header'
 import Footer from 'components/navigation/Footer'
-import { firebaseConfig } from '@common/services/firebase'
+import { FirebaseApp } from '@common/views/Contexts/FirebaseContext'
 
 interface Props {
   children: ReactNode
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body id="root">
-        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+        <FirebaseApp>
           <AppWrappers>
             <SidebarContext.Provider
               value={{
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: Props) {
               <Footer />
             </SidebarContext.Provider>
           </AppWrappers>
-        </FirebaseAppProvider>
+        </FirebaseApp>
       </body>
     </html>
   )

@@ -2,7 +2,6 @@ import { User as FBUser } from 'firebase/auth'
 import { Firestore, deleteDoc, doc, getDoc, updateDoc, setDoc } from 'firebase/firestore'
 
 export interface MUser extends FBUser {
-  uid: string
   acceptedTerms: boolean
   admin: boolean
   displayName: string | null
@@ -11,51 +10,38 @@ export interface MUser extends FBUser {
   phoneNumber: string | null
 }
 
-export async function getUser(firestore: Firestore, user: MUser | FBUser): Promise<MUser | undefined> {
+export const userDefault: Partial<MUser> = {
+  uid: '',
+  acceptedTerms: false,
+  admin: false,
+  displayName: null,
+  email: null,
+  photoUrl: null,
+  phoneNumber: null,
+  emailVerified: false,
+  isAnonymous: false,
+  providerData: [],
+  refreshToken: '',
+  tenantId: null,
+  photoURL: null,
+  providerId: '',
+}
+
+export async function getUser(firestore: Firestore, user: MUser | FBUser): Promise<MUser | null> {
   try {
     const ref = doc(firestore, 'users', user.uid)
     const result = await getDoc(ref)
     return result.data() as MUser
   } catch (e) {
     console.error(e)
+    return null
   }
 }
 
-export async function createUser(firestore: Firestore, uid: string, data: Partial<MUser>) {
+export async function upsertUser(firestore: Firestore, uid: string, data: Partial<MUser>, user?: Partial<MUser>) {
   try {
     const ref = doc(firestore, 'users', uid)
-    const nextState = { ...getDoc(ref), ...data }
-    await updateDoc(ref, nextState)
-    console.log(`Updated User: ${uid}`, nextState)
-  } catch (error) {
-    console.error(`Error Updating User: ${uid}`, error)
-  }
-}
-
-export async function updateUser(firestore: Firestore, uid: string, data: Partial<MUser>, user?: Partial<MUser>) {
-  try {
-    const ref = doc(firestore, 'users', uid)
-    let nextState = {}
-
-    if (user) {
-      nextState = {
-        uid: user.uid,
-        acceptedTerms: user.acceptedTerms || false,
-        admin: user.admin || false,
-        displayName: user.displayName || null,
-        email: user.email || null,
-        emailVerified: user.emailVerified || false,
-        isAnonymous: user.isAnonymous || null,
-        photoUrl: user.photoUrl || null,
-        phoneNumber: user.phoneNumber || null,
-        providerData: user.providerData || null,
-        providerId: user.providerId || null,
-        tenantId: user.tenantId || null,
-      }
-    }
-
-    nextState = { ...nextState, ...getDoc(ref), ...data }
-
+    const nextState = { ...userDefault, ...user, ...getDoc(ref), ...data }
     await setDoc(ref, nextState)
     console.log(`Updated User: ${uid}`, nextState)
   } catch (error) {

@@ -6,7 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import initialTheme from 'theme/theme'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
-import Providers from '@common/helpers/providers'
+import FirebaseProviders from '@common/views/Contexts/FirebaseContext'
 
 import 'styles/App.css'
 import 'styles/Contact.css'
@@ -33,7 +33,7 @@ export default function AppWrappers({ children }: Props) {
 
   return (
     <Root>
-      <Providers>
+      <FirebaseProviders>
         <ConfiguratorContext.Provider
           value={{
             mini,
@@ -48,7 +48,7 @@ export default function AppWrappers({ children }: Props) {
         >
           <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </ConfiguratorContext.Provider>
-      </Providers>
+      </FirebaseProviders>
     </Root>
   )
 }

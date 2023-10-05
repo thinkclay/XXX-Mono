@@ -1,43 +1,150 @@
-//  @format
-
-import { PageProps } from '@common/types/UI'
-import Fill from '../Welcome/Fill'
 import { useEffect, useState } from 'react'
-import { useFirebase } from '@common/services/firebase/hook'
+import { Select, Typography, Row, Col } from 'antd'
+import { useFirestore, useUser } from 'reactfire'
 
-function SettingsScreen({ mode }: PageProps) {
-  const settings = localStorage.getItem('spellCheck')
-  const [spellcheck, setSpellcheck] = useState<boolean | undefined>(settings !== null ? (settings === 'false' ? false : true) : true)
-  const { authUser, updateUser, getUser } = useFirebase()
+import {
+  disabilityOptions,
+  ethnicityOptions,
+  genderOptions,
+  housingOptions,
+  languageOptions,
+  religionOptions,
+} from '@common/helpers/demographics'
+import { MDemographic, defaultDemographic, MUser, getSetting, upsertSetting } from '@common/models'
 
-  const _handlerSpellCheck = async (check: boolean) => {
-    if (authUser) {
-      updateUser(authUser, { spellCheck: check, acceptedTerms: true })
-      localStorage.setItem('spellCheck', check.toString())
-    }
-    setSpellcheck(check)
-  }
+export default function SettingsScreen() {
+  const firestore = useFirestore()
+  const { status, data: session } = useUser<MUser>()
+  const [demographics, setDemographics] = useState<MDemographic>(defaultDemographic)
+
+  console.log('Demo', demographics)
+
   useEffect(() => {
-    ; (async () => {
-      if (authUser) {
-        const user = await getUser(authUser)
-        user.spellCheck !== undefined && setSpellcheck(user.spellCheck)
-      }
-    })()
-  }, [authUser])
+    if (status !== 'success' || !session) return
+    // getSetting(firestore, session.uid).then(console.log)
+    getSetting(firestore, session.uid).then(s => s && setDemographics({ ...demographics, ...s.demographics }))
+  }, [status, session])
+
+  // On update of state, save to Firebase
+  useEffect(() => {
+    if (status !== 'success' || !session || demographics === defaultDemographic) return
+    upsertSetting(firestore, session.uid, { demographics })
+  }, [demographics])
 
   return (
     <div className="WelcomeScreen">
-      <h1 className='settings-text'>Settings</h1>
-      <ul className="terms">
-        <li onClick={() => _handlerSpellCheck(!spellcheck)}>
-          <Fill checked={spellcheck} />
-          <input type="checkbox" name="spell-checker" checked={spellcheck} onChange={() => null} />
-          <label htmlFor="spell-checker">Use Native Spell Checker</label>
-        </li>
-      </ul>
+      <Typography.Title level={1}>Settings</Typography.Title>
+      <Typography.Paragraph>
+        If you would like, please tell us about your background and demographics. This helps our system better understand you and the biases
+        you may have. Remember, bias is not a bad word. We all have it. The first step towards evolving and shaping our biases is to better
+        understand our own.
+      </Typography.Paragraph>
+
+      <form>
+        <Row gutter={[16, 16]}>
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Ethnicity
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Select race/ethinicities that you identify with"
+              onChange={ethnicity => setDemographics({ ...demographics, ethnicity })}
+              options={ethnicityOptions}
+              value={demographics.ethnicity}
+            />
+          </Col>
+
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Gender
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Select the gender that you identify with"
+              onChange={gender => setDemographics({ ...demographics, gender })}
+              options={genderOptions}
+              value={demographics.gender}
+            />
+          </Col>
+
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Language
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Select the languages you speak"
+              onChange={language => setDemographics({ ...demographics, language })}
+              options={languageOptions}
+              value={demographics.language}
+            />
+          </Col>
+
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Religion
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Select the religions you practice"
+              onChange={religion => setDemographics({ ...demographics, religion })}
+              options={religionOptions}
+              value={demographics.religion}
+            />
+          </Col>
+
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Disability
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Select the disabilities you may have"
+              onChange={disability => setDemographics({ ...demographics, disability })}
+              options={disabilityOptions}
+              value={demographics.disability}
+            />
+          </Col>
+
+          <Col span={6}>
+            <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
+              Housing
+            </Typography.Title>
+          </Col>
+          <Col span={18}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder="Describe the housing environments you relate to"
+              onChange={housing => setDemographics({ ...demographics, housing })}
+              options={housingOptions}
+              value={demographics.housing}
+            />
+          </Col>
+        </Row>
+      </form>
     </div>
   )
 }
-
-export default SettingsScreen

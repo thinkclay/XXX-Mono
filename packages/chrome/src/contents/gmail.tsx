@@ -1,65 +1,48 @@
 /** @format */
 
-import type { PlasmoCSConfig } from 'plasmo';
-import { StrictMode, useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import 'gmail-js';
-import React, { RecoilRoot } from 'recoil';
-import MainScreen from '@common/views/screens/MainScreen';
-import reportWebVitals from '@common/reportWebVitals';
-import '@common/assets/styles/index.scss';
-import ModalPopup from '@common/views/components/demographicSelection';
+import type { PlasmoCSConfig } from 'plasmo'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { RecoilRoot } from 'recoil'
+import 'gmail-js'
+
+import MainScreen from '@common/views/screens/MainScreen'
+import reportWebVitals from '@common/reportWebVitals'
+import '@common/assets/styles/index.scss'
 
 declare global {
   interface Window {
-    gmail: Gmail;
-    dataLayer: Array<any>;
-    gtag: (a: string, b: any, c?: any) => void;
+    gmail: Gmail
+    dataLayer: Array<any>
+    gtag: (a: string, b: any, c?: any) => void
   }
 }
 
 declare namespace NodeJS {
   interface ProcessEnv {
-    PLASMO_PUBLIC_GTAG_ID?: string;
+    PLASMO_PUBLIC_GTAG_ID?: string
   }
 }
 
 export const config: PlasmoCSConfig = {
   matches: ['*://mail.google.com/*'],
   run_at: 'document_start',
-};
-
-function openPopup() {
-  const modalContainer = document.createElement('div');
-  modalContainer.id = 'custom-modal-container';
-  document.body.appendChild(modalContainer);
-  const root = createRoot(modalContainer);
-  root.render(<ModalPopup />);
 }
 
 function loadHandler() {
-  console.log('Email', window.gmail.get.user_email());
+  console.log('Email', window.gmail.get.user_email())
 }
 
 function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
-  const $el = compose.$el;
-  let signatureHTML = '';
+  const $el = compose.$el
+  let signatureHTML = ''
 
   const bodyId = setInterval(() => {
-    if (!compose.body()) return;
-    clearInterval(bodyId);
-    const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML);
-    runApp(document.body, updateHandler);
-  }, 100);
-}
-
-function clickHandler(event: any, isPopupOpen: boolean, openPopup: () => void) {
-  const target = event.target;
-  if (target.closest('[aria-label="Message Body"]')) {
-    if (!isPopupOpen) {
-      openPopup();
-    }
-  }
+    if (!compose.body()) return
+    clearInterval(bodyId)
+    const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML)
+    runApp(document.body, updateHandler)
+  }, 100)
 }
 
 function runApp(rootMount: Element, updateHandler: (text: string) => void) {
@@ -71,17 +54,17 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
         </div>
       </StrictMode>
     </RecoilRoot>
-  );
+  )
 
-  const rootElement = document.createElement('div');
-  rootElement.id = 'gmailRoot';
-  rootMount.appendChild(rootElement);
+  const rootElement = document.createElement('div')
+  rootElement.id = 'gmailRoot'
+  rootMount.appendChild(rootElement)
 
-  const root = createRoot(rootElement);
-  const composeElement = document.querySelector('[g_editable="true"]');
+  const root = createRoot(rootElement)
+  const composeElement = document.querySelector('[g_editable="true"]')
 
   if (composeElement) {
-    const shadowRoot = composeElement.attachShadow({ mode: 'open' });
+    const shadowRoot = composeElement.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = `
     <style>
     .formatting {
@@ -188,7 +171,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   #RevisionApp .Toolbar .actions :is(button, .action):hover > :first-child .StrokeLayer {
     stroke: #fcf051;
   }
-  
+
   #RevisionApp .Toolbar .actions :is(button, .action):hover > :first-child .FillLayer {
     fill: #fcf051;
   }
@@ -222,11 +205,11 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
     font-size: 12px;
     line-height: 1.4;
   }
-  
+
   #RevisionApp .tippy-box .footer {
     background: #f2f2f2;
   }
-  
+
   #RevisionApp .tippy-box .header {
     background: #3d3d3d;
     padding: 2px;
@@ -299,7 +282,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   #RevisionApp .language.typographical, #RevisionApp .language.non-conformance, #RevisionApp .language.grammar {
     border-color: #ffb61a;
   }
-  
+
   #RevisionApp .language {
     background: transparent;
     border-bottom: 2px solid #fcf051;
@@ -312,7 +295,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
     width: -moz-fit-content;
     width: fit-content;
   }
-  
+
   #RevisionApp .ButtonRow.centered {
     justify-content: space-around;
     margin: 0 auto;
@@ -361,7 +344,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
     visibility: visible;
     opacity: 1;
   }
-  
+
   #RevisionApp .tone p {
     visibility: hidden;
     opacity: 0;
@@ -416,7 +399,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
       transform: rotate(-360deg);
     }
   }
-  
+
   #RevisionApp .Toolbar .actions .reload.fetching svg,
   #RevisionApp .Toolbar .actions .rewrite.fetching .StrokeLayer {
     animation: spin infinite 2s linear;
@@ -429,7 +412,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   #RevisionApp .tone.fetching svg {
     animation: spin infinite 2s linear;
   }
-  
+
   @keyframes fetching {
     0% {
       stroke-dashoffset: 0;
@@ -440,26 +423,22 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void) {
   }
     </style>
     `
-    shadowRoot.appendChild(rootElement);
-    root.render(<App />);
+    shadowRoot.appendChild(rootElement)
+    root.render(<App />)
   }
 
-  reportWebVitals();
+  reportWebVitals()
 }
 
 function startExtension() {
-  let isPopupOpen = false;
-  window.gmail.observe.on('compose', composeHandler);
-  window.gmail.observe.on('load', loadHandler);
-  document.addEventListener('click', (event) => {
-    clickHandler(event, isPopupOpen, openPopup);
-  });
+  window.gmail.observe.on('compose', composeHandler)
+  window.gmail.observe.on('load', loadHandler)
 }
 
 window.addEventListener('load', () => {
   const loaderId = setInterval(() => {
-    if (!window.gmail) return;
-    clearInterval(loaderId);
-    startExtension();
-  }, 100);
-});
+    if (!window.gmail) return
+    clearInterval(loaderId)
+    startExtension()
+  }, 100)
+})

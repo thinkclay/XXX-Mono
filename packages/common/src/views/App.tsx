@@ -1,8 +1,6 @@
 /** @format */
 
-import { ReactNode, useState, useEffect } from 'react'
-import { getFirestore } from 'firebase/firestore'
-import { FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire'
+import { useState, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import { Modal } from 'antd'
 
@@ -15,20 +13,13 @@ import PrimaryNav from '@common/views/Navigation/PrimaryNav'
 import AnalyticsScreen from '@common/views/Screens/AnalyticsScreen'
 import Settings from './Screens/SettingsScreen'
 import FeedbackScreen from '@common/views/Screens/FeedbackScreen'
-import { firebaseConfig } from '@common/services/firebase'
+import { FirebaseApp, FirebaseAddons, FirebaseUserContext } from '@common/views/Contexts/FirebaseContext'
 
 import '@common/assets/styles/reset.scss'
 import '@common/assets/styles/index.scss'
-import Providers from '@common/helpers/providers'
 
 interface AppProps {
   mode: RenderMode
-}
-
-export function AppWrapper({ children }: { children: ReactNode }) {
-  const firestoreInstance = getFirestore(useFirebaseApp())
-
-  return <FirestoreProvider sdk={firestoreInstance}>{children}</FirestoreProvider>
 }
 
 export default function App(screen: AppProps) {
@@ -60,7 +51,7 @@ export default function App(screen: AppProps) {
         return <AnalyticsScreen {...screen} />
 
       case '/settings':
-        return <Settings {...screen} />
+        return <Settings />
 
       case '/feedback':
         return <FeedbackScreen />
@@ -71,9 +62,9 @@ export default function App(screen: AppProps) {
   }
 
   return (
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <AppWrapper>
-        <Providers>
+    <FirebaseApp>
+      <FirebaseAddons>
+        <FirebaseUserContext>
           <div id="RevisionApp">
             <PrimaryNav open={menuOpen} />
             <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
@@ -94,8 +85,8 @@ export default function App(screen: AppProps) {
             )}
             {_renderView(route)}
           </div>
-        </Providers>
-      </AppWrapper>
-    </FirebaseAppProvider>
+        </FirebaseUserContext>
+      </FirebaseAddons>
+    </FirebaseApp>
   )
 }
