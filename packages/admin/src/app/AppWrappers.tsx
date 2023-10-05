@@ -6,7 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import initialTheme from 'theme/theme'
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext'
-import FirebaseProviders from '@common/views/Contexts/FirebaseContext'
+import { FirebaseAddons, FirebaseUserContext } from '@common/views/Contexts/FirebaseContext'
 
 import 'styles/App.css'
 import 'styles/Contact.css'
@@ -33,22 +33,24 @@ export default function AppWrappers({ children }: Props) {
 
   return (
     <Root>
-      <FirebaseProviders>
-        <ConfiguratorContext.Provider
-          value={{
-            mini,
-            setMini,
-            theme,
-            setTheme,
-            hovered,
-            setHovered,
-            contrast,
-            setContrast,
-          }}
-        >
-          <ChakraProvider theme={theme}>{children}</ChakraProvider>
-        </ConfiguratorContext.Provider>
-      </FirebaseProviders>
+      <FirebaseAddons>
+        <FirebaseUserContext>
+          <ConfiguratorContext.Provider
+            value={{
+              mini,
+              setMini,
+              theme,
+              setTheme,
+              hovered,
+              setHovered,
+              contrast,
+              setContrast,
+            }}
+          >
+            <ChakraProvider theme={theme}>{children}</ChakraProvider>
+          </ConfiguratorContext.Provider>
+        </FirebaseUserContext>
+      </FirebaseAddons>
     </Root>
   )
 }

@@ -18,9 +18,9 @@ export default function RootLayout({ children }: Props) {
   const background = useColorModeValue('white', 'neutral.900')
 
   return (
-    <html lang="en">
-      <body id="root">
-        <FirebaseApp>
+    <FirebaseApp>
+      <html lang="en">
+        <body id="root">
           <AppWrappers>
             <SidebarContext.Provider
               value={{
@@ -39,8 +39,8 @@ export default function RootLayout({ children }: Props) {
               <Footer />
             </SidebarContext.Provider>
           </AppWrappers>
-        </FirebaseApp>
-      </body>
-    </html>
+        </body>
+      </html>
+    </FirebaseApp>
   )
 }

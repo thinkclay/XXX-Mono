@@ -28,7 +28,7 @@ function Revision({ revision, accept, decline }: RevisionProps) {
       <div className="content">{content}</div>
 
       <div className="ButtonRow centered shrink">
-        <button className="button accept" onClick={() => accept(renderToStaticMarkup(content))}>
+        <button className="button accept" onClick={() => accept(renderToStaticMarkup(content as any))}>
           Accept Revision
         </button>
 

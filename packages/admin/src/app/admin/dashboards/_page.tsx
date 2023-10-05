@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Flex, Grid, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Grid } from '@chakra-ui/react'
 
 import Balance from 'components/admin/dashboards/default/Balance'
 import DailyTraffic from 'components/admin/dashboards/default/DailyTraffic'
@@ -9,15 +9,12 @@ import MostVisitedTable from 'components/admin/dashboards/default/MostVisitedTab
 import OverallRevenue from 'components/admin/dashboards/default/OverallRevenue'
 import ProjectStatus from 'components/admin/dashboards/default/ProjectStatus'
 import YourCard from 'components/admin/dashboards/default/YourCard'
-import { VSeparator } from 'components/separator/Separator'
 import YourTransfers from 'components/admin/dashboards/default/YourTransfers'
 import tableDataMostVisited from 'variables/dashboards/default/tableDataMostVisited'
 import ProfitEstimation from 'components/admin/dashboards/default/ProfitEstimation'
 import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
 
 export default function Page() {
-  // Chakra Color Mode
-  const paleGray = useColorModeValue('secondaryGray.400', 'whiteAlpha.100')
   return (
     <Flex direction={{ base: 'column', xl: 'row' }} pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <Flex direction="column" width="stretch">

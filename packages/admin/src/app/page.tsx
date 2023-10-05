@@ -14,12 +14,20 @@ const DynamicEditor = dynamic(() => import('@common/views/Screens/MainScreen'), 
   ssr: false,
 })
 
+// const content = `
+// <p>Hey John,</p>
+
+// <p>I wanted to add some context to your son, Johnny's, progress report. He's really been excelling in math and science, <mark>like the other boys in my class</mark>. However, <mark>he's very disruptive</mark> during art and reading sessions. I really needed to talk to you and was disappointed you couldn't attend the parent-teacher conference. I think Johnny might be <mark>presenting signs of A.D.H.D.</mark> as <mark>he struggles with activities</mark> that require lots of focus.</p>
+
+// <p><mark>I need</mark> to meet with you <mark>as soon as possible</mark> to discuss an action plan. If he continues to <mark>disrupt or be aggressive with me</mark> I may have to discuss this matter with the Principal and come up with <mark>remediation</mark> which may involve either <mark>placing him in a specialized classroom for neural-divergent students or disciplinary action</mark>.</p>
+// `
+
 const content = `
 <p>Hey John,</p>
 
-<p>I wanted to add some context to your son, Johnny's, progress report. He's really been excelling in math and science, <mark>like the other boys in my class</mark>. However, <mark>he's very disruptive</mark> during art and reading sessions. I really needed to talk to you and was disappointed you couldn't attend the parent-teacher conference. I think Johnny might be <mark>presenting signs of A.D.H.D.</mark> as <mark>he struggles with activities</mark> that require lots of focus.</p>
+<p>I wanted to add some context to your son, Johnny's, progress report. He's really been excelling in math and science, like the other boys in my class. However, he's very disruptive during art and reading sessions. I really needed to talk to you and was disappointed you couldn't attend the parent-teacher conference. I think Johnny might be presenting signs of A.D.H.D. as he struggles with activities that require lots of focus.</p>
 
-<p><mark>I need</mark> to meet with you <mark>as soon as possible</mark> to discuss an action plan. If he continues to <mark>disrupt or be aggressive with me</mark> I may have to discuss this matter with the Principal and come up with <mark>remediation</mark> which may involve either <mark>placing him in a specialized classroom for neural-divergent students or disciplinary action</mark>.</p>
+<p>I need to meet with you as soon as possible to discuss an action plan. If he continues to disrupt or be aggressive with me I may have to discuss this matter with the Principal and come up with remediation which may involve either placing him in a specialized classroom for neural-divergent students or disciplinary action.</p>
 `
 
 export default function Home() {

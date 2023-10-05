@@ -6,7 +6,6 @@ const nextConfig = {
     domains: ['images.unsplash.com', 'i.ibb.co', 'scontent.fotp8-1.fna.fbcdn.net', 'avatars.githubusercontent.com', 'avatar.vercel.sh'],
   },
   experimental: {
-    appDir: true,
     externalDir: true,
     serverActions: true,
   },

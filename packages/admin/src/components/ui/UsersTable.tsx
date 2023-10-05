@@ -34,7 +34,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   flexRender,
-  ColumnDef,
 } from '@tanstack/react-table'
 import { collection, orderBy, query } from 'firebase/firestore'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
@@ -93,7 +92,7 @@ export default function UsersTable({ showActions }: Props) {
     columnHelper.accessor('photoUrl', {
       id: 'photoUrl',
       header: () => <Text>Avatar</Text>,
-      cell: info => <Avatar src={info.getValue()} h="30px" w="30px" me="10px" />,
+      cell: info => <Avatar src={info.getValue() || ''} h="30px" w="30px" me="10px" />,
     }),
     columnHelper.accessor('displayName', {
       id: 'displayName',
@@ -113,7 +112,7 @@ export default function UsersTable({ showActions }: Props) {
         id: 'uid',
         header: () => <Text>Actions</Text>,
         cell: info => renderActions(info.getValue()),
-      })
+      }) as any
     )
 
   const [data, setData] = useState<MUser[]>([])
@@ -162,7 +161,7 @@ export default function UsersTable({ showActions }: Props) {
   }
 
   useEffect(() => {
-    if (status === 'success') setData(users as User[])
+    if (status === 'success') setData(users as MUser[])
   }, [users, status])
 
   useEffect(() => {
