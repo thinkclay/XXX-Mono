@@ -1,7 +1,7 @@
 /** @format */
 
-import { useState, useEffect } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useState, useEffect, StrictMode } from 'react'
+import { useRecoilValue, RecoilRoot } from 'recoil'
 import { Modal } from 'antd'
 
 import { menuState, routeState } from '@common/helpers/root'
@@ -62,31 +62,35 @@ export default function App(screen: AppProps) {
   }
 
   return (
-    <FirebaseApp>
-      <FirebaseAddons>
-        <FirebaseUserContext>
-          <div id="RevisionApp">
-            <PrimaryNav open={menuOpen} />
-            <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
-            {isModalOpen && (
-              <Modal
-                title="Profile Setup Confirmation"
-                open={isModalOpen}
-                onOk={handleAccept}
-                onCancel={handleAccept}
-                cancelButtonProps={{ style: { display: 'none' } }}
-                okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}
-              >
-                <p className="reminder-text">
-                  Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data related
-                  to your use of ReVision is anonymized.
-                </p>
-              </Modal>
-            )}
-            {_renderView(route)}
-          </div>
-        </FirebaseUserContext>
-      </FirebaseAddons>
-    </FirebaseApp>
+    <RecoilRoot>
+      <StrictMode>
+        <FirebaseApp>
+          <FirebaseAddons>
+            <FirebaseUserContext>
+              <div id="RevisionApp">
+                <PrimaryNav open={menuOpen} />
+                <div className={`Overlay ${menuOpen ? 'visible' : ''}`}></div>
+                {isModalOpen && (
+                  <Modal
+                    title="Profile Setup Confirmation"
+                    open={isModalOpen}
+                    onOk={handleAccept}
+                    onCancel={handleAccept}
+                    cancelButtonProps={{ style: { display: 'none' } }}
+                    okButtonProps={{ style: { display: 'block', margin: '0 auto' } }}
+                  >
+                    <p className="reminder-text">
+                      Thank you for registering with ReVision! As reminder, your registration is solely for your own use, and all data
+                      related to your use of ReVision is anonymized.
+                    </p>
+                  </Modal>
+                )}
+                {_renderView(route)}
+              </div>
+            </FirebaseUserContext>
+          </FirebaseAddons>
+        </FirebaseApp>
+      </StrictMode>
+    </RecoilRoot>
   )
 }

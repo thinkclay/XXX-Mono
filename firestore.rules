@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{user} {
+      allow create: if request.auth != null;
+      allow read, write: if request.auth.uid == resource.id;
+    }
+
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{document=**} {
+  	  allow read, write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
+  	}
+
+    // Allow read and write access user's settings
+    match /settings/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Allow read access to the entire "suggestions" collection only if the user is authenticated
+    match /suggestions/{document} {
+      allow read: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
+
+      // Allow write access to a suggestion document if the user is authenticated and the document's userId field matches their UID
+      allow read, write: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}

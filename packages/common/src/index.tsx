@@ -1,8 +1,6 @@
 /** @format */
 
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RecoilRoot } from 'recoil'
 
 import App from '@common/views/App'
 import reportWebVitals from '@common/reportWebVitals'
@@ -12,13 +10,7 @@ rootElement.id = 'root'
 document.body.appendChild(rootElement)
 
 const root = ReactDOM.createRoot(rootElement)
-root.render(
-  <RecoilRoot>
-    <React.StrictMode>
-      <App mode="browser" />
-    </React.StrictMode>
-  </RecoilRoot>
-)
+root.render(<App mode="browser" />)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
