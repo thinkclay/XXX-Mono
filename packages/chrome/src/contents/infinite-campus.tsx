@@ -1,12 +1,10 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { RecoilRoot } from 'recoil'
+
 import MainScreen from '@common/views/screens/MainScreen'
 import reportWebVitals from '@common/reportWebVitals'
-import Close from './Close'
 
 import { Editor } from '@tiptap/react'
 import '@common/assets/styles/index.scss'
@@ -133,20 +131,7 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void, defau
   const root = ReactDOM.createRoot(rootElement)
 
   root.render(
-    <RecoilRoot>
-      <StrictMode>
-        <div id="RevisionApp" className="infinite-campus">
-          <MainScreen mode="embedded" onUpdate={updateHandler} content={defaultText} handleKeyDown={handleKeyDown} />
-          <Close
-            handler={() => {
-              closed = true
-              rootElement.remove()
-            }}
-          />
-          <div className="Overlay visible" onClick={() => rootElement.remove()}></div>
-        </div>
-      </StrictMode>
-    </RecoilRoot>
+    <MainScreen mode="embedded" className="infinite-campus" onUpdate={updateHandler} content={defaultText} handleKeyDown={handleKeyDown} />
   )
 
   reportWebVitals()

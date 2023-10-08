@@ -1,9 +1,7 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { RecoilRoot } from 'recoil'
 import 'gmail-js'
 
 import MainScreen from '@common/views/screens/MainScreen'
@@ -46,15 +44,7 @@ function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
 }
 
 function runApp(rootMount: Element, updateHandler: (text: string) => void) {
-  const App = () => (
-    <RecoilRoot>
-      <StrictMode>
-        <div id="RevisionApp">
-          <MainScreen mode="embedded" onUpdate={updateHandler} />
-        </div>
-      </StrictMode>
-    </RecoilRoot>
-  )
+  const App = () => <MainScreen mode="embedded" onUpdate={updateHandler} />
 
   const rootElement = document.createElement('div')
   rootElement.id = 'gmailRoot'

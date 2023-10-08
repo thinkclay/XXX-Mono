@@ -18,6 +18,8 @@ import Revision from './Revision'
 import Toolbar from './Toolbar'
 import Format from '@common/tiptap/format'
 import { useFirebase } from '@common/services/firebase/hook'
+import { useUser } from 'reactfire'
+import { MScribe, MUser, defaultScribe, getSetting } from '@common/models'
 
 interface ScribeProps {
   editor: Editor
@@ -31,8 +33,10 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   const [root, setRoot] = useRecoilState(rootState)
   const [tone, setTone] = useRecoilState(toneState)
   const [toneLastChecked, setToneLastChecked] = useState(Date.now())
-
   const [_revision, _setRevision] = useState<void | OpenAI.CompletionChoice[]>()
+
+  const { status, data: session } = useUser<MUser>()
+  const [scribe, setScribe] = useState<MScribe>(defaultScribe)
 
   const _fetchRevision = async (text: string) => {
     setRoot({ ...root, fetchingRevision: true })
@@ -51,6 +55,14 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   if (!editor) {
     return null
   }
+
+  useEffect(() => {
+    if (status !== 'success' || !session) return
+    getSetting(session.uid).then(s => {
+      if (!s) return
+      setScribe({ ...scribe, ...s.scribe })
+    })
+  }, [status, session])
 
   useEffect(() => {
     const fetchAndProcessData = async (collectionRef: Query<unknown>, dbKey: string) => {
@@ -139,7 +151,7 @@ function Scribe({ editor, match, mode, handleKeyDown }: ScribeProps) {
   return (
     <div className="Main">
       <SuggestionsModal editor={editor} match={match} />
-      <Format editor={editor} />
+      {scribe.formatting && <Format editor={editor} />}
 
       {_revision ? (
         <Revision accept={_acceptRevision} decline={_declineRevision} revision={_revision} />

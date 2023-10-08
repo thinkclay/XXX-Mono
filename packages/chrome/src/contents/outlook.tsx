@@ -15,36 +15,28 @@ export const config: PlasmoCSConfig = {
 
 window.addEventListener('load', () => {
   const loaderId = setInterval(() => {
-    const element = document.querySelector('[data-unique-id="Ribbon-588"]');
+    const element = document.querySelector('[data-unique-id="Ribbon-588"]')
     if (element) {
       element.addEventListener('click', () => {
         const bodyId = setInterval(() => {
-          let elementsWithPrefix = document.querySelector('[id^="editorParent_"]');
+          let elementsWithPrefix = document.querySelector('[id^="editorParent_"]')
           if (elementsWithPrefix) {
-            runApp(elementsWithPrefix);
+            runApp(elementsWithPrefix)
             clearInterval(bodyId)
             clearInterval(loaderId)
           }
         }, 100)
       })
     }
-  }, 300);
-});
+  }, 300)
+})
 
 function runApp(rootMount: Element) {
-  const App = () => (
-    <RecoilRoot>
-      <StrictMode>
-        <div id="RevisionApp">
-          <MainScreen mode="embedded" />
-        </div>
-      </StrictMode>
-    </RecoilRoot>
-  );
-  const rootElement = document.createElement('div');
-  rootElement.id = 'gmailRoot';
-  rootMount.appendChild(rootElement);
-  const root = createRoot(rootElement);
+  const App = () => <MainScreen mode="embedded" />
+  const rootElement = document.createElement('div')
+  rootElement.id = 'gmailRoot'
+  rootMount.appendChild(rootElement)
+  const root = createRoot(rootElement)
   const shadowRoot = rootMount.attachShadow({ mode: 'open' })
   shadowRoot.innerHTML = `
   <style>
@@ -52,7 +44,7 @@ function runApp(rootMount: Element) {
     background: #636363;
     height: 27px;
     line-height: 1;
-    padding: 0 10px;    
+    padding: 0 10px;
     display: flex;
     gap:10px;
     margin-top: 30px;
@@ -411,6 +403,6 @@ p + p {
   </style>
   `
   shadowRoot.appendChild(rootElement)
-  root.render(<App />);
-  reportWebVitals();
+  root.render(<App />)
+  reportWebVitals()
 }

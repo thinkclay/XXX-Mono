@@ -19,12 +19,13 @@ import { Bias, BiasMark } from '@common/tiptap/bias'
 import { TIPTAP } from '@common/helpers/logger'
 
 interface Props extends PageProps {
+  className?: string
   onUpdate?: (text: string) => void
   content?: string | undefined
   handleKeyDown?: (event: any, editor: Editor) => void
 }
 
-function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
+function MainScreen({ mode, className, onUpdate, content, handleKeyDown }: Props) {
   if (mode === 'embedded') {
     require('@common/assets/styles/index.scss')
   }
@@ -77,7 +78,9 @@ function MainScreen({ mode, onUpdate, content, handleKeyDown }: Props) {
     <>
       <RecoilRoot>
         <StrictMode>
-          <div id="RevisionApp">{rendered}</div>
+          <div id="RevisionApp" className={className}>
+            {rendered}
+          </div>
         </StrictMode>
       </RecoilRoot>
     </>

@@ -2,12 +2,15 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 import { firestore } from '@common/services/firebase'
 import { MDemographic, defaultDemographic } from './demographic'
+import { MScribe, defaultScribe } from './scribe'
 
 export interface MSetting {
+  scribe: MScribe
   demographics: MDemographic
 }
 
 export const defaultSettings: MSetting = {
+  scribe: defaultScribe,
   demographics: defaultDemographic,
 }
 
