@@ -1,5 +1,5 @@
 import { firestore } from '@common/services/firebase'
-import { Bias, BiasCategory, BiasClassResult } from './bias-types'
+import { BiasResponse, BiasCategory, BiasClassResult, LanguageResponse } from './bias'
 
 const API_BASE = 'https://revisioned.herokuapp.com'
 
@@ -48,7 +48,7 @@ export const fetchClassifications = async (input: string): Promise<BiasClassResu
   return await apiRequest<BiasClassResult[]>(API_PATH.CLASSIFICATIONS, input)
 }
 
-export const fetchBiases = async (input: string): Promise<Bias> => {
+export const fetchBiases = async (input: string): Promise<BiasResponse> => {
   // @TODO: consider moving this to helper. Does it work for text before url matching or just after?
   // Ignore URLs
   const urlRegex = /(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+/
@@ -73,4 +73,15 @@ export const fetchBiases = async (input: string): Promise<Bias> => {
   console.log('fetchBiases', results, firestore)
 
   return results
+}
+
+export async function fetchLanguage(input: string): Promise<LanguageResponse> {
+  return await fetch('https://language-tool.herokuapp.com/v2/check', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
+    },
+    body: `text=${encodeURIComponent(input)}&language=auto&enabledOnly=false`,
+  }).then(r => r.json())
 }

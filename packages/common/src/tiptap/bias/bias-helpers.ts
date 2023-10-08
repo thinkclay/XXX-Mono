@@ -1,4 +1,4 @@
-import { IssueType, Match, Replacement } from '@common/tiptap/language/language-types'
+import { IssueType, Match, Replacement } from '@common/tiptap/bias/bias'
 
 export function normalizeMatch(text: string, body: string, type: IssueType, message: string, replacements: Replacement[]): Match | void {
   if (type === 'none') return

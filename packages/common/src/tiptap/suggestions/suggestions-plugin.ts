@@ -1,4 +1,4 @@
-import { Editor, isMarkActive, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core'
+import { Editor, isMarkActive, isNodeActive, isNodeSelection, isTextSelection, posToDOMRect } from '@tiptap/core'
 import { EditorState, Plugin, PluginKey } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import tippy, { Instance, Props } from 'tippy.js'
@@ -45,10 +45,9 @@ export class SuggestionsView {
     const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection)
 
     // Check to see if selection is within our custom Mark
-    const hasMark = isMarkActive(state, 'biasMark')
+    const hasMark = isMarkActive(state, 'biasMark') || isMarkActive(state, 'languageMark')
 
-    // Check if there's an active node type named 'your_node_type'
-    // const hasNode = isNodeActive(state, 'biasMark')
+    // const hasLanguageDecorator = isNodeActive(state, 'span')
 
     // When clicking on a element inside the bubble menu the editor "blur" event
     // is called and the bubble menu item is focused. In this case we should

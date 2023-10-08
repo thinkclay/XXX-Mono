@@ -11,12 +11,12 @@ import Typography from '@tiptap/extension-typography'
 import Highlight from '@tiptap/extension-highlight'
 
 import { PageProps } from '@common/types/UI'
-import { Match } from '@common/tiptap/language/language-types'
 import { rootState } from '@common/helpers/root'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
-import { Bias, BiasMark } from '@common/tiptap/bias'
 import { TIPTAP } from '@common/helpers/logger'
+import { Bias, BiasMark, LanguageMark } from '@common/tiptap/bias'
+import { Match } from '@common/tiptap/bias/bias'
 
 interface Props extends PageProps {
   className?: string
@@ -62,6 +62,7 @@ function MainScreen({ mode, className, onUpdate, content, handleKeyDown }: Props
       Image,
       TextStyle,
       BiasMark,
+      LanguageMark,
       Bias,
     ],
   })

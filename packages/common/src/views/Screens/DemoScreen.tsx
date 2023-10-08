@@ -10,7 +10,7 @@ import Typography from '@tiptap/extension-typography'
 import Highlight from '@tiptap/extension-highlight'
 
 import { PageProps } from '@common/types/UI'
-import { Match } from '@common/tiptap/language/language-types'
+import { Match } from '@common/tiptap/bias/bias'
 import LoadingScreen from './LoadingScreen'
 import Scribe from '../Revise/Scribe'
 import { Bias, BiasMark } from '@common/tiptap/bias'

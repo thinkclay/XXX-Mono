@@ -1,7 +1,7 @@
 import { collection, addDoc } from 'firebase/firestore'
 
 import { auth, firestore } from '@common/services/firebase'
-import { IssueType } from '@common/tiptap/language/language-types'
+import { IssueType } from '@common/tiptap/bias/bias'
 
 export interface MSuggestion {
   userId?: string

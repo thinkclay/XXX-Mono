@@ -1,16 +1,10 @@
-/** @format */
-
 import { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 import { Editor } from '@tiptap/react'
-import { Match, Replacement } from '@common/tiptap/language/language-types'
+
+import { Match, Replacement } from '@common/tiptap/bias/bias'
 import { SuggestionsPluginProps, SuggestionsPlugin } from '../suggestions-plugin'
-import { firestore } from '@common/services/firebase'
 import Ignore from './Ignore'
-import { Timestamp, addDoc, collection, doc, getDocs, query, setDoc } from 'firebase/firestore'
-import { useRecoilValue } from 'recoil'
-import { biasCountState } from '@common/helpers/root'
-import { useFirebase } from '@common/services/firebase/hook'
 
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
@@ -24,13 +18,7 @@ export const Suggestions = ({ editor, className, children, tippyOptions }: Sugge
   const pluginKey = 'suggestions'
 
   useEffect(() => {
-    if (!element) {
-      return
-    }
-
-    if (editor.isDestroyed) {
-      return
-    }
+    if (!element || editor.isDestroyed) return
 
     const plugin = SuggestionsPlugin({
       pluginKey,
@@ -57,50 +45,12 @@ export interface SuggestionProps {
 }
 
 export function SuggestionsModal({ editor, match }: SuggestionProps) {
-  const { authUser } = useFirebase()
-  const biasCount = useRecoilValue(biasCountState)
-  const [acceptCount, setAcceptCount] = useState(0)
   const handler = {
-    ignore: () => editor.commands.ignoreLanguageToolSuggestion(),
+    ignore: () => console.log('@TODO: add ignore logic'),
     accept: (replacement: Replacement) => {
-      setAcceptCount(prevCount => prevCount + 1)
       editor.chain().toggleBiasMark().insertContent(replacement.value).run()
     },
   }
-
-  useEffect(() => {
-    if (acceptCount <= 0) {
-      return
-    }
-    const acceptedFlag = async () => {
-      if (authUser) {
-        const userCollection = collection(firestore, 'users')
-        const userDocRef = doc(userCollection, authUser.uid)
-        const flagsCollection = collection(userDocRef, 'acceptedflags')
-        const queryDocs = query(flagsCollection)
-
-        try {
-          const checkQuery = await getDocs(queryDocs)
-          if (checkQuery.size > 0) {
-            const querySnapshot = await getDocs(flagsCollection)
-            querySnapshot.forEach(data => {
-              const flagsListDocument = doc(flagsCollection, data.id)
-              const newData = data.data().data
-              newData.push({ timestamp: Timestamp.now(), value: 1 })
-              setDoc(flagsListDocument, { data: newData })
-                .then(() => console.log('UPDATED Firebase', JSON.stringify(data)))
-                .catch(e => console.log('Error', e))
-            })
-          } else {
-            await addDoc(flagsCollection, { data: [{ timestamp: Timestamp.now(), value: 1 }] })
-          }
-        } catch (error) {
-          console.error('Error:', error)
-        }
-      }
-    }
-    acceptedFlag()
-  }, [acceptCount, authUser])
 
   return (
     <Suggestions editor={editor}>
@@ -118,7 +68,7 @@ export function SuggestionsModal({ editor, match }: SuggestionProps) {
                 handler.accept(replacement)
               }}
             >
-              {replacement.value}
+              {String(replacement.value)}
             </li>
           )
         })}
