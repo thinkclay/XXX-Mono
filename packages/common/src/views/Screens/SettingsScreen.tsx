@@ -40,7 +40,7 @@ export default function SettingsScreen() {
       <Row gutter={[16, 16]}>
         <Col span={6}>
           <Typography.Title style={{ margin: 0, fontWeight: 400 }} level={4}>
-            Enable Formatting
+            Formatting
           </Typography.Title>
         </Col>
         <Col span={18}>

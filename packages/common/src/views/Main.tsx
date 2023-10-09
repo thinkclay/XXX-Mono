@@ -11,12 +11,14 @@ import AuthScreen from '@common/views/Screens/AuthScreen'
 import FeedbackScreen from '@common/views/Screens/FeedbackScreen'
 import HomeScreen from '@common/views/Screens/HomeScreen'
 import Settings from '@common/views/Screens/SettingsScreen'
+import MainScreen from './Screens/MainScreen'
 
 interface Props {
   mode: RenderMode
+  onUpdate?: (text: string) => void
 }
 
-export default function Main(screen: Props) {
+export default function Main(props: Props) {
   const [isModalOpen, setIsModalOpen] = useState(true)
   const route = useRecoilValue(routeState)
   const menuOpen = useRecoilValue(menuState)
@@ -33,16 +35,23 @@ export default function Main(screen: Props) {
     localStorage.setItem('anonymizedPopup', 'true')
   }
 
+  if (props.mode === 'embedded')
+    return (
+      <div id="RevisionApp">
+        <MainScreen {...props} />
+      </div>
+    )
+
   const _renderView = (route: string) => {
     switch (route) {
       case '/account':
-        return <AccountScreen {...screen} />
+        return <AccountScreen {...props} />
 
       case '/auth':
-        return <AuthScreen {...screen} />
+        return <AuthScreen {...props} />
 
       case '/analytics':
-        return <AnalyticsScreen {...screen} />
+        return <AnalyticsScreen {...props} />
 
       case '/settings':
         return <Settings />
@@ -51,7 +60,7 @@ export default function Main(screen: Props) {
         return <FeedbackScreen />
 
       default:
-        return <HomeScreen {...screen} />
+        return <HomeScreen {...props} />
     }
   }
 

@@ -111,11 +111,11 @@
     .filter-view{
       min-height: 150px;
       border: 1px solid #ccc;
-      padding: 5px 20px; 
+      padding: 5px 20px;
       border-radius: 8px;
       margin-top: 10px;
       flex-direction: row;
-   
+
       .filter-main{
         display: flex;
         flex-direction: row;
@@ -210,7 +210,7 @@
   display: none;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

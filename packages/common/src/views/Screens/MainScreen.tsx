@@ -1,7 +1,7 @@
 /** @format */
 
-import { StrictMode, useState } from 'react'
-import { RecoilRoot, useRecoilState } from 'recoil'
+import { useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { Editor, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
@@ -26,10 +26,6 @@ interface Props extends PageProps {
 }
 
 function MainScreen({ mode, className, onUpdate, content, handleKeyDown }: Props) {
-  if (mode === 'embedded') {
-    require('@common/assets/styles/index.scss')
-  }
-
   const [root, setRoot] = mode === 'embedded' ? [null, null] : useRecoilState(rootState)
   const [match, setMatch] = useState<Match | null>(null)
 
@@ -67,26 +63,12 @@ function MainScreen({ mode, className, onUpdate, content, handleKeyDown }: Props
     ],
   })
 
-  const rendered = editor ? (
+  return editor ? (
     <>
       <Scribe editor={editor} match={match} mode={mode} handleKeyDown={handleKeyDown} />
     </>
   ) : (
     <LoadingScreen />
-  )
-
-  return mode === 'embedded' ? (
-    <>
-      <RecoilRoot>
-        <StrictMode>
-          <div id="RevisionApp" className={className}>
-            {rendered}
-          </div>
-        </StrictMode>
-      </RecoilRoot>
-    </>
-  ) : (
-    rendered
   )
 }
 

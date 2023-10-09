@@ -17,6 +17,9 @@
     "permissions": [
       "identity"
     ],
+    "host_permissions": [
+      "https://*/*"
+    ],
     "oauth2": {
       "client_id": "901177621766-s7e5fe6dbm9o2m56iks5a2t076vrkqou.apps.googleusercontent.com",
       "scopes": [
@@ -41,7 +44,6 @@
     "gmail-js": "^1.1.10"
   },
   "devDependencies": {
-    "plasmo": "^0.82.1",
-    "raw-loader": "^4.0.2"
+    "plasmo": "^0.83.0"
   }
 }

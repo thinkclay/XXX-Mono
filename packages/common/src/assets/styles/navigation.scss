@@ -6,7 +6,7 @@
     background: $color-n100;
     bottom: 0;
     box-shadow: 0 0 rgba(0, 0, 0, 0);
-    position: fixed;
+    position: absolute;
     right: -150px;
     top: 0;
     transition: right 0.5s, box-shadow 0.3s;
@@ -51,7 +51,7 @@
         display: block;
         margin: 0;
         padding: 8px;
-        width: 25px;
+        width: $toolbar-height;
       }
 
       .path {

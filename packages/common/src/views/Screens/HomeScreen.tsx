@@ -1,5 +1,4 @@
-/** @format */
-
+import { useEffect, useState } from 'react'
 import { useUser } from 'reactfire'
 
 import MainScreen from '@common/views/Screens/MainScreen'
@@ -10,19 +9,31 @@ import { PageProps } from '@common/types/UI'
 import { MUser, upsertUser } from '@common/models'
 import { useUserData } from '../Contexts/FirebaseContext'
 
-function HomeScreen(screen: PageProps) {
+interface Props extends PageProps {
+  onUpdate?: (text: string) => void
+}
+
+function HomeScreen(props: Props) {
   const { status, data: session } = useUser<MUser>()
   const user = useUserData()
+  const [acceptedTerms, setAcceptedTerms] = useState<boolean | undefined>(false)
 
   const _handler = async () => {
     session && upsertUser(session?.uid, { acceptedTerms: true }, session)
+    setAcceptedTerms(true)
   }
 
-  if (status !== 'success') return <LoadingScreen />
-  if (!session || !user) return <AuthScreen {...screen} />
-  if (!user.acceptedTerms) return <WelcomeScreen handler={_handler} />
+  useEffect(() => {
+    if (acceptedTerms || status !== 'success') return
 
-  return <MainScreen {...screen} />
+    setAcceptedTerms(user?.acceptedTerms)
+  }, [status, session, user])
+
+  if (status !== 'success') return <LoadingScreen />
+  if (!session || !user) return <AuthScreen {...props} />
+  if (!acceptedTerms) return <WelcomeScreen handler={_handler} />
+
+  return <MainScreen {...props} />
 }
 
 export default HomeScreen

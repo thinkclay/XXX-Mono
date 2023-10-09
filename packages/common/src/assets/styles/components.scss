@@ -6,7 +6,7 @@
   height: 400px;
   width: 320px;
   text-align: center;
-  position: fixed;
+  position: absolute;
   top: 75%;
   right: 0;
   transform: translate(-50%, -50%);
@@ -50,7 +50,7 @@
   }
 }
 .overly-loader {
-  position: fixed;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -61,14 +61,14 @@ export const fetchBiases = async (input: string): Promise<BiasResponse> => {
       if (textAfterUrl) {
         input = textAfterUrl
       } else {
-        return {} as Bias
+        return {} as BiasResponse
       }
     } else {
-      return {} as Bias
+      return {} as BiasResponse
     }
   }
 
-  const results = await apiRequest<Bias>(API_PATH.CHECK, input)
+  const results = await apiRequest<BiasResponse>(API_PATH.CHECK, input)
 
   console.log('fetchBiases', results, firestore)
 

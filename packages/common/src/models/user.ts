@@ -1,5 +1,5 @@
 import { User as FBUser } from 'firebase/auth'
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 
 import { firestore } from '@common/services/firebase'
 
@@ -43,9 +43,15 @@ export async function getUser(uid: string): Promise<MUser | null> {
 export async function upsertUser(uid: string, data: Partial<MUser>, user?: Partial<MUser>) {
   try {
     const ref = doc(firestore, 'users', uid)
-    const nextState = { ...userDefault, ...user, ...getDoc(ref), ...data }
-    await setDoc(ref, nextState)
-    console.log(`Updated User: ${uid}`, nextState)
+
+    if (user) {
+      await updateDoc(ref, { ...data })
+      console.log(`Updated User: ${uid}`, data)
+    } else {
+      const nextState = { ...userDefault, ...getDoc(ref), ...data }
+      await setDoc(ref, nextState)
+      console.log(`Upserted User: ${uid}`, nextState)
+    }
   } catch (error) {
     console.error(`Error Updating User: ${uid}`, error)
   }
