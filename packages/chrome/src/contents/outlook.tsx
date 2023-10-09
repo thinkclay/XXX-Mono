@@ -4,7 +4,7 @@ import type { PlasmoCSConfig } from 'plasmo'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import React, { RecoilRoot } from 'recoil'
-import MainScreen from '@common/views/screens/MainScreen'
+import EditorScreen from '@common/views/Screens/EditorScreen'
 import reportWebVitals from '@common/reportWebVitals'
 import '@common/assets/styles/index.scss'
 
@@ -32,7 +32,7 @@ window.addEventListener('load', () => {
 })
 
 function runApp(rootMount: Element) {
-  const App = () => <MainScreen mode="embedded" />
+  const App = () => <EditorScreen mode="embedded" />
   const rootElement = document.createElement('div')
   rootElement.id = 'gmailRoot'
   rootMount.appendChild(rootElement)

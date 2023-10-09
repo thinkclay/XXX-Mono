@@ -3,7 +3,7 @@
 import type { PlasmoCSConfig } from 'plasmo'
 import ReactDOM from 'react-dom/client'
 
-import MainScreen from '@common/views/screens/MainScreen'
+import EditorScreen from '@common/views/Screens/EditorScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
 import { Editor } from '@tiptap/react'
@@ -131,7 +131,13 @@ function runApp(rootMount: Element, updateHandler: (text: string) => void, defau
   const root = ReactDOM.createRoot(rootElement)
 
   root.render(
-    <MainScreen mode="embedded" className="infinite-campus" onUpdate={updateHandler} content={defaultText} handleKeyDown={handleKeyDown} />
+    <EditorScreen
+      mode="embedded"
+      className="infinite-campus"
+      onUpdate={updateHandler}
+      content={defaultText}
+      handleKeyDown={handleKeyDown}
+    />
   )
 
   reportWebVitals()

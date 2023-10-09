@@ -3,7 +3,7 @@
 import type { PlasmoCSConfig } from 'plasmo'
 import { createRoot } from 'react-dom/client'
 
-import MainScreen from '@common/views/screens/MainScreen'
+import EditorScreen from '@common/views/Screens/EditorScreen'
 import reportWebVitals from '@common/reportWebVitals'
 import Popup from '../../../common/src/views/components/RevisionPopup'
 import '@common/assets/styles/index.scss'
@@ -75,7 +75,7 @@ async function getDataFromDocs(get_fetch_url: any) {
 }
 
 function runApp(rootMount: Element) {
-  const App = () => <MainScreen mode="embedded" className="google-docs" />
+  const App = () => <EditorScreen mode="embedded" className="google-docs" />
 
   const rootElement = document.createElement('div')
   rootElement.id = 'docRoot'

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import '../../assets/styles/components.scss'
-const Popup: React.FC = () => {
+import { useState } from 'react'
+
+export default function Popup() {
   const [showPopup, setShowPopup] = useState(true)
 
   const closePopup = () => {
@@ -38,5 +38,3 @@ const Popup: React.FC = () => {
     ''
   )
 }
-
-export default Popup

@@ -11,7 +11,7 @@ import AuthScreen from '@common/views/Screens/AuthScreen'
 import FeedbackScreen from '@common/views/Screens/FeedbackScreen'
 import HomeScreen from '@common/views/Screens/HomeScreen'
 import Settings from '@common/views/Screens/SettingsScreen'
-import MainScreen from './Screens/MainScreen'
+import EditorScreen from './Screens/EditorScreen'
 
 interface Props {
   mode: RenderMode
@@ -38,7 +38,7 @@ export default function Main(props: Props) {
   if (props.mode === 'embedded')
     return (
       <div id="RevisionApp">
-        <MainScreen {...props} />
+        <EditorScreen {...props} />
       </div>
     )
 

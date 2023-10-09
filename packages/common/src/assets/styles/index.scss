@@ -1,9 +1,16 @@
 /** @format */
 @import '_variables.scss';
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+iframe {
+  border: none;
+}
 
 #RevisionApp {
-  background: $color-n200;
   font-size: 10px;
   height: 100%;
   line-height: 1;

@@ -1,13 +1,20 @@
 /** @format */
 
 import type { PlasmoCSConfig } from 'plasmo'
+import { StrictMode } from 'react'
+import { RecoilRoot } from 'recoil'
 import { createRoot } from 'react-dom/client'
-import 'gmail-js'
 
+import { FirebaseApp, FirebaseAddons, FirebaseUserContext } from '@common/views/Contexts/FirebaseContext'
 import App from '@common/views/App'
+import EditorScreen from '@common/views/Screens/EditorScreen'
 import reportWebVitals from '@common/reportWebVitals'
 
+import 'gmail-js'
+
 import styles from 'data-text:@common/assets/styles/index.scss'
+
+console.log('REVISION INIT')
 
 declare global {
   interface Window {
@@ -22,14 +29,14 @@ export const config: PlasmoCSConfig = {
 }
 
 window.addEventListener('load', () => {
-  console.log('REVISION LOAD OBSERVER')
+  console.log('REVISION LISTENING')
+
   const GmailFactory = require('gmail-js')
   const gmail = new GmailFactory.Gmail() as Gmail
 
-  console.log('styles', styles)
-
   function runApp(rootMount: Element, updateHandler: (text: string) => void) {
-    const Root = () => <App mode="embedded" onUpdate={updateHandler} />
+    console.log('REVISION RUN')
+    // const Root = () => <App mode="embedded" onUpdate={updateHandler} />
 
     const rootElement = document.createElement('div')
     rootElement.id = 'gmailRoot'
@@ -42,20 +49,38 @@ window.addEventListener('load', () => {
       const shadowRoot = composeElement.attachShadow({ mode: 'open' })
       shadowRoot.innerHTML = `<style>${styles}</style>`
       shadowRoot.appendChild(rootElement)
-      root.render(<Root />)
+      /* <App mode="embedded" onUpdate={updateHandler} /> */
+      const c = (
+        <RecoilRoot>
+          <StrictMode>
+            <FirebaseApp>
+              <FirebaseAddons>
+                <FirebaseUserContext>
+                  <div id="RevisionApp" className="gmail">
+                    <EditorScreen mode="embedded" onUpdate={updateHandler} />
+                  </div>
+                </FirebaseUserContext>
+              </FirebaseAddons>
+            </FirebaseApp>
+          </StrictMode>
+        </RecoilRoot>
+      )
+      root.render(c)
     }
 
     reportWebVitals()
   }
 
   function composeHandler(compose: GmailDomCompose, type: GmailComposeType) {
+    console.log('REVISION COMPOSE')
     const $el = compose.$el
     let signatureHTML = ''
 
     const bodyId = setInterval(() => {
       if (!compose.body()) return
       clearInterval(bodyId)
-      const updateHandler = (text: string) => window.gmail.dom.compose($el).body(text + signatureHTML)
+      const updateHandler = (text: string) => gmail.dom.compose($el).body(text + signatureHTML)
+      console.log('REVISION COMPOSEHANDLER')
       runApp(document.body, updateHandler)
     }, 500)
   }

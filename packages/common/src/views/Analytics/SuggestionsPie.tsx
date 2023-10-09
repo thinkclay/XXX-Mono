@@ -4,15 +4,16 @@ import { doc, collection, getDocs } from 'firebase/firestore'
 import { DatePicker, Checkbox } from 'antd'
 import { CheckboxChangeEvent } from 'antd/es/checkbox'
 import moment from 'moment'
+
 import { firestore } from '@common/services/firebase'
 import { DB } from '@common/helpers/db'
 import { useFirebase } from '@common/services/firebase/hook'
 import { DataItem, DetailedChartProps, FlagState } from '@common/types/UI'
 import { FlagsColor, getFiltterOutData, subFlagsColor, subLabels } from '@common/helpers/common'
-import OverlayLoader from '../../../src/views/components/overlayLoader'
-import Smile from '../../../src/assets/icons/smile.png'
-import SpeechLess from '../../../src/assets/icons/speechless.png'
-import Cool from '../../../src/assets/icons/cool.png'
+import OverlayLoader from '@common/views/components/overlayLoader'
+import Smile from '@common/assets/icons/smile.png'
+import SpeechLess from '@common/assets/icons/speechless.png'
+import Cool from '@common/assets/icons/cool.png'
 
 const SuggestionsPie: React.FC = () => {
   const { RangePicker } = DatePicker

@@ -1,7 +1,7 @@
 {
   "name": "@revision/chrome",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.1.2",
   "scripts": {
     "start": "plasmo dev",
     "build": "craco build; plasmo build",

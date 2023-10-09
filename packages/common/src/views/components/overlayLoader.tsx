@@ -1,6 +1,3 @@
-import React from 'react'
-import '../../assets/styles/components.scss'
-
 function OverlayLoader() {
   return (
     <div className="overly-loader">

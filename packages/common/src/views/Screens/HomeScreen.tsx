@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useUser } from 'reactfire'
 
-import MainScreen from '@common/views/Screens/MainScreen'
+import EditorScreen from '@common/views/Screens/EditorScreen'
 import WelcomeScreen from './WelcomeScreen'
 import LoadingScreen from './LoadingScreen'
 import AuthScreen from './AuthScreen'
@@ -33,7 +33,7 @@ function HomeScreen(props: Props) {
   if (!session || !user) return <AuthScreen {...props} />
   if (!acceptedTerms) return <WelcomeScreen handler={_handler} />
 
-  return <MainScreen {...props} />
+  return <EditorScreen {...props} />
 }
 
 export default HomeScreen
