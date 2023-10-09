@@ -10,7 +10,7 @@ import { Editor } from '@tiptap/react'
 import '@common/assets/styles/index.scss'
 
 export const config: PlasmoCSConfig = {
-  matches: ['*://*infinitecampus.org/*'],
+  matches: ['*://nycloud1.infinitecampus.org/*'],
   run_at: 'document_start',
 }
 
