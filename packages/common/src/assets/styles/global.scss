@@ -1,139 +1,114 @@
-#RevisionApp {
-  background: $color-n200;
-  font-size: 10px;
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #3366cc;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: $color-n900;
+}
+
+.Main {
+  @extend %Main;
+  padding: $toolbar-height 0;
+}
+
+.Overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px);
+  bottom: 0;
+  content: ' ';
+  left: 0;
   height: 100%;
-  line-height: 1;
-  margin: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 0.3s;
+  width: 100%;
+  z-index: -1;
+
+  &.visible {
+    opacity: 1;
+    z-index: 800;
+  }
+
+}
+
+.page.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-height: 500px;
-  min-width: 500px;
+  height: 100%;
+}
 
-  * {
-    box-sizing: border-box;
-  }
+.ProseMirror,
+.Revision {
+  background: #fff;
+  border: none;
+  color: $color-n900;
+  direction: ltr;
+  font-size: 14px;
+  line-height: 1.85;
+  margin: 0 auto;
+  min-height: 300px;
+  height: 100%;
+  padding: 20px;
+  outline: none;
+  width: auto;
+}
 
-  a {
-    color: #3366cc;
-    font-weight: 600;
-    text-decoration: underline;
-    transition: color 0.2s;
-  }
+/**
+* Copy and Body Styles
+*/
+.copy {
+  line-height: 1.65;
+  padding: 20px;
 
-  a:hover {
-    color: $color-n900;
-  }
-
-  .Main {
-    @extend %Main;
-    padding: $toolbar-height 0;
-  }
-
-  .Overlay {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1px);
-    bottom: 0;
-    content: ' ';
-    left: 0;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: opacity 0.3s;
-    width: 100%;
-    z-index: -1;
-
-    &.visible {
-      opacity: 1;
-      z-index: 800;
-    }
-
-  }
-
-  .page.centered {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 500px;
-    height: 100%;
-  }
-
-  .ProseMirror,
-  .Revision {
-    background: #fff;
-    border: none;
-    color: $color-n900;
-    direction: ltr;
-    font-size: 14px;
-    line-height: 1.85;
+  &.centered {
     margin: 0 auto;
-    min-height: 300px;
-    height: 100%;
-    padding: 20px;
-    outline: none;
-    width: auto;
+    text-align: center;
   }
 
-  &.google-docs {
-    .ProseMirror {
-      min-width: unset;
-    }
-  }
-}
-
-.infinite-campus {
-  margin-top: 60px;
-
-  .Main {
-    z-index: 100000000 !important;
-  }
-}
-
-/**
- * Copy and Body Styles
- */
-#RevisionApp {
-  .copy {
-    line-height: 1.65;
-    padding: 20px;
-
-    &.centered {
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    &.large {
-      p {
-        font-size: 20px;
-      }
-    }
-
-    .welcome-text {
-      font-family: 'Fraunces', serif;
-    }
-
-    h1 {
-      font-size: 32px;
-      font-weight: 700;
-      padding: 20px 0 10px;
-    }
-
+  &.large {
     p {
-      font-size: 18px;
+      font-size: 20px;
     }
+  }
 
-    p+p {
-      padding-top: 15px;
-    }
+  .welcome-text {
+    font-family: 'Fraunces', serif;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    padding: 20px 0 10px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  p+p {
+    padding-top: 15px;
   }
 }
 
 /**
- * Antd common style
- */
- .ant-checkbox-inner {
+* Antd common style
+*/
+.ant-checkbox-inner {
   border: 1px solid #262626 !important;
- }
- .ant-checkbox-checked:after {
+}
+.ant-checkbox-checked:after {
   border: 1px solid #262626 !important;
 }
 .ant-checkbox-checked .ant-checkbox-inner {

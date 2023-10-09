@@ -8,16 +8,14 @@ import { FirebaseApp, FirebaseAddons, FirebaseUserContext } from '@common/views/
 
 import Main from './Main'
 
+import '@common/assets/styles/index.scss'
+
 interface Props {
   mode: RenderMode
   onUpdate?: (text: string) => void
 }
 
 export default function App(props: Props) {
-  if (props.mode !== 'embedded') {
-    require('@common/assets/styles/index.scss')
-  }
-
   return (
     <RecoilRoot>
       <StrictMode>
