@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useUser } from 'reactfire'
+import { Typography, Tabs, TabsProps } from 'antd'
 
 import SuggestionsPie from '@common/views/Analytics/SuggestionsPie'
-import { MSuggestion, getBiasSuggestionsByType, getSuggestionsByUser } from '@common/models'
-import PieChart, { Datum } from '../Analytics/PieChart'
-import { aiTypes, ltTypes } from '@common/tiptap/bias'
+import { MSuggestion, getSuggestionsByUser } from '@common/models'
+import GlobalBias from '../Analytics/GlobalBias'
+import GlobalLanguage from '../Analytics/GlobalLanguage'
+
+const onChange = (key: string) => {
+  console.log(key)
+}
 
 export default function Settings() {
   const { data: user } = useUser()
   const [suggestions, setSuggestions] = useState<MSuggestion[]>([])
-  const [biasSummary, setBiasSummary] = useState<Datum[]>([])
-  const [languageSummary, setLanguageSummary] = useState<Datum[]>([])
 
   useEffect(() => {
     if (!user || !user.uid) return
@@ -21,54 +24,33 @@ export default function Settings() {
       // Let's refactor the <SuggestionsPie /> component using dedicated helper functions
       const suggestionsData = await getSuggestionsByUser(user.uid)
       setSuggestions(suggestionsData)
-
-      const bias = aiTypes.map(getBiasSuggestionsByType)
-      const language = ltTypes.map(getBiasSuggestionsByType)
-
-      Promise.all(bias)
-        .then(results => {
-          // Map the results to the desired format
-          const formattedResults = results.map((result, index) => ({
-            id: aiTypes[index],
-            label: aiTypes[index],
-            value: result.length,
-          }))
-
-          console.log(formattedResults)
-          setBiasSummary(formattedResults)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-
-      Promise.all(bias)
-        .then(results => {
-          // Map the results to the desired format
-          const formattedResults = results.map((result, index) => ({
-            id: ltTypes[index],
-            label: ltTypes[index] || 'other',
-            value: result.length,
-          }))
-
-          console.log(formattedResults)
-          setLanguageSummary(formattedResults)
-        })
-        .catch(error => {
-          console.error(error)
-        })
     }
 
     fetchData()
   }, [user])
 
-  console.log('Suggestions', suggestions)
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: 'Global Bias',
+      children: <GlobalBias />,
+    },
+    {
+      key: '2',
+      label: 'Global Language',
+      children: <GlobalLanguage />,
+    },
+    {
+      key: '3',
+      label: 'My Trends',
+      children: <SuggestionsPie />,
+    },
+  ]
 
   return (
     <div className="WelcomeScreen">
-      <h1 className="analytics-text">Analytics</h1>
-      <PieChart data={biasSummary} />
-      <PieChart data={languageSummary} />
-      <SuggestionsPie />
+      <Typography.Title level={1}>Settings</Typography.Title>
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
     </div>
   )
 }
