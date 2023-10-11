@@ -26,6 +26,8 @@
     ]
   },
   "dependencies": {
+    "@nivo/core": "^0.83.0",
+    "@nivo/pie": "^0.83.0",
     "@react-spring/web": "^9.7.3",
     "@tiptap/core": "^2.1.6",
     "@tiptap/extension-bold": "^2.1.6",
@@ -42,7 +44,6 @@
     "@tiptap/react": "^2.1.6",
     "@tiptap/starter-kit": "^2.1.6",
     "@tiptap/suggestion": "^2.1.6",
-    "@visx/visx": "^3.3.0",
     "antd": "^5.8.6",
     "dexie": "^3.2.4",
     "firebase": "^10.2.0",

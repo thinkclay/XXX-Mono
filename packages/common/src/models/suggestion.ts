@@ -27,6 +27,19 @@ export async function getSuggestionsByUser(uid: string): Promise<MSuggestion[]> 
   return suggestions
 }
 
+export async function getBiasSuggestionsByType(type: IssueType): Promise<MSuggestion[]> {
+  const ref = collection(firestore, 'suggestions')
+  const q = query(ref, where('type', '==', type))
+  const snap = await getDocs(q)
+  const suggestions: MSuggestion[] = []
+
+  snap.forEach(doc => {
+    suggestions.push(doc.data() as MSuggestion)
+  })
+
+  return suggestions
+}
+
 export async function upsertSuggestion(data: MSuggestion): Promise<void> {
   if (!auth.currentUser?.uid) return
 
