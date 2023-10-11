@@ -1,12 +1,37 @@
-import { useState } from 'react'
-
-export default function Popup() {
+import React, { useEffect, useState } from 'react'
+import '../../assets/styles/components.scss'
+const Popup: React.FC = () => {
   const [showPopup, setShowPopup] = useState(true)
 
   const closePopup = () => {
+    localStorage.setItem('docLogin', 'true')
     setShowPopup(false)
   }
 
+  useEffect(() => {
+    const clickOnLoginValue = localStorage.getItem('docLogin')
+    if (clickOnLoginValue) {
+      setShowPopup(false)
+    }
+  }, [])
+
+  const loginWithGoogle = () => {
+    setShowPopup(false)
+    localStorage.setItem('docLogin', 'true')
+    const clientId = '37141652695-k7mot5889tt0apn52din45koj1iqk60k.apps.googleusercontent.com'
+    const redirectUri = 'https://docs.google.com'
+    const scope = 'https://www.googleapis.com/auth/documents'
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${encodeURIComponent(
+      scope
+    )}`
+    const googlePopup = window.open(authUrl, '_blank', 'width=600,height=600')
+    window.addEventListener('message', event => {
+      if (event.origin === 'https://docs.google.com' || event.origin.includes('https://docs.google.com')) {
+        const accessToken = event.data.access_token
+        console.log('Received access token:', accessToken)
+      }
+    })
+  }
   return showPopup ? (
     <div className={`popup ${showPopup ? 'active' : ''}`}>
       <div className="popup-content">
@@ -30,11 +55,24 @@ export default function Popup() {
           Welcome to ReVision <br /> for Google Docs!
         </h2>
         <h2 className="revision-signup">
-          Because you have the extension enabled, ReVision will work and make suggestions while you are editing docs.
+          Click here to gain writing
+          <br />
+          insights while using Google docs.
         </h2>
+        <button onClick={() => loginWithGoogle()} className="google-signin-btn">
+          Sign Up with Google
+        </button>
+        <p>
+          Already have an account?{' '}
+          <a href="#" className="signin-link">
+            Log in
+          </a>
+        </p>
       </div>
     </div>
   ) : (
     ''
   )
 }
+
+export default Popup
