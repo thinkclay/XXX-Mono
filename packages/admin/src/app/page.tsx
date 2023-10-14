@@ -47,7 +47,7 @@ export default function Home() {
           <Box borderRadius="20px" boxShadow="0 0 80px rgba(0, 0, 0, 0.2)" overflow="hidden" minWidth="300px" maxW="50%">
             <RecoilRoot>
               <StrictMode>
-                <DynamicEditor mode="embedded" content={content} />
+                <DynamicEditor mode="embedded" />
               </StrictMode>
             </RecoilRoot>
           </Box>
