@@ -51,7 +51,7 @@ export default function Main(props: Props) {
         return <AuthScreen {...props} />
 
       case '/analytics':
-        return <AnalyticsScreen {...props} />
+        return <AnalyticsScreen />
 
       case '/settings':
         return <Settings />

@@ -1,4 +1,7 @@
-import { IssueType, Match, Replacement } from '@common/tiptap/bias/bias'
+import { AIType, IssueType, LTType, Match, Replacement } from '@common/tiptap/bias/bias'
+
+export const ltTypes: LTType[] = ['misspelling', 'grammar', 'typographical', 'style', 'whitespace', 'non-conformance']
+export const aiTypes: AIType[] = ['none', 'cultural', 'disability', 'behavioral', 'gender', 'household', 'potential', 'racial']
 
 export function normalizeMatch(text: string, body: string, type: IssueType, message: string, replacements: Replacement[]): Match | void {
   if (type === 'none') return
