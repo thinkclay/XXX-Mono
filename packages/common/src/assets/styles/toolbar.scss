@@ -101,15 +101,16 @@
     }
 
     .counter {
-      background-color: $color-brand-1;
-      color: #000;
-      display: block;
-      font-weight: 700;
-      padding: 6px;
-      height: 12px;
-      display: flex;
       align-items: center;
+      background-color: $color-brand-1;
       border-radius: 6px;
+      color: #000;
+      display: flex;
+      font-weight: 700;
+      height: 20px;
+      justify-content: center;
+      padding: 6px;
+      width: 20px;
 
       &.bias {
         background-color: $color-brand-2;

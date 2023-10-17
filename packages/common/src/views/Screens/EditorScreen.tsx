@@ -38,14 +38,13 @@ export default function EditorScreen({ mode, className, onUpdate, content, handl
     onTransaction({ editor, transaction }) {
       const match = transaction.getMeta(TIPTAP.BIAS.MATCH)
       const fetchingBias = editor.extensionStorage.bias.fetching
-      setRoot && setRoot({ ...root, fetchingBias })
-
-      if (editor.extensionStorage.bias.fetching || !match) return
-
-      const spellingCount = document.querySelectorAll('span.language').length
+      const spellingCount = document.querySelectorAll('mark.language').length
       const biasCount = document.querySelectorAll('mark.bias').length
       setRoot && setRoot({ ...root, fetchingBias, spellingCount, biasCount })
 
+      if (editor.extensionStorage.bias.fetching || !match) return
+
+      setRoot && setRoot({ ...root, fetchingBias, spellingCount, biasCount })
       setTimeout(() => setMatch(match))
     },
     extensions: [

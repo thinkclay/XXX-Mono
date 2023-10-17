@@ -135,6 +135,7 @@ export type IssueType = LTType | AIType
 export type CategoryType = 'bias' | 'language'
 
 export interface Match {
+  category?: CategoryType
   message: string
   shortMessage: string
   replacements: Replacement[]

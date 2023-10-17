@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { v4 } from 'uuid'
 import { Editor } from '@tiptap/react'
 
-import { Match, Replacement } from '@common/tiptap/bias/bias'
+import { CategoryType, Match, Replacement } from '@common/tiptap/bias/bias'
 import { SuggestionsPluginProps, SuggestionsPlugin } from '../suggestions-plugin'
 import Ignore from './Ignore'
 
@@ -47,8 +47,9 @@ export interface SuggestionProps {
 export function SuggestionsModal({ editor, match }: SuggestionProps) {
   const handler = {
     ignore: () => console.log('@TODO: add ignore logic'),
-    accept: (replacement: Replacement) => {
-      editor.chain().toggleBiasMark().insertContent(replacement.value).run()
+    accept: (replacement: Replacement, type?: CategoryType) => {
+      if (type && type === 'language') editor.chain().toggleLanguageMark().insertContent(replacement.value).run()
+      else editor.chain().toggleBiasMark().insertContent(replacement.value).run()
     },
   }
 
@@ -64,8 +65,8 @@ export function SuggestionsModal({ editor, match }: SuggestionProps) {
             <li
               key={v4()}
               onClick={() => {
-                console.log('Suggestion clicked')
-                handler.accept(replacement)
+                console.log('Suggestion clicked', match, replacement)
+                handler.accept(replacement, match.category)
               }}
             >
               {String(replacement.value)}

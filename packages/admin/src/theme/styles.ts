@@ -2,8 +2,8 @@ import { mode } from '@chakra-ui/theme-tools'
 
 export const globalStyles = {
   fonts: {
-    heading: 'Roboto Condensed, sans-serif',
-    body: 'Roboto, sans-serif',
+    heading: 'Fraunces, serif',
+    body: 'DM Sans, Roboto, sans-serif',
   },
   colors: {
     brandYellow: {
@@ -24,8 +24,8 @@ export const globalStyles = {
       100: '#f2c2b8',
       200: '#eca494',
       300: '#e58571',
-      400: '#DF674D',
-      500: '#c95d45',
+      400: '#e05845',
+      500: '#cc4d3b',
       600: '#9c4836',
       700: '#703427',
       800: '#431f17',

@@ -31,9 +31,9 @@ export default function PublicFooter() {
           mb={{ base: '20px', xl: '0px' }}
         >
           {' '}
-          &copy; {1900 + new Date().getFullYear()}
+          &copy; {new Date().getFullYear()}
           <Text as="span" fontWeight="500" ms="4px">
-            ReVision. All Rights Reserved. Made with love by
+            ReVision. Made with love by
             <Link mx="3px" href="https://unicorn.love" fontWeight="700">
               🦄 Unicorn
             </Link>

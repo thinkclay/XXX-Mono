@@ -30,21 +30,19 @@ export default function Home() {
   return (
     <Box background={backgroundColor}>
       <HeroCapped>
-        <Stack direction={{ base: 'column', lg: 'row' }} spacing={10}>
-          <Flex flexDirection="column" justifyContent="center" minWidth="300px">
+        <Stack direction={{ base: 'column', lg: 'row' }} spacing={20}>
+          <Flex flexDirection="column" justifyContent="center" minWidth="300px" flex="1">
             <Heading as="h1" color={ctaHeadingColor} fontWeight="500" size={{ base: 'lg', lg: 'xl' }}>
-              Interrupting Bias
+              Educators work hard.
               <br />
-              Reimagining Communication
+              ReVision lightens the load.
             </Heading>
             <Text paddingTop="6" fontSize={{ base: 'lg', lg: '2xl' }}>
-              <strong>Implicit bias is a part of being human.</strong>
-              <br />
-              ReVision helps you spot it, fix it, and track your improvement over time.
+              ReVision helps teachers write better, more clear, fair reports, so that we can get back to the magic of teaching.
             </Text>
           </Flex>
 
-          <Box borderRadius="20px" boxShadow="0 0 80px rgba(0, 0, 0, 0.2)" overflow="hidden" minWidth="300px" maxW="50%">
+          <Box borderRadius="20px" boxShadow="0 0 80px rgba(0, 0, 0, 0.2)" flex="1" overflow="hidden">
             <RecoilRoot>
               <StrictMode>
                 <DynamicEditor mode="embedded" />
@@ -68,21 +66,12 @@ export default function Home() {
           </Box>
           <Box flex="1" minW="300px">
             <Heading as="h2" pb={4} size={{ base: 'md', lg: 'xl' }}>
-              ReVision flags bias in real-time
+              ReVision highlights words and phrases that need more clarity, in real-time.
             </Heading>
             <Text fontSize="xl">
-              Communication can foster relationships, or further divide us; it can build bridges, or put up barriers. ReVision supports
-              users to identify and correct, their own bias. Administrators can see aggregate data to track trends and changes. With
-              ReVision, we can make sure that the language we use supports us to make connections, and protects us from unintended harm.
-            </Text>
-
-            <Heading as="h3" fontWeight="600" pb={4} pt={8} size="md">
-              For educators, parents, and pioneers
-            </Heading>
-            <Text fontSize="xl">
-              We are educators, parents, and tech savants Pulling from each of our areas of expertise, we boast an innovative and
-              unstoppable leadership team. Our core values are authenticity, equity, and evidence-based action. We apply our values to all
-              aspects of ReVision.
+              Educators want to write clearly and fairly, but don’t want to spend their time mired in administrative tasks. ReVision make it
+              quick and easy to write high-quality reports, IEPs, and family communications, while showing you your progress over time.
+              Administrators track trends across their schools, using data to drive decisions in order to better support their teachers.
             </Text>
           </Box>
         </Stack>
@@ -90,10 +79,10 @@ export default function Home() {
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} py={20}>
           <Box background="neutral.200" borderRadius={20} padding={8}>
             <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
-              Effective Communication
+              Communicate Effectively
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
-              Make sure that your language and tone are saying what you mean to say. Use your language to foster mutual understanding.
+              Make sure your language and tone are saying what you mean to say. Be clear, fair, and transparent in your communication.
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
@@ -101,25 +90,26 @@ export default function Home() {
               Protect &amp; Support
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
-              Protect yourself from unintentionally causing harm. Support a better understanding of bias in communication.
+              Protect yourself from unintended harm, and help your school demonstrate transparency. Support families and students through
+              clear, actionable communication.
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
             <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
-              Actionable Data
+              Use Evidence to Drive Decisions
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
-              See your own improvement over time, and track organizational trends using aggregate data. Use this data to tailor professional
-              development.
+              See your own improvements over time, and track organizational trends using aggregate data. Use this data to drive decisions on
+              how to improve your support to teachers.
             </Text>
           </Box>
           <Box background="neutral.200" borderRadius={20} padding={8}>
             <Heading color="neutral.900" fontWeight="400" size={{ base: 'md', lg: 'lg' }} pb={4}>
-              Evidential Growth
+              Quantify your Impact
             </Heading>
             <Text fontSize="xl" color="blackAlpha.800" fontWeight="400">
-              See the proof of your efforts in ReVision's data with anonymized and custom analytics. You can use this data for reporting,
-              training, fundraising, and sales.
+              The impact of professional development can be nebulous; with anonymized, custom analytics, ReVision provides a window into PD
+              outcomes that can support reporting and fundraising.
             </Text>
           </Box>
         </SimpleGrid>
@@ -148,7 +138,7 @@ export default function Home() {
         </Stack>
       </Container>
 
-      <HeroCapped>
+      {/* <HeroCapped>
         <Stack alignItems="center" direction={{ base: 'column', lg: 'row' }} spacing={20}>
           <YouTubePlayer videoId="PVyWSSYedhk" />
           <Box>
@@ -164,7 +154,7 @@ export default function Home() {
             </Button>
           </Box>
         </Stack>
-      </HeroCapped>
+      </HeroCapped> */}
 
       <Container py={{ base: '80px', lg: '140px' }}>
         <Heading as="h2">What our partners think:</Heading>

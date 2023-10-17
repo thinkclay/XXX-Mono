@@ -5,7 +5,7 @@ import { Editor } from '@tiptap/react'
 
 import { fetchBiases, fetchLanguage } from './bias-service'
 import { TIPTAP, logger } from '@common/helpers/logger'
-import { BiasStorage } from './bias'
+import { BiasStorage, CategoryType } from './bias'
 import { MSuggestion, upsertSuggestion } from '@common/models'
 
 async function getLanguageMarks(text: string, editor: Editor) {
@@ -142,12 +142,13 @@ export const Bias: AnyExtension = Extension.create<BiasStorage>({
 
             if (!mark) return
 
+            const category: CategoryType = languageMark ? 'language' : 'bias'
             const message = mark.attrs?.message
             const replacements = mark.attrs?.replacements || []
             const from = mark.attrs?.from || -1
             const to = mark.attrs?.to || -1
 
-            view.dispatch(view.state.tr.setMeta(TIPTAP.BIAS.MATCH, { message, replacements, from, to }))
+            view.dispatch(view.state.tr.setMeta(TIPTAP.BIAS.MATCH, { category, message, replacements, from, to }))
             view.dispatch(view.state.tr.setSelection(TextSelection.create(view.state.doc, from, to)))
           },
         },
