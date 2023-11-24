@@ -12,7 +12,7 @@ import reportWebVitals from '@common/reportWebVitals'
 
 import 'gmail-js'
 
-import styles from 'data-text:@common/assets/styles/index.scss'
+import styles from '@common/assets/styles/index.scss'
 
 console.log('REVISION INIT')
 
